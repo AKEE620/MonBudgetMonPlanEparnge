@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MonBudget · Gestion & Épargne UEMOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<style>
+:root{
+  --ink:#0a1f33;        /* bleu nuit profond */
+  --ink-soft:#1a3a52;
+  --cyan:#11c4d4;       /* cyan UMOA */
+  --cyan-deep:#0a8a96;
+  --coral:#ff6b5e;      /* accent corail */
+  --violet:#6a3d8f;     /* accent violet Delta */
+  --gold:#e0a800;
+  --paper:#f6f1e7;      /* crème */
+  --paper-2:#fffdf8;
+  --card:#ffffff;
+  --line:#e3dccd;
+  --line-2:#eceadf;
+  --muted:#4a5862;
+  --green:#1f9d6b;
+  --red:#d6453b;
+  --shadow:0 1px 2px rgba(10,31,51,.04),0 8px 24px rgba(10,31,51,.06);
+  --shadow-lg:0 20px 60px rgba(10,31,51,.14);
+  --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 12% 8%,rgba(17,196,212,.05),transparent 30%),radial-gradient(circle at 88% 0%,rgba(106,61,143,.05),transparent 28%);
+  min-height:100vh;
+}
+h1,h2,h3,.display{font-family:'Fraunces',serif;}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;}
+
+/* ---------- LOGIN OVERLAY ---------- */
+#authGate{position:fixed;inset:0;z-index:1000;background:linear-gradient(140deg,#06141f,#0a1f33 50%,#10283d);display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto}
+#authGate.hidden{display:none}
+.auth-card{background:var(--paper-2);width:100%;max-width:430px;border-radius:24px;padding:40px 36px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+.auth-card::before{content:"";position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,var(--cyan),transparent 70%);opacity:.18}
+.auth-logo{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+.auth-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));display:flex;align-items:center;justify-content:center;color:var(--cyan);font-family:'Fraunces';font-weight:900;font-size:22px;box-shadow:0 6px 16px rgba(10,31,51,.3)}
+.auth-logo b{font-family:'Fraunces';font-size:22px;font-weight:900;letter-spacing:-.5px}
+.auth-tag{color:var(--muted);font-size:13.5px;margin-bottom:26px}
+.auth-tabs{display:flex;gap:6px;background:#efe9db;padding:5px;border-radius:12px;margin-bottom:22px}
+.auth-tabs button{flex:1;border:none;background:transparent;padding:9px;border-radius:8px;font-family:'Outfit';font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);transition:.2s}
+.auth-tabs button.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:6px;letter-spacing:.2px}
+.field input,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;font-family:'Outfit';font-size:14.5px;background:#fff;transition:.2s;color:var(--ink)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.btn{width:100%;padding:13px;border:none;border-radius:11px;font-family:'Outfit';font-weight:700;font-size:15px;cursor:pointer;transition:.2s;letter-spacing:.2px}
+.btn-primary{background:linear-gradient(135deg,var(--ink),var(--ink-soft));color:#fff;box-shadow:0 8px 20px rgba(10,31,51,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(10,31,51,.32)}
+.btn-ghost{background:transparent;color:var(--muted);font-weight:600;font-size:13.5px;padding:10px;border:none;cursor:pointer;width:100%;margin-top:10px;text-decoration:underline}
+.auth-err{background:#fdecea;color:var(--red);font-size:13px;padding:10px 13px;border-radius:9px;margin-bottom:14px;display:none}
+.auth-err.show{display:block}
+.guest-note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px;line-height:1.5}
+
+/* ---------- APP SHELL ---------- */
+#app{display:none}
+#app.show{display:block}
+header.topbar{position:sticky;top:0;z-index:100;background:rgba(246,241,231,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+.topbar-in{max-width:1280px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));display:flex;align-items:center;justify-content:center;color:var(--cyan);font-family:'Fraunces';font-weight:900;font-size:20px}
+.brand b{font-family:'Fraunces';font-size:20px;font-weight:900;letter-spacing:-.5px}
+.brand span{font-size:10.5px;color:var(--muted);display:block;line-height:1;margin-top:1px;letter-spacing:.5px;text-transform:uppercase}
+.topbar-spacer{flex:1}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.who .badge{background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase}
+.who .badge.guest{background:var(--gold);color:#3a2e00}
+.who .badge.admin{background:var(--coral)}
+.icon-btn{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font-family:'Outfit';font-weight:600;font-size:13px;cursor:pointer;color:var(--ink);transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.icon-btn:hover{border-color:var(--cyan);color:var(--cyan-deep)}
+.icon-btn.danger:hover{border-color:var(--red);color:var(--red)}
+
+/* tabs */
+nav.tabs{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line)}
+nav.tabs button{border:none;background:transparent;padding:14px 16px;font-family:'Outfit';font-weight:600;font-size:14px;cursor:pointer;color:var(--muted);border-bottom:2.5px solid transparent;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:7px}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button.on{color:var(--ink);border-bottom-color:var(--cyan)}
+nav.tabs button .ti{font-size:16px}
+
+main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
+.view{display:none;animation:fade .4s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.page-head{margin-bottom:24px}
+.page-head .kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan-deep);margin-bottom:6px}
+.page-head h2{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.05}
+.page-head p{color:var(--muted);max-width:680px;margin-top:8px;font-size:15px}
+
+/* ---------- BUDGET VIEW ---------- */
+.period-bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.period-bar .month-sel{display:flex;align-items:center;gap:8px}
+.period-bar select,.period-bar input[type=date]{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit';font-weight:600;font-size:14px;background:#fff;color:var(--ink)}
+.period-bar label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.cur-pill{display:inline-flex;align-items:center;gap:6px;background:#eef9fa;color:var(--cyan-deep);border:1px solid #c7eef1;padding:7px 13px;border-radius:30px;font-weight:700;font-size:13px}
+
+.budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:880px){.budget-grid{grid-template-columns:1fr}}
+
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.bcard-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.bcard-head h3{font-size:16px;font-weight:600;letter-spacing:.3px;display:flex;align-items:center;gap:9px}
+.bcard-head .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.6)}
+.bcard.revenus .bcard-head{background:linear-gradient(135deg,var(--green),#157a52)}
+.bcard.facture .bcard-head{background:linear-gradient(135deg,var(--ink-soft),var(--ink))}
+.bcard.depenses .bcard-head{background:linear-gradient(135deg,var(--coral),#d6453b)}
+.bcard.epargne .bcard-head{background:linear-gradient(135deg,var(--cyan-deep),#066b75)}
+.bcard.dettes .bcard-head{background:linear-gradient(135deg,var(--violet),#4d2a6b)}
+.bcard-head .addline{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:5px 10px;font-family:'Outfit';font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s}
+.bcard-head .addline:hover{background:rgba(255,255,255,.3)}
+
+.line-head{display:grid;grid-template-columns:24px 1fr 110px 110px 28px;gap:8px;padding:9px 16px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);border-bottom:1px solid var(--line-2);background:#faf8f2}
+.line-head .r{text-align:right}
+.lines{min-height:8px}
+.line{display:grid;grid-template-columns:24px 1fr 110px 110px 28px;gap:8px;padding:6px 16px;align-items:center;border-bottom:1px solid var(--line-2);transition:background .15s}
+.line:hover{background:#fbfaf5}
+.line.dragging{opacity:.4;background:#eef9fa}
+.line.drag-over{border-top:2px solid var(--cyan)}
+.grip{cursor:grab;color:#c9c2b0;font-size:15px;text-align:center;user-select:none;line-height:1}
+.grip:active{cursor:grabbing}
+.line input.name{border:none;background:transparent;font-family:'Outfit';font-size:13.5px;font-weight:500;color:var(--ink);padding:5px 4px;border-radius:6px;width:100%}
+.line input.name:focus{outline:none;background:#eef9fa}
+.line input.amt{border:1px solid transparent;background:transparent;font-family:'JetBrains Mono';font-size:13px;text-align:right;padding:5px 7px;border-radius:6px;width:100%;color:var(--ink);font-variant-numeric:tabular-nums}
+.line input.amt:focus{outline:none;border-color:var(--cyan);background:#fff}
+.line input.amt::placeholder{color:#cfc8b8}
+.del{border:none;background:transparent;color:#cfc8b8;cursor:pointer;font-size:16px;line-height:1;border-radius:6px;padding:2px;transition:.15s}
+.del:hover{color:var(--red);background:#fdecea}
+.bcard-foot{display:grid;grid-template-columns:24px 1fr 110px 110px 28px;gap:8px;padding:11px 16px;background:#faf8f2;border-top:2px solid var(--line);font-weight:700;align-items:center}
+.bcard-foot .lbl{grid-column:1/3;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink)}
+.bcard-foot .v{text-align:right;font-family:'JetBrains Mono';font-size:13.5px;font-weight:600}
+
+/* synthese card */
+.synth{grid-column:1/-1;background:linear-gradient(135deg,#0a1f33,#13314a);color:#fff;border-radius:var(--r);padding:0;overflow:hidden;box-shadow:var(--shadow-lg);position:relative}
+.synth::after{content:"";position:absolute;right:-40px;bottom:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(17,196,212,.25),transparent 70%)}
+.synth-grid{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:0;position:relative;z-index:1}
+@media(max-width:880px){.synth-grid{grid-template-columns:1fr}}
+.synth-block{padding:24px 26px;border-right:1px solid rgba(255,255,255,.1)}
+.synth-block:last-child{border-right:none}
+.synth-block .st{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
+.sl{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13.5px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sl .sk{color:#b9c7d4}
+.sl .sv{font-family:'JetBrains Mono';font-weight:600}
+.sl.big{padding-top:12px;margin-top:6px;border-bottom:none}
+.sl.big .sk{font-family:'Fraunces';font-size:17px;font-weight:600;color:#fff}
+.sl.big .sv{font-size:20px;font-weight:600;color:var(--cyan)}
+.rest-hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.rest-hero .rl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#b9c7d4;margin-bottom:8px}
+.rest-hero .rv{font-family:'Fraunces';font-size:clamp(30px,4vw,44px);font-weight:900;line-height:1;letter-spacing:-1px}
+.rest-hero .rv.pos{color:var(--cyan)}
+.rest-hero .rv.neg{color:var(--coral)}
+.rest-hero .rsub{font-size:12.5px;color:#b9c7d4;margin-top:8px}
+.mini-don{width:120px;height:120px;margin:14px auto 0;position:relative}
+
+/* ---------- DASHBOARD ---------- */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:880px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.kpi-row{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi .kt{font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kpi .kv{font-family:'Fraunces';font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1}
+.kpi .ks{font-size:12.5px;margin-top:7px;font-weight:600}
+.kpi .ks.up{color:var(--green)}.kpi .ks.down{color:var(--red)}
+.kpi .strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.kpi.k1 .strip{background:var(--green)}.kpi.k2 .strip{background:var(--coral)}
+.kpi.k3 .strip{background:var(--cyan)}.kpi.k4 .strip{background:var(--violet)}
+
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+@media(max-width:880px){.dash-grid{grid-template-columns:1fr}}
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+.chart-card h3{font-size:15px;font-weight:600;letter-spacing:.3px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.chart-card .csub{font-size:12.5px;color:var(--muted);margin-bottom:16px}
+.chart-wrap{position:relative;height:300px}
+.chart-wrap.tall{height:340px}
+.full{grid-column:1/-1}
+
+.advice{background:linear-gradient(135deg,#eef9fa,#fff);border:1px solid #c7eef1;border-radius:var(--r);padding:20px 22px;margin-bottom:18px}
+.advice h3{font-size:15px;color:var(--cyan-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.advice .ai-line{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14px}
+.advice .ai-line .ic{flex-shrink:0;width:20px;text-align:center}
+
+/* ---------- MODULES (cards/info) ---------- */
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.infocard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
+.infocard h3{font-size:17px;margin-bottom:10px}
+.infocard p{font-size:14px;color:var(--ink-soft);margin-bottom:8px}
+.infocard ul{list-style:none;margin-top:10px}
+.infocard li{font-size:13.5px;padding:6px 0 6px 22px;position:relative;color:var(--ink-soft);border-bottom:1px solid var(--line-2)}
+.infocard li:before{content:"›";position:absolute;left:4px;color:var(--cyan-deep);font-weight:700}
+
+.calc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);margin-bottom:18px}
+.calc-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:18px}
+.calc-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.calc-field input,.calc-field select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit';font-size:14.5px;background:#fff;color:var(--ink)}
+.calc-field input:focus,.calc-field select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+@media(max-width:600px){.calc-out{grid-template-columns:1fr}}
+.calc-out .o{background:#faf8f2;border:1px solid var(--line-2);border-radius:12px;padding:16px;text-align:center}
+.calc-out .o .ol{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+.calc-out .o .ov{font-family:'Fraunces';font-size:24px;font-weight:900;margin-top:6px;letter-spacing:-.5px}
+.calc-out .o.cap .ov{color:var(--ink)}
+.calc-out .o.int .ov{color:var(--cyan-deep)}
+.calc-out .o.tot .ov{color:var(--green)}
+
+/* risk ladder */
+.ladder{display:flex;flex-direction:column;gap:3px;margin-top:8px}
+.rung{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;padding:14px 16px;border-radius:12px;color:#fff}
+@media(max-width:600px){.rung{grid-template-columns:1fr}}
+.rung .rname{font-weight:700;font-size:14.5px}
+.rung .rdesc{font-size:12.5px;opacity:.92}
+.rung.l1{background:#0a8a96}.rung.l2{background:#11c4d4}.rung.l3{background:#3a6ea5}
+.rung.l4{background:#5a4a8f}.rung.l5{background:#6a3d8f}.rung.l6{background:#4d2a6b}.rung.l7{background:#2d1840}
+
+.tp-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);font-size:13.5px}
+.tp-table th{background:var(--ink);color:#fff;text-align:left;padding:13px 16px;font-weight:600;font-size:13px}
+.tp-table td{padding:12px 16px;border-bottom:1px solid var(--line-2);color:var(--ink-soft)}
+.tp-table tr:hover td{background:#fbfaf5}
+.tp-table td:first-child{font-weight:600;color:var(--ink)}
+
+/* classifier */
+.clf-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+@media(max-width:600px){.clf-bars{grid-template-columns:1fr}}
+.clf-bar{border-radius:12px;padding:18px;color:#fff}
+.clf-bar.fixe{background:linear-gradient(135deg,#0a8a96,#066b75)}
+.clf-bar.var{background:linear-gradient(135deg,#11c4d4,#0a8a96)}
+.clf-bar.occ{background:linear-gradient(135deg,#6a3d8f,#4d2a6b)}
+.clf-bar .ct{font-size:12px;text-transform:uppercase;letter-spacing:.8px;opacity:.9;font-weight:700}
+.clf-bar .cv{font-family:'Fraunces';font-size:26px;font-weight:900;margin:6px 0}
+.clf-bar .cp{font-size:13px;opacity:.92}
+
+/* admin */
+.admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+@media(max-width:700px){.admin-grid{grid-template-columns:1fr}}
+
+/* ---------- JOURNAL ---------- */
+.section-label{font-family:'Fraunces';font-size:18px;font-weight:600;color:var(--ink);margin:26px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+.journal-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:8px}
+.journal-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 20px;background:linear-gradient(135deg,#0a1f33,#13314a);color:#fff}
+.journal-head h3{font-family:'Fraunces';font-size:18px;font-weight:600;color:#fff}
+.journal-head .jsub{font-size:12.5px;color:#cdd9e3;margin-top:2px;max-width:560px}
+.journal-head .addline{background:var(--cyan);border:none;color:#06303a;border-radius:9px;padding:9px 15px;font-family:'Outfit';font-weight:700;font-size:13.5px;cursor:pointer;transition:.2s;white-space:nowrap}
+.journal-head .addline:hover{background:#0ad3e5;transform:translateY(-1px)}
+.jentry-head{display:grid;grid-template-columns:148px 100px 1fr 120px 1fr 130px;gap:10px;padding:10px 20px;background:#faf8f2;border-bottom:1px solid var(--line-2);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft)}
+.jentry-head .r{text-align:right}
+.jentry{display:grid;grid-template-columns:148px 100px 1fr 120px 1fr 130px;gap:10px;padding:8px 20px;align-items:center;border-bottom:1px solid var(--line-2);transition:background .15s}
+.jentry:hover{background:#fbfaf5}
+.jentry.dirty{background:#fffaf0;box-shadow:inset 3px 0 0 var(--gold)}
+.jentry input,.jentry select{padding:8px 10px;border:1.5px solid var(--line);border-radius:9px;font-family:'Outfit';font-size:13px;background:#fff;color:var(--ink);width:100%}
+.jentry input:focus,.jentry select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.jentry .jamt{text-align:right;font-family:'JetBrains Mono';font-variant-numeric:tabular-nums}
+.jactions{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.save-btn{background:var(--green);border:none;color:#fff;border-radius:8px;padding:8px 12px;font-family:'Outfit';font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
+.save-btn:hover{background:#178a5c;transform:translateY(-1px)}
+.jentry .del{border:none;background:transparent;color:#b6ae9a;cursor:pointer;font-size:18px;line-height:1;border-radius:6px;padding:2px 5px;transition:.15s}
+.jentry .del:hover{color:var(--red);background:#fdecea}
+.journal-foot{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;background:#faf8f2;border-top:2px solid var(--line);font-size:13px;color:var(--ink-soft);font-weight:600;flex-wrap:wrap;gap:8px}
+.journal-foot b{color:var(--ink)}
+@media(max-width:760px){
+  .jentry-head{display:none}
+  .jentry{grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px;border-bottom:8px solid var(--paper);background:var(--card);border-radius:12px;margin:0 0 2px;box-shadow:var(--shadow)}
+  .jentry .jdate{grid-column:1/2}.jentry .jtype{grid-column:2/3}
+  .jentry .jpost{grid-column:1/3}.jentry .jamt{grid-column:1/2}
+  .jentry .jnote{grid-column:2/3}
+  .jactions{grid-column:1/3;justify-content:space-between}
+  .save-btn{flex:1;padding:11px}
+}
+
+/* realisation lecture seule */
+.amt-ro{text-align:right;padding:5px 7px;font-size:13px;color:var(--ink);font-weight:600;background:#f1f5f3;border-radius:6px;display:block}
+
+/* ---------- MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:3000;background:rgba(10,31,51,.55);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:24px}
+.modal.show{display:flex;animation:fade .2s ease}
+.modal-box{background:#fff;border-radius:18px;padding:28px;max-width:420px;width:100%;box-shadow:var(--shadow-lg)}
+.modal-box h3{font-family:'Fraunces';font-size:21px;margin-bottom:12px;color:var(--ink)}
+.modal-box p{font-size:14.5px;color:var(--ink-soft);white-space:pre-line;line-height:1.55}
+.modal-actions{display:flex;gap:10px;margin-top:22px}
+.modal-actions button{flex:1;padding:12px;border-radius:11px;font-family:'Outfit';font-weight:700;font-size:14px;cursor:pointer;border:none;transition:.2s}
+.btn-cancel{background:#eef0ee;color:var(--ink)}
+.btn-cancel:hover{background:#e2e5e2}
+.btn-del{background:var(--red);color:#fff}
+.btn-del:hover{background:#bd3a31}
+
+/* ---------- MOBILE GLOBAL ---------- */
+@media(max-width:760px){
+  .topbar-in{flex-wrap:wrap;gap:10px;padding:11px 14px}
+  .brand b{font-size:18px}
+  .who{order:3}
+  .icon-btn{padding:8px 10px;font-size:12px}
+  nav.tabs{padding:0 12px;-webkit-overflow-scrolling:touch}
+  nav.tabs button{padding:12px 12px;font-size:13px}
+  main{padding:20px 14px 70px}
+  .period-bar{padding:14px;gap:10px}
+  .period-bar .month-sel,.period-bar>div{width:100%;flex-wrap:wrap}
+  .period-bar select,.period-bar input[type=date]{flex:1;min-width:120px}
+  .cur-pill{width:100%;justify-content:center;font-size:14px;padding:10px}
+  .page-head h2{font-size:26px}
+  .line{grid-template-columns:20px 1fr 84px 84px 24px;gap:5px;padding:6px 10px}
+  .line input.name{font-size:13px}
+  .line input.amt,.amt-ro{font-size:11.5px;padding:4px}
+  .line-head{grid-template-columns:20px 1fr 84px 84px 24px;gap:5px;padding:8px 10px;font-size:9px}
+  .bcard-foot{grid-template-columns:20px 1fr 84px 84px 24px;gap:5px;padding:10px}
+  .bcard-foot .v{font-size:11.5px}
+  .synth-block{padding:18px}
+  .journal-head{flex-direction:column;align-items:stretch}
+  .journal-head .addline{width:100%;padding:11px}
+}
+@media(max-width:380px){
+  .line,.line-head,.bcard-foot{grid-template-columns:18px 1fr 72px 72px 22px}
+}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:#fff;padding:13px 22px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow-lg);z-index:2000;transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;align-items:center;gap:9px}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+.locked-note{background:#fff7e6;border:1px solid #ffe3a3;color:#7a5b00;border-radius:12px;padding:13px 16px;font-size:13.5px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.foot{text-align:center;color:var(--muted);font-size:12.5px;padding:30px 0 0;line-height:1.7}
+.foot b{color:var(--ink-soft)}
+.disclaimer{max-width:760px;margin:14px auto 0;font-size:11.5px;color:#9aa6b0}
+</style>
+</head>
+<body>
+<!-- ============ AUTH GATE ============ -->
+<div id="authGate">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-mark">M</div>
+      <div><b>MonBudget</b><span style="display:block;font-size:11px;color:var(--muted);letter-spacing:.5px">Gestion & Épargne · Zone UEMOA</span></div>
+    </div>
+    <p class="auth-tag">Reprenez le contrôle de vos revenus, dépenses et épargne — et planifiez vos placements.</p>
+    <div class="auth-tabs">
+      <button id="tabLogin" class="on" onclick="authTab('login')">Connexion</button>
+      <button id="tabReg" onclick="authTab('reg')">Créer un compte</button>
+    </div>
+    <div class="auth-err" id="authErr"></div>
+    <div id="formLogin">
+      <div class="field"><label>Identifiant</label><input id="liUser" autocomplete="username" placeholder="votre identifiant"></div>
+      <div class="field"><label>Mot de passe</label><input id="liPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+      <button class="btn btn-primary" onclick="doLogin()">Se connecter</button>
+    </div>
+    <div id="formReg" style="display:none">
+      <div class="field"><label>Identifiant</label><input id="rgUser" placeholder="choisissez un identifiant"></div>
+      <div class="field"><label>Devise par défaut</label>
+        <select id="rgCur">
+          <option value="FCFA">FCFA — Franc CFA (XOF)</option>
+          <option value="€">EUR — Euro</option>
+          <option value="$">USD — Dollar</option>
+          <option value="£">GBP — Livre</option>
+          <option value="DH">MAD — Dirham</option>
+        </select>
+      </div>
+      <div class="field"><label>Mot de passe</label><input id="rgPass" type="password" placeholder="min. 4 caractères"></div>
+      <button class="btn btn-primary" onclick="doRegister()">Créer mon compte</button>
+    </div>
+    <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
+    <p class="guest-note">En mode visiteur, vous pouvez tout utiliser mais <b>l'export du fichier de suivi est désactivé</b>. Vos données restent sur cet appareil.</p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <div class="brand-mark">M</div>
+        <div><b>MonBudget</b><span>Zone UEMOA</span></div>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="who">
+        <span class="badge" id="roleBadge">Membre</span>
+        <span id="whoName" style="font-weight:600"></span>
+      </div>
+      <button class="icon-btn" id="exportBtn" onclick="exportData()">Exporter Excel</button>
+      <button class="icon-btn" onclick="importTrigger()">Restaurer</button>
+      <input type="file" id="importFile" accept=".xlsx,.xls,application/json" style="display:none" onchange="importData(event)">
+      <button class="icon-btn danger" onclick="logout()">Quitter</button>
+    </div>
+    <nav class="tabs" id="tabNav">
+      <button class="on" data-v="budget" onclick="nav('budget')">Mon budget</button>
+      <button data-v="dash" onclick="nav('dash')">Tableau de bord</button>
+      <button data-v="classif" onclick="nav('classif')">Classer mes dépenses</button>
+      <button data-v="epargne" onclick="nav('epargne')">Simulateur d'épargne</button>
+      <button data-v="placement" onclick="nav('placement')">Guide placement</button>
+      <button data-v="titres" onclick="nav('titres')">Titres publics</button>
+      <button data-v="admin" id="adminTab" style="display:none" onclick="nav('admin')">Admin</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- BUDGET VIEW -->
+    <section class="view on" id="v-budget">
+      <div class="page-head">
+        <div class="kicker">Étape 1 · Bilan & Budget</div>
+        <h2>Mon budget mensuel</h2>
+        <p>Saisissez vos <b>budgets</b> prévus pour le mois, puis enregistrez vos <b>dépenses et revenus jour par jour</b> dans le journal ci-dessous. La colonne « Réalisation » des tableaux se remplit automatiquement à partir de vos saisies journalières.</p>
+      </div>
+      <div class="period-bar">
+        <div class="month-sel">
+          <label>Mois</label>
+          <select id="monthSel" onchange="switchMonth()"></select>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label>Du</label><input type="date" id="dStart" onchange="saveMeta()">
+          <label>Au</label><input type="date" id="dEnd" onchange="saveMeta()">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label>Devise</label>
+          <select id="curSel" onchange="changeCur()">
+            <option value="FCFA">FCFA</option><option value="€">€ Euro</option>
+            <option value="$">$ Dollar</option><option value="£">£ Livre</option><option value="DH">DH Dirham</option>
+          </select>
+        </div>
+        <div style="flex:1"></div>
+        <span class="cur-pill" id="restPill">Restant : —</span>
+      </div>
+
+      <!-- JOURNAL QUOTIDIEN -->
+      <div class="journal-card">
+        <div class="journal-head">
+          <div>
+            <h3>Journal quotidien</h3>
+            <div class="jsub">Enregistrez chaque dépense ou revenu du jour. Chaque saisie alimente la réalisation du poste choisi.</div>
+          </div>
+          <button class="addline" onclick="addEntry()">+ Nouvelle saisie</button>
+        </div>
+        <div class="jentry-head">
+          <span>Date</span><span>Type</span><span>Poste</span><span class="r">Montant</span><span>Note</span><span class="r">Action</span>
+        </div>
+        <div id="journalLines"></div>
+        <div class="journal-foot">
+          <span id="journalCount">0 saisie(s)</span>
+          <span>Total entrées : <b id="jIn" class="mono">—</b> · Total sorties : <b id="jOut" class="mono">—</b></span>
+        </div>
+      </div>
+
+      <div class="section-label">Synthèse, budgets et réalisations</div>
+      <div class="budget-grid" id="budgetGrid"><!-- synth + cards injected --></div>
+    </section>
+
+    <!-- DASHBOARD VIEW -->
+    <section class="view" id="v-dash">
+      <div class="page-head">
+        <div class="kicker">Suivi · Vue d'ensemble</div>
+        <h2 id="dashTitle">Tableau de bord</h2>
+        <p>Visualisez l'évolution de votre budget, la répartition de vos sorties d'argent et votre taux d'épargne, mois par mois.</p>
+      </div>
+      <div class="kpi-row" id="kpiRow"></div>
+      <div class="advice" id="adviceBox"></div>
+      <div class="dash-grid">
+        <div class="chart-card"><h3>Budget restant</h3><div class="csub">Part de vos revenus encore disponible (réalisation)</div><div class="chart-wrap"><canvas id="chDonut"></canvas></div></div>
+        <div class="chart-card"><h3>Répartition des sorties d'argent</h3><div class="csub">Réalisation vs budget par poste</div><div class="chart-wrap"><canvas id="chBars"></canvas></div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="chart-card"><h3>Évolution sur l'année</h3><div class="csub">Revenus, dépenses totales et épargne par mois</div><div class="chart-wrap tall"><canvas id="chTrend"></canvas></div></div>
+        <div class="chart-card"><h3>Structure des dépenses</h3><div class="csub">Poids de chaque poste de sortie ce mois</div><div class="chart-wrap tall"><canvas id="chPie"></canvas></div></div>
+      </div>
+    </section>
+
+    <!-- CLASSIFIER VIEW -->
+    <section class="view" id="v-classif">
+      <div class="page-head">
+        <div class="kicker">Étape 2 · Reclasser</div>
+        <h2>Classer mes dépenses</h2>
+        <p>Selon la méthode Delta Wealth : répartissez vos charges en <b>fixes</b>, <b>variables</b> et <b>occasionnelles</b> pour repérer où agir. Cochez la catégorie de chaque ligne de dépense/facture.</p>
+      </div>
+      <div id="classifBody"></div>
+    </section>
+
+    <!-- EPARGNE SIMULATOR -->
+    <section class="view" id="v-epargne">
+      <div class="page-head">
+        <div class="kicker">Étape 4 · Faire fructifier</div>
+        <h2>Simulateur d'épargne</h2>
+        <p>« L'épargne, ce n'est pas ce qu'on met de côté quand il reste de l'argent, c'est ce qu'on met de côté avant de dépenser. » Projetez la croissance de votre épargne avec les intérêts composés.</p>
+      </div>
+      <div class="calc">
+        <div class="calc-row">
+          <div class="calc-field"><label>Versement mensuel</label><input type="number" id="spMonthly" value="50000" oninput="runSim()"></div>
+          <div class="calc-field"><label>Capital de départ</label><input type="number" id="spInit" value="0" oninput="runSim()"></div>
+          <div class="calc-field"><label>Taux annuel (%)</label><input type="number" id="spRate" value="6.5" step="0.1" oninput="runSim()"></div>
+          <div class="calc-field"><label>Durée (années entières)</label><input type="number" id="spYears" value="20" min="1" step="1" oninput="runSim()"></div>
+        </div>
+        <div class="calc-out">
+          <div class="o cap"><div class="ol">Capital versé</div><div class="ov" id="oCap">—</div></div>
+          <div class="o int"><div class="ol">Intérêts gagnés</div><div class="ov" id="oInt">—</div></div>
+          <div class="o tot"><div class="ol">Total final</div><div class="ov" id="oTot">—</div></div>
+        </div>
+      </div>
+      <div class="chart-card"><h3>Croissance de votre épargne</h3><div class="csub">Capital versé vs intérêts composés cumulés</div><div class="chart-wrap tall"><canvas id="chSim"></canvas></div></div>
+    </section>
+
+    <!-- PLACEMENT GUIDE -->
+    <section class="view" id="v-placement">
+      <div class="page-head">
+        <div class="kicker">Étape 3 · Orienter</div>
+        <h2>Guide de placement UEMOA</h2>
+        <p>Du moins risqué au plus risqué. Choisir un actif, c'est arbitrer entre <b>sécurité</b>, <b>rendement</b>, <b>horizon</b> et <b>liquidité</b>. Adaptez votre épargne à votre besoin.</p>
+      </div>
+      <div class="mod-grid" style="margin-bottom:22px">
+        <div class="infocard"><h3>Épargne de précaution</h3><p>Court terme. Pour les imprévus : santé, panne, réparation urgente.</p><ul><li>Compte d'épargne, DAT</li><li>Disponible rapidement</li><li>3 à 6 mois de charges conseillés</li></ul></div>
+        <div class="infocard"><h3>Épargne projet</h3><p>Moyen terme. Achat voiture, meubles, vacances.</p><ul><li>Produits monétaires, FCP</li><li>Horizon 1 à 5 ans</li><li>Versement mensuel régulier</li></ul></div>
+        <div class="infocard"><h3>Épargne investissement</h3><p>Long terme. Retraite, études des enfants, immobilier.</p><ul><li>Obligations, OAT, actions</li><li>Horizon &gt; 5 ans</li><li>Rendement plus élevé</li></ul></div>
+      </div>
+      <div class="chart-card" style="margin-bottom:18px">
+        <h3>Échelle risque / rendement</h3><div class="csub">Plus le rendement visé est élevé, plus le risque l'est aussi</div>
+        <div class="ladder">
+          <div class="rung l1"><div><div class="rname">Compte d'épargne</div></div><div class="rdesc">Stratégie défensive · rendement 3,5–5% · risque très faible</div></div>
+          <div class="rung l2"><div><div class="rname">Compte à terme (DAT)</div></div><div class="rdesc">Défensive · rendement 3,5–5% · risque très faible</div></div>
+          <div class="rung l3"><div><div class="rname">Produits monétaires</div></div><div class="rdesc">Sécuritaire · rendement 5–7% · risque faible</div></div>
+          <div class="rung l4"><div><div class="rname">Obligations, FCP oblig. & Assurance-vie</div></div><div class="rdesc">Sécuritaire · rendement 5–7% · risque faible</div></div>
+          <div class="rung l5"><div><div class="rname">Actions cotées & FCP dynamique</div></div><div class="rdesc">Dynamique · rendement &gt; 8% · risque élevé</div></div>
+          <div class="rung l6"><div><div class="rname">Private Equity & Venture Capital</div></div><div class="rdesc">Dynamique · rendement &gt; 8% · risque élevé</div></div>
+          <div class="rung l7"><div><div class="rname">Devises, Crypto, NFT</div></div><div class="rdesc">Spéculative · rendement très élevé · risque très élevé</div></div>
+        </div>
+      </div>
+      <div class="infocard"><h3>Méthode simple en 4 temps</h3><ul><li>J'identifie mon projet et mon objectif</li><li>Je choisis le produit adapté à mon horizon</li><li>Je fixe un montant mensuel réaliste</li><li>Je fais un suivi périodique (ici même !)</li></ul></div>
+    </section>
+
+    <!-- TITRES PUBLICS -->
+    <section class="view" id="v-titres">
+      <div class="page-head">
+        <div class="kicker">Opportunités · Marché des Titres Publics</div>
+        <h2>BAT & OAT : investir avec l'État</h2>
+        <p>Les titres publics sont émis par les États de l'UEMOA via UMOA-Titres pour financer leurs budgets et projets. Un placement réputé sûr et rémunérateur.</p>
+      </div>
+      <div class="mod-grid" style="margin-bottom:22px">
+        <div class="infocard"><h3>BAT — Bons Assimilables du Trésor</h3><p>Titres de créance à <b>court terme</b> (≤ 24 mois) pour la gestion de trésorerie de l'État.</p><ul><li>Valeur nominale : 1 000 000 FCFA</li><li>Intérêts précomptés (payés à la souscription)</li><li>Risque très faible · liquidité élevée</li><li>Adjudication sur le taux</li></ul></div>
+        <div class="infocard"><h3>OAT — Obligations Assimilables du Trésor</h3><p>Titres à <b>moyen / long terme</b> (&gt; 2 ans) pour financer des projets structurants.</p><ul><li>Valeur nominale : 10 000 FCFA</li><li>Coupon payé à chaque date anniversaire</li><li>Risque faible · liquidité moyenne</li><li>Adjudication sur le prix</li></ul></div>
+      </div>
+      <h3 style="font-family:'Fraunces';font-size:20px;margin-bottom:14px">Tableau comparatif</h3>
+      <table class="tp-table">
+        <thead><tr><th>Caractéristique</th><th>BAT</th><th>OAT</th></tr></thead>
+        <tbody>
+          <tr><td>Objectif</td><td>Gestion de trésorerie, placement sûr</td><td>Financement de projets, long terme</td></tr>
+          <tr><td>Durée</td><td>Court terme (≤ 24 mois)</td><td>Moyen / long terme (3 ans et +)</td></tr>
+          <tr><td>Valeur nominale</td><td>1 000 000 FCFA</td><td>10 000 FCFA</td></tr>
+          <tr><td>Paiement des intérêts</td><td>Précompté (à la souscription)</td><td>Post-compté (coupon annuel)</td></tr>
+          <tr><td>Rendement indicatif</td><td>~6,5 – 6,9%</td><td>~6,3 – 6,5% (3-5 ans)</td></tr>
+          <tr><td>Risque</td><td>Très faible</td><td>Faible (&gt; BAT)</td></tr>
+          <tr><td>Liquidité</td><td>Élevée</td><td>Moyenne</td></tr>
+        </tbody>
+      </table>
+      <div class="infocard" style="margin-top:18px"><h3>Comment souscrire ?</h3><ul><li>UMOA-Titres publie les avis d'émission sur son site</li><li>Vous analysez l'offre et fixez votre taux/prix cible (pricing)</li><li>Vous transmettez votre ordre via un intermédiaire (SGI/banque) avant l'ouverture de l'enchère</li><li>L'État retient les offres sous le taux marginal ; vous recevez vos titres et vos intérêts</li></ul></div>
+      <p class="disclaimer">Informations pédagogiques inspirées de la masterclass UMOA-Titres / Delta Wealth Management. Ne constituent pas un conseil en investissement personnalisé. Les taux sont indicatifs et évoluent à chaque émission.</p>
+    </section>
+
+    <!-- ADMIN -->
+    <section class="view" id="v-admin">
+      <div class="page-head">
+        <div class="kicker">Espace administrateur</div>
+        <h2>Tableau de bord admin</h2>
+        <p>Suivi de l'activité enregistrée sur cet appareil. <b>Note :</b> en mode local (GitHub Pages sans serveur), ces chiffres concernent uniquement ce navigateur. Pour des statistiques centralisées réelles, voir la note plus bas.</p>
+      </div>
+      <div class="admin-grid" id="adminKpis"></div>
+      <div class="chart-card" style="margin-bottom:18px"><h3>Visites par jour</h3><div class="csub">Ouvertures de l'outil enregistrées localement</div><div class="chart-wrap"><canvas id="chAdmin"></canvas></div></div>
+      <div class="infocard"><h3>Comptes enregistrés sur cet appareil</h3><div id="adminUsers"></div></div>
+      <div class="locked-note" style="margin-top:18px">Pour de <b>vrais</b> comptes sécurisés et un compteur de visiteurs <b>centralisé</b> (tous appareils), il faut brancher un petit service gratuit (Supabase / GoatCounter). C'est l'« Option B » : faisable sur ta page GitHub, ~20 min de config. Dis-le moi quand tu veux la mettre en place.</div>
+    </section>
+  </main>
+
+  <div class="foot">
+    <b>MonBudget</b> · Outil de gestion de budget & d'épargne pour la zone UEMOA<br>
+    Gérer un budget → Reclasser → Établir un budget → Dégager une épargne · puis mieux épargner et investir
+    <p class="disclaimer">Vos données sont enregistrées localement dans votre navigateur. Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
+  </div>
+</div>
+
+<div id="confirmModal" class="modal">
+  <div class="modal-box">
+    <h3>Confirmation</h3>
+    <p id="confirmMsg"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="confirmNo()">Annuler</button>
+      <button class="btn-del" onclick="confirmYes()">Supprimer</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+/* ============================================================
+   MonBudget — logique application (100% local, GitHub Pages)
+   ============================================================ */
+const LS = {
+  users:'mb_users', session:'mb_session', visits:'mb_visits'
+};
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const CAT_DEFS=[
+  {key:'revenus',label:'Revenus',sign:1,defaults:['Salaire','Revenu locatif','Dividendes','Intérêts compte épargne']},
+  {key:'facture',label:'Factures',sign:-1,defaults:['Loyer','Eau','Électricité','Internet & téléphone']},
+  {key:'depenses',label:'Dépenses',sign:-1,defaults:['Courses','Restaurant','Transport','Loisirs']},
+  {key:'epargne',label:'Épargne',sign:-1,defaults:['Épargne bancaire','Compte projet','Placement']},
+  {key:'dettes',label:'Dettes',sign:-1,defaults:['Prêt immobilier','Prêt consommation']}
+];
+let state=null;      // données utilisateur courant
+let session=null;    // {user, role, cur}
+let curMonthKey=null;
+let charts={};
+
+/* ---------- storage helpers ---------- */
+function getUsers(){try{return JSON.parse(localStorage.getItem(LS.users))||{}}catch(e){return{}}}
+function setUsers(u){localStorage.setItem(LS.users,JSON.stringify(u))}
+function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return 'h'+h}
+function dataKey(user){return 'mb_data_'+user}
+function loadData(user){try{return JSON.parse(localStorage.getItem(dataKey(user)))||null}catch(e){return null}}
+function saveData(){if(session && session.role!=='guest'){localStorage.setItem(dataKey(session.user),JSON.stringify(state))}else{sessionStorage.setItem('mb_guest_data',JSON.stringify(state))}}
+
+/* ---------- auth UI ---------- */
+function authTab(t){
+  document.getElementById('tabLogin').classList.toggle('on',t==='login');
+  document.getElementById('tabReg').classList.toggle('on',t==='reg');
+  document.getElementById('formLogin').style.display=t==='login'?'block':'none';
+  document.getElementById('formReg').style.display=t==='reg'?'block':'none';
+  hideErr();
+}
+function showErr(m){const e=document.getElementById('authErr');e.textContent=m;e.classList.add('show')}
+function hideErr(){document.getElementById('authErr').classList.remove('show')}
+
+function doRegister(){
+  const u=document.getElementById('rgUser').value.trim();
+  const p=document.getElementById('rgPass').value;
+  const c=document.getElementById('rgCur').value;
+  if(u.length<3)return showErr("L'identifiant doit faire au moins 3 caractères.");
+  if(p.length<4)return showErr("Le mot de passe doit faire au moins 4 caractères.");
+  const users=getUsers();
+  if(users[u])return showErr("Cet identifiant existe déjà. Connectez-vous.");
+  const role = Object.keys(users).length===0 ? 'admin' : 'member'; // 1er compte = admin
+  users[u]={pass:hash(p),cur:c,role:role,created:Date.now()};
+  setUsers(users);
+  startSession(u,role,c);
+  toast(role==='admin'?"Compte admin créé ":"Compte créé");
+}
+function doLogin(){
+  const u=document.getElementById('liUser').value.trim();
+  const p=document.getElementById('liPass').value;
+  const users=getUsers();
+  if(!users[u])return showErr("Identifiant inconnu.");
+  if(users[u].pass!==hash(p))return showErr("Mot de passe incorrect.");
+  startSession(u,users[u].role||'member',users[u].cur||'FCFA');
+  toast("Bienvenue "+u+"");
+}
+function enterGuest(){startSession('Visiteur','guest','FCFA');toast("Mode visiteur activé")}
+
+function startSession(user,role,cur){
+  session={user,role,cur};
+  localStorage.setItem(LS.session,JSON.stringify(session));
+  if(role==='guest'){
+    try{state=JSON.parse(sessionStorage.getItem('mb_guest_data'))}catch(e){state=null}
+  }else{
+    state=loadData(user);
+  }
+  if(!state)state=freshState(cur);
+  if(!state.cur)state.cur=cur;
+  migrate();
+  recordVisit();
+  bootApp();
+}
+function logout(){localStorage.removeItem(LS.session);location.reload()}
+
+/* ---------- fresh data ---------- */
+function monthKeyNow(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()).padStart(2,'0')}
+function freshState(cur){
+  const mk=monthKeyNow();
+  const st={cur:cur||'FCFA',months:{}};
+  st.months[mk]=freshMonth(mk);
+  return st;
+}
+function freshMonth(mk){
+  const [y,m]=mk.split('-').map(Number);
+  const start=new Date(y,m,1), end=new Date(y,m+1,0);
+  const mo={start:fmtDate(start),end:fmtDate(end),report:0,cats:{},entries:[]};
+  CAT_DEFS.forEach(cd=>{
+    mo.cats[cd.key]=cd.defaults.map(n=>({id:rid(),name:n,budget:0,cls:cd.key==='facture'?'fixe':(cd.key==='depenses'?'var':'')}));
+  });
+  return mo;
+}
+function rid(){return 'l'+Math.random().toString(36).slice(2,9)}
+function fmtDate(d){return d.toISOString().slice(0,10)}
+
+/* ---------- boot ---------- */
+function bootApp(){
+  document.getElementById('authGate').classList.add('hidden');
+  document.getElementById('app').classList.add('show');
+  // role badge
+  const rb=document.getElementById('roleBadge');
+  document.getElementById('whoName').textContent=session.user;
+  if(session.role==='guest'){rb.textContent='Visiteur';rb.className='badge guest';document.getElementById('exportBtn').style.display='none';}
+  else if(session.role==='admin'){rb.textContent='Admin';rb.className='badge admin';document.getElementById('adminTab').style.display='flex';}
+  else{rb.textContent='Membre';rb.className='badge';}
+  // currency selects
+  document.getElementById('curSel').value=state.cur;
+  buildMonthSelect();
+  curMonthKey=Object.keys(state.months).sort().pop();
+  loadMonth();
+  runSim();
+}
+
+/* ---------- currency format ---------- */
+function money(n){
+  n=Math.round(n||0);
+  const s=n.toLocaleString('fr-FR');
+  return s+' '+state.cur;
+}
+function changeCur(){state.cur=document.getElementById('curSel').value;saveData();loadMonth();toast('Devise : '+state.cur)}
+
+/* ---------- month select ---------- */
+function buildMonthSelect(){
+  const sel=document.getElementById('monthSel');sel.innerHTML='';
+  const keys=Object.keys(state.months).sort();
+  keys.forEach(k=>{const[y,m]=k.split('-');const o=document.createElement('option');o.value=k;o.textContent=MONTHS[+m]+' '+y;sel.appendChild(o)});
+  const add=document.createElement('option');add.value='__new';add.textContent='+ Nouveau mois…';sel.appendChild(add);
+}
+function switchMonth(){
+  const v=document.getElementById('monthSel').value;
+  if(v==='__new'){addMonth();return}
+  curMonthKey=v;loadMonth();
+}
+function addMonth(){
+  const keys=Object.keys(state.months).sort();
+  const last=keys[keys.length-1];const[y,m]=last.split('-').map(Number);
+  let ny=y,nm=m+1;if(nm>11){nm=0;ny++}
+  const nk=ny+'-'+String(nm).padStart(2,'0');
+  if(state.months[nk]){curMonthKey=nk;buildMonthSelect();document.getElementById('monthSel').value=nk;loadMonth();return}
+  const prevRest=computeRest(state.months[last]);
+  const mo=freshMonth(nk);
+  // reprend les libellés + budgets du mois précédent (journal vierge)
+  CAT_DEFS.forEach(cd=>{
+    mo.cats[cd.key]=state.months[last].cats[cd.key].map(l=>({id:rid(),name:l.name,budget:+l.budget||0,cls:l.cls||''}));
+  });
+  mo.entries=[];
+  mo.report=prevRest>0?prevRest:0;
+  state.months[nk]=mo;curMonthKey=nk;saveData();buildMonthSelect();
+  document.getElementById('monthSel').value=nk;loadMonth();toast('Mois ajouté');
+}
+
+/* ---------- migration anciennes données ---------- */
+function migrate(){
+  Object.values(state.months).forEach(mo=>{
+    if(!mo.entries)mo.entries=[];
+    CAT_DEFS.forEach(cd=>{
+      (mo.cats[cd.key]||[]).forEach(l=>{
+        // ancienne structure : 'real' saisi à la main -> convertir en une écriture de journal
+        if(l.real && +l.real>0){
+          mo.entries.push({id:rid(),date:mo.start||fmtDate(new Date()),cat:cd.key,line:l.name,amount:+l.real,note:'(repris)'});
+        }
+        delete l.real;
+      });
+    });
+  });
+}
+
+/* ---------- compute (réalisation = somme du journal) ---------- */
+function realForLine(month,key,name){
+  return (month.entries||[]).filter(e=>e.cat===key && e.line===name).reduce((s,e)=>s+(+e.amount||0),0);
+}
+function catTotal(month,key,field){
+  if(field==='budget')return month.cats[key].reduce((s,l)=>s+(+l.budget||0),0);
+  // field === 'real' : somme des écritures journal de cette catégorie
+  return (month.entries||[]).filter(e=>e.cat===key).reduce((s,e)=>s+(+e.amount||0),0);
+}
+function computeRest(month,field){
+  field=field||'real';
+  const rev=catTotal(month,'revenus',field)+(+month.report||0);
+  const out=catTotal(month,'facture',field)+catTotal(month,'depenses',field)+catTotal(month,'epargne',field)+catTotal(month,'dettes',field);
+  return rev-out;
+}
+
+/* ---------- render budget ---------- */
+function loadMonth(){
+  const mo=state.months[curMonthKey];
+  document.getElementById('dStart').value=mo.start||'';
+  document.getElementById('dEnd').value=mo.end||'';
+  renderJournal();renderBudget();renderDash();renderClassif();renderAdmin();
+}
+function saveMeta(){const mo=state.months[curMonthKey];mo.start=document.getElementById('dStart').value;mo.end=document.getElementById('dEnd').value;saveData();renderJournal()}
+
+function synthHTML(){
+  const mo=state.months[curMonthKey];
+  const rB=catTotal(mo,'revenus','budget'), rR=catTotal(mo,'revenus','real');
+  const fB=catTotal(mo,'facture','budget'),fR=catTotal(mo,'facture','real');
+  const dB=catTotal(mo,'depenses','budget'),dR=catTotal(mo,'depenses','real');
+  const eB=catTotal(mo,'epargne','budget'),eR=catTotal(mo,'epargne','real');
+  const deB=catTotal(mo,'dettes','budget'),deR=catTotal(mo,'dettes','real');
+  const restB=(+mo.report||0)+rB-fB-dB-eB-deB;
+  const restR=(+mo.report||0)+rR-fR-dR-eR-deR;
+  return `
+    <div class="synth-grid">
+      <div class="synth-block">
+        <div class="st">Entrées / Sorties d'argent</div>
+        <div class="sl"><span class="sk">+ Report à nouveau</span><span class="sv">${money(mo.report)}</span></div>
+        <div class="sl"><span class="sk">+ Revenus</span><span class="sv">${money(rR)}</span></div>
+        <div class="sl"><span class="sk">− Factures</span><span class="sv">${money(fR)}</span></div>
+        <div class="sl"><span class="sk">− Dépenses</span><span class="sv">${money(dR)}</span></div>
+        <div class="sl"><span class="sk">− Épargne</span><span class="sv">${money(eR)}</span></div>
+        <div class="sl"><span class="sk">− Dettes</span><span class="sv">${money(deR)}</span></div>
+        <div class="sl big"><span class="sk">Restant</span><span class="sv">${money(restR)}</span></div>
+      </div>
+      <div class="synth-block rest-hero">
+        <div class="rl">Budget restant</div>
+        <div class="rv ${restR>=0?'pos':'neg'}">${money(restR)}</div>
+        <div class="rsub">Prévu : ${money(restB)}</div>
+        <div class="mini-don"><canvas id="miniDon"></canvas></div>
+      </div>
+      <div class="synth-block">
+        <div class="st">Taux d'épargne & contrôle</div>
+        <div class="sl"><span class="sk">Taux d'épargne</span><span class="sv">${rR>0?((eR/rR)*100).toFixed(1):0}%</span></div>
+        <div class="sl"><span class="sk">Total sorties</span><span class="sv">${money(fR+dR+eR+deR)}</span></div>
+        <div class="sl"><span class="sk">Écart vs budget</span><span class="sv">${money(restR-restB)}</span></div>
+        <div class="sl big"><span class="sk">${restR>=0?'Excédentaire':'Déficitaire'}</span><span class="sv">${rR>0?((restR/rR)*100).toFixed(1):0}%</span></div>
+      </div>
+    </div>`;
+}
+// met à jour UNIQUEMENT la synthèse + totaux + pastille, sans toucher aux inputs (préserve le focus)
+function updateSynth(){
+  const mo=state.months[curMonthKey];
+  const sb=document.getElementById('synthBlock');
+  if(sb){sb.innerHTML=synthHTML();
+    const rR=catTotal(mo,'revenus','real');
+    const restR=(+mo.report||0)+rR-catTotal(mo,'facture','real')-catTotal(mo,'depenses','real')-catTotal(mo,'epargne','real')-catTotal(mo,'dettes','real');
+    const pctRest=rR>0?Math.max(0,Math.min(100,restR/(rR+(+mo.report||0))*100)):0;
+    setTimeout(()=>miniDonut(pctRest),0);
+    updateRestPill(restR);
+  }
+  CAT_DEFS.forEach(cd=>{
+    const tb=document.getElementById('totB-'+cd.key),tr=document.getElementById('totR-'+cd.key);
+    if(tb)tb.textContent=money(catTotal(mo,cd.key,'budget'));
+    if(tr)tr.textContent=money(catTotal(mo,cd.key,'real'));
+  });
+}
+function renderBudget(){
+  const mo=state.months[curMonthKey];
+  const grid=document.getElementById('budgetGrid');grid.innerHTML='';
+  // ---- synthèse ----
+  const synth=document.createElement('div');synth.className='synth';synth.id='synthBlock';
+  synth.innerHTML=synthHTML();
+  grid.appendChild(synth);
+  const rR=catTotal(mo,'revenus','real');
+  const restR=(+mo.report||0)+rR-catTotal(mo,'facture','real')-catTotal(mo,'depenses','real')-catTotal(mo,'epargne','real')-catTotal(mo,'dettes','real');
+  const pctRest=rR>0?Math.max(0,Math.min(100,restR/(rR+(+mo.report||0))*100)):0;
+  setTimeout(()=>miniDonut(pctRest),0);
+  // ---- 5 cards ----
+  CAT_DEFS.forEach(cd=>{
+    const card=document.createElement('div');card.className='bcard '+cd.key;
+    card.innerHTML=`
+      <div class="bcard-head"><h3><span class="dot"></span>${cd.label.toUpperCase()}</h3>
+        <button class="addline" onclick="addLine('${cd.key}')">+ Ligne</button></div>
+      <div class="line-head"><span></span><span>Intitulé</span><span class="r">Budget</span><span class="r">Réalisation</span><span></span></div>
+      <div class="lines" data-cat="${cd.key}" id="lines-${cd.key}"></div>
+      <div class="bcard-foot"><span class="lbl">Total</span><span class="v" id="totB-${cd.key}"></span><span class="v" id="totR-${cd.key}"></span><span></span></div>`;
+    grid.appendChild(card);
+    renderLines(cd.key);
+  });
+  updateRestPill(restR);
+}
+
+function renderLines(key){
+  const mo=state.months[curMonthKey];
+  const wrap=document.getElementById('lines-'+key);wrap.innerHTML='';
+  mo.cats[key].forEach((l,i)=>{
+    const realVal=realForLine(mo,key,l.name);
+    const row=document.createElement('div');row.className='line';row.draggable=true;row.dataset.idx=i;row.dataset.cat=key;
+    row.innerHTML=`
+      <span class="grip" title="Glisser pour réorganiser">⠿</span>
+      <input class="name" value="${escapeHtml(l.name)}" data-prev="${escapeHtml(l.name)}" oninput="editName('${key}',${i},this)" onchange="commitName()">
+      <input class="amt" type="number" placeholder="0" value="${l.budget||''}" oninput="editBudget('${key}',${i},this.value)">
+      <span class="amt-ro mono" title="Calculé depuis le journal quotidien">${realVal?money(realVal):'—'}</span>
+      <button class="del" title="Supprimer" onclick="delLine('${key}',${i})">×</button>`;
+    addDragHandlers(row);
+    wrap.appendChild(row);
+  });
+  document.getElementById('totB-'+key).textContent=money(catTotal(mo,key,'budget'));
+  document.getElementById('totR-'+key).textContent=money(catTotal(mo,key,'real'));
+}
+function escapeHtml(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function addLine(key){
+  state.months[curMonthKey].cats[key].push({id:rid(),name:'Nouvelle ligne',budget:0,cls:key==='facture'?'fixe':(key==='depenses'?'var':'')});
+  saveData();renderJournal();renderBudget();
+}
+function delLine(key,i){
+  const l=state.months[curMonthKey].cats[key][i];
+  const nbEntries=(state.months[curMonthKey].entries||[]).filter(e=>e.cat===key && e.line===l.name).length;
+  let msg='Supprimer la ligne « '+l.name+' » ?';
+  if(nbEntries>0)msg+='\n\n'+nbEntries+' saisie(s) du journal liée(s) à cette ligne seront aussi supprimées.';
+  confirmAction(msg,()=>{
+    // supprimer aussi les écritures liées
+    state.months[curMonthKey].entries=(state.months[curMonthKey].entries||[]).filter(e=>!(e.cat===key && e.line===l.name));
+    state.months[curMonthKey].cats[key].splice(i,1);
+    saveData();renderJournal();renderBudget();toast('Ligne supprimée');
+  });
+}
+function editName(key,i,inp){
+  const mo=state.months[curMonthKey];const l=mo.cats[key][i];
+  const oldName=inp.getAttribute('data-prev');const newName=inp.value;
+  // propage le renommage aux écritures du journal
+  (mo.entries||[]).forEach(e=>{if(e.cat===key && e.line===oldName)e.line=newName});
+  l.name=newName;inp.setAttribute('data-prev',newName);
+  saveData();
+  updateSynth(); // pas de rebuild des champs -> le focus reste dans l'input
+}
+// quand on quitte le champ nom, on resynchronise le journal (selects de postes)
+function commitName(){renderJournal()}
+function editBudget(key,i,val){
+  const mo=state.months[curMonthKey];mo.cats[key][i].budget=+val||0;saveData();
+  updateSynth(); // idem : focus préservé
+}
+function refreshSynth(){updateSynth()}
+
+/* ============ JOURNAL QUOTIDIEN ============ */
+function allLineOptions(mo){
+  // liste {cat,line} de toutes les lignes de toutes les catégories
+  const opts=[];
+  CAT_DEFS.forEach(cd=>{mo.cats[cd.key].forEach(l=>opts.push({cat:cd.key,catLabel:cd.label,line:l.name}))});
+  return opts;
+}
+function renderJournal(){
+  const mo=state.months[curMonthKey];
+  if(!mo.entries)mo.entries=[];
+  const wrap=document.getElementById('journalLines');wrap.innerHTML='';
+  const opts=allLineOptions(mo);
+  // tri par date décroissante pour l'affichage
+  const order=mo.entries.map((e,idx)=>({e,idx})).sort((a,b)=>(b.e.date||'').localeCompare(a.e.date||''));
+  order.forEach(({e,idx})=>{
+    const row=document.createElement('div');row.className='jentry';if(e._dirty)row.classList.add('dirty');
+    // options de poste filtrées selon le type (entrée=revenus, sortie=autres)
+    const isIn=e.cat==='revenus';
+    const lineOpts=opts.filter(o=>isIn?o.cat==='revenus':o.cat!=='revenus')
+      .map(o=>`<option value="${o.cat}||${escapeHtml(o.line)}" ${o.cat===e.cat&&o.line===e.line?'selected':''}>${o.catLabel} · ${escapeHtml(o.line)}</option>`).join('');
+    row.innerHTML=`
+      <input type="date" class="jdate" value="${e.date||''}" min="${mo.start||''}" max="${mo.end||''}" oninput="markEntry(${idx},'date',this.value,this)">
+      <select class="jtype" onchange="editEntryType(${idx},this.value)">
+        <option value="out" ${!isIn?'selected':''}>Sortie</option>
+        <option value="in" ${isIn?'selected':''}>Entrée</option>
+      </select>
+      <select class="jpost" onchange="editEntryPost(${idx},this.value)">${lineOpts}</select>
+      <input type="number" class="jamt mono" placeholder="0" value="${e.amount||''}" oninput="markEntry(${idx},'amount',this.value,this)">
+      <input type="text" class="jnote" placeholder="note (option.)" value="${escapeHtml(e.note||'')}" oninput="markEntry(${idx},'note',this.value,this)">
+      <div class="jactions">
+        <button class="save-btn" title="Enregistrer cette saisie" onclick="saveEntry(${idx})">Enregistrer</button>
+        <button class="del" title="Supprimer" onclick="delEntry(${idx})">×</button>
+      </div>`;
+    wrap.appendChild(row);
+  });
+  // totaux journal
+  const tin=mo.entries.filter(e=>e.cat==='revenus').reduce((s,e)=>s+(+e.amount||0),0);
+  const tout=mo.entries.filter(e=>e.cat!=='revenus').reduce((s,e)=>s+(+e.amount||0),0);
+  document.getElementById('jIn').textContent=money(tin);
+  document.getElementById('jOut').textContent=money(tout);
+  document.getElementById('journalCount').textContent=mo.entries.length+' saisie(s)';
+}
+function addEntry(){
+  const mo=state.months[curMonthKey];
+  const firstDep=mo.cats.depenses[0]||mo.cats.facture[0];
+  const today=fmtDate(new Date());
+  const d=(mo.start && today<mo.start)?mo.start:((mo.end && today>mo.end)?mo.end:today);
+  mo.entries.push({id:rid(),date:d,cat:'depenses',line:firstDep?firstDep.name:'',amount:0,note:'',_dirty:true});
+  saveData();renderJournal();
+  // focus sur le champ montant de la nouvelle ligne (elle est en haut si sa date est la plus récente)
+}
+// saisie silencieuse : on écrit dans l'état SANS recalculer (évite tout re-render qui volerait le focus)
+function markEntry(idx,field,val,inp){
+  const e=state.months[curMonthKey].entries[idx];if(!e)return;
+  e[field]=field==='amount'?(+val||0):val;
+  e._dirty=true;
+  saveData(); // persistance silencieuse
+  // marque visuellement la ligne comme "non enregistrée"
+  const row=inp.closest('.jentry');if(row)row.classList.add('dirty');
+}
+// ENREGISTRER : valide la ligne, recalcule toute la synthèse + réalisations + graphes
+function saveEntry(idx){
+  const e=state.months[curMonthKey].entries[idx];if(!e)return;
+  e._dirty=false;
+  saveData();
+  renderJournal();   // rafraîchit l'affichage (tri, totaux journal)
+  renderBudget();    // recalcule réalisations + synthèse
+  toast('Saisie enregistrée');
+}
+function editEntryType(idx,type){
+  const mo=state.months[curMonthKey];const e=mo.entries[idx];
+  if(type==='in'){e.cat='revenus';e.line=(mo.cats.revenus[0]||{}).name||'';}
+  else{e.cat='depenses';e.line=(mo.cats.depenses[0]||{}).name||(mo.cats.facture[0]||{}).name||'';}
+  e._dirty=true;saveData();renderJournal();
+}
+function editEntryPost(idx,val){
+  const e=state.months[curMonthKey].entries[idx];
+  const[cat,line]=val.split('||');e.cat=cat;e.line=line;
+  e._dirty=true;saveData();
+}
+function delEntry(idx){
+  const e=state.months[curMonthKey].entries[idx];
+  confirmAction('Supprimer cette saisie du '+ (e.date||'?') +' ('+money(e.amount)+') ?',()=>{
+    state.months[curMonthKey].entries.splice(idx,1);
+    saveData();renderJournal();renderBudget();toast('Saisie supprimée');
+  });
+}
+
+/* ============ MODAL CONFIRMATION ============ */
+let _confirmCb=null;
+function confirmAction(msg,cb){
+  _confirmCb=cb;
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmModal').classList.add('show');
+}
+function confirmYes(){document.getElementById('confirmModal').classList.remove('show');if(_confirmCb)_confirmCb();_confirmCb=null}
+function confirmNo(){document.getElementById('confirmModal').classList.remove('show');_confirmCb=null}
+
+function updateRestPill(r){const p=document.getElementById('restPill');p.textContent='Restant : '+money(r);p.style.color=r>=0?'var(--cyan-deep)':'var(--red)'}
+
+/* ---------- drag & drop ---------- */
+let dragData=null;
+function addDragHandlers(row){
+  row.addEventListener('dragstart',e=>{dragData={cat:row.dataset.cat,idx:+row.dataset.idx};row.classList.add('dragging')});
+  row.addEventListener('dragend',e=>{row.classList.remove('dragging');document.querySelectorAll('.line').forEach(r=>r.classList.remove('drag-over'))});
+  row.addEventListener('dragover',e=>{e.preventDefault();if(dragData&&dragData.cat===row.dataset.cat)row.classList.add('drag-over')});
+  row.addEventListener('dragleave',e=>row.classList.remove('drag-over'));
+  row.addEventListener('drop',e=>{e.preventDefault();row.classList.remove('drag-over');
+    if(!dragData||dragData.cat!==row.dataset.cat)return;
+    const arr=state.months[curMonthKey].cats[dragData.cat];
+    const from=dragData.idx, to=+row.dataset.idx;
+    if(from===to)return;
+    const[item]=arr.splice(from,1);arr.splice(to,0,item);
+    saveData();renderLines(dragData.cat);dragData=null;
+  });
+}
+
+/* ---------- mini donut ---------- */
+function miniDonut(pct){
+  const el=document.getElementById('miniDon');if(!el)return;
+  if(charts.mini)charts.mini.destroy();
+  charts.mini=new Chart(el,{type:'doughnut',data:{datasets:[{data:[pct,100-pct],backgroundColor:['#11c4d4','rgba(255,255,255,.12)'],borderWidth:0}]},
+    options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},responsive:true,maintainAspectRatio:false}});
+}
+
+/* ============ DASHBOARD ============ */
+function renderDash(){
+  const mo=state.months[curMonthKey];
+  const[y,m]=curMonthKey.split('-');
+  document.getElementById('dashTitle').textContent='Tableau de bord — '+MONTHS[+m]+' '+y;
+  const rR=catTotal(mo,'revenus','real');
+  const fR=catTotal(mo,'facture','real'),dR=catTotal(mo,'depenses','real'),eR=catTotal(mo,'epargne','real'),deR=catTotal(mo,'dettes','real');
+  const out=fR+dR+deR; const rest=(+mo.report||0)+rR-fR-dR-eR-deR;
+  const tauxEp=rR>0?(eR/rR*100):0;
+  // KPI
+  const kpis=[
+    {c:'k1',t:'Revenus réalisés',v:money(rR),s:'+ entrées',cls:'up'},
+    {c:'k2',t:'Sorties (hors épargne)',v:money(out),s:rR>0?((out/rR*100).toFixed(0)+'% des revenus'):'—',cls:'down'},
+    {c:'k3',t:'Reste à vivre',v:money(rest),s:rest>=0?'équilibré':'déficit',cls:rest>=0?'up':'down'},
+    {c:'k4',t:"Taux d'épargne",v:tauxEp.toFixed(1)+'%',s:tauxEp>=10?'bon réflexe':'à renforcer',cls:tauxEp>=10?'up':'down'}
+  ];
+  document.getElementById('kpiRow').innerHTML=kpis.map(k=>`<div class="kpi ${k.c}"><div class="strip"></div><div class="kt">${k.t}</div><div class="kv">${k.v}</div><div class="ks ${k.cls}">${k.s}</div></div>`).join('');
+  // advice
+  renderAdvice(mo,rR,out,eR,rest,tauxEp);
+  // charts
+  drawDonut(rest,rR+(+mo.report||0));
+  drawBars(mo);
+  drawTrend();
+  drawPie(mo);
+}
+function renderAdvice(mo,rev,out,ep,rest,taux){
+  const box=document.getElementById('adviceBox');const tips=[];
+  tips.push(`<div class="ai-line"><span class="ic">${rest>=0?'':''}</span><div>${rest>=0?`Votre budget est <b>excédentaire</b> de ${money(rest)} ce mois. Pensez à orienter ce surplus vers votre épargne projet ou un placement.`:`Votre budget est <b>déficitaire</b> de ${money(Math.abs(rest))}. Réduisez vos dépenses variables ou augmentez vos revenus.`}</div></div>`);
+  if(taux<10 && rev>0)tips.push(`<div class="ai-line"><span class="ic"></span><div>Votre taux d'épargne est de <b>${taux.toFixed(1)}%</b>. Visez au moins <b>10%</b> : « épargnez <b>avant</b> de dépenser », pas avec ce qu'il reste.</div></div>`);
+  else if(rev>0)tips.push(`<div class="ai-line"><span class="ic"></span><div>Excellent : <b>${taux.toFixed(1)}%</b> d'épargne. Faites fructifier ce capital — voir le <b>Simulateur</b> et le <b>Guide placement</b>.</div></div>`);
+  const dep=catTotal(mo,'depenses','real');
+  if(dep>0 && rev>0 && dep/rev>0.4)tips.push(`<div class="ai-line"><span class="ic"></span><div>Vos dépenses variables pèsent <b>${(dep/rev*100).toFixed(0)}%</b> des revenus. Classez-les (onglet « Classer mes dépenses ») pour repérer le superflu.</div></div>`);
+  const det=catTotal(mo,'dettes','real');
+  if(det>0 && rev>0 && det/rev>0.33)tips.push(`<div class="ai-line"><span class="ic"></span><div>Vos dettes dépassent <b>33%</b> de vos revenus. Prudence sur tout nouvel endettement.</div></div>`);
+  box.innerHTML='<h3>Conseils personnalisés</h3>'+tips.join('');
+}
+
+function destroy(k){if(charts[k]){charts[k].destroy();delete charts[k]}}
+function drawDonut(rest,base){
+  destroy('donut');const pct=base>0?Math.max(0,Math.min(100,rest/base*100)):0;
+  charts.donut=new Chart(document.getElementById('chDonut'),{type:'doughnut',
+    data:{labels:['Restant','Dépensé'],datasets:[{data:[Math.max(0,rest),Math.max(0,base-rest)],backgroundColor:['#11c4d4','#e3dccd'],borderWidth:0}]},
+    options:{cutout:'70%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Outfit'},padding:14}},
+      tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+  // center text plugin via afterDraw
+  const ctx=charts.donut;
+}
+function drawBars(mo){
+  destroy('bars');
+  const labels=['Factures','Dépenses','Épargne','Dettes'];
+  const real=[catTotal(mo,'facture','real'),catTotal(mo,'depenses','real'),catTotal(mo,'epargne','real'),catTotal(mo,'dettes','real')];
+  const budg=[catTotal(mo,'facture','budget'),catTotal(mo,'depenses','budget'),catTotal(mo,'epargne','budget'),catTotal(mo,'dettes','budget')];
+  charts.bars=new Chart(document.getElementById('chBars'),{type:'bar',
+    data:{labels,datasets:[
+      {label:'Réalisation',data:real,backgroundColor:'#0a1f33',borderRadius:4},
+      {label:'Budget',data:budg,backgroundColor:'#b9c7d4',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},
+      scales:{x:{ticks:{callback:v=>v.toLocaleString('fr-FR'),font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},y:{ticks:{font:{family:'Outfit'}},grid:{display:false}}}}});
+}
+function drawTrend(){
+  destroy('trend');
+  const keys=Object.keys(state.months).sort();
+  const labels=keys.map(k=>{const[y,m]=k.split('-');return MONTHS[+m].slice(0,3)+' '+y.slice(2)});
+  const rev=keys.map(k=>catTotal(state.months[k],'revenus','real'));
+  const dep=keys.map(k=>catTotal(state.months[k],'facture','real')+catTotal(state.months[k],'depenses','real')+catTotal(state.months[k],'dettes','real'));
+  const ep=keys.map(k=>catTotal(state.months[k],'epargne','real'));
+  charts.trend=new Chart(document.getElementById('chTrend'),{type:'line',
+    data:{labels,datasets:[
+      {label:'Revenus',data:rev,borderColor:'#1f9d6b',backgroundColor:'rgba(31,157,107,.08)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3},
+      {label:'Sorties',data:dep,borderColor:'#ff6b5e',backgroundColor:'rgba(255,107,94,.06)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3},
+      {label:'Épargne',data:ep,borderColor:'#11c4d4',backgroundColor:'rgba(17,196,212,.06)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},
+      plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},
+      scales:{y:{ticks:{callback:v=>v.toLocaleString('fr-FR'),font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{ticks:{font:{family:'Outfit'}},grid:{display:false}}}}});
+}
+function drawPie(mo){
+  destroy('pie');
+  const data=[catTotal(mo,'facture','real'),catTotal(mo,'depenses','real'),catTotal(mo,'epargne','real'),catTotal(mo,'dettes','real')];
+  charts.pie=new Chart(document.getElementById('chPie'),{type:'doughnut',
+    data:{labels:['Factures','Dépenses','Épargne','Dettes'],datasets:[{data,backgroundColor:['#1a3a52','#ff6b5e','#11c4d4','#6a3d8f'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'55%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:12}},
+      tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+}
+
+/* ============ CLASSIFIER ============ */
+function renderClassif(){
+  const mo=state.months[curMonthKey];
+  const body=document.getElementById('classifBody');
+  const items=[...mo.cats.facture.map((l,i)=>({l,cat:'facture',i})),...mo.cats.depenses.map((l,i)=>({l,cat:'depenses',i}))].filter(o=>{const r=realForLine(mo,o.cat,o.l.name);return r>0||o.l.budget>0||o.l.name!=='Nouvelle ligne'});
+  let fixe=0,vari=0,occ=0;
+  items.forEach(o=>{const v=realForLine(mo,o.cat,o.l.name)||o.l.budget;if(o.l.cls==='fixe')fixe+=v;else if(o.l.cls==='occ')occ+=v;else vari+=v});
+  const tot=fixe+vari+occ||1;
+  let rows=items.map(o=>{
+    const v=realForLine(mo,o.cat,o.l.name)||o.l.budget;
+    return `<div class="line" style="grid-template-columns:1fr 110px 320px;border-bottom:1px solid var(--line-2)">
+      <span style="font-weight:500;padding:8px 4px">${escapeHtml(o.l.name)}</span>
+      <span class="mono" style="text-align:right;padding:8px 4px;color:var(--ink-soft)">${money(v)}</span>
+      <span style="display:flex;gap:6px;padding:6px 0">
+        ${['fixe','var','occ'].map(c=>`<button onclick="setCls('${o.cat}',${o.i},'${c}')" style="flex:1;border:1.5px solid ${o.l.cls===c?'var(--cyan)':'var(--line)'};background:${o.l.cls===c?'#eef9fa':'#fff'};color:${o.l.cls===c?'var(--cyan-deep)':'var(--ink-soft)'};border-radius:8px;padding:6px;font-family:Outfit;font-weight:600;font-size:12px;cursor:pointer">${c==='fixe'?'Fixe':c==='var'?'Variable':'Occas.'}</button>`).join('')}
+      </span></div>`;
+  }).join('');
+  if(items.length===0)rows='<p style="color:var(--muted);padding:20px">Ajoutez d\'abord des factures et dépenses dans l\'onglet « Mon budget ».</p>';
+  body.innerHTML=`
+    <div class="clf-bars">
+      <div class="clf-bar fixe"><div class="ct">Dépenses fixes</div><div class="cv">${money(fixe)}</div><div class="cp">${(fixe/tot*100).toFixed(0)}% · loyer, abonnements, assurances…</div></div>
+      <div class="clf-bar var"><div class="ct">Dépenses variables</div><div class="cv">${money(vari)}</div><div class="cp">${(vari/tot*100).toFixed(0)}% · courses, transport, loisirs…</div></div>
+      <div class="clf-bar occ"><div class="ct">Occasionnelles</div><div class="cv">${money(occ)}</div><div class="cp">${(occ/tot*100).toFixed(0)}% · réparations, voyages, imprévus…</div></div>
+    </div>
+    <div class="bcard" style="margin-top:18px"><div class="bcard-head" style="background:linear-gradient(135deg,var(--ink-soft),var(--ink))"><h3><span class="dot"></span>RECLASSEMENT DES SORTIES</h3></div>
+    <div style="padding:6px 16px">${rows}</div></div>`;
+}
+function setCls(cat,i,c){state.months[curMonthKey].cats[cat][i].cls=c;saveData();renderClassif()}
+
+/* ============ SIMULATOR ============ */
+function runSim(){
+  if(!state)return;
+  const m=+document.getElementById('spMonthly').value||0;
+  const init=+document.getElementById('spInit').value||0;
+  const r=(+document.getElementById('spRate').value||0)/100/12;
+  let yrs=Math.floor(+document.getElementById('spYears').value);
+  if(!yrs||yrs<1){ // valeur invalide : on n'efface pas la saisie en cours, on borne l'affichage
+    document.getElementById('oCap').textContent='—';
+    document.getElementById('oInt').textContent='—';
+    document.getElementById('oTot').textContent='—';
+    destroy('sim');return;
+  }
+  if(yrs>80)yrs=80; // borne raisonnable d'affichage
+  const n=yrs*12;
+  // courbes annuelles
+  const labels=[],capArr=[],totArr=[];
+  let bal=init,contrib=init;
+  for(let i=1;i<=n;i++){bal=bal*(1+r)+m;contrib+=m;if(i%12===0){labels.push((i/12)+' an'+(i/12>1?'s':''));capArr.push(Math.round(contrib));totArr.push(Math.round(bal))}}
+  const totalCap=contrib, totalFinal=bal, interest=bal-contrib;
+  document.getElementById('oCap').textContent=money(totalCap);
+  document.getElementById('oInt').textContent=money(interest);
+  document.getElementById('oTot').textContent=money(totalFinal);
+  destroy('sim');
+  charts.sim=new Chart(document.getElementById('chSim'),{type:'bar',
+    data:{labels,datasets:[
+      {label:'Capital versé',data:capArr,backgroundColor:'#1a3a52',stack:'s',borderRadius:3},
+      {label:'Intérêts cumulés',data:totArr.map((t,i)=>t-capArr[i]),backgroundColor:'#11c4d4',stack:'s',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{family:'Outfit'}}},y:{stacked:true,ticks:{callback:v=>v.toLocaleString('fr-FR'),font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}}}}});
+}
+
+/* ============ ADMIN ============ */
+function recordVisit(){
+  let v={};try{v=JSON.parse(localStorage.getItem(LS.visits))||{}}catch(e){}
+  const d=new Date().toISOString().slice(0,10);
+  v[d]=(v[d]||0)+1;
+  localStorage.setItem(LS.visits,JSON.stringify(v));
+}
+function renderAdmin(){
+  if(session.role!=='admin')return;
+  let v={};try{v=JSON.parse(localStorage.getItem(LS.visits))||{}}catch(e){}
+  const users=getUsers();
+  const totalVisits=Object.values(v).reduce((a,b)=>a+b,0);
+  const nUsers=Object.keys(users).length;
+  const days=Object.keys(v).length;
+  document.getElementById('adminKpis').innerHTML=`
+    <div class="kpi k1"><div class="strip"></div><div class="kt">Comptes créés</div><div class="kv">${nUsers}</div><div class="ks up">sur cet appareil</div></div>
+    <div class="kpi k3"><div class="strip"></div><div class="kt">Visites totales</div><div class="kv">${totalVisits}</div><div class="ks up">${days} jour(s) actifs</div></div>
+    <div class="kpi k4"><div class="strip"></div><div class="kt">Moy. visites/jour</div><div class="kv">${days?(totalVisits/days).toFixed(1):0}</div><div class="ks up">fréquentation</div></div>`;
+  // chart
+  const keys=Object.keys(v).sort();
+  destroy('admin');
+  charts.admin=new Chart(document.getElementById('chAdmin'),{type:'bar',
+    data:{labels:keys.map(k=>k.slice(5)),datasets:[{label:'Visites',data:keys.map(k=>v[k]),backgroundColor:'#11c4d4',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0,font:{family:'Outfit'}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit',size:10}}}}}});
+  // users list
+  document.getElementById('adminUsers').innerHTML=Object.entries(users).map(([u,d])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:13.5px"><span style="font-weight:600">${escapeHtml(u)}</span><span style="color:var(--muted)">${d.role==='admin'?'Admin':'Membre'} · ${d.cur} · créé le ${new Date(d.created).toLocaleDateString('fr-FR')}</span></div>`).join('')||'<p style="color:var(--muted)">Aucun compte.</p>';
+}
+
+/* ============ EXPORT / IMPORT ============ */
+function exportData(){
+  if(session.role==='guest'){toast('Export réservé aux comptes');return}
+  if(typeof ExcelJS==='undefined'){toast('Module Excel en cours de chargement, réessayez');return}
+  const cur=state.cur;
+  const wb=new ExcelJS.Workbook();
+  wb.creator='MonBudget';wb.created=new Date();
+  const numFmt='#,##0 "'+cur+'";[Red]-#,##0 "'+cur+'"';
+  // palette
+  const INK='FF0A1F33',CYAN='FF11C4D4',GREEN='FF1F9D6B',CORAL='FFFF6B5E',VIOLET='FF6A3D8F',NAVY='FF1A3A52',LINE='FFE3DCCD',PAPER='FFFAF8F2';
+  const catColor={revenus:GREEN,facture:NAVY,depenses:CORAL,epargne:'FF0A8A96',dettes:VIOLET};
+  const border={top:{style:'thin',color:{argb:LINE}},left:{style:'thin',color:{argb:LINE}},bottom:{style:'thin',color:{argb:LINE}},right:{style:'thin',color:{argb:LINE}}};
+  const used={};
+
+  Object.keys(state.months).sort().forEach(mk=>{
+    const mo=state.months[mk];const[y,m]=mk.split('-');
+    let nm=(MONTHS[+m]+' '+y);if(used[nm])nm=nm+' ('+(++used[nm])+')';else used[nm]=1;
+    const ws=wb.addWorksheet(nm.slice(0,31),{views:[{showGridLines:false}]});
+    ws.columns=[{width:30},{width:18},{width:18},{width:16},{width:26}];
+    let r=1;
+    const fill=(cell,argb)=>{cell.fill={type:'pattern',pattern:'solid',fgColor:{argb}}};
+    const setRow=(vals)=>{const row=ws.getRow(r);vals.forEach((v,i)=>row.getCell(i+1).value=v);return row;};
+
+    // ---- TITRE ----
+    ws.mergeCells(r,1,r,5);
+    const tc=ws.getCell(r,1);tc.value='MON BUDGET — '+MONTHS[+m].toUpperCase()+' '+y;
+    tc.font={name:'Arial',bold:true,size:18,color:{argb:'FFFFFFFF'}};
+    fill(tc,INK);tc.alignment={vertical:'middle',horizontal:'left',indent:1};
+    ws.getRow(r).height=34;r++;
+    ws.mergeCells(r,1,r,5);
+    const sc=ws.getCell(r,1);sc.value='Période : du '+(mo.start||'—')+' au '+(mo.end||'—')+'   ·   Devise : '+cur;
+    sc.font={name:'Arial',size:10,italic:true,color:{argb:'FFFFFFFF'}};fill(sc,'FF13314A');
+    sc.alignment={vertical:'middle',indent:1};ws.getRow(r).height=20;r++;
+    r++; // ligne vide
+
+    // ---- SYNTHÈSE ----
+    const rev=catTotal(mo,'revenus','real'),fac=catTotal(mo,'facture','real'),dep=catTotal(mo,'depenses','real'),ep=catTotal(mo,'epargne','real'),det=catTotal(mo,'dettes','real');
+    const restR=(+mo.report||0)+rev-fac-dep-ep-det;
+    const restB=(+mo.report||0)+catTotal(mo,'revenus','budget')-catTotal(mo,'facture','budget')-catTotal(mo,'depenses','budget')-catTotal(mo,'epargne','budget')-catTotal(mo,'dettes','budget');
+    ws.mergeCells(r,1,r,5);const syh=ws.getCell(r,1);syh.value='SYNTHÈSE — ENTRÉES / SORTIES';
+    syh.font={name:'Arial',bold:true,size:12,color:{argb:'FFFFFFFF'}};fill(syh,CYAN);syh.alignment={indent:1,vertical:'middle'};ws.getRow(r).height=22;r++;
+    const hdr=setRow(['','Budget ('+cur+')','Réalisation ('+cur+')']);
+    [1,2,3].forEach(c=>{const cell=hdr.getCell(c);cell.font={name:'Arial',bold:true,size:10,color:{argb:INK}};fill(cell,PAPER);cell.border=border;cell.alignment={horizontal:c===1?'left':'right'}});r++;
+    const synthRows=[['+ Report à nouveau','',+mo.report||0],['+ Revenus',catTotal(mo,'revenus','budget'),rev],['− Factures',catTotal(mo,'facture','budget'),fac],['− Dépenses',catTotal(mo,'depenses','budget'),dep],['− Épargne',catTotal(mo,'epargne','budget'),ep],['− Dettes',catTotal(mo,'dettes','budget'),det]];
+    synthRows.forEach(sr=>{const row=setRow(sr);row.getCell(1).font={name:'Arial',size:10};row.getCell(1).border=border;[2,3].forEach(c=>{const cell=row.getCell(c);cell.numFmt=numFmt;cell.font={name:'Arial',size:10};cell.border=border;cell.alignment={horizontal:'right'}});r++;});
+    const restRow=setRow(['= RESTANT',restB,restR]);
+    restRow.getCell(1).font={name:'Arial',bold:true,size:11,color:{argb:'FFFFFFFF'}};fill(restRow.getCell(1),INK);
+    [2,3].forEach(c=>{const cell=restRow.getCell(c);cell.numFmt=numFmt;cell.font={name:'Arial',bold:true,size:11,color:{argb:'FFFFFFFF'}};fill(cell,INK);cell.alignment={horizontal:'right'}});
+    ws.getRow(r).height=22;r++;
+    // taux épargne
+    const txRow=setRow(["Taux d'épargne",'',(rev>0?(ep/rev):0)]);
+    txRow.getCell(1).font={name:'Arial',italic:true,size:10};txRow.getCell(3).numFmt='0.0%';txRow.getCell(3).font={name:'Arial',bold:true,size:10,color:{argb:GREEN}};txRow.getCell(3).alignment={horizontal:'right'};
+    r++;r++;
+
+    // ---- DÉTAIL PAR CATÉGORIE ----
+    CAT_DEFS.forEach(cd=>{
+      ws.mergeCells(r,1,r,5);const ch=ws.getCell(r,1);ch.value=cd.label.toUpperCase();
+      ch.font={name:'Arial',bold:true,size:12,color:{argb:'FFFFFFFF'}};fill(ch,catColor[cd.key]);ch.alignment={indent:1,vertical:'middle'};ws.getRow(r).height=20;r++;
+      const h=setRow(['Intitulé','Budget ('+cur+')','Réalisation ('+cur+')','Classement']);
+      [1,2,3,4].forEach(c=>{const cell=h.getCell(c);cell.font={name:'Arial',bold:true,size:10,color:{argb:INK}};fill(cell,PAPER);cell.border=border;cell.alignment={horizontal:c===1||c===4?'left':'right'}});r++;
+      mo.cats[cd.key].forEach(l=>{
+        const cls=l.cls==='fixe'?'Fixe':l.cls==='occ'?'Occasionnelle':l.cls==='var'?'Variable':'—';
+        const row=setRow([l.name,+l.budget||0,realForLine(mo,cd.key,l.name),cls]);
+        row.getCell(1).font={name:'Arial',size:10};row.getCell(1).border=border;
+        [2,3].forEach(c=>{const cell=row.getCell(c);cell.numFmt=numFmt;cell.font={name:'Arial',size:10};cell.border=border;cell.alignment={horizontal:'right'}});
+        row.getCell(4).font={name:'Arial',size:9,italic:true,color:{argb:'FF4A5862'}};row.getCell(4).border=border;r++;
+      });
+      const tot=setRow(['Total '+cd.label,catTotal(mo,cd.key,'budget'),catTotal(mo,cd.key,'real')]);
+      tot.getCell(1).font={name:'Arial',bold:true,size:10};fill(tot.getCell(1),'FFEFEAE0');tot.getCell(1).border=border;
+      [2,3].forEach(c=>{const cell=tot.getCell(c);cell.numFmt=numFmt;cell.font={name:'Arial',bold:true,size:10};fill(cell,'FFEFEAE0');cell.border=border;cell.alignment={horizontal:'right'}});
+      r++;r++;
+    });
+
+    // ---- JOURNAL ----
+    ws.mergeCells(r,1,r,5);const jh=ws.getCell(r,1);jh.value='JOURNAL QUOTIDIEN';
+    jh.font={name:'Arial',bold:true,size:12,color:{argb:'FFFFFFFF'}};fill(jh,INK);jh.alignment={indent:1,vertical:'middle'};ws.getRow(r).height=20;r++;
+    const jhead=setRow(['Date','Type','Poste','Montant ('+cur+')','Note']);
+    [1,2,3,4,5].forEach(c=>{const cell=jhead.getCell(c);cell.font={name:'Arial',bold:true,size:10,color:{argb:INK}};fill(cell,PAPER);cell.border=border;cell.alignment={horizontal:c===4?'right':'left'}});r++;
+    (mo.entries||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).forEach(e=>{
+      const isIn=e.cat==='revenus';
+      const row=setRow([e.date||'',isIn?'Entrée':'Sortie',e.line||'',+e.amount||0,e.note||'']);
+      row.getCell(1).font={name:'Arial',size:10};row.getCell(1).border=border;
+      const tcell=row.getCell(2);tcell.font={name:'Arial',size:10,bold:true,color:{argb:isIn?GREEN:CORAL}};tcell.border=border;
+      row.getCell(3).font={name:'Arial',size:10};row.getCell(3).border=border;
+      const acell=row.getCell(4);acell.numFmt=numFmt;acell.font={name:'Arial',size:10};acell.border=border;acell.alignment={horizontal:'right'};
+      row.getCell(5).font={name:'Arial',size:9,italic:true,color:{argb:'FF4A5862'}};row.getCell(5).border=border;r++;
+    });
+
+    ws.getColumn(1).alignment={vertical:'middle'};
+  });
+
+  // ---- FEUILLE DE SAUVEGARDE (restauration fidèle) ----
+  const bs=wb.addWorksheet('_sauvegarde',{state:'veryHidden'});
+  bs.getCell('A1').value='NE PAS MODIFIER — sauvegarde technique MonBudget';
+  bs.getCell('A2').value=JSON.stringify({cur:state.cur,months:state.months});
+
+  wb.xlsx.writeBuffer().then(buf=>{
+    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='MonBudget_'+session.user+'_'+new Date().toISOString().slice(0,10)+'.xlsx';
+    a.click();URL.revokeObjectURL(a.href);toast('Fichier Excel exporté');
+  }).catch(()=>toast('Erreur export'));
+}
+function importTrigger(){document.getElementById('importFile').click()}
+function importData(e){
+  const f=e.target.files[0];if(!f)return;
+  const name=(f.name||'').toLowerCase();
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      if(name.endsWith('.xlsx')||name.endsWith('.xls')){
+        const wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+        const sh=wb.Sheets['_sauvegarde'];
+        if(!sh)throw 0;
+        const aoa=XLSX.utils.sheet_to_json(sh,{header:1,blankrows:true});
+        // cherche la 1ère cellule qui contient un JSON {"...
+        let jsonStr=null;
+        aoa.forEach(rw=>{(rw||[]).forEach(c=>{if(typeof c==='string'&&c.trim().startsWith('{')&&!jsonStr)jsonStr=c.trim()})});
+        const d=JSON.parse(jsonStr);
+        if(!d.months)throw 0;
+        state={cur:d.cur||'FCFA',months:d.months};
+      }else{ // JSON legacy
+        const p=JSON.parse(new TextDecoder().decode(ev.target.result));const d=p.data||p;if(!d.months)throw 0;
+        state=d;if(p.cur)state.cur=p.cur;
+      }
+      migrate();saveData();buildMonthSelect();curMonthKey=Object.keys(state.months).sort().pop();
+      document.getElementById('curSel').value=state.cur;loadMonth();toast('Données restaurées');
+    }catch(err){toast('Fichier non reconnu')}
+  };
+  reader.readAsArrayBuffer(f);e.target.value='';
+}
+
+/* ============ NAV ============ */
+function nav(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('#tabNav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  if(v==='dash')renderDash();
+  if(v==='admin')renderAdmin();
+  if(v==='classif')renderClassif();
+  if(v==='epargne')runSim();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============ TOAST ============ */
+let toastT;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400)}
+
+/* ============ AUTO-LOGIN ============ */
+(function(){
+  // enter key on auth
+  ['liPass','liUser'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()}));
+  ['rgPass','rgUser'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doRegister()}));
+  let s=null;try{s=JSON.parse(localStorage.getItem(LS.session))}catch(e){}
+  if(s && s.role!=='guest' && getUsers()[s.user]){startSession(s.user,s.role,getUsers()[s.user].cur)}
+})();
+</script>
+</body>
+</html>
