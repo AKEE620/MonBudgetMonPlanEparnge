@@ -10,6 +10,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
 <style>
 :root{
   --ink:#0a1f33;        /* bleu nuit profond */
@@ -67,6 +70,8 @@ h1,h2,h3,.display{font-family:'Fraunces',serif;}
 .btn-ghost{background:transparent;color:var(--muted);font-weight:600;font-size:13.5px;padding:10px;border:none;cursor:pointer;width:100%;margin-top:10px;text-decoration:underline}
 .auth-err{background:#fdecea;color:var(--red);font-size:13px;padding:10px 13px;border-radius:9px;margin-bottom:14px;display:none}
 .auth-err.show{display:block}
+.auth-ok{background:#e6f6ee;color:var(--green);font-size:13px;padding:10px 13px;border-radius:9px;margin-bottom:14px;display:none;line-height:1.45}
+.auth-ok.show{display:block}
 .guest-note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px;line-height:1.5}
 
 /* ---------- APP SHELL ---------- */
@@ -210,13 +215,33 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 .calc-field input,.calc-field select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit';font-size:14.5px;background:#fff;color:var(--ink)}
 .calc-field input:focus,.calc-field select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
 .calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
-@media(max-width:600px){.calc-out{grid-template-columns:1fr}}
+.calc-out.four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:800px){.calc-out.four{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.calc-out,.calc-out.four{grid-template-columns:1fr}}
 .calc-out .o{background:#faf8f2;border:1px solid var(--line-2);border-radius:12px;padding:16px;text-align:center}
 .calc-out .o .ol{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
-.calc-out .o .ov{font-family:'Fraunces';font-size:24px;font-weight:900;margin-top:6px;letter-spacing:-.5px}
+.calc-out .o .ov{font-family:'Fraunces';font-size:23px;font-weight:900;margin-top:6px;letter-spacing:-.5px}
+.calc-out .o .osub{font-size:11px;color:var(--muted);margin-top:5px;font-weight:600;min-height:14px}
 .calc-out .o.cap .ov{color:var(--ink)}
 .calc-out .o.int .ov{color:var(--cyan-deep)}
 .calc-out .o.tot .ov{color:var(--green)}
+.calc-out .o.eff .ov{color:var(--violet)}
+
+/* versements occasionnels */
+.occ-block{margin-top:18px;border:1px dashed var(--line);border-radius:12px;padding:14px 16px;background:#fcfbf7}
+.occ-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.occ-head b{font-size:14.5px}
+.occ-sub{font-size:12px;color:var(--muted)}
+.addline-occ{background:var(--cyan);border:none;color:#06303a;border-radius:9px;padding:8px 14px;font-family:'Outfit';font-weight:700;font-size:13px;cursor:pointer;transition:.2s;white-space:nowrap}
+.addline-occ:hover{background:#0ad3e5}
+.occ-headrow{display:grid;grid-template-columns:1fr 1fr 1fr 36px;gap:10px;margin-top:12px;padding:0 4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft)}
+.occ-headrow .r{text-align:right}
+.occ-line{display:grid;grid-template-columns:1fr 1fr 1fr 36px;gap:10px;margin-top:8px;align-items:center}
+.occ-line input,.occ-line select{padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;font-family:'Outfit';font-size:13.5px;background:#fff;color:var(--ink);width:100%}
+.occ-line input:focus,.occ-line select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.occ-line .del{border:none;background:transparent;color:#b6ae9a;cursor:pointer;font-size:18px;border-radius:6px;transition:.15s}
+.occ-line .del:hover{color:var(--red);background:#fdecea}
+@media(max-width:600px){.occ-headrow{display:none}.occ-line{grid-template-columns:1fr 1fr;gap:8px}.occ-line .del{grid-column:2;justify-self:end}}
 
 /* risk ladder */
 .ladder{display:flex;flex-direction:column;gap:3px;margin-top:8px}
@@ -297,7 +322,133 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 .btn-del{background:var(--red);color:#fff}
 .btn-del:hover{background:#bd3a31}
 
-/* ---------- MOBILE GLOBAL ---------- */
+/* ---------- PORTEFEUILLE ---------- */
+.subtabs{display:flex;gap:4px;background:#efe9db;padding:5px;border-radius:12px;margin-bottom:20px;flex-wrap:wrap}
+.subtabs button{flex:1;min-width:130px;border:none;background:transparent;padding:10px 12px;border-radius:8px;font-family:'Outfit';font-weight:600;font-size:13.5px;cursor:pointer;color:var(--muted);transition:.2s}
+.subtabs button.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+.subview{display:none;animation:fade .35s ease}
+.subview.on{display:block}
+.port-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.pt-title{font-family:'Fraunces';font-size:19px;font-weight:600}
+.pt-sub{font-size:13px;color:var(--muted);max-width:620px;margin-top:2px}
+.add-stock{background:linear-gradient(135deg,var(--ink),var(--ink-soft));border:none;color:#fff;border-radius:11px;padding:11px 18px;font-family:'Outfit';font-weight:700;font-size:14px;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 6px 16px rgba(10,31,51,.2)}
+.add-stock:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(10,31,51,.28)}
+.empty-soon{background:#fff;border:1px dashed var(--line);border-radius:var(--r);padding:40px 28px;text-align:center;color:var(--ink-soft);font-size:15px;line-height:1.6}
+
+/* carte action */
+.stock-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;transition:box-shadow .2s}
+.stock-card.dirty{box-shadow:inset 4px 0 0 var(--gold),var(--shadow)}
+.stock-head{display:flex;align-items:center;gap:12px;padding:14px 18px;background:linear-gradient(135deg,#0a8a96,#066b75);color:#fff}
+.stock-head .grip{cursor:grab;color:rgba(255,255,255,.7);font-size:16px}
+.stock-head .grip:active{cursor:grabbing}
+.stock-head input.sname{flex:1;border:none;background:rgba(255,255,255,.14);color:#fff;font-family:'Outfit';font-weight:700;font-size:16px;padding:8px 12px;border-radius:9px}
+.stock-head input.sname::placeholder{color:rgba(255,255,255,.6)}
+.stock-head input.sname:focus{outline:none;background:rgba(255,255,255,.22)}
+.stock-head .sbadge{font-family:'JetBrains Mono';font-size:13px;font-weight:600;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:8px;white-space:nowrap}
+.stock-body{padding:16px 18px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:13px}
+.fg{display:flex;flex-direction:column}
+.fg label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px}
+.fg input,.fg select{padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;font-family:'Outfit';font-size:13.5px;background:#fff;color:var(--ink)}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.fg input.ro{background:#f1f5f3;font-weight:700;font-family:'JetBrains Mono'}
+.fg.mono input{font-family:'JetBrains Mono'}
+.sub-label{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--cyan-deep);margin:16px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--line-2)}
+.prices-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:9px}
+@media(max-width:760px){.prices-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:440px){.prices-grid{grid-template-columns:repeat(3,1fr)}}
+.scenario-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media(max-width:600px){.scenario-row{grid-template-columns:1fr}}
+.scn{border-radius:12px;padding:14px;color:#fff;text-align:center}
+.scn.pess{background:linear-gradient(135deg,#d6453b,#b3362d)}
+.scn.real{background:linear-gradient(135deg,#1a3a52,#0a1f33)}
+.scn.opt{background:linear-gradient(135deg,#1f9d6b,#157a52)}
+.scn .sl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;opacity:.9;font-weight:700}
+.scn .sv{font-family:'Fraunces';font-size:22px;font-weight:900;margin:5px 0 2px}
+.scn .sd{font-size:11.5px;opacity:.92}
+.stock-foot{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:12px 18px;background:#faf8f2;border-top:1px solid var(--line-2)}
+.stock-foot .save-btn{background:var(--green);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-family:'Outfit';font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
+.stock-foot .save-btn:hover{background:#178a5c}
+.stock-foot .del-btn{background:transparent;border:1.5px solid var(--line);color:var(--muted);border-radius:9px;padding:9px 14px;font-family:'Outfit';font-weight:600;font-size:13px;cursor:pointer;transition:.2s}
+.stock-foot .del-btn:hover{border-color:var(--red);color:var(--red)}
+
+.table-scroll{overflow-x:auto}
+.recap-table{width:100%;border-collapse:collapse;font-size:13px;min-width:640px}
+.recap-table th{background:var(--ink);color:#fff;text-align:right;padding:11px 13px;font-weight:600;font-size:12px;white-space:nowrap}
+.recap-table th:first-child{text-align:left}
+.recap-table td{padding:10px 13px;border-bottom:1px solid var(--line-2);text-align:right;font-family:'JetBrains Mono';font-variant-numeric:tabular-nums;color:var(--ink-soft)}
+.recap-table td:first-child{text-align:left;font-family:'Outfit';font-weight:600;color:var(--ink)}
+.recap-table tr.tot td{background:#faf8f2;font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
+.recap-table .pos{color:var(--green);font-weight:600}
+.recap-table .neg{color:var(--red);font-weight:600}
+
+/* carte obligation */
+.bond-card .stock-head{background:linear-gradient(135deg,var(--violet),#4d2a6b)}
+.money-card .stock-head{background:linear-gradient(135deg,#0a8a96,#055a64)}
+.money-card .mkind{border:none;background:rgba(255,255,255,.18);color:#fff;font-family:'Outfit';font-weight:700;font-size:13px;padding:8px 10px;border-radius:9px;cursor:pointer}
+.money-card .mkind option{color:var(--ink)}
+
+/* ---------- À PROPOS ---------- */
+.about-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px;max-width:760px}
+.about-top{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line-2)}
+.about-avatar{width:74px;height:74px;border-radius:18px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));color:var(--cyan);display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:900;font-size:26px;letter-spacing:1px;box-shadow:0 8px 20px rgba(10,31,51,.25);flex-shrink:0}
+.about-id h3{font-family:'Fraunces';font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.1}
+.about-role{color:var(--ink-soft);font-weight:600;font-size:14.5px;margin-top:4px}
+.about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.about-tag{background:#eef9fa;color:var(--cyan-deep);border:1px solid #c7eef1;border-radius:20px;padding:5px 13px;font-size:12.5px;font-weight:600}
+.about-links{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:24px}
+@media(max-width:600px){.about-links{grid-template-columns:1fr}.about-card{padding:22px}}
+.about-link{display:flex;align-items:center;gap:13px;padding:15px 17px;border:1.5px solid var(--line);border-radius:13px;text-decoration:none;color:var(--ink);transition:.2s;font-size:14px;line-height:1.4}
+.about-link:hover{border-color:var(--cyan);background:#fbfdfd;transform:translateY(-1px);box-shadow:var(--shadow)}
+.about-link b{font-weight:700}
+.al-ic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));color:#fff;font-family:'Outfit'}
+.flag-tg{font-size:16px}
+.about-note{margin-top:22px;color:var(--muted);font-size:13.5px;line-height:1.6;border-top:1px solid var(--line-2);padding-top:18px}
+
+/* ---------- GLOSSAIRE ---------- */
+.gloss-toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.gloss-toolbar input[type=text]{flex:1;min-width:220px;padding:12px 15px;border:1.5px solid var(--line);border-radius:12px;font-family:'Outfit';font-size:14.5px;background:#fff;color:var(--ink)}
+.gloss-toolbar input[type=text]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
+.gloss-toolbar select{padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:'Outfit';font-weight:600;font-size:14px;background:#fff;color:var(--ink)}
+.gloss-count{font-size:13px;color:var(--muted);margin-bottom:16px;font-weight:600}
+.gloss-cat{margin-bottom:26px}
+.gloss-cat-h{font-family:'Fraunces';font-size:19px;font-weight:600;color:var(--ink);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--cyan);display:inline-block}
+.gloss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+.gloss-term{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 18px;box-shadow:var(--shadow);transition:.2s}
+.gloss-term:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px)}
+.gloss-term h4{font-family:'Outfit';font-size:15px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.gloss-term h4 .gt-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);flex-shrink:0}
+.gloss-term p{font-size:13.5px;color:var(--ink-soft);line-height:1.55}
+.gloss-term .gt-ex{margin-top:8px;font-size:12.5px;color:var(--cyan-deep);background:#eef9fa;border-radius:8px;padding:7px 10px;line-height:1.5}
+.gloss-empty{background:#fff;border:1px dashed var(--line);border-radius:var(--r);padding:36px;text-align:center;color:var(--muted)}
+mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
+
+.custom-amort{margin-top:14px;background:#faf8f2;border:1px dashed var(--line);border-radius:11px;padding:14px}
+.custom-amort .ca-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.custom-amort .ca-title{font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.custom-amort .ca-sum{font-family:'JetBrains Mono';font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:20px}
+.custom-amort .ca-sum.ok{background:#e6f6ee;color:var(--green)}
+.custom-amort .ca-sum.bad{background:#fdecea;color:var(--red)}
+.ca-rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px}
+.ca-cell{display:flex;flex-direction:column}
+.ca-cell label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:4px}
+.ca-cell input{padding:8px;border:1.5px solid var(--line);border-radius:8px;font-family:'JetBrains Mono';font-size:13px;text-align:right;background:#fff}
+.ca-cell input:focus{outline:none;border-color:var(--cyan)}
+.tri-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:14px}
+.tri-box{border-radius:12px;padding:14px;text-align:center;color:#fff}
+.tri-box.tri{background:linear-gradient(135deg,#0a8a96,#066b75)}
+.tri-box.cpn{background:linear-gradient(135deg,#1a3a52,#0a1f33)}
+.tri-box.dur{background:linear-gradient(135deg,#6a3d8f,#4d2a6b)}
+.tri-box .tl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;opacity:.9;font-weight:700}
+.tri-box .tv{font-family:'Fraunces';font-size:22px;font-weight:900;margin-top:5px}
+.amort-toggle{margin-top:14px}
+.amort-toggle button{width:100%;background:#f1f5f3;border:1.5px solid var(--line);color:var(--ink-soft);border-radius:10px;padding:10px;font-family:'Outfit';font-weight:600;font-size:13px;cursor:pointer;transition:.2s}
+.amort-toggle button:hover{border-color:var(--cyan);color:var(--cyan-deep);background:#eef9fa}
+.amort-tbl{margin-top:12px;min-width:560px;font-size:12.5px}
+.amort-tbl th{font-size:11px}
+.amort-tbl td{padding:8px 11px}
+
+
 @media(max-width:760px){
   .topbar-in{flex-wrap:wrap;gap:10px;padding:11px 14px}
   .brand b{font-size:18px}
@@ -348,13 +499,16 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
       <button id="tabReg" onclick="authTab('reg')">Créer un compte</button>
     </div>
     <div class="auth-err" id="authErr"></div>
+    <div class="auth-ok" id="authOk"></div>
     <div id="formLogin">
-      <div class="field"><label>Identifiant</label><input id="liUser" autocomplete="username" placeholder="votre identifiant"></div>
+      <div class="field"><label>Email</label><input id="liEmail" type="email" autocomplete="username" placeholder="vous@exemple.com"></div>
       <div class="field"><label>Mot de passe</label><input id="liPass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
-      <button class="btn btn-primary" onclick="doLogin()">Se connecter</button>
+      <button class="btn btn-primary" id="loginBtn" onclick="doLogin()">Se connecter</button>
+      <button class="btn-ghost" onclick="doForgot()">Mot de passe oublié ?</button>
     </div>
     <div id="formReg" style="display:none">
-      <div class="field"><label>Identifiant</label><input id="rgUser" placeholder="choisissez un identifiant"></div>
+      <div class="field"><label>Nom / Prénom (optionnel)</label><input id="rgName" placeholder="votre nom"></div>
+      <div class="field"><label>Email</label><input id="rgEmail" type="email" placeholder="vous@exemple.com"></div>
       <div class="field"><label>Devise par défaut</label>
         <select id="rgCur">
           <option value="FCFA">FCFA — Franc CFA (XOF)</option>
@@ -364,11 +518,11 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
           <option value="DH">MAD — Dirham</option>
         </select>
       </div>
-      <div class="field"><label>Mot de passe</label><input id="rgPass" type="password" placeholder="min. 4 caractères"></div>
-      <button class="btn btn-primary" onclick="doRegister()">Créer mon compte</button>
+      <div class="field"><label>Mot de passe</label><input id="rgPass" type="password" placeholder="min. 6 caractères"></div>
+      <button class="btn btn-primary" id="regBtn" onclick="doRegister()">Créer mon compte</button>
     </div>
     <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
-    <p class="guest-note">En mode visiteur, vous pouvez tout utiliser mais <b>l'export du fichier de suivi est désactivé</b>. Vos données restent sur cet appareil.</p>
+    <p class="guest-note">En mode visiteur, certaines fonctions (export, portefeuille) sont limitées. Avec un compte, vos données vous suivent sur tous vos appareils.</p>
   </div>
 </div>
 
@@ -386,7 +540,7 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
         <span id="whoName" style="font-weight:600"></span>
       </div>
       <button class="icon-btn" id="exportBtn" onclick="exportData()">Exporter Excel</button>
-      <button class="icon-btn" onclick="importTrigger()">Restaurer</button>
+      <button class="icon-btn" id="restoreBtn" onclick="importTrigger()" style="display:none">Restaurer</button>
       <input type="file" id="importFile" accept=".xlsx,.xls,application/json" style="display:none" onchange="importData(event)">
       <button class="icon-btn danger" onclick="logout()">Quitter</button>
     </div>
@@ -397,6 +551,9 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
       <button data-v="epargne" onclick="nav('epargne')">Simulateur d'épargne</button>
       <button data-v="placement" onclick="nav('placement')">Guide placement</button>
       <button data-v="titres" onclick="nav('titres')">Titres publics</button>
+      <button data-v="glossaire" onclick="nav('glossaire')">Glossaire</button>
+      <button data-v="portef" id="portefTab" onclick="nav('portef')">Mon portefeuille</button>
+      <button data-v="apropos" onclick="nav('apropos')">À propos</button>
       <button data-v="admin" id="adminTab" style="display:none" onclick="nav('admin')">Admin</button>
     </nav>
   </header>
@@ -486,22 +643,59 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
       <div class="page-head">
         <div class="kicker">Étape 4 · Faire fructifier</div>
         <h2>Simulateur d'épargne</h2>
-        <p>« L'épargne, ce n'est pas ce qu'on met de côté quand il reste de l'argent, c'est ce qu'on met de côté avant de dépenser. » Projetez la croissance de votre épargne avec les intérêts composés.</p>
+        <p>« L'épargne, ce n'est pas ce qu'on met de côté quand il reste de l'argent, c'est ce qu'on met de côté avant de dépenser. » Projetez la croissance de votre épargne en intérêts composés (capitalisation mensuelle).</p>
       </div>
       <div class="calc">
         <div class="calc-row">
-          <div class="calc-field"><label>Versement mensuel</label><input type="number" id="spMonthly" value="50000" oninput="runSim()"></div>
-          <div class="calc-field"><label>Capital de départ</label><input type="number" id="spInit" value="0" oninput="runSim()"></div>
-          <div class="calc-field"><label>Taux annuel (%)</label><input type="number" id="spRate" value="6.5" step="0.1" oninput="runSim()"></div>
-          <div class="calc-field"><label>Durée (années entières)</label><input type="number" id="spYears" value="20" min="1" step="1" oninput="runSim()"></div>
+          <div class="calc-field"><label>Capital de départ</label><input type="number" id="spInit" value="0" min="0" oninput="runSim()"></div>
+          <div class="calc-field"><label>Taux annuel (%)</label><input type="number" id="spRate" value="6.5" step="0.1" min="0" oninput="runSim()"></div>
+          <div class="calc-field"><label>Durée (années entières)</label><input type="number" id="spYears" value="20" min="1" step="1" oninput="renderOcc();runSim()"></div>
         </div>
-        <div class="calc-out">
-          <div class="o cap"><div class="ol">Capital versé</div><div class="ov" id="oCap">—</div></div>
-          <div class="o int"><div class="ol">Intérêts gagnés</div><div class="ov" id="oInt">—</div></div>
-          <div class="o tot"><div class="ol">Total final</div><div class="ov" id="oTot">—</div></div>
+        <div class="calc-row">
+          <div class="calc-field"><label>Versement périodique</label><input type="number" id="spPeriodic" value="50000" min="0" oninput="runSim()"></div>
+          <div class="calc-field"><label>Périodicité</label>
+            <select id="spFreq" onchange="runSim()">
+              <option value="1">Mensuel</option>
+              <option value="3">Trimestriel</option>
+              <option value="6">Semestriel</option>
+              <option value="12">Annuel</option>
+            </select>
+          </div>
+          <div class="calc-field"><label>Taux périodique équivalent</label><input type="text" id="spPeriodRate" value="—" readonly title="Calculé automatiquement : taux annuel ÷ nombre de périodes par an" style="background:#f1f5f3;color:var(--ink);font-weight:700"></div>
+          <div class="calc-field"><label>Moment du versement</label>
+            <select id="spTiming" onchange="runSim()">
+              <option value="end">Fin de période</option>
+              <option value="begin">Début de période</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="occ-block">
+          <div class="occ-head">
+            <div><b>Versements occasionnels</b> <span class="occ-sub">apports ponctuels (prime, héritage…), capitalisés mensuellement jusqu'à la fin</span></div>
+            <button class="addline-occ" onclick="addOcc()">+ Ajouter</button>
+          </div>
+          <div class="occ-headrow" id="occHeadRow" style="display:none">
+            <span>Année du versement</span><span>Mois (1-12)</span><span class="r">Montant</span><span></span>
+          </div>
+          <div id="occLines"></div>
+        </div>
+
+        <div class="calc-out four">
+          <div class="o cap"><div class="ol">Capital total versé</div><div class="ov" id="oCap">—</div><div class="osub" id="oCapDetail"></div></div>
+          <div class="o int"><div class="ol">Intérêts gagnés</div><div class="ov" id="oInt">—</div><div class="osub" id="oIntPct"></div></div>
+          <div class="o tot"><div class="ol">Total final</div><div class="ov" id="oTot">—</div><div class="osub" id="oTotMult"></div></div>
+          <div class="o eff"><div class="ol">Effort d'épargne</div><div class="ov" id="oEff">—</div><div class="osub">par mois en moyenne</div></div>
         </div>
       </div>
-      <div class="chart-card"><h3>Croissance de votre épargne</h3><div class="csub">Capital versé vs intérêts composés cumulés</div><div class="chart-wrap tall"><canvas id="chSim"></canvas></div></div>
+      <div class="dash-grid">
+        <div class="chart-card"><h3>Croissance de votre épargne</h3><div class="csub">Capital versé vs intérêts composés cumulés, année par année</div><div class="chart-wrap tall"><canvas id="chSim"></canvas></div></div>
+        <div class="chart-card"><h3>Valeur du portefeuille dans le temps</h3><div class="csub">Évolution de la valeur totale atteinte chaque année</div><div class="chart-wrap tall"><canvas id="chSimLine"></canvas></div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="chart-card"><h3>Composition du total final</h3><div class="csub">Part des versements et part des intérêts</div><div class="chart-wrap"><canvas id="chSimPie"></canvas></div></div>
+        <div class="advice" style="margin:0"><h3>Lecture</h3><div id="simAdvice"></div></div>
+      </div>
     </section>
 
     <!-- PLACEMENT GUIDE -->
@@ -559,24 +753,189 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
       <p class="disclaimer">Informations pédagogiques inspirées de la masterclass UMOA-Titres / Delta Wealth Management. Ne constituent pas un conseil en investissement personnalisé. Les taux sont indicatifs et évoluent à chaque émission.</p>
     </section>
 
+    <!-- MON PORTEFEUILLE -->
+    <section class="view" id="v-portef">
+      <div class="page-head">
+        <div class="kicker">Investir · Suivi de portefeuille</div>
+        <h2>Mon portefeuille</h2>
+        <p>Construisez et suivez votre portefeuille : <b>actions</b>, <b>emprunts obligataires</b> et <b>monétaire (OAT / BAT)</b>. Les compartiments obligataire et monétaire arrivent dans la prochaine étape.</p>
+      </div>
+
+      <div id="portefLocked" class="locked-note" style="display:none">Le portefeuille est réservé aux comptes. Créez un compte ou connectez-vous pour y accéder.</div>
+
+      <div id="portefBody">
+        <div class="subtabs">
+          <button class="on" data-sub="actions" onclick="portSub('actions')">Actions</button>
+          <button data-sub="oblig" onclick="portSub('oblig')">Emprunts obligataires</button>
+          <button data-sub="monet" onclick="portSub('monet')">Monétaire (OAT / BAT)</button>
+          <button data-sub="synth" onclick="portSub('synth')">Synthèse globale</button>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="subview on" id="sub-actions">
+          <div class="port-toolbar">
+            <div>
+              <div class="pt-title">Compartiment Actions</div>
+              <div class="pt-sub">Saisissez vos lignes, choisissez le cours moyen de référence et le dividende. Les plus-values et rendements se calculent automatiquement.</div>
+            </div>
+            <button class="add-stock" onclick="addStock()">+ Ajouter une action</button>
+          </div>
+
+          <div id="stocksList"></div>
+
+          <div class="chart-card" id="stocksRecapCard" style="margin-top:18px;display:none">
+            <h3>Tableau récapitulatif — Actions</h3>
+            <div class="csub">Rendement par action (dividende + plus-value) et rendement global pondéré au montant investi</div>
+            <div class="table-scroll">
+              <table class="recap-table" id="stocksRecap"></table>
+            </div>
+          </div>
+
+          <div class="dash-grid" id="stocksCharts" style="display:none">
+            <div class="chart-card"><h3>Répartition du capital investi</h3><div class="csub">Poids de chaque action dans le portefeuille actions</div><div class="chart-wrap"><canvas id="chStocksAlloc"></canvas></div></div>
+            <div class="chart-card"><h3>Rendement par action (3 scénarios)</h3><div class="csub">Pessimiste · réaliste · optimiste, en %</div><div class="chart-wrap"><canvas id="chStocksYield"></canvas></div></div>
+          </div>
+        </div>
+
+        <!-- OBLIGATIONS -->
+        <div class="subview" id="sub-oblig">
+          <div class="port-toolbar">
+            <div>
+              <div class="pt-title">Emprunts obligataires</div>
+              <div class="pt-sub">Saisissez vos obligations (achat au pair). L'échéancier, le taux actuariel (TRI) et le rendement pondéré se calculent automatiquement.</div>
+            </div>
+            <button class="add-stock" onclick="addBond()">+ Ajouter une obligation</button>
+          </div>
+          <div id="bondsList"></div>
+          <div class="chart-card" id="bondsRecapCard" style="margin-top:18px;display:none">
+            <h3>Tableau récapitulatif — Obligations</h3>
+            <div class="csub">TRI actuariel par titre, et indicateurs pondérés du compartiment</div>
+            <div class="table-scroll"><table class="recap-table" id="bondsRecap"></table></div>
+          </div>
+          <div class="dash-grid" id="bondsCharts" style="display:none">
+            <div class="chart-card"><h3>Répartition du capital obligataire</h3><div class="csub">Poids de chaque obligation</div><div class="chart-wrap"><canvas id="chBondsAlloc"></canvas></div></div>
+            <div class="chart-card"><h3>TRI par obligation</h3><div class="csub">Taux de rendement actuariel, en %</div><div class="chart-wrap"><canvas id="chBondsTri"></canvas></div></div>
+          </div>
+        </div>
+        <!-- MONÉTAIRE -->
+        <div class="subview" id="sub-monet">
+          <div class="port-toolbar">
+            <div>
+              <div class="pt-title">Monétaire — OAT / BAT</div>
+              <div class="pt-sub">OAT (moyen/long terme, comme une obligation) ou BAT (court terme, intérêts précomptés). Coupon couru calculé selon la base de votre choix.</div>
+            </div>
+            <button class="add-stock" onclick="addMoney()">+ Ajouter un titre</button>
+          </div>
+          <div id="moneyList"></div>
+          <div class="chart-card" id="moneyRecapCard" style="margin-top:18px;display:none">
+            <h3>Tableau récapitulatif — Monétaire</h3>
+            <div class="csub">TRI actuariel et coupon couru par titre, indicateurs pondérés du compartiment</div>
+            <div class="table-scroll"><table class="recap-table" id="moneyRecap"></table></div>
+          </div>
+          <div class="dash-grid" id="moneyCharts" style="display:none">
+            <div class="chart-card"><h3>Répartition du capital monétaire</h3><div class="csub">Poids de chaque titre</div><div class="chart-wrap"><canvas id="chMoneyAlloc"></canvas></div></div>
+            <div class="chart-card"><h3>TRI par titre</h3><div class="csub">Taux de rendement actuariel, en %</div><div class="chart-wrap"><canvas id="chMoneyTri"></canvas></div></div>
+          </div>
+        </div>
+        <!-- SYNTHÈSE GLOBALE -->
+        <div class="subview" id="sub-synth">
+          <div class="port-toolbar">
+            <div>
+              <div class="pt-title">Synthèse globale du portefeuille</div>
+              <div class="pt-sub">Consolidation des trois compartiments : répartition du capital, rendements et indicateurs clés.</div>
+            </div>
+            <button class="add-stock" onclick="exportPortfolio()">Exporter le portefeuille (Excel)</button>
+          </div>
+          <div id="synthKpis" class="kpi-row"></div>
+          <div id="synthEmpty" class="empty-soon" style="display:none">Votre portefeuille est vide. Ajoutez des actions, obligations ou titres monétaires pour voir la synthèse.</div>
+          <div class="dash-grid" id="synthCharts">
+            <div class="chart-card"><h3>Répartition par classe d'actifs</h3><div class="csub">Poids Actions / Obligations / Monétaire</div><div class="chart-wrap"><canvas id="chSynthClass"></canvas></div></div>
+            <div class="chart-card"><h3>Capital investi par ligne</h3><div class="csub">Toutes lignes, tous compartiments</div><div class="chart-wrap"><canvas id="chSynthLines"></canvas></div></div>
+          </div>
+          <div class="chart-card" id="synthTableCard" style="margin-top:18px;display:none">
+            <h3>Tableau de synthèse consolidé</h3>
+            <div class="csub">Montant investi, poids et rendement par compartiment</div>
+            <div class="table-scroll"><table class="recap-table" id="synthTable"></table></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GLOSSAIRE -->
+    <section class="view" id="v-glossaire">
+      <div class="page-head">
+        <div class="kicker">Pédagogie · Comprendre les fondements</div>
+        <h2>Glossaire du marché financier</h2>
+        <p>Les termes essentiels de la bourse, des obligations, de l'épargne et du marché financier UEMOA, expliqués simplement. Cherchez un mot ou parcourez par thème.</p>
+      </div>
+      <div class="gloss-toolbar">
+        <input type="text" id="glossSearch" placeholder="Rechercher un terme… (ex. coupon, TRI, obligation)" oninput="renderGloss()">
+        <select id="glossCat" onchange="renderGloss()"></select>
+        <button class="icon-btn" onclick="exportGlossPDF()">Télécharger en PDF</button>
+      </div>
+      <div id="glossCount" class="gloss-count"></div>
+      <div id="glossBody"></div>
+    </section>
+
+    <!-- À PROPOS -->
+    <section class="view" id="v-apropos">
+      <div class="page-head">
+        <div class="kicker">À propos</div>
+        <h2>Le créateur de l'outil</h2>
+        <p>Cet outil de gestion de budget, d'épargne et de portefeuille a été conçu pour aider chacun à reprendre le contrôle de ses finances et à mieux investir, en particulier en zone UEMOA.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-top">
+          <div class="about-avatar">KAK</div>
+          <div class="about-id">
+            <h3>Komi Akée KOLOU</h3>
+            <div class="about-role">Agent d'encadrement — Afriland First Holding</div>
+            <div class="about-tags">
+              <span class="about-tag">Actuaire</span>
+              <span class="about-tag">Membre de l'Institut des Actuaires de France (IA)</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-links">
+          <a class="about-link" href="mailto:akeekolou@gmail.com">
+            <span class="al-ic">@</span>
+            <span><b>Email</b><br>akeekolou@gmail.com</span>
+          </a>
+          <a class="about-link" href="https://www.linkedin.com/in/komi-ak%C3%A9e-kolou-28738125a" target="_blank" rel="noopener">
+            <span class="al-ic">in</span>
+            <span><b>LinkedIn</b><br>Komi Akée Kolou</span>
+          </a>
+          <a class="about-link" href="https://wa.me/22871676596" target="_blank" rel="noopener">
+            <span class="al-ic">wa</span>
+            <span><b>WhatsApp</b><br><span class="flag-tg" title="Togo">🇹🇬</span> +228 71 67 65 96</span>
+          </a>
+          <a class="about-link" href="https://akee620.github.io/simulateur-afrilandbourse/" target="_blank" rel="noopener">
+            <span class="al-ic">↗</span>
+            <span><b>Autre outil développé</b><br>Simulateur Afriland Bourse</span>
+          </a>
+        </div>
+        <p class="about-note">Pour toute suggestion, question ou collaboration, n'hésitez pas à me contacter via l'un des canaux ci-dessus.</p>
+      </div>
+    </section>
+
     <!-- ADMIN -->
     <section class="view" id="v-admin">
       <div class="page-head">
         <div class="kicker">Espace administrateur</div>
         <h2>Tableau de bord admin</h2>
-        <p>Suivi de l'activité enregistrée sur cet appareil. <b>Note :</b> en mode local (GitHub Pages sans serveur), ces chiffres concernent uniquement ce navigateur. Pour des statistiques centralisées réelles, voir la note plus bas.</p>
+        <p>Suivi de l'activité des utilisateurs. Lorsque la connexion au serveur (Supabase) est active, ces statistiques sont <b>centralisées</b> et concernent tous les appareils.</p>
       </div>
       <div class="admin-grid" id="adminKpis"></div>
       <div class="chart-card" style="margin-bottom:18px"><h3>Visites par jour</h3><div class="csub">Ouvertures de l'outil enregistrées localement</div><div class="chart-wrap"><canvas id="chAdmin"></canvas></div></div>
       <div class="infocard"><h3>Comptes enregistrés sur cet appareil</h3><div id="adminUsers"></div></div>
-      <div class="locked-note" style="margin-top:18px">Pour de <b>vrais</b> comptes sécurisés et un compteur de visiteurs <b>centralisé</b> (tous appareils), il faut brancher un petit service gratuit (Supabase / GoatCounter). C'est l'« Option B » : faisable sur ta page GitHub, ~20 min de config. Dis-le moi quand tu veux la mettre en place.</div>
+      <div class="locked-note" style="margin-top:18px">Les comptes sont sécurisés et synchronisés via Supabase : chaque utilisateur retrouve ses données sur tous ses appareils, et la réinitialisation du mot de passe se fait par email. Si le serveur est momentanément indisponible, l'outil bascule automatiquement en mode local.</div>
     </section>
   </main>
 
   <div class="foot">
     <b>MonBudget</b> · Outil de gestion de budget & d'épargne pour la zone UEMOA<br>
     Gérer un budget → Reclasser → Établir un budget → Dégager une épargne · puis mieux épargner et investir
-    <p class="disclaimer">Vos données sont enregistrées localement dans votre navigateur. Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
+    <p class="disclaimer">Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
   </div>
 </div>
 
@@ -593,8 +952,21 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 <div id="toast"></div>
 <script>
 /* ============================================================
-   MonBudget — logique application (100% local, GitHub Pages)
+   MonBudget — logique application
    ============================================================ */
+
+/* ---------- Configuration Supabase (Option B) ---------- */
+const SUPA_URL='https://vkibzqmblzjqjwnzhgfn.supabase.co';
+const SUPA_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZraWJ6cW1ibHpqcWp3bnpoZ2ZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MTQwMTEsImV4cCI6MjA5NTk5MDAxMX0.18YPwfUg5PZ-7eQSf7oBBerwnFWDPdv6B2hDML_P704';
+const ADMIN_EMAIL='akeekolou@gmail.com'; // ce compte est administrateur
+let supa=null, supaReady=false;
+try{
+  if(window.supabase && SUPA_URL && SUPA_ANON){
+    supa=window.supabase.createClient(SUPA_URL,SUPA_ANON);
+    supaReady=true;
+  }
+}catch(e){console.warn('Supabase non initialisé, mode local actif',e);}
+
 const LS = {
   users:'mb_users', session:'mb_session', visits:'mb_visits'
 };
@@ -617,7 +989,27 @@ function setUsers(u){localStorage.setItem(LS.users,JSON.stringify(u))}
 function hash(s){let h=0;for(let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0}return 'h'+h}
 function dataKey(user){return 'mb_data_'+user}
 function loadData(user){try{return JSON.parse(localStorage.getItem(dataKey(user)))||null}catch(e){return null}}
-function saveData(){if(session && session.role!=='guest'){localStorage.setItem(dataKey(session.user),JSON.stringify(state))}else{sessionStorage.setItem('mb_guest_data',JSON.stringify(state))}}
+let _cloudSaveT=null;
+function saveData(){
+  if(session && session.cloud){
+    // sauvegarde cloud debouncée
+    clearTimeout(_cloudSaveT);
+    _cloudSaveT=setTimeout(cloudPush,800);
+    return;
+  }
+  if(session && session.role!=='guest'){localStorage.setItem(dataKey(session.user),JSON.stringify(state))}
+  else{sessionStorage.setItem('mb_guest_data',JSON.stringify(state))}
+}
+async function cloudPush(){
+  if(!supaReady||!session||!session.cloud||!session.uid)return;
+  try{
+    await supa.from('user_data').upsert({user_id:session.uid,email:session.user,data:state,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  }catch(e){console.warn('Sauvegarde cloud échouée',e);}
+}
+async function recordVisitCloud(){
+  if(!supaReady||!session)return;
+  try{await supa.from('visits').insert({email:session.user});}catch(e){}
+}
 
 /* ---------- auth UI ---------- */
 function authTab(t){
@@ -627,36 +1019,113 @@ function authTab(t){
   document.getElementById('formReg').style.display=t==='reg'?'block':'none';
   hideErr();
 }
-function showErr(m){const e=document.getElementById('authErr');e.textContent=m;e.classList.add('show')}
-function hideErr(){document.getElementById('authErr').classList.remove('show')}
+function showErr(m){const e=document.getElementById('authErr');e.textContent=m;e.classList.add('show');document.getElementById('authOk').classList.remove('show');}
+function showOk(m){const e=document.getElementById('authOk');e.textContent=m;e.classList.add('show');document.getElementById('authErr').classList.remove('show');}
+function hideErr(){document.getElementById('authErr').classList.remove('show');document.getElementById('authOk').classList.remove('show');}
+function setBusy(id,busy,labelBusy,labelIdle){const b=document.getElementById(id);if(!b)return;b.disabled=busy;b.textContent=busy?labelBusy:labelIdle;}
 
-function doRegister(){
-  const u=document.getElementById('rgUser').value.trim();
+async function doRegister(){
+  hideErr();
+  const email=(document.getElementById('rgEmail').value||'').trim().toLowerCase();
   const p=document.getElementById('rgPass').value;
   const c=document.getElementById('rgCur').value;
-  if(u.length<3)return showErr("L'identifiant doit faire au moins 3 caractères.");
-  if(p.length<4)return showErr("Le mot de passe doit faire au moins 4 caractères.");
+  const name=(document.getElementById('rgName').value||'').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return showErr("Adresse email invalide.");
+  if(p.length<6)return showErr("Le mot de passe doit faire au moins 6 caractères.");
+  if(supaReady){
+    setBusy('regBtn',true,'Création…','Créer mon compte');
+    try{
+      const {data,error}=await supa.auth.signUp({email,password:p,options:{
+        data:{full_name:name,cur:c},
+        emailRedirectTo:location.origin+location.pathname
+      }});
+      setBusy('regBtn',false,'','Créer mon compte');
+      if(error)return showErr(traduitErreur(error.message));
+      if(data.user && !data.session){
+        showOk("Compte créé ! Vérifiez votre boîte mail et cliquez sur le lien de confirmation, puis connectez-vous.");
+        authTab('login');
+        return;
+      }
+      // session immédiate (si confirmation désactivée)
+      await startCloudSession(data.user,c);
+    }catch(e){setBusy('regBtn',false,'','Créer mon compte');showErr("Erreur réseau. Réessayez ou utilisez le mode visiteur.");}
+    return;
+  }
+  // --- fallback local ---
   const users=getUsers();
-  if(users[u])return showErr("Cet identifiant existe déjà. Connectez-vous.");
-  const role = Object.keys(users).length===0 ? 'admin' : 'member'; // 1er compte = admin
-  users[u]={pass:hash(p),cur:c,role:role,created:Date.now()};
-  setUsers(users);
-  startSession(u,role,c);
-  toast(role==='admin'?"Compte admin créé ":"Compte créé");
+  if(users[email])return showErr("Ce compte existe déjà. Connectez-vous.");
+  const role=(email===ADMIN_EMAIL||Object.keys(users).length===0)?'admin':'member';
+  users[email]={pass:hash(p),cur:c,role,created:Date.now(),name};
+  setUsers(users);startSession(email,role,c);
+  toast(role==='admin'?"Compte admin créé":"Compte créé");
 }
-function doLogin(){
-  const u=document.getElementById('liUser').value.trim();
+
+async function doLogin(){
+  hideErr();
+  const email=(document.getElementById('liEmail').value||'').trim().toLowerCase();
   const p=document.getElementById('liPass').value;
+  if(supaReady){
+    setBusy('loginBtn',true,'Connexion…','Se connecter');
+    try{
+      const {data,error}=await supa.auth.signInWithPassword({email,password:p});
+      setBusy('loginBtn',false,'','Se connecter');
+      if(error)return showErr(traduitErreur(error.message));
+      await startCloudSession(data.user, (data.user.user_metadata&&data.user.user_metadata.cur)||'FCFA');
+    }catch(e){setBusy('loginBtn',false,'','Se connecter');showErr("Erreur réseau. Réessayez ou utilisez le mode visiteur.");}
+    return;
+  }
+  // --- fallback local ---
   const users=getUsers();
-  if(!users[u])return showErr("Identifiant inconnu.");
-  if(users[u].pass!==hash(p))return showErr("Mot de passe incorrect.");
-  startSession(u,users[u].role||'member',users[u].cur||'FCFA');
-  toast("Bienvenue "+u+"");
+  if(!users[email])return showErr("Compte inconnu.");
+  if(users[email].pass!==hash(p))return showErr("Mot de passe incorrect.");
+  startSession(email,users[email].role||'member',users[email].cur||'FCFA');
+  toast("Bienvenue");
 }
+
+async function doForgot(){
+  hideErr();
+  const email=(document.getElementById('liEmail').value||'').trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return showErr("Saisissez d'abord votre email dans le champ ci-dessus, puis cliquez sur « Mot de passe oublié ».");
+  if(!supaReady)return showErr("La réinitialisation par email nécessite la connexion au serveur (indisponible en mode local).");
+  try{
+    const {error}=await supa.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname+'?reset=1'});
+    if(error)return showErr(traduitErreur(error.message));
+    showOk("Un email de réinitialisation a été envoyé à "+email+". Suivez le lien pour choisir un nouveau mot de passe.");
+  }catch(e){showErr("Erreur réseau lors de l'envoi de l'email.");}
+}
+
+function traduitErreur(m){
+  m=(m||'').toLowerCase();
+  if(m.includes('invalid login'))return "Email ou mot de passe incorrect.";
+  if(m.includes('email not confirmed'))return "Email non confirmé. Vérifiez votre boîte mail et cliquez sur le lien de confirmation.";
+  if(m.includes('already registered')||m.includes('already exists'))return "Ce compte existe déjà. Connectez-vous.";
+  if(m.includes('password'))return "Mot de passe trop faible (min. 6 caractères).";
+  if(m.includes('rate limit')||m.includes('too many'))return "Trop de tentatives. Patientez quelques minutes.";
+  return "Erreur : "+m;
+}
+
+async function startCloudSession(user,cur){
+  const email=user.email;
+  const role=(email===ADMIN_EMAIL)?'admin':'member';
+  session={user:email,role,cur:cur||'FCFA',cloud:true,uid:user.id};
+  // charger les données depuis le cloud
+  let cloud=null;
+  try{
+    const {data,error}=await supa.from('user_data').select('data').eq('user_id',user.id).maybeSingle();
+    if(!error && data && data.data)cloud=data.data;
+  }catch(e){}
+  state=cloud||freshState(cur);
+  if(!state.cur)state.cur=cur||'FCFA';
+  migrate();
+  await recordVisitCloud();
+  bootApp();
+  toast(role==='admin'?"Bienvenue (Admin)":"Bienvenue");
+}
+
 function enterGuest(){startSession('Visiteur','guest','FCFA');toast("Mode visiteur activé")}
 
 function startSession(user,role,cur){
-  session={user,role,cur};
+  session={user,role,cur,cloud:false};
   localStorage.setItem(LS.session,JSON.stringify(session));
   if(role==='guest'){
     try{state=JSON.parse(sessionStorage.getItem('mb_guest_data'))}catch(e){state=null}
@@ -669,13 +1138,17 @@ function startSession(user,role,cur){
   recordVisit();
   bootApp();
 }
-function logout(){localStorage.removeItem(LS.session);location.reload()}
+
+async function logout(){
+  if(supaReady && session && session.cloud){try{await supa.auth.signOut();}catch(e){}}
+  localStorage.removeItem(LS.session);location.reload();
+}
 
 /* ---------- fresh data ---------- */
 function monthKeyNow(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()).padStart(2,'0')}
 function freshState(cur){
   const mk=monthKeyNow();
-  const st={cur:cur||'FCFA',months:{}};
+  const st={cur:cur||'FCFA',months:{},portfolio:{stocks:[],bonds:[],money:[]}};
   st.months[mk]=freshMonth(mk);
   return st;
 }
@@ -699,7 +1172,7 @@ function bootApp(){
   const rb=document.getElementById('roleBadge');
   document.getElementById('whoName').textContent=session.user;
   if(session.role==='guest'){rb.textContent='Visiteur';rb.className='badge guest';document.getElementById('exportBtn').style.display='none';}
-  else if(session.role==='admin'){rb.textContent='Admin';rb.className='badge admin';document.getElementById('adminTab').style.display='flex';}
+  else if(session.role==='admin'){rb.textContent='Admin';rb.className='badge admin';document.getElementById('adminTab').style.display='flex';document.getElementById('restoreBtn').style.display='inline-flex';}
   else{rb.textContent='Membre';rb.className='badge';}
   // currency selects
   document.getElementById('curSel').value=state.cur;
@@ -749,6 +1222,10 @@ function addMonth(){
 
 /* ---------- migration anciennes données ---------- */
 function migrate(){
+  if(!state.portfolio)state.portfolio={stocks:[],bonds:[],money:[]};
+  if(!state.portfolio.stocks)state.portfolio.stocks=[];
+  if(!state.portfolio.bonds)state.portfolio.bonds=[];
+  if(!state.portfolio.money)state.portfolio.money=[];
   Object.values(state.months).forEach(mo=>{
     if(!mo.entries)mo.entries=[];
     CAT_DEFS.forEach(cd=>{
@@ -1160,36 +1637,1114 @@ function renderClassif(){
 function setCls(cat,i,c){state.months[curMonthKey].cats[cat][i].cls=c;saveData();renderClassif()}
 
 /* ============ SIMULATOR ============ */
+let simOcc=[]; // versements occasionnels : {id, year, month, amount}
+function freqLabel(p){return p==1?'mois':p==3?'trimestre':p==6?'semestre':'an'}
+function freqPerYear(p){return 12/p}
+
+function addOcc(){
+  const yrs=Math.max(1,Math.floor(+document.getElementById('spYears').value)||1);
+  simOcc.push({id:rid(),year:1,month:1,amount:0});
+  renderOcc();
+}
+function delOcc(id){simOcc=simOcc.filter(o=>o.id!==id);renderOcc();runSim()}
+function editOcc(id,field,val){const o=simOcc.find(x=>x.id===id);if(!o)return;o[field]=field==='amount'?(+val||0):Math.max(1,Math.floor(+val||1));runSim()}
+function renderOcc(){
+  const wrap=document.getElementById('occLines');if(!wrap)return;
+  const yrs=Math.max(1,Math.floor(+document.getElementById('spYears').value)||1);
+  document.getElementById('occHeadRow').style.display=simOcc.length?'grid':'none';
+  wrap.innerHTML=simOcc.map(o=>`
+    <div class="occ-line">
+      <input type="number" min="1" max="${yrs}" value="${o.year}" oninput="editOcc('${o.id}','year',this.value)" title="Année (1 à ${yrs})">
+      <input type="number" min="1" max="12" value="${o.month}" oninput="editOcc('${o.id}','month',this.value)" title="Mois dans l'année (1 à 12)">
+      <input type="number" min="0" class="mono" style="text-align:right" value="${o.amount||''}" placeholder="0" oninput="editOcc('${o.id}','amount',this.value)">
+      <button class="del" title="Supprimer" onclick="delOcc('${o.id}')">×</button>
+    </div>`).join('');
+}
+
+// moteur de capitalisation mensuelle homogène
+function simEngine(init,annual,years,periodic,periodMonths,timing,occ){
+  const im=annual/100/12;            // taux mensuel équivalent
+  const N=Math.round(years*12);
+  const fv=(a,dm)=>a*Math.pow(1+im,N-dm);
+  let total=fv(init,0), periodicContrib=0, occContrib=0;
+  for(let k=0;;k++){
+    const dm=timing==='begin'?k*periodMonths:(k+1)*periodMonths;
+    if(timing==='begin'){if(dm>N-1)break;}else{if(dm>N)break;}
+    total+=fv(periodic,dm);periodicContrib+=periodic;
+    if(k>100000)break;
+  }
+  (occ||[]).forEach(o=>{
+    const dm=Math.max(0,Math.min(N,(o.year-1)*12+(o.month-1)));
+    total+=fv(o.amount,dm);occContrib+=(+o.amount||0);
+  });
+  // courbe annuelle
+  const labels=[],contribCum=[],valueCum=[];
+  for(let y=1;y<=years;y++){
+    const my=y*12;let val=init*Math.pow(1+im,my),contrib=init;
+    for(let k=0;;k++){const dm=timing==='begin'?k*periodMonths:(k+1)*periodMonths;if((timing==='begin'&&dm>my-1)||(timing==='end'&&dm>my))break;val+=periodic*Math.pow(1+im,my-dm);contrib+=periodic;if(k>100000)break;}
+    (occ||[]).forEach(o=>{const dm=(o.year-1)*12+(o.month-1);if(dm<=my){val+=(+o.amount||0)*Math.pow(1+im,my-dm);contrib+=(+o.amount||0);}});
+    labels.push(y+(y>1?' ans':' an'));contribCum.push(Math.round(contrib));valueCum.push(Math.round(val));
+  }
+  return {total:Math.round(total),initContrib:init,periodicContrib,occContrib,totalContrib:init+periodicContrib+occContrib,interest:Math.round(total-(init+periodicContrib+occContrib)),labels,contribCum,valueCum,N};
+}
+
 function runSim(){
   if(!state)return;
-  const m=+document.getElementById('spMonthly').value||0;
   const init=+document.getElementById('spInit').value||0;
-  const r=(+document.getElementById('spRate').value||0)/100/12;
+  const annual=+document.getElementById('spRate').value||0;
+  const periodic=+document.getElementById('spPeriodic').value||0;
+  const periodMonths=+document.getElementById('spFreq').value||1;
+  const timing=document.getElementById('spTiming').value;
+  // taux périodique équivalent (linéaire)
+  const periodRate=annual/freqPerYear(periodMonths);
+  document.getElementById('spPeriodRate').value=periodRate.toFixed(4).replace(/\.?0+$/,'')+' % / '+freqLabel(periodMonths);
   let yrs=Math.floor(+document.getElementById('spYears').value);
-  if(!yrs||yrs<1){ // valeur invalide : on n'efface pas la saisie en cours, on borne l'affichage
-    document.getElementById('oCap').textContent='—';
-    document.getElementById('oInt').textContent='—';
-    document.getElementById('oTot').textContent='—';
-    destroy('sim');return;
-  }
-  if(yrs>80)yrs=80; // borne raisonnable d'affichage
-  const n=yrs*12;
-  // courbes annuelles
-  const labels=[],capArr=[],totArr=[];
-  let bal=init,contrib=init;
-  for(let i=1;i<=n;i++){bal=bal*(1+r)+m;contrib+=m;if(i%12===0){labels.push((i/12)+' an'+(i/12>1?'s':''));capArr.push(Math.round(contrib));totArr.push(Math.round(bal))}}
-  const totalCap=contrib, totalFinal=bal, interest=bal-contrib;
-  document.getElementById('oCap').textContent=money(totalCap);
-  document.getElementById('oInt').textContent=money(interest);
-  document.getElementById('oTot').textContent=money(totalFinal);
-  destroy('sim');
+  const setOut=(c,i,t,e)=>{document.getElementById('oCap').textContent=c;document.getElementById('oInt').textContent=i;document.getElementById('oTot').textContent=t;document.getElementById('oEff').textContent=e;};
+  if(!yrs||yrs<1){setOut('—','—','—','—');document.getElementById('oCapDetail').textContent='';document.getElementById('oIntPct').textContent='';document.getElementById('oTotMult').textContent='';destroy('sim');destroy('simLine');destroy('simPie');document.getElementById('simAdvice').innerHTML='Saisissez une durée valide (≥ 1 an).';return;}
+  if(yrs>80)yrs=80;
+  const R=simEngine(init,annual,yrs,periodic,periodMonths,timing,simOcc);
+  setOut(money(R.totalContrib),money(R.interest),money(R.total),money(Math.round(R.totalContrib/(yrs*12))));
+  document.getElementById('oCapDetail').textContent=`initial ${fmtShort(R.initContrib)} + périod. ${fmtShort(R.periodicContrib)}${R.occContrib?' + occas. '+fmtShort(R.occContrib):''}`;
+  document.getElementById('oIntPct').textContent=R.totalContrib>0?('soit +'+(R.interest/R.totalContrib*100).toFixed(0)+'% du versé'):'';
+  document.getElementById('oTotMult').textContent=R.totalContrib>0?('×'+(R.total/R.totalContrib).toFixed(2)+' le capital'):'';
+  drawSimCharts(R);
+  // conseil
+  const partInt=R.total>0?(R.interest/R.total*100):0;
+  document.getElementById('simAdvice').innerHTML=
+    `<div class="ai-line"><span class="ic">·</span><div>Au bout de <b>${yrs} ans</b>, votre épargne atteint <b>${money(R.total)}</b>, dont <b>${money(R.interest)}</b> d'intérêts (${partInt.toFixed(0)}% du total).</div></div>`+
+    `<div class="ai-line"><span class="ic">·</span><div>Verser <b>en début de période</b> rapporte un peu plus : chaque versement travaille une période de plus.</div></div>`+
+    (annual>=8?`<div class="ai-line"><span class="ic">·</span><div>Un taux de ${annual}% relève d'une stratégie dynamique (actions, FCP) — plus de rendement mais plus de risque. Voir le Guide placement.</div></div>`
+    :`<div class="ai-line"><span class="ic">·</span><div>À ${annual}%, vous êtes sur un profil prudent à équilibré (DAT, obligations, OAT). Voir le Guide placement.</div></div>`);
+}
+function fmtShort(n){n=Math.round(n||0);if(Math.abs(n)>=1e6)return (n/1e6).toFixed(1).replace(/\.0$/,'')+' M';if(Math.abs(n)>=1e3)return Math.round(n/1e3)+' k';return ''+n;}
+
+function drawSimCharts(R){
+  destroy('sim');destroy('simLine');destroy('simPie');
+  const fmtAxis=v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'k':v;
+  // 1) barres empilées versé / intérêts
   charts.sim=new Chart(document.getElementById('chSim'),{type:'bar',
-    data:{labels,datasets:[
-      {label:'Capital versé',data:capArr,backgroundColor:'#1a3a52',stack:'s',borderRadius:3},
-      {label:'Intérêts cumulés',data:totArr.map((t,i)=>t-capArr[i]),backgroundColor:'#11c4d4',stack:'s',borderRadius:3}]},
+    data:{labels:R.labels,datasets:[
+      {label:'Capital versé',data:R.contribCum,backgroundColor:'#1a3a52',stack:'s',borderRadius:3},
+      {label:'Intérêts cumulés',data:R.valueCum.map((v,i)=>v-R.contribCum[i]),backgroundColor:'#11c4d4',stack:'s',borderRadius:3}]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},
-      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{family:'Outfit'}}},y:{stacked:true,ticks:{callback:v=>v.toLocaleString('fr-FR'),font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}}}}});
+      scales:{x:{stacked:true,grid:{display:false},ticks:{font:{family:'Outfit'},maxRotation:0,autoSkip:true}},y:{stacked:true,ticks:{callback:fmtAxis,font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}}}}});
+  // 2) ligne valeur totale
+  charts.simLine=new Chart(document.getElementById('chSimLine'),{type:'line',
+    data:{labels:R.labels,datasets:[
+      {label:'Valeur totale',data:R.valueCum,borderColor:'#1f9d6b',backgroundColor:'rgba(31,157,107,.1)',fill:true,tension:.3,borderWidth:2.5,pointRadius:2},
+      {label:'Capital versé',data:R.contribCum,borderColor:'#1a3a52',borderDash:[5,4],fill:false,tension:.3,borderWidth:2,pointRadius:0}]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},
+      plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+money(c.raw)}}},
+      scales:{y:{ticks:{callback:fmtAxis,font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'},maxRotation:0,autoSkip:true}}}}});
+  // 3) donut composition
+  charts.simPie=new Chart(document.getElementById('chSimPie'),{type:'doughnut',
+    data:{labels:['Capital versé','Intérêts gagnés'],datasets:[{data:[R.totalContrib,R.interest],backgroundColor:['#1a3a52','#11c4d4'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'62%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Outfit'},padding:14}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+}
+
+/* ============ PORTEFEUILLE — ACTIONS ============ */
+let curSub='actions';
+function portSub(s){
+  curSub=s;
+  document.querySelectorAll('#portefBody .subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.sub===s));
+  document.querySelectorAll('#portefBody .subview').forEach(v=>v.classList.remove('on'));
+  document.getElementById('sub-'+s).classList.add('on');
+  if(s==='actions')renderStocks();
+  if(s==='oblig')renderBonds();
+  if(s==='monet')renderMoney();
+  if(s==='synth')renderSynth();
+}
+const PRICE_MONTHS=[3,6,9,12,24,36,48];
+function freshStock(){return {id:rid(),name:'',qty:0,cours:0,
+  divs:{'3':0,'5':0,'10':0},divChoice:'5',
+  refMonths:'12',ampManual:null,
+  prices:{'3':0,'6':0,'9':0,'12':0,'24':0,'36':0,'48':0},_dirty:true};}
+function addStock(){
+  if(session.role==='guest'){toast('Réservé aux comptes');return}
+  state.portfolio.stocks.push(freshStock());saveData();renderStocks();
+  toast('Action ajoutée');
+}
+function stockAmpAuto(p){
+  const ct=+p['3']||0,lt=+p['48']||0;
+  if(ct<=0||lt<=0)return 10;
+  return Math.max(5,Math.min(40,Math.abs(ct-lt)/((ct+lt)/2)*100));
+}
+function stockMetrics(a){
+  const qty=+a.qty||0,cours=+a.cours||0,montant=qty*cours;
+  const ref=+(a.prices[a.refMonths]||0);
+  const pvReal=ref>0?(cours-ref)/ref*100:0;
+  const amp=(a.ampManual!=null&&a.ampManual!=='')?+a.ampManual:stockAmpAuto(a.prices);
+  const pvOpt=pvReal+amp, pvPess=pvReal-amp;
+  const pvMontant=(cours-ref)*qty;
+  const divPct=+(a.divs[a.divChoice]||0);
+  const horizonY=Math.max(1/12,(+a.refMonths||12)/12);
+  const annu=pv=>(Math.pow(1+pv/100,1/horizonY)-1)*100;
+  return {qty,cours,montant,ref,pvReal,pvOpt,pvPess,pvMontant,divPct,amp,horizonY,
+    totalReal:divPct+pvReal,totalOpt:divPct+pvOpt,totalPess:divPct+pvPess,
+    annReal:divPct+annu(pvReal),annOpt:divPct+annu(pvOpt),annPess:divPct+annu(pvPess)};
+}
+function pctTxt(v){return (v>=0?'+':'')+v.toFixed(2)+'%'}
+function renderStocks(){
+  const locked=session.role==='guest';
+  document.getElementById('portefLocked').style.display=locked?'flex':'none';
+  document.getElementById('portefBody').style.display=locked?'none':'block';
+  if(locked)return;
+  const list=state.portfolio.stocks;
+  const wrap=document.getElementById('stocksList');
+  if(!list.length){wrap.innerHTML='<div class="empty-soon">Aucune action pour le moment. Cliquez sur « + Ajouter une action » pour démarrer votre portefeuille.</div>';
+    document.getElementById('stocksRecapCard').style.display='none';
+    document.getElementById('stocksCharts').style.display='none';return;}
+  wrap.innerHTML=list.map((a,i)=>{
+    const m=stockMetrics(a);
+    const priceInputs=PRICE_MONTHS.map(mo=>`<div class="fg mono"><label>${mo} mois</label><input type="number" min="0" value="${a.prices[mo]||''}" placeholder="0" oninput="editStock(${i},'price','${mo}',this.value)"></div>`).join('');
+    return `<div class="stock-card ${a._dirty?'dirty':''}" data-idx="${i}" draggable="true">
+      <div class="stock-head">
+        <span class="grip" title="Glisser pour réorganiser">⠿</span>
+        <input class="sname" value="${escapeHtml(a.name)}" placeholder="Nom de l'action (ex. SONATEL)" oninput="editStock(${i},'name',null,this.value)">
+        <span class="sbadge">${money(m.montant)}</span>
+      </div>
+      <div class="stock-body">
+        <div class="fgrid">
+          <div class="fg mono"><label>Quantité</label><input type="number" min="0" value="${a.qty||''}" placeholder="0" oninput="editStock(${i},'qty',null,this.value)"></div>
+          <div class="fg mono"><label>Cours actuel</label><input type="number" min="0" value="${a.cours||''}" placeholder="0" oninput="editStock(${i},'cours',null,this.value)"></div>
+          <div class="fg"><label>Montant investi</label><input class="ro" value="${money(m.montant)}" readonly></div>
+          <div class="fg"><label>Dividende utilisé</label>
+            <select onchange="editStock(${i},'divChoice',null,this.value)">
+              <option value="3" ${a.divChoice==='3'?'selected':''}>Moyenne 3 ans</option>
+              <option value="5" ${a.divChoice==='5'?'selected':''}>Moyenne 5 ans</option>
+              <option value="10" ${a.divChoice==='10'?'selected':''}>Moyenne 10 ans</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sub-label">Taux de dividende moyen (%)</div>
+        <div class="fgrid">
+          <div class="fg mono"><label>Sur 3 ans</label><input type="number" step="0.1" value="${a.divs['3']||''}" placeholder="0" oninput="editStock(${i},'div','3',this.value)"></div>
+          <div class="fg mono"><label>Sur 5 ans</label><input type="number" step="0.1" value="${a.divs['5']||''}" placeholder="0" oninput="editStock(${i},'div','5',this.value)"></div>
+          <div class="fg mono"><label>Sur 10 ans</label><input type="number" step="0.1" value="${a.divs['10']||''}" placeholder="0" oninput="editStock(${i},'div','10',this.value)"></div>
+        </div>
+
+        <div class="sub-label">Cours moyens passés</div>
+        <div class="prices-grid">${priceInputs}</div>
+
+        <div class="fgrid" style="margin-top:14px">
+          <div class="fg"><label>Cours moyen de référence</label>
+            <select onchange="editStock(${i},'refMonths',null,this.value)">
+              ${PRICE_MONTHS.map(mo=>`<option value="${mo}" ${a.refMonths==(''+mo)?'selected':''}>${mo} mois</option>`).join('')}
+            </select>
+          </div>
+          <div class="fg mono"><label>Amplitude scénarios (%)</label><input type="number" step="0.5" min="0" value="${a.ampManual!=null&&a.ampManual!==''?a.ampManual:''}" placeholder="auto : ${m.amp.toFixed(1)}" oninput="editStock(${i},'amp',null,this.value)" title="Laissez vide pour l'amplitude automatique (écart court terme / long terme)"></div>
+          <div class="fg"><label>Cours de référence retenu</label><input class="ro" value="${m.ref?m.ref.toLocaleString('fr-FR'):'—'}" readonly></div>
+          <div class="fg"><label>Plus/moins-value (montant)</label><input class="ro" value="${money(m.pvMontant)}" readonly></div>
+        </div>
+
+        <div class="scenario-row">
+          <div class="scn pess"><div class="sl">Pessimiste</div><div class="sv">${pctTxt(m.totalPess)}</div><div class="sd">PV ${pctTxt(m.pvPess)} · ann. ${pctTxt(m.annPess)}</div></div>
+          <div class="scn real"><div class="sl">Réaliste</div><div class="sv">${pctTxt(m.totalReal)}</div><div class="sd">PV ${pctTxt(m.pvReal)} · ann. ${pctTxt(m.annReal)}</div></div>
+          <div class="scn opt"><div class="sl">Optimiste</div><div class="sv">${pctTxt(m.totalOpt)}</div><div class="sd">PV ${pctTxt(m.pvOpt)} · ann. ${pctTxt(m.annOpt)}</div></div>
+        </div>
+      </div>
+      <div class="stock-foot">
+        <button class="del-btn" onclick="delStock(${i})">Supprimer</button>
+        <button class="save-btn" onclick="saveStock(${i})">Enregistrer</button>
+      </div>
+    </div>`;
+  }).join('');
+  // drag & drop
+  wrap.querySelectorAll('.stock-card').forEach(card=>addStockDrag(card));
+  renderStocksRecap();
+}
+function editStock(i,field,key,val){
+  const a=state.portfolio.stocks[i];if(!a)return;
+  if(field==='name')a.name=val;
+  else if(field==='qty')a.qty=+val||0;
+  else if(field==='cours')a.cours=+val||0;
+  else if(field==='divChoice')a.divChoice=val;
+  else if(field==='refMonths')a.refMonths=val;
+  else if(field==='amp')a.ampManual=(val===''?null:+val);
+  else if(field==='div')a.divs[key]=+val||0;
+  else if(field==='price')a.prices[key]=+val||0;
+  a._dirty=true;saveData();
+  // mises à jour légères sans tout reconstruire (préserve le focus)
+  const card=document.querySelector('.stock-card[data-idx="'+i+'"]');
+  if(card){card.classList.add('dirty');
+    const m=stockMetrics(a);
+    const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
+    // maj montant et scénarios
+    const ros=card.querySelectorAll('.fg input.ro');
+    if(ros[0])ros[0].value=money(m.montant);
+    if(ros[1])ros[1].value=m.ref?m.ref.toLocaleString('fr-FR'):'—';
+    if(ros[2])ros[2].value=money(m.pvMontant);
+    const scn=card.querySelectorAll('.scn');
+    if(scn.length===3){
+      scn[0].querySelector('.sv').textContent=pctTxt(m.totalPess);scn[0].querySelector('.sd').textContent='PV '+pctTxt(m.pvPess)+' · ann. '+pctTxt(m.annPess);
+      scn[1].querySelector('.sv').textContent=pctTxt(m.totalReal);scn[1].querySelector('.sd').textContent='PV '+pctTxt(m.pvReal)+' · ann. '+pctTxt(m.annReal);
+      scn[2].querySelector('.sv').textContent=pctTxt(m.totalOpt);scn[2].querySelector('.sd').textContent='PV '+pctTxt(m.pvOpt)+' · ann. '+pctTxt(m.annOpt);
+    }
+  }
+  renderStocksRecap();
+}
+function saveStock(i){
+  const a=state.portfolio.stocks[i];if(!a)return;
+  a._dirty=false;saveData();renderStocks();toast('Action enregistrée');
+}
+function delStock(i){
+  const a=state.portfolio.stocks[i];
+  confirmAction('Supprimer l\'action « '+(a.name||'sans nom')+' » ? Cette action est irréversible.',()=>{
+    state.portfolio.stocks.splice(i,1);saveData();renderStocks();toast('Action supprimée');
+  });
+}
+let stockDrag=null;
+function addStockDrag(card){
+  card.addEventListener('dragstart',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'){e.preventDefault();return}stockDrag=+card.dataset.idx;card.style.opacity='.4';});
+  card.addEventListener('dragend',()=>{card.style.opacity='';});
+  card.addEventListener('dragover',e=>e.preventDefault());
+  card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.idx;if(stockDrag==null||stockDrag===to)return;
+    const arr=state.portfolio.stocks;const[it]=arr.splice(stockDrag,1);arr.splice(to,0,it);stockDrag=null;saveData();renderStocks();});
+}
+function renderStocksRecap(){
+  const list=state.portfolio.stocks;
+  const card=document.getElementById('stocksRecapCard');
+  const chartsBox=document.getElementById('stocksCharts');
+  const valid=list.filter(a=>(+a.qty>0&&+a.cours>0));
+  if(!valid.length){card.style.display='none';chartsBox.style.display='none';return;}
+  card.style.display='block';chartsBox.style.display='grid';
+  let totMontant=0;const ms=list.map(a=>{const m=stockMetrics(a);totMontant+=m.montant;return{a,m};});
+  let gReal=0,gOpt=0,gPess=0;
+  ms.forEach(({m})=>{const w=totMontant>0?m.montant/totMontant:0;gReal+=w*m.totalReal;gOpt+=w*m.totalOpt;gPess+=w*m.totalPess;});
+  const cls=v=>v>=0?'pos':'neg';
+  let rows=ms.map(({a,m})=>`<tr>
+    <td>${escapeHtml(a.name||'—')}</td>
+    <td>${money(m.montant)}</td>
+    <td>${totMontant>0?(m.montant/totMontant*100).toFixed(1):0}%</td>
+    <td>${m.divPct.toFixed(2)}%</td>
+    <td class="${cls(m.pvReal)}">${pctTxt(m.pvReal)}</td>
+    <td class="${cls(m.totalPess)}">${pctTxt(m.totalPess)}</td>
+    <td class="${cls(m.totalReal)}">${pctTxt(m.totalReal)}</td>
+    <td class="${cls(m.totalOpt)}">${pctTxt(m.totalOpt)}</td>
+    <td class="${cls(m.annReal)}">${pctTxt(m.annReal)}</td>
+  </tr>`).join('');
+  card.querySelector('table').innerHTML=`
+    <thead><tr><th>Action</th><th>Montant</th><th>Poids</th><th>Dividende</th><th>PV réaliste</th><th>Rdt pess.</th><th>Rdt réaliste</th><th>Rdt opt.</th><th>Rdt annualisé</th></tr></thead>
+    <tbody>${rows}
+    <tr class="tot"><td>Portefeuille actions</td><td>${money(totMontant)}</td><td>100%</td><td>—</td><td>—</td>
+      <td class="${cls(gPess)}">${pctTxt(gPess)}</td><td class="${cls(gReal)}">${pctTxt(gReal)}</td><td class="${cls(gOpt)}">${pctTxt(gOpt)}</td><td>—</td></tr>
+    </tbody>`;
+  drawStocksCharts(ms,totMontant,{gReal,gOpt,gPess});
+}
+function drawStocksCharts(ms,totMontant,glob){
+  destroy('stAlloc');destroy('stYield');
+  const palette=['#0a8a96','#11c4d4','#1f9d6b','#6a3d8f','#ff6b5e','#1a3a52','#e0a800','#4d2a6b','#3a6ea5','#157a52'];
+  const named=ms.filter(({a})=>a.name||a.qty);
+  charts.stAlloc=new Chart(document.getElementById('chStocksAlloc'),{type:'doughnut',
+    data:{labels:named.map(({a})=>a.name||'—'),datasets:[{data:named.map(({m})=>m.montant),backgroundColor:palette,borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+  charts.stYield=new Chart(document.getElementById('chStocksYield'),{type:'bar',
+    data:{labels:named.map(({a})=>a.name||'—'),datasets:[
+      {label:'Pessimiste',data:named.map(({m})=>+m.totalPess.toFixed(2)),backgroundColor:'#d6453b',borderRadius:3},
+      {label:'Réaliste',data:named.map(({m})=>+m.totalReal.toFixed(2)),backgroundColor:'#1a3a52',borderRadius:3},
+      {label:'Optimiste',data:named.map(({m})=>+m.totalOpt.toFixed(2)),backgroundColor:'#1f9d6b',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{family:'Outfit'}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.raw>=0?'+':'')+c.raw+'%'}}},
+      scales:{y:{ticks:{callback:v=>v+'%',font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
+}
+
+/* ============ PORTEFEUILLE — OBLIGATIONS ============ */
+function freshBond(){return {id:rid(),issuer:'',montant:0,tauxFacial:0,years:5,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],_open:false,_dirty:true};}
+
+/* helpers dates */
+function addMonths(d,n){const x=new Date(d);const day=x.getDate();x.setMonth(x.getMonth()+n);if(x.getDate()<day)x.setDate(0);return x;}
+function fmtDateFR(d){if(!(d instanceof Date)||isNaN(d))return '—';return d.toLocaleDateString('fr-FR');}
+function dayCount(d1,d2){return Math.round((new Date(d2)-new Date(d1))/86400000);}
+
+/* tableau d'amortissement daté (obligations & OAT) */
+function amortTable(b){
+  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1,dY=+b.defer||0;
+  const nTot=Math.max(1,Math.round(Y*f)),nDef=Math.round(dY*f),nAmort=Math.max(1,nTot-nDef),cp=c/f;
+  const monthsPerPeriod=12/f;
+  let amorts=[];
+  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
+  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
+  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
+  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  const rows=[];let crd=M;const dv=b.dateVal?new Date(b.dateVal):null;
+  for(let k=1;k<=nTot;k++){
+    const interest=crd*cp;let amort=k>nDef?(amorts[k-nDef-1]||0):0;
+    const date=dv?fmtDateFR(addMonths(dv,Math.round(monthsPerPeriod*k))):'—';
+    rows.push({n:k,date,crdStart:crd,interest,amort,annuity:interest+amort,crdEnd:crd-amort,defer:k<=nDef});
+    crd-=amort;
+  }
+  return rows;
+}
+function amortTableHTML(rows){
+  if(!rows.length)return '';
+  let body=rows.map(r=>`<tr${r.defer?' style="opacity:.7"':''}>
+    <td>${r.n}${r.defer?' <span style="font-size:10px;color:var(--violet)">(différé)</span>':''}</td>
+    <td style="text-align:left">${r.date}</td>
+    <td>${money(r.crdStart)}</td>
+    <td>${money(r.interest)}</td>
+    <td>${money(r.amort)}</td>
+    <td>${money(r.annuity)}</td>
+    <td>${money(r.crdEnd)}</td>
+  </tr>`).join('');
+  const tI=rows.reduce((a,r)=>a+r.interest,0),tA=rows.reduce((a,r)=>a+r.amort,0),tAn=rows.reduce((a,r)=>a+r.annuity,0);
+  return `<div class="table-scroll"><table class="recap-table amort-tbl">
+    <thead><tr><th style="text-align:left">N°</th><th style="text-align:left">Échéance</th><th>Capital dû (début)</th><th>Intérêt</th><th>Amortissement</th><th>Annuité</th><th>Capital dû (fin)</th></tr></thead>
+    <tbody>${body}
+    <tr class="tot"><td colspan="3" style="text-align:left">Totaux</td><td>${money(tI)}</td><td>${money(tA)}</td><td>${money(tAn)}</td><td>—</td></tr>
+    </tbody></table></div>`;
+}
+function addBond(){if(session.role==='guest'){toast('Réservé aux comptes');return}state.portfolio.bonds.push(freshBond());saveData();renderBonds();toast('Obligation ajoutée');}
+function bondSchedule(b){
+  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1,dY=+b.defer||0;
+  const nTot=Math.max(1,Math.round(Y*f)),nDef=Math.round(dY*f),nAmort=Math.max(1,nTot-nDef),cp=c/f;
+  const flows=[];let crd=M;let amorts=[];
+  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
+  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
+  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
+  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  for(let k=1;k<=nTot;k++){const interest=crd*cp;let amort=k>nDef?(amorts[k-nDef-1]||0):0;flows.push(interest+amort);crd-=amort;}
+  return {flows,cp,f,nTot,nDef,nAmort,M};
+}
+function bondIRR(flows,price,f){
+  const van=r=>{let s=-price;flows.forEach((cf,k)=>s+=cf/Math.pow(1+r,k+1));return s;};
+  let lo=-0.95,hi=3;if(van(lo)*van(hi)>0)return null;
+  for(let i=0;i<200;i++){const mid=(lo+hi)/2,v=van(mid);if(Math.abs(v)<1e-7)return (Math.pow(1+mid,f)-1)*100;if(van(lo)*v<0)hi=mid;else lo=mid;}
+  return (Math.pow(1+(lo+hi)/2,f)-1)*100;
+}
+function bondMetrics(b){
+  const s=bondSchedule(b);
+  const tri=bondIRR(s.flows,+b.montant||0,s.f);
+  const totalRecu=s.flows.reduce((a,x)=>a+x,0);
+  return {montant:+b.montant||0,tri:(tri==null?0:tri),totalRecu,nTot:s.nTot,nAmort:s.nAmort,nDef:s.nDef,flows:s.flows,f:s.f};
+}
+function customSum(b){return (b.custom||[]).reduce((a,x)=>a+(+x||0),0);}
+function renderBonds(){
+  if(session.role==='guest')return;
+  const list=state.portfolio.bonds;
+  const wrap=document.getElementById('bondsList');
+  if(!list.length){wrap.innerHTML='<div class="empty-soon">Aucune obligation. Cliquez sur « + Ajouter une obligation » pour démarrer.</div>';
+    document.getElementById('bondsRecapCard').style.display='none';document.getElementById('bondsCharts').style.display='none';return;}
+  wrap.innerHTML=list.map((b,i)=>{
+    const m=bondMetrics(b);
+    const freqPerYear=+b.freq||1;
+    const nAmortDisplay=Math.max(1,Math.round((+b.years||1)*freqPerYear)-Math.round((+b.defer||0)*freqPerYear));
+    let customBlock='';
+    if(b.mode==='custom'){
+      const sum=customSum(b);
+      let cells='';
+      for(let k=0;k<nAmortDisplay;k++){cells+=`<div class="ca-cell"><label>Éch. ${k+1}</label><input type="number" step="0.5" min="0" value="${b.custom[k]!=null?b.custom[k]:''}" placeholder="0" oninput="editBond(${i},'custom',${k},this.value)"></div>`;}
+      customBlock=`<div class="custom-amort">
+        <div class="ca-head"><span class="ca-title">Remboursement personnalisé — % du capital à chaque échéance d'amortissement (${nAmortDisplay} échéances)</span>
+        <span class="ca-sum ${sum===100?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div>
+        <div class="ca-rows">${cells}</div></div>`;
+    }
+    return `<div class="stock-card bond-card ${b._dirty?'dirty':''}" data-bidx="${i}" draggable="true">
+      <div class="stock-head">
+        <span class="grip" title="Glisser pour réorganiser">⠿</span>
+        <input class="sname" value="${escapeHtml(b.issuer)}" placeholder="Émetteur (ex. État du Sénégal — OAT 5 ans)" oninput="editBond(${i},'issuer',null,this.value)">
+        <span class="sbadge">${money(m.montant)}</span>
+      </div>
+      <div class="stock-body">
+        <div class="fgrid">
+          <div class="fg mono"><label>Montant investi</label><input type="number" min="0" value="${b.montant||''}" placeholder="0" oninput="editBond(${i},'montant',null,this.value)"></div>
+          <div class="fg mono"><label>Taux facial (% annuel)</label><input type="number" step="0.01" min="0" value="${b.tauxFacial||''}" placeholder="0" oninput="editBond(${i},'tauxFacial',null,this.value)"></div>
+          <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${b.years||''}" placeholder="5" oninput="editBond(${i},'years',null,this.value)"></div>
+          <div class="fg"><label>Périodicité coupon</label>
+            <select onchange="editBond(${i},'freq',null,this.value)">
+              <option value="1" ${b.freq=='1'?'selected':''}>Annuelle</option>
+              <option value="2" ${b.freq=='2'?'selected':''}>Semestrielle</option>
+              <option value="4" ${b.freq=='4'?'selected':''}>Trimestrielle</option>
+            </select>
+          </div>
+        </div>
+        <div class="fgrid" style="margin-top:13px">
+          <div class="fg"><label>Date de valeur</label><input type="date" value="${b.dateVal||''}" oninput="editBond(${i},'dateVal',null,this.value)"></div>
+          <div class="fg"><label>Date d'échéance</label><input type="date" value="${b.dateEch||''}" oninput="editBond(${i},'dateEch',null,this.value)"></div>
+          <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(b.years,b.defer,+b.freq||1);return di.nDef+' période(s) · max '+di.maxDefYears+' an';})()}</label><input type="number" step="0.5" min="0" value="${b.defer||0}" oninput="editBond(${i},'defer',null,this.value)" title="Pendant le différé : coupons payés, pas de remboursement du capital. Borné pour laisser au moins 1 échéance d'amortissement."></div>
+          <div class="fg"><label>Mode de remboursement</label>
+            <select onchange="editBond(${i},'mode',null,this.value)">
+              <option value="infine" ${b.mode==='infine'?'selected':''}>In fine</option>
+              <option value="constant" ${b.mode==='constant'?'selected':''}>Amortissement constant</option>
+              <option value="annuite" ${b.mode==='annuite'?'selected':''}>Annuités constantes</option>
+              <option value="custom" ${b.mode==='custom'?'selected':''}>Personnalisé</option>
+            </select>
+          </div>
+        </div>
+        ${customBlock}
+        <div class="tri-row">
+          <div class="tri-box tri"><div class="tl">Taux actuariel (TRI)</div><div class="tv">${m.tri.toFixed(3)}%</div></div>
+          <div class="tri-box cpn"><div class="tl">Total flux reçus</div><div class="tv">${money(m.totalRecu)}</div></div>
+          <div class="tri-box dur"><div class="tl">Nb d'échéances</div><div class="tv">${m.nTot}${m.nDef?' (dont '+m.nDef+' différé)':''}</div></div>
+        </div>
+        <div class="amort-toggle"><button onclick="toggleBondAmort(${i})">${b._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>
+        ${b._open?amortTableHTML(amortTable(b))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('bond',${i})">Exporter l'échéancier (Excel)</button></div>`:''}
+      </div>
+      <div class="stock-foot">
+        <button class="del-btn" onclick="delBond(${i})">Supprimer</button>
+        <button class="save-btn" onclick="saveBond(${i})">Enregistrer</button>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.bond-card').forEach(c=>addBondDrag(c));
+  renderBondsRecap();
+}
+function deferInfo(years,defer,freq){
+  const nTot=Math.max(1,Math.round((+years||1)*freq));
+  const maxDefPeriods=Math.max(0,nTot-1);
+  const maxDefYears=maxDefPeriods/freq;
+  const clamped=Math.min(Math.max(0,+defer||0),maxDefYears);
+  return {nTot,nDef:Math.round(clamped*freq),maxDefYears,clamped};
+}
+function refreshBondCard(i,rebuiltField){
+  const b=state.portfolio.bonds[i];
+  const card=document.querySelector('.bond-card[data-bidx="'+i+'"]');
+  if(!b||!card)return;
+  card.classList.add('dirty');
+  const m=bondMetrics(b);
+  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
+  const boxes=card.querySelectorAll('.tri-box .tv');
+  if(boxes[0])boxes[0].textContent=m.tri.toFixed(3)+'%';
+  if(boxes[1])boxes[1].textContent=money(m.totalRecu);
+  if(boxes[2])boxes[2].textContent=m.nTot+(m.nDef?' (dont '+m.nDef+' différé)':'');
+  // label différé (conversion périodes)
+  const di0=deferInfo(b.years,b.defer,+b.freq||1);
+  const defInput=card.querySelector('input[oninput*="defer"]');
+  if(defInput){const lab=defInput.parentElement.querySelector('label');if(lab)lab.textContent='Différé — '+di0.nDef+' période(s) · max '+di0.maxDefYears+' an';}
+  // reconstruire la grille personnalisée si présente (sans toucher au champ en cours)
+  if(b.mode==='custom'){
+    const freq=+b.freq||1;const di=deferInfo(b.years,b.defer,freq);
+    const nAmort=Math.max(1,di.nTot-di.nDef);
+    const block=card.querySelector('.custom-amort');
+    if(block){
+      const sum=customSum(b);
+      const ttl=block.querySelector('.ca-title');if(ttl)ttl.textContent='Remboursement personnalisé — % du capital à chaque échéance d\'amortissement ('+nAmort+' échéances)';
+      const sumEl=block.querySelector('.ca-sum');if(sumEl){sumEl.textContent='Total : '+sum.toFixed(1)+'%';sumEl.className='ca-sum '+(sum===100?'ok':'bad');}
+      // n'ajoute/retire des cellules que si le nombre a changé et que ce n'est pas le champ custom en cours d'édition
+      if(rebuiltField!=='custom'){
+        const rows=block.querySelector('.ca-rows');const have=rows.querySelectorAll('.ca-cell').length;
+        if(have!==nAmort){
+          let cells='';for(let k=0;k<nAmort;k++){cells+='<div class="ca-cell"><label>Éch. '+(k+1)+'</label><input type="number" step="0.5" min="0" value="'+(b.custom[k]!=null?b.custom[k]:'')+'" placeholder="0" oninput="editBond('+i+',\'custom\','+k+',this.value)"></div>';}
+          rows.innerHTML=cells;
+        }
+      }
+    }
+  }
+  // rafraîchir le tableau d'amortissement s'il est ouvert
+  if(b._open){
+    let host=card.querySelector('.amort-host');
+    // l'échéancier est inséré juste après .amort-toggle ; on le régénère via renderBonds léger ciblé
+  }
+  renderBondsRecap();
+}
+function editBond(i,field,key,val){
+  const b=state.portfolio.bonds[i];if(!b)return;
+  if(field==='issuer')b.issuer=val;
+  else if(field==='freq'||field==='mode')b[field]=val;
+  else if(field==='dateVal'||field==='dateEch')b[field]=val;
+  else if(field==='custom'){b.custom[key]=(val===''?0:+val);}
+  else b[field]=+val||0;
+  // bornage du différé en fonction de durée + périodicité
+  if(field==='defer'||field==='years'||field==='freq'){
+    const di=deferInfo(b.years,b.defer,+b.freq||1);
+    if((+b.defer||0)>di.maxDefYears+1e-9){b.defer=+di.maxDefYears.toFixed(4);toast('Différé ramené au max : '+b.defer+' an(s) — au moins une échéance de remboursement');}
+  }
+  b._dirty=true;saveData();
+  // mode/freq changent la STRUCTURE des champs -> re-render complet (le champ édité n'est pas un input texte continu)
+  if(field==='mode'||field==='freq'){renderBonds();return;}
+  // years/defer/custom/montant/taux : mise à jour légère, focus préservé
+  if(field==='years'||field==='defer'){
+    // si l'échéancier est ouvert, il faut le régénérer -> renderBonds mais on rend le focus ensuite
+    if(b._open){const active=document.activeElement;const tag=active&&active.tagName;const cls=active&&active.className;renderBonds();
+      // tentative de refocus sur le même type de champ
+      const card=document.querySelector('.bond-card[data-bidx="'+i+'"]');
+      if(card){const sel=field==='years'?'input[oninput*="years"]':'input[oninput*="defer"]';const el=card.querySelector(sel);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
+      return;
+    }
+    refreshBondCard(i,field);return;
+  }
+  refreshBondCard(i,field);
+}
+function saveBond(i){const b=state.portfolio.bonds[i];if(!b)return;
+  if(b.mode==='custom'&&Math.abs(customSum(b)-100)>0.01){toast('Le total des remboursements doit faire 100%');return;}
+  b._dirty=false;saveData();renderBonds();toast('Obligation enregistrée');}
+function toggleBondAmort(i){const b=state.portfolio.bonds[i];if(!b)return;b._open=!b._open;renderBonds();}
+function delBond(i){const b=state.portfolio.bonds[i];
+  confirmAction('Supprimer l\'obligation « '+(b.issuer||'sans émetteur')+' » ? Cette action est irréversible.',()=>{
+    state.portfolio.bonds.splice(i,1);saveData();renderBonds();toast('Obligation supprimée');});}
+let bondDrag=null;
+function addBondDrag(card){
+  card.addEventListener('dragstart',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'){e.preventDefault();return}bondDrag=+card.dataset.bidx;card.style.opacity='.4';});
+  card.addEventListener('dragend',()=>card.style.opacity='');
+  card.addEventListener('dragover',e=>e.preventDefault());
+  card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.bidx;if(bondDrag==null||bondDrag===to)return;const arr=state.portfolio.bonds;const[it]=arr.splice(bondDrag,1);arr.splice(to,0,it);bondDrag=null;saveData();renderBonds();});
+}
+// rendement pondéré au montant ET à la durée
+function weightedBondYield(list){
+  let wsum=0,acc=0,totM=0,accTriM=0;
+  list.forEach(b=>{const m=bondMetrics(b);const w=(+b.montant||0)*(+b.years||0);wsum+=w;acc+=w*m.tri;totM+=(+b.montant||0);accTriM+=(+b.montant||0)*m.tri;});
+  return {byMontantDuree:wsum>0?acc/wsum:0, byMontant:totM>0?accTriM/totM:0, totM};
+}
+function renderBondsRecap(){
+  const list=state.portfolio.bonds;
+  const card=document.getElementById('bondsRecapCard'),chartsBox=document.getElementById('bondsCharts');
+  const valid=list.filter(b=>(+b.montant>0));
+  if(!valid.length){card.style.display='none';chartsBox.style.display='none';return;}
+  card.style.display='block';chartsBox.style.display='grid';
+  const ms=list.map(b=>({b,m:bondMetrics(b)}));
+  const totM=ms.reduce((a,{m})=>a+m.montant,0);
+  const wy=weightedBondYield(list);
+  const modeLabel={infine:'In fine',constant:'Amort. constant',annuite:'Annuités const.',custom:'Personnalisé'};
+  let rows=ms.map(({b,m})=>`<tr>
+    <td>${escapeHtml(b.issuer||'—')}</td>
+    <td>${money(m.montant)}</td>
+    <td>${totM>0?(m.montant/totM*100).toFixed(1):0}%</td>
+    <td>${(+b.tauxFacial||0).toFixed(2)}%</td>
+    <td>${(+b.years||0)} an${(+b.years>1)?'s':''}</td>
+    <td>${modeLabel[b.mode]||b.mode}</td>
+    <td class="pos">${m.tri.toFixed(3)}%</td>
+  </tr>`).join('');
+  card.querySelector('table').innerHTML=`
+    <thead><tr><th>Émetteur</th><th>Montant</th><th>Poids</th><th>Taux facial</th><th>Durée</th><th>Mode</th><th>TRI actuariel</th></tr></thead>
+    <tbody>${rows}
+    <tr class="tot"><td>Compartiment obligataire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>—</td>
+      <td>TRI moyen pondéré</td><td class="pos">${wy.byMontantDuree.toFixed(3)}%</td></tr>
+    <tr class="tot"><td colspan="6" style="text-align:left;font-weight:600">Rendement pondéré au montant seul</td><td class="pos">${wy.byMontant.toFixed(3)}%</td></tr>
+    </tbody>`;
+  drawBondsCharts(ms,totM);
+}
+function drawBondsCharts(ms,totM){
+  destroy('bAlloc');destroy('bTri');
+  const palette=['#6a3d8f','#11c4d4','#0a8a96','#1f9d6b','#ff6b5e','#1a3a52','#e0a800','#4d2a6b','#3a6ea5'];
+  const named=ms.filter(({b})=>b.issuer||b.montant);
+  charts.bAlloc=new Chart(document.getElementById('chBondsAlloc'),{type:'doughnut',
+    data:{labels:named.map(({b})=>b.issuer||'—'),datasets:[{data:named.map(({m})=>m.montant),backgroundColor:palette,borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+  charts.bTri=new Chart(document.getElementById('chBondsTri'),{type:'bar',
+    data:{labels:named.map(({b})=>b.issuer||'—'),datasets:[{label:'TRI',data:named.map(({m})=>+m.tri.toFixed(3)),backgroundColor:'#0a8a96',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'TRI : '+c.raw+'%'}}},
+      scales:{y:{ticks:{callback:v=>v+'%',font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
+}
+
+/* ============ PORTEFEUILLE — MONÉTAIRE (OAT / BAT) ============ */
+function freshMoney(){return {id:rid(),kind:'OAT',issuer:'',montant:0,tauxFacial:0,years:3,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],
+  batDays:364,lastCoupon:'',base:'360',_open:false,_dirty:true};}
+function addMoney(){if(session.role==='guest'){toast('Réservé aux comptes');return}state.portfolio.money.push(freshMoney());saveData();renderMoney();toast('Titre ajouté');}
+function accruedCoupon(t){
+  // t : titre monétaire ; coupon couru entre lastCoupon et dateVal
+  const N=+t.montant||0,taux=(+t.tauxFacial||0)/100;
+  if(!t.lastCoupon||!t.dateVal)return {jours:0,denom:0,cc:0,pct:0};
+  const jours=Math.max(0,dayCount(t.lastCoupon,t.dateVal));
+  let denom;
+  if(t.base==='EXACT'){
+    // période de coupon = lastCoupon -> prochaine échéance (lastCoupon + 12/freq mois)
+    const f=+t.freq||1;const next=addMonths(new Date(t.lastCoupon),Math.round(12/f));
+    denom=Math.max(1,dayCount(t.lastCoupon,fmtISO(next)));
+  } else denom=+t.base;
+  const cc=N*taux*(jours/denom);
+  return {jours,denom,cc,pct:N>0?cc/N*100:0};
+}
+function fmtISO(d){return d.toISOString().slice(0,10);}
+function batMetrics(t){
+  const N=+t.montant||0,taux=(+t.tauxFacial||0)/100,days=+t.batDays||0,base=(t.base==='EXACT'?365:+t.base)||360;
+  const interest=N*taux*(days/base);
+  const price=N-interest;
+  const years=days/base;
+  const tri=(price>0&&years>0)?(Math.pow(N/price,1/years)-1)*100:0;
+  return {N,interest,price,tri,years,days,base};
+}
+function moneyMetrics(t){
+  if(t.kind==='BAT'){const b=batMetrics(t);return {kind:'BAT',montant:t.montant||0,tri:b.tri,price:b.price,interest:b.interest,years:b.years,totalRecu:b.N,nTot:1,nDef:0};}
+  // OAT : identique à une obligation
+  const m=bondMetrics(t);return {kind:'OAT',...m};
+}
+function renderMoney(){
+  if(session.role==='guest')return;
+  const list=state.portfolio.money;
+  const wrap=document.getElementById('moneyList');
+  if(!list.length){wrap.innerHTML='<div class="empty-soon">Aucun titre monétaire. Cliquez sur « + Ajouter un titre » pour ajouter une OAT ou un BAT.</div>';
+    document.getElementById('moneyRecapCard').style.display='none';document.getElementById('moneyCharts').style.display='none';return;}
+  wrap.innerHTML=list.map((t,i)=>{
+    const isBAT=t.kind==='BAT';
+    const m=moneyMetrics(t);
+    const ac=accruedCoupon(t);
+    const freqPerYear=+t.freq||1;
+    const nAmortDisplay=Math.max(1,Math.round((+t.years||1)*freqPerYear)-Math.round((+t.defer||0)*freqPerYear));
+    let customBlock='';
+    if(!isBAT && t.mode==='custom'){
+      const sum=customSum(t);let cells='';
+      for(let k=0;k<nAmortDisplay;k++){cells+=`<div class="ca-cell"><label>Éch. ${k+1}</label><input type="number" step="0.5" min="0" value="${t.custom[k]!=null?t.custom[k]:''}" placeholder="0" oninput="editMoney(${i},'custom',${k},this.value)"></div>`;}
+      customBlock=`<div class="custom-amort"><div class="ca-head"><span class="ca-title">Remboursement personnalisé — % du capital (${nAmortDisplay} échéances)</span><span class="ca-sum ${sum===100?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div><div class="ca-rows">${cells}</div></div>`;
+    }
+    // bloc caractéristiques : OAT = comme obligation ; BAT = simplifié
+    let charBlock;
+    if(isBAT){
+      charBlock=`<div class="fgrid">
+        <div class="fg mono"><label>Valeur nominale</label><input type="number" min="0" value="${t.montant||''}" placeholder="0" oninput="editMoney(${i},'montant',null,this.value)"></div>
+        <div class="fg mono"><label>Taux (% annuel)</label><input type="number" step="0.01" min="0" value="${t.tauxFacial||''}" placeholder="0" oninput="editMoney(${i},'tauxFacial',null,this.value)"></div>
+        <div class="fg mono"><label>Durée (jours)</label><input type="number" min="1" value="${t.batDays||''}" placeholder="364" oninput="editMoney(${i},'batDays',null,this.value)"></div>
+        <div class="fg"><label>Base de calcul</label>
+          <select onchange="editMoney(${i},'base',null,this.value)">
+            <option value="360" ${t.base=='360'?'selected':''}>360</option>
+            <option value="365" ${t.base=='365'?'selected':''}>365</option>
+            <option value="366" ${t.base=='366'?'selected':''}>366</option>
+          </select></div>
+      </div>
+      <div class="fgrid" style="margin-top:13px">
+        <div class="fg"><label>Date de valeur</label><input type="date" value="${t.dateVal||''}" oninput="editMoney(${i},'dateVal',null,this.value)"></div>
+        <div class="fg"><label>Intérêt précompté</label><input class="ro" value="${money(m.interest)}" readonly></div>
+        <div class="fg"><label>Prix d'acquisition</label><input class="ro" value="${money(m.price)}" readonly></div>
+      </div>`;
+    } else {
+      charBlock=`<div class="fgrid">
+        <div class="fg mono"><label>Montant investi</label><input type="number" min="0" value="${t.montant||''}" placeholder="0" oninput="editMoney(${i},'montant',null,this.value)"></div>
+        <div class="fg mono"><label>Taux facial (% annuel)</label><input type="number" step="0.01" min="0" value="${t.tauxFacial||''}" placeholder="0" oninput="editMoney(${i},'tauxFacial',null,this.value)"></div>
+        <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${t.years||''}" placeholder="3" oninput="editMoney(${i},'years',null,this.value)"></div>
+        <div class="fg"><label>Périodicité coupon</label>
+          <select onchange="editMoney(${i},'freq',null,this.value)">
+            <option value="1" ${t.freq=='1'?'selected':''}>Annuelle</option><option value="2" ${t.freq=='2'?'selected':''}>Semestrielle</option><option value="4" ${t.freq=='4'?'selected':''}>Trimestrielle</option>
+          </select></div>
+      </div>
+      <div class="fgrid" style="margin-top:13px">
+        <div class="fg"><label>Date de valeur</label><input type="date" value="${t.dateVal||''}" oninput="editMoney(${i},'dateVal',null,this.value)"></div>
+        <div class="fg"><label>Date d'échéance</label><input type="date" value="${t.dateEch||''}" oninput="editMoney(${i},'dateEch',null,this.value)"></div>
+        <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(t.years,t.defer,+t.freq||1);return di.nDef+' période(s) · max '+di.maxDefYears+' an';})()}</label><input type="number" step="0.5" min="0" value="${t.defer||0}" oninput="editMoney(${i},'defer',null,this.value)"></div>
+        <div class="fg"><label>Mode de remboursement</label>
+          <select onchange="editMoney(${i},'mode',null,this.value)">
+            <option value="infine" ${t.mode==='infine'?'selected':''}>In fine</option><option value="constant" ${t.mode==='constant'?'selected':''}>Amort. constant</option>
+            <option value="annuite" ${t.mode==='annuite'?'selected':''}>Annuités constantes</option><option value="custom" ${t.mode==='custom'?'selected':''}>Personnalisé</option>
+          </select></div>
+      </div>${customBlock}`;
+    }
+    // bloc coupon couru (commun, surtout utile OAT mais dispo pour les 2)
+    const ccBlock=`<div class="sub-label">Coupon couru</div>
+      <div class="fgrid">
+        <div class="fg"><label>Date dernier coupon</label><input type="date" value="${t.lastCoupon||''}" oninput="editMoney(${i},'lastCoupon',null,this.value)"></div>
+        <div class="fg"><label>Base coupon couru</label>
+          <select onchange="editMoney(${i},'base',null,this.value)">
+            <option value="360" ${t.base=='360'?'selected':''}>360</option><option value="365" ${t.base=='365'?'selected':''}>365</option>
+            <option value="366" ${t.base=='366'?'selected':''}>366</option><option value="EXACT" ${t.base=='EXACT'?'selected':''}>Exact / Exact</option>
+          </select></div>
+        <div class="fg"><label>Jours courus</label><input class="ro" value="${ac.jours} / ${ac.denom||'—'}" readonly></div>
+        <div class="fg"><label>Coupon couru</label><input class="ro" value="${money(ac.cc)} (${ac.pct.toFixed(3)}%)" readonly></div>
+      </div>`;
+    return `<div class="stock-card money-card ${t._dirty?'dirty':''}" data-midx="${i}" draggable="true">
+      <div class="stock-head">
+        <span class="grip" title="Glisser pour réorganiser">⠿</span>
+        <select class="mkind" onchange="editMoney(${i},'kind',null,this.value)" title="Type de titre">
+          <option value="OAT" ${t.kind==='OAT'?'selected':''}>OAT</option>
+          <option value="BAT" ${t.kind==='BAT'?'selected':''}>BAT</option>
+        </select>
+        <input class="sname" value="${escapeHtml(t.issuer)}" placeholder="Émetteur (ex. Trésor du Sénégal)" oninput="editMoney(${i},'issuer',null,this.value)">
+        <span class="sbadge">${money(m.montant)}</span>
+      </div>
+      <div class="stock-body">
+        ${charBlock}
+        ${ccBlock}
+        <div class="tri-row">
+          <div class="tri-box tri"><div class="tl">Taux actuariel (TRI)</div><div class="tv">${m.tri.toFixed(3)}%</div></div>
+          <div class="tri-box cpn"><div class="tl">${isBAT?'Valeur remboursée':'Total flux reçus'}</div><div class="tv">${money(m.totalRecu)}</div></div>
+          <div class="tri-box dur"><div class="tl">${isBAT?'Durée':'Nb d\'échéances'}</div><div class="tv">${isBAT?(m.years*12).toFixed(1)+' mois':(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
+        </div>
+        ${!isBAT?`<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('money',${i})">Exporter l'échéancier (Excel)</button></div>`:''}`:''}
+      </div>
+      <div class="stock-foot">
+        <button class="del-btn" onclick="delMoney(${i})">Supprimer</button>
+        <button class="save-btn" onclick="saveMoney(${i})">Enregistrer</button>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.querySelectorAll('.money-card').forEach(c=>addMoneyDrag(c));
+  renderMoneyRecap();
+}
+function refreshMoneyCard(i,rebuiltField){
+  const t=state.portfolio.money[i];
+  const card=document.querySelector('.money-card[data-midx="'+i+'"]');
+  if(!t||!card)return;
+  card.classList.add('dirty');
+  const m=moneyMetrics(t),ac=accruedCoupon(t);
+  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
+  const boxes=card.querySelectorAll('.tri-box .tv');
+  if(boxes[0])boxes[0].textContent=m.tri.toFixed(3)+'%';
+  if(boxes[1])boxes[1].textContent=money(m.totalRecu);
+  // champs lecture seule : coupon couru, prix BAT, intérêt
+  card.querySelectorAll('.fg input.ro').forEach(inp=>{
+    const lbl=inp.parentElement.querySelector('label');if(!lbl)return;const L=lbl.textContent;
+    if(L.includes('Coupon couru'))inp.value=money(ac.cc)+' ('+ac.pct.toFixed(3)+'%)';
+    else if(L.includes('Jours courus'))inp.value=ac.jours+' / '+(ac.denom||'—');
+    else if(L.includes('Intérêt précompté'))inp.value=money(m.interest||0);
+    else if(L.includes('Prix'))inp.value=money(m.price||0);
+  });
+  if(t.kind!=='BAT'&&t.mode==='custom'){
+    const freq=+t.freq||1;const di=deferInfo(t.years,t.defer,freq);const nAmort=Math.max(1,di.nTot-di.nDef);
+    const block=card.querySelector('.custom-amort');
+    if(block){const sum=customSum(t);
+      const ttl=block.querySelector('.ca-title');if(ttl)ttl.textContent='Remboursement personnalisé — % du capital ('+nAmort+' échéances)';
+      const sumEl=block.querySelector('.ca-sum');if(sumEl){sumEl.textContent='Total : '+sum.toFixed(1)+'%';sumEl.className='ca-sum '+(sum===100?'ok':'bad');}
+      if(rebuiltField!=='custom'){const rows=block.querySelector('.ca-rows');const have=rows.querySelectorAll('.ca-cell').length;
+        if(have!==nAmort){let cells='';for(let k=0;k<nAmort;k++){cells+='<div class="ca-cell"><label>Éch. '+(k+1)+'</label><input type="number" step="0.5" min="0" value="'+(t.custom[k]!=null?t.custom[k]:'')+'" placeholder="0" oninput="editMoney('+i+',\'custom\','+k+',this.value)"></div>';}rows.innerHTML=cells;}}
+    }
+  }
+  renderMoneyRecap();
+}
+function editMoney(i,field,key,val){
+  const t=state.portfolio.money[i];if(!t)return;
+  if(['issuer','kind','freq','mode','dateVal','dateEch','lastCoupon','base'].includes(field))t[field]=val;
+  else if(field==='custom')t.custom[key]=(val===''?0:+val);
+  else t[field]=+val||0;
+  // bornage différé (OAT seulement, BAT n'a pas de différé)
+  if(t.kind!=='BAT'&&(field==='defer'||field==='years'||field==='freq')){
+    const di=deferInfo(t.years,t.defer,+t.freq||1);
+    if((+t.defer||0)>di.maxDefYears+1e-9){t.defer=+di.maxDefYears.toFixed(4);toast('Différé ramené au max : '+t.defer+' an(s)');}
+  }
+  t._dirty=true;saveData();
+  // changements de STRUCTURE de champs -> re-render complet
+  if(field==='kind'||field==='mode'||field==='freq'){renderMoney();return;}
+  // years/defer/base/lastCoupon/dateVal : si l'échéancier est ouvert il faut le régénérer, sinon mise à jour légère
+  if((field==='years'||field==='defer')&&t._open){
+    renderMoney();
+    const card=document.querySelector('.money-card[data-midx="'+i+'"]');
+    if(card){const sel=field==='years'?'input[oninput*="years"]':'input[oninput*="defer"]';const el=card.querySelector(sel);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
+    return;
+  }
+  refreshMoneyCard(i,field);
+}
+function saveMoney(i){const t=state.portfolio.money[i];if(!t)return;
+  if(t.kind!=='BAT'&&t.mode==='custom'&&Math.abs(customSum(t)-100)>0.01){toast('Le total des remboursements doit faire 100%');return;}
+  t._dirty=false;saveData();renderMoney();toast('Titre enregistré');}
+function toggleMoneyAmort(i){const t=state.portfolio.money[i];if(!t)return;t._open=!t._open;renderMoney();}
+function delMoney(i){const t=state.portfolio.money[i];
+  confirmAction('Supprimer le titre « '+(t.issuer||t.kind||'sans nom')+' » ? Cette action est irréversible.',()=>{
+    state.portfolio.money.splice(i,1);saveData();renderMoney();toast('Titre supprimé');});}
+let moneyDrag=null;
+function addMoneyDrag(card){
+  card.addEventListener('dragstart',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'){e.preventDefault();return}moneyDrag=+card.dataset.midx;card.style.opacity='.4';});
+  card.addEventListener('dragend',()=>card.style.opacity='');
+  card.addEventListener('dragover',e=>e.preventDefault());
+  card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.midx;if(moneyDrag==null||moneyDrag===to)return;const arr=state.portfolio.money;const[it]=arr.splice(moneyDrag,1);arr.splice(to,0,it);moneyDrag=null;saveData();renderMoney();});
+}
+function weightedMoneyYield(list){
+  let wsum=0,acc=0,totM=0,accTriM=0;
+  list.forEach(t=>{const m=moneyMetrics(t);const dur=t.kind==='BAT'?((+t.batDays||0)/365):(+t.years||0);const w=(+t.montant||0)*dur;wsum+=w;acc+=w*m.tri;totM+=(+t.montant||0);accTriM+=(+t.montant||0)*m.tri;});
+  return {byMontantDuree:wsum>0?acc/wsum:0,byMontant:totM>0?accTriM/totM:0,totM};
+}
+function renderMoneyRecap(){
+  const list=state.portfolio.money;
+  const card=document.getElementById('moneyRecapCard'),chartsBox=document.getElementById('moneyCharts');
+  const valid=list.filter(t=>(+t.montant>0));
+  if(!valid.length){card.style.display='none';chartsBox.style.display='none';return;}
+  card.style.display='block';chartsBox.style.display='grid';
+  const ms=list.map(t=>({t,m:moneyMetrics(t),ac:accruedCoupon(t)}));
+  const totM=ms.reduce((a,{m})=>a+m.montant,0);
+  const wy=weightedMoneyYield(list);
+  let rows=ms.map(({t,m,ac})=>`<tr>
+    <td>${escapeHtml(t.issuer||'—')} <span style="font-size:10px;color:var(--cyan-deep);font-weight:700">${t.kind}</span></td>
+    <td>${money(m.montant)}</td>
+    <td>${totM>0?(m.montant/totM*100).toFixed(1):0}%</td>
+    <td>${(+t.tauxFacial||0).toFixed(2)}%</td>
+    <td>${t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' an'+((+t.years>1)?'s':''))}</td>
+    <td>${money(ac.cc)} <span style="color:var(--muted)">(${ac.pct.toFixed(2)}%)</span></td>
+    <td class="pos">${m.tri.toFixed(3)}%</td>
+  </tr>`).join('');
+  card.querySelector('table').innerHTML=`
+    <thead><tr><th>Titre</th><th>Montant</th><th>Poids</th><th>Taux</th><th>Durée</th><th>Coupon couru</th><th>TRI actuariel</th></tr></thead>
+    <tbody>${rows}
+    <tr class="tot"><td>Compartiment monétaire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>—</td><td>TRI moyen pondéré</td><td class="pos">${wy.byMontantDuree.toFixed(3)}%</td></tr>
+    <tr class="tot"><td colspan="6" style="text-align:left;font-weight:600">Rendement pondéré au montant seul</td><td class="pos">${wy.byMontant.toFixed(3)}%</td></tr>
+    </tbody>`;
+  drawMoneyCharts(ms,totM);
+}
+function drawMoneyCharts(ms,totM){
+  destroy('mAlloc');destroy('mTri');
+  const palette=['#0a8a96','#11c4d4','#1f9d6b','#e0a800','#ff6b5e','#1a3a52','#6a3d8f','#3a6ea5'];
+  const named=ms.filter(({t})=>t.issuer||t.montant);
+  charts.mAlloc=new Chart(document.getElementById('chMoneyAlloc'),{type:'doughnut',
+    data:{labels:named.map(({t})=>(t.issuer||'—')+' ('+t.kind+')'),datasets:[{data:named.map(({m})=>m.montant),backgroundColor:palette,borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+  charts.mTri=new Chart(document.getElementById('chMoneyTri'),{type:'bar',
+    data:{labels:named.map(({t})=>(t.issuer||'—')),datasets:[{label:'TRI',data:named.map(({m})=>+m.tri.toFixed(3)),backgroundColor:'#0a8a96',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'TRI : '+c.raw+'%'}}},
+      scales:{y:{ticks:{callback:v=>v+'%',font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
+}
+
+/* ============ SYNTHÈSE GLOBALE ============ */
+function portfolioTotals(){
+  const P=state.portfolio;
+  // actions
+  let aTot=0,aReal=0;P.stocks.forEach(a=>{const m=stockMetrics(a);aTot+=m.montant;});
+  P.stocks.forEach(a=>{const m=stockMetrics(a);const w=aTot>0?m.montant/aTot:0;aReal+=w*m.totalReal;});
+  // obligations
+  let bTot=0;P.bonds.forEach(b=>bTot+=(+b.montant||0));const bw=weightedBondYield(P.bonds);
+  // monétaire
+  let mTot=0;P.money.forEach(t=>mTot+=(+t.montant||0));const mw=weightedMoneyYield(P.money);
+  const grand=aTot+bTot+mTot;
+  return {aTot,aReal,bTot,bTri:bw.byMontantDuree,mTot,mTri:mw.byMontantDuree,grand,
+    P};
+}
+function renderSynth(){
+  if(session.role==='guest')return;
+  const T=portfolioTotals();
+  const empty=T.grand<=0;
+  document.getElementById('synthEmpty').style.display=empty?'block':'none';
+  document.getElementById('synthCharts').style.display=empty?'none':'grid';
+  document.getElementById('synthTableCard').style.display=empty?'none':'block';
+  // KPI
+  const pct=v=>T.grand>0?(v/T.grand*100).toFixed(1)+'%':'0%';
+  document.getElementById('synthKpis').innerHTML=`
+    <div class="kpi k1"><div class="strip"></div><div class="kt">Capital total investi</div><div class="kv">${money(T.grand)}</div><div class="ks up">${T.P.stocks.length+T.P.bonds.length+T.P.money.length} ligne(s)</div></div>
+    <div class="kpi k3"><div class="strip"></div><div class="kt">Actions</div><div class="kv">${money(T.aTot)}</div><div class="ks up">${pct(T.aTot)} · rdt ${T.aReal.toFixed(2)}%</div></div>
+    <div class="kpi k4"><div class="strip"></div><div class="kt">Obligations</div><div class="kv">${money(T.bTot)}</div><div class="ks up">${pct(T.bTot)} · TRI ${T.bTri.toFixed(2)}%</div></div>
+    <div class="kpi k2"><div class="strip"></div><div class="kt">Monétaire</div><div class="kv">${money(T.mTot)}</div><div class="ks up">${pct(T.mTot)} · TRI ${T.mTri.toFixed(2)}%</div></div>`;
+  if(empty){destroy('synClass');destroy('synLines');return;}
+  // tableau consolidé
+  document.getElementById('synthTable').innerHTML=`
+    <thead><tr><th>Compartiment</th><th>Montant investi</th><th>Poids</th><th>Rendement / TRI</th><th>Nb lignes</th></tr></thead>
+    <tbody>
+      <tr><td>Actions</td><td>${money(T.aTot)}</td><td>${pct(T.aTot)}</td><td class="pos">${T.aReal.toFixed(2)}% (réaliste)</td><td>${T.P.stocks.length}</td></tr>
+      <tr><td>Emprunts obligataires</td><td>${money(T.bTot)}</td><td>${pct(T.bTot)}</td><td class="pos">${T.bTri.toFixed(3)}% (TRI pondéré)</td><td>${T.P.bonds.length}</td></tr>
+      <tr><td>Monétaire (OAT/BAT)</td><td>${money(T.mTot)}</td><td>${pct(T.mTot)}</td><td class="pos">${T.mTri.toFixed(3)}% (TRI pondéré)</td><td>${T.P.money.length}</td></tr>
+      <tr class="tot"><td>Portefeuille global</td><td>${money(T.grand)}</td><td>100%</td><td>—</td><td>${T.P.stocks.length+T.P.bonds.length+T.P.money.length}</td></tr>
+    </tbody>`;
+  // charts
+  destroy('synClass');destroy('synLines');
+  charts.synClass=new Chart(document.getElementById('chSynthClass'),{type:'doughnut',
+    data:{labels:['Actions','Obligations','Monétaire'],datasets:[{data:[T.aTot,T.bTot,T.mTot],backgroundColor:['#0a8a96','#6a3d8f','#11c4d4'],borderWidth:2,borderColor:'#fff'}]},
+    options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Outfit'},padding:14}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
+  // toutes les lignes
+  const lines=[];
+  T.P.stocks.forEach(a=>{const m=stockMetrics(a);if(m.montant>0)lines.push({n:(a.name||'Action'),v:m.montant,c:'#0a8a96'});});
+  T.P.bonds.forEach(b=>{if(+b.montant>0)lines.push({n:(b.issuer||'Obligation'),v:+b.montant,c:'#6a3d8f'});});
+  T.P.money.forEach(t=>{if(+t.montant>0)lines.push({n:((t.issuer||t.kind)+' ('+t.kind+')'),v:+t.montant,c:'#11c4d4'});});
+  charts.synLines=new Chart(document.getElementById('chSynthLines'),{type:'bar',
+    data:{labels:lines.map(l=>l.n),datasets:[{label:'Capital investi',data:lines.map(l=>l.v),backgroundColor:lines.map(l=>l.c),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>money(c.raw)}}},
+      scales:{x:{ticks:{callback:v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(0)+'k':v,font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},y:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
+}
+
+/* export Excel complet du portefeuille */
+function exportPortfolio(){
+  if(session.role==='guest'){toast('Réservé aux comptes');return}
+  if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
+  const cur=state.cur;const P=state.portfolio;const numFmt='#,##0 "'+cur+'"';const pctFmt='0.00"%"';
+  const INK='FF0A1F33',CYAN='FF11C4D4',GREEN='FF1F9D6B',VIOLET='FF6A3D8F',TEAL='FF0A8A96',PAPER='FFFAF8F2',LINE='FFE3DCCD';
+  const border={top:{style:'thin',color:{argb:LINE}},left:{style:'thin',color:{argb:LINE}},bottom:{style:'thin',color:{argb:LINE}},right:{style:'thin',color:{argb:LINE}}};
+  const wb=new ExcelJS.Workbook();wb.creator='MonBudget';
+  function titleRow(ws,txt,span,color){ws.mergeCells(ws.rowCount+1,1,ws.rowCount+1,span);const r=ws.lastRow;const c=r.getCell(1);c.value=txt;c.font={name:'Arial',bold:true,size:14,color:{argb:'FFFFFFFF'}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:color||INK}};c.alignment={vertical:'middle',indent:1};r.height=26;}
+  function headRow(ws,arr){const r=ws.addRow(arr);r.eachCell(c=>{c.font={name:'Arial',bold:true,size:10,color:{argb:INK}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};c.border=border;c.alignment={horizontal:'center'};});return r;}
+  function dataRow(ws,arr,fmts){const r=ws.addRow(arr);r.eachCell((c,i)=>{c.font={name:'Arial',size:10};c.border=border;if(fmts&&fmts[i-1]){c.numFmt=fmts[i-1];c.alignment={horizontal:'right'};}});return r;}
+
+  // --- Feuille SYNTHÈSE ---
+  const T=portfolioTotals();
+  const ws0=wb.addWorksheet('Synthèse',{views:[{showGridLines:false}]});
+  ws0.columns=[{width:30},{width:20},{width:14},{width:24},{width:12}];
+  titleRow(ws0,'SYNTHÈSE DU PORTEFEUILLE — '+session.user,5,INK);
+  ws0.addRow([]);
+  headRow(ws0,['Compartiment','Montant investi ('+cur+')','Poids','Rendement / TRI','Nb lignes']);
+  const pctOf=v=>T.grand>0?(v/T.grand*100):0;
+  dataRow(ws0,['Actions',Math.round(T.aTot),pctOf(T.aTot)/100,T.aReal.toFixed(2)+'% (réaliste)',P.stocks.length],[null,numFmt,'0.0%',null,null]);
+  dataRow(ws0,['Emprunts obligataires',Math.round(T.bTot),pctOf(T.bTot)/100,T.bTri.toFixed(3)+'% (TRI pondéré)',P.bonds.length],[null,numFmt,'0.0%',null,null]);
+  dataRow(ws0,['Monétaire (OAT/BAT)',Math.round(T.mTot),pctOf(T.mTot)/100,T.mTri.toFixed(3)+'% (TRI pondéré)',P.money.length],[null,numFmt,'0.0%',null,null]);
+  const tr=dataRow(ws0,['Portefeuille global',Math.round(T.grand),1,'—',P.stocks.length+P.bonds.length+P.money.length],[null,numFmt,'0.0%',null,null]);
+  tr.eachCell(c=>{c.font={name:'Arial',bold:true,size:10};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
+
+  // --- Feuille ACTIONS ---
+  if(P.stocks.length){
+    const ws=wb.addWorksheet('Actions',{views:[{showGridLines:false}]});
+    ws.columns=[{width:24},{width:10},{width:12},{width:16},{width:10},{width:12},{width:12},{width:12},{width:12},{width:12}];
+    titleRow(ws,'COMPARTIMENT ACTIONS',10,TEAL);ws.addRow([]);
+    headRow(ws,['Action','Quantité','Cours','Montant ('+cur+')','Div. %','Réf.','PV réaliste','Rdt pess.','Rdt réaliste','Rdt opt.']);
+    let tot=0;P.stocks.forEach(a=>{const m=stockMetrics(a);tot+=m.montant;
+      dataRow(ws,[a.name||'—',+a.qty||0,+a.cours||0,Math.round(m.montant),m.divPct,m.ref,m.pvReal.toFixed(2)+'%',m.totalPess.toFixed(2)+'%',m.totalReal.toFixed(2)+'%',m.totalOpt.toFixed(2)+'%'],[null,null,numFmt,numFmt,null,numFmt,null,null,null,null]);});
+    const r=dataRow(ws,['Total',null,null,Math.round(tot)],[null,null,null,numFmt]);r.eachCell(c=>{c.font={name:'Arial',bold:true,size:10};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
+  }
+  // --- Feuille OBLIGATIONS + échéanciers ---
+  if(P.bonds.length){
+    const ws=wb.addWorksheet('Obligations',{views:[{showGridLines:false}]});
+    ws.columns=[{width:28},{width:18},{width:12},{width:10},{width:18},{width:14}];
+    titleRow(ws,'EMPRUNTS OBLIGATAIRES',6,VIOLET);ws.addRow([]);
+    headRow(ws,['Émetteur','Montant ('+cur+')','Taux facial','Durée','Mode','TRI']);
+    const modeLabel={infine:'In fine',constant:'Amort. constant',annuite:'Annuités const.',custom:'Personnalisé'};
+    let tot=0;P.bonds.forEach(b=>{const m=bondMetrics(b);tot+=m.montant;
+      dataRow(ws,[b.issuer||'—',Math.round(m.montant),(+b.tauxFacial||0)+'%',(+b.years||0)+' ans',modeLabel[b.mode]||b.mode,m.tri.toFixed(3)+'%'],[null,numFmt,null,null,null,null]);});
+    const r=dataRow(ws,['Total',Math.round(tot)],[null,numFmt]);r.eachCell(c=>{c.font={name:'Arial',bold:true};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
+    // échéanciers
+    P.bonds.forEach(b=>{const rows=amortTable(b);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(b.issuer||'obligation'),6,INK);
+      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité']);
+      rows.forEach(rw=>dataRow(ws,[rw.n,rw.date,Math.round(rw.crdStart),Math.round(rw.interest),Math.round(rw.amort),Math.round(rw.annuity)],[null,null,numFmt,numFmt,numFmt,numFmt]));});
+  }
+  // --- Feuille MONÉTAIRE ---
+  if(P.money.length){
+    const ws=wb.addWorksheet('Monétaire',{views:[{showGridLines:false}]});
+    ws.columns=[{width:26},{width:8},{width:18},{width:12},{width:14},{width:18},{width:14}];
+    titleRow(ws,'MONÉTAIRE — OAT / BAT',7,CYAN);ws.addRow([]);
+    headRow(ws,['Émetteur','Type','Montant ('+cur+')','Taux','Durée','Coupon couru','TRI']);
+    let tot=0;P.money.forEach(t=>{const m=moneyMetrics(t);const ac=accruedCoupon(t);tot+=m.montant;
+      dataRow(ws,[t.issuer||'—',t.kind,Math.round(m.montant),(+t.tauxFacial||0)+'%',t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' ans'),Math.round(ac.cc),m.tri.toFixed(3)+'%'],[null,null,numFmt,null,null,numFmt,null]);});
+    const r=dataRow(ws,['Total',null,Math.round(tot)],[null,null,numFmt]);r.eachCell(c=>{c.font={name:'Arial',bold:true};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
+    // échéanciers OAT
+    P.money.filter(t=>t.kind!=='BAT').forEach(t=>{const rows=amortTable(t);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(t.issuer||'OAT'),7,INK);
+      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité','']);
+      rows.forEach(rw=>dataRow(ws,[rw.n,rw.date,Math.round(rw.crdStart),Math.round(rw.interest),Math.round(rw.amort),Math.round(rw.annuity)],[null,null,numFmt,numFmt,numFmt,numFmt]));});
+  }
+  // feuille sauvegarde
+  const bs=wb.addWorksheet('_sauvegarde',{state:'veryHidden'});
+  bs.getCell('A2').value=JSON.stringify({cur:state.cur,months:state.months,portfolio:state.portfolio});
+  wb.xlsx.writeBuffer().then(buf=>{const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Portefeuille_'+session.user+'_'+new Date().toISOString().slice(0,10)+'.xlsx';a.click();URL.revokeObjectURL(a.href);toast('Portefeuille exporté');
+  }).catch(()=>toast('Erreur export'));
+}
+
+/* ============ GLOSSAIRE ============ */
+const GLOSSARY=[
+  {cat:'Bourse & actions',terms:[
+    {t:'Action',d:"Part de propriété d'une entreprise. Chaque actionnaire possède une fraction de la société à hauteur du nombre d'actions détenues. L'action donne droit à un dividende annuel et à un droit de vote.",ex:"100 actions sur 1 000 émises = 10% du capital."},
+    {t:'Actionnaire',d:"Personne qui détient des actions. Elle bénéficie d'un droit de vote, en direct ou via une société de gestion lorsque l'investissement est logé dans un OPC."},
+    {t:'Dividende',d:"Revenu d'une action : part des bénéfices que la société distribue à ses actionnaires. Son montant est proposé par le conseil d'administration et voté en assemblée générale."},
+    {t:'Date de jouissance',d:"Date à partir de laquelle une action (ou une obligation) ouvre droit à la rémunération (dividende ou coupon)."},
+    {t:'Droit de vote',d:"Droit, pour l'actionnaire, de voter en assemblée générale et de se prononcer sur la gestion de la société."},
+    {t:'Cours de bourse',d:"Prix auquel s'échange un titre sur le marché. Il résulte de la confrontation des ordres d'achat et de vente."},
+    {t:"Cours d'ouverture",d:"Premier prix coté par une valeur à l'ouverture de la séance."},
+    {t:'Cours de clôture',d:"Dernier prix coté à la fermeture du marché. Sert souvent à valoriser les OPC."},
+    {t:'Plus-value / Moins-value',d:"Gain (ou perte) en capital égal à la différence entre le cours actuel d'un titre et son cours de référence (prix d'achat). Positive si le cours a monté.",ex:"Acheté à 4 500, coté 5 000 → plus-value de +11,1%."},
+    {t:'Capitalisation boursière',d:"Valeur de marché d'une société = cours de bourse × nombre d'actions existantes. Aussi appelée valeur boursière."},
+    {t:'Capitalisation flottante (flottant)',d:"Part du capital d'une société effectivement détenue par le public et susceptible d'être échangée en bourse."},
+    {t:'Rendement (action)',d:"Rapport entre le dividende et le cours de l'action. Pour un dividende de 4 et un cours de 100, le rendement net est de 4%.",ex:"Dividende 4 FCFA / cours 100 FCFA = 4%."},
+    {t:'Ordre de bourse',d:"Instruction donnée par un client à un intermédiaire financier pour acheter ou vendre des titres."},
+    {t:'Transaction',d:"Opération d'achat ou de vente de titres."},
+    {t:'Souscription',d:"Achat d'actions ou d'obligations lors de leur émission (sur le marché primaire)."},
+  ]},
+  {cat:'Obligations & taux',terms:[
+    {t:'Obligation',d:"Prêt consenti à moyen ou long terme à une entreprise ou une institution publique. En échange, le porteur perçoit régulièrement un coupon et se voit rembourser le capital à l'échéance."},
+    {t:'Coupon',d:"Intérêt versé au détenteur d'une obligation. L'actionnaire touche un dividende ; l'obligataire touche un coupon."},
+    {t:'Coupon couru',d:"Fraction d'intérêt accumulée depuis le dernier détachement de coupon jusqu'à la date de valeur. Permet de distinguer une obligation dont le coupon est attaché de celle dont il est détaché.",ex:"Nominal × taux × (jours écoulés / base)."},
+    {t:'Taux facial (nominal)',d:"Taux d'intérêt annuel inscrit dans le contrat d'émission, servant à calculer le coupon sur la valeur nominale."},
+    {t:'Obligation à taux fixe',d:"Obligation classique dont le taux du coupon est fixé à la souscription ; le rendement et le prix de remboursement sont connus d'avance."},
+    {t:'Obligation à zéro coupon',d:"Obligation qui ne verse aucun intérêt périodique : seul le capital (majoré) est remboursé à l'échéance."},
+    {t:'Obligation convertible',d:"Obligation qui peut être convertie en actions de la société émettrice, en contrepartie d'une rémunération généralement plus faible."},
+    {t:"Obligation à bon de souscription (OBSA)",d:"Obligation à laquelle sont attachés des bons, cotés séparément, permettant d'acheter une action à un prix fixé d'avance."},
+    {t:'Duration',d:"Mesure de la sensibilité d'une obligation aux variations des taux d'intérêt, fondée sur l'actualisation de ses flux. Plus la duration est élevée, plus le prix de l'obligation réagit aux taux."},
+    {t:'TRI — Taux de rendement interne (actuariel)',d:"Taux qui annule la valeur actuelle nette des flux d'un placement : il égalise le prix payé et la somme actualisée des coupons et remboursements. C'est le vrai rendement annuel de l'obligation.",ex:"Au pair, le TRI d'une obligation in fine égale son taux facial."},
+    {t:'Rendement pondéré',d:"Rendement moyen d'un ensemble de titres, pondéré par le montant investi (et parfois la durée). Plus simple à interpréter que le TRI titre par titre.",ex:"Moyenne des taux pondérée par montant × durée."},
+    {t:'Mode de remboursement',d:"Façon dont le capital est remboursé : in fine (tout à l'échéance), amortissement constant (tranches égales), annuités constantes (flux total constant) ou échéancier personnalisé."},
+    {t:'Période de différé',d:"Période en début de vie de l'obligation pendant laquelle les coupons sont payés mais le capital n'est pas encore remboursé. L'amortissement commence après."},
+    {t:"Taux d'intérêt",d:"Rémunération annuelle d'un capital, exprimée en pourcentage."},
+  ]},
+  {cat:'Épargne & placement',terms:[
+    {t:'Épargne',d:"Partie des revenus non dépensée immédiatement et conservée pour un usage futur. En zone UEMOA, elle est cruciale face à l'instabilité des revenus et aux imprévus."},
+    {t:'Épargne de précaution',d:"Épargne de court terme destinée aux imprévus (santé, panne, réparation). On conseille de constituer 3 à 6 mois de charges."},
+    {t:'Épargne de projet',d:"Épargne de moyen terme pour un objectif précis : voiture, meubles, vacances, études."},
+    {t:"Épargne d'investissement",d:"Épargne de long terme (retraite, immobilier, études des enfants), placée pour rechercher un rendement plus élevé."},
+    {t:'Intérêts composés',d:"Mécanisme par lequel les intérêts produisent eux-mêmes des intérêts. Sur longue durée, l'effet est très puissant.",ex:"50 000/mois à 6,5% sur 20 ans ≈ 24,5 M dont la moitié d'intérêts."},
+    {t:'Capitalisation',d:"Réinvestissement des intérêts (ou revenus) qui s'ajoutent au capital pour produire à leur tour des intérêts."},
+    {t:'Rentabilité',d:"Capacité d'un capital investi à générer des revenus, rapportés au montant engagé."},
+    {t:'Horizon de placement',d:"Durée pendant laquelle l'investisseur peut immobiliser son capital. Il conditionne le niveau de risque acceptable."},
+    {t:'Risque de perte en capital',d:"Incertitude sur la performance future d'un actif, pouvant entraîner une perte partielle ou totale du capital investi."},
+    {t:'Diversification',d:"Répartition des placements entre plusieurs actifs et classes d'actifs pour réduire le risque global du portefeuille."},
+  ]},
+  {cat:'OPC & gestion collective',terms:[
+    {t:'OPC',d:"Organisme de Placement Collectif : structure qui réunit l'épargne de nombreux investisseurs pour la gérer collectivement selon une politique définie."},
+    {t:'SICAV',d:"Société d'Investissement à Capital Variable : société qui gère un portefeuille de valeurs mobilières. Détenir une action de SICAV revient à posséder une fraction de ce portefeuille."},
+    {t:'FCP — Fonds Commun de Placement',d:"Forme d'OPC : copropriété de valeurs mobilières gérée par une société de gestion pour le compte des porteurs de parts."},
+    {t:'Gestion collective',d:"Activité des gestionnaires d'OPC qui collectent les fonds de multiples investisseurs pour les gérer dans des fonds à politique unifiée."},
+    {t:'Valeur liquidative',d:"Pour une SICAV ou un FCP, valeur d'une part = actif net du fonds divisé par le nombre de parts ou d'actions en circulation."},
+    {t:'Valeur mobilière',d:"Titre émis par une entreprise et négociable sur un marché : actions, obligations, titres de créance…"},
+    {t:'Valeur nominale',d:"Prix d'une action à la constitution de la société. Un capital de 250 000 réparti en 1 000 actions donne une valeur nominale de 250.",ex:"BAT : 1 000 000 FCFA ; OAT : 10 000 FCFA."},
+    {t:'Titre',d:"Représentation d'une action, d'une part, d'une obligation ou d'un autre titre de créance."},
+    {t:'Titrisation',d:"Transformation d'actifs financiers (ex. prêts) en titres négociables, cédés à une structure dédiée."},
+  ]},
+  {cat:'Marché & infrastructure UEMOA',terms:[
+    {t:'Bourse',d:"Marché public organisé qui met en relation les émetteurs de titres (entreprises, États) et les investisseurs qui achètent ou vendent ces titres."},
+    {t:'Marché',d:"Lieu — aujourd'hui virtuel, via des écrans — où se rencontrent investisseurs et émetteurs."},
+    {t:'Marché primaire',d:"Marché des émissions : les titres y sont créés et vendus pour la première fois ; les fonds vont directement à l'émetteur."},
+    {t:'Marché secondaire',d:"Marché des échanges : les titres déjà émis s'y revendent entre investisseurs, assurant la liquidité avant l'échéance."},
+    {t:'Marché au comptant',d:"Marché où l'achat ou la vente donne lieu à un règlement et une livraison immédiats."},
+    {t:'Marché monétaire',d:"Marché des capitaux à court et moyen terme entre agents économiques."},
+    {t:'BRVM',d:"Bourse Régionale des Valeurs Mobilières : la bourse commune des huit pays de l'UEMOA, basée à Abidjan."},
+    {t:'UMOA-Titres',d:"Agence régionale qui organise et anime le marché des titres publics (BAT et OAT) émis par les États de l'UEMOA."},
+    {t:'BAT — Bon Assimilable du Trésor',d:"Titre public de court terme (≤ 24 mois), à intérêts précomptés, de valeur nominale 1 000 000 FCFA. Adjugé sur le taux.",ex:"Sert à financer la trésorerie de l'État."},
+    {t:'OAT — Obligation Assimilable du Trésor',d:"Titre public de moyen/long terme (> 2 ans), à coupon, de valeur nominale 10 000 FCFA. Adjugé sur le prix.",ex:"Finance des projets structurants."},
+    {t:'Adjudication',d:"Procédure d'enchères par laquelle l'État retient les soumissions des investisseurs sous un taux (ou prix) marginal."},
+    {t:'Compte titres',d:"Compte ouvert auprès d'une SGI agréée, qui répertorie les titres détenus en portefeuille (actions, obligations, parts d'OPC…)."},
+    {t:'Conservateur',d:"Acteur qui garde et administre les titres et instruments financiers pour le compte de tiers."},
+    {t:'Agence de notation',d:"Organisme qui attribue des notes aux entreprises et aux États, reflétant le niveau de risque pour l'investisseur."},
+    {t:'Liquidité',d:"Facilité à acheter ou vendre un titre. Plus un titre s'échange, plus il est liquide. Conserver des liquidités, c'est garder de l'argent disponible."},
+    {t:'Actif sous-jacent',d:"Produit ou titre (action, indice, devise, panier…) sur lequel porte un produit dérivé : option, bon de souscription, contrat à terme."},
+  ]},
+];
+function glossFlat(){const a=[];GLOSSARY.forEach(g=>g.terms.forEach(t=>a.push({...t,cat:g.cat})));return a;}
+function fillGlossCats(){
+  const sel=document.getElementById('glossCat');if(!sel||sel.options.length)return;
+  sel.innerHTML='<option value="">Tous les thèmes</option>'+GLOSSARY.map(g=>`<option value="${g.cat}">${g.cat}</option>`).join('');
+}
+function hl(text,q){if(!q)return escapeHtml(text);const re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig');return escapeHtml(text).replace(re,'<mark>$1</mark>');}
+function renderGloss(){
+  fillGlossCats();
+  const q=(document.getElementById('glossSearch').value||'').trim().toLowerCase();
+  const cat=document.getElementById('glossCat').value;
+  const body=document.getElementById('glossBody');
+  let total=0;
+  const cats=GLOSSARY.filter(g=>!cat||g.cat===cat);
+  let html='';
+  cats.forEach(g=>{
+    const terms=g.terms.filter(t=>!q||t.t.toLowerCase().includes(q)||t.d.toLowerCase().includes(q));
+    if(!terms.length)return;total+=terms.length;
+    html+=`<div class="gloss-cat"><div class="gloss-cat-h">${g.cat}</div><div class="gloss-grid">`+
+      terms.map(t=>`<div class="gloss-term"><h4><span class="gt-dot"></span>${hl(t.t,q)}</h4><p>${hl(t.d,q)}</p>${t.ex?`<div class="gt-ex">Exemple : ${hl(t.ex,q)}</div>`:''}</div>`).join('')+
+      `</div></div>`;
+  });
+  document.getElementById('glossCount').textContent=total+' terme(s) affiché(s)';
+  body.innerHTML=html||'<div class="gloss-empty">Aucun terme ne correspond à votre recherche.</div>';
+}
+function exportGlossPDF(){
+  const jsPDFns=window.jspdf;
+  if(!jsPDFns||!jsPDFns.jsPDF){toast('Module PDF en chargement, réessayez');return}
+  const doc=new jsPDFns.jsPDF({unit:'pt',format:'a4'});
+  const W=doc.internal.pageSize.getWidth();
+  // page de garde / titre
+  doc.setFillColor(10,31,51);doc.rect(0,0,W,90,'F');
+  doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);
+  const pdfSafe=s=>(''+s)
+    .replace(/[\u202F\u00A0\u2009\u2007]/g,' ')   // espaces fines/insécables -> espace normal
+    .replace(/[\u2192\u2794\u27A1]/g,'->')          // flèches -> ->
+    .replace(/[\u2013\u2014]/g,'-')                  // tirets longs -> -
+    .replace(/[\u2018\u2019\u2032]/g,"'")            // apostrophes typographiques -> '
+    .replace(/[\u201C\u201D]/g,'"')                  // guillemets courbes -> "
+    .replace(/\u2026/g,'...')                          // points de suspension
+    .replace(/\u00AB|\u00BB/g,'"');                   // guillemets français -> "
+  doc.text(pdfSafe('Glossaire du marché financier'),40,46);
+  doc.setFont('helvetica','normal');doc.setFontSize(11);doc.setTextColor(180,200,215);
+  doc.text(pdfSafe('MonBudget · Comprendre les fondements — Zone UEMOA'),40,70);
+  let body=[];
+  GLOSSARY.forEach(g=>{
+    body.push([{content:pdfSafe(g.cat),colSpan:2,styles:{fillColor:[17,196,212],textColor:[255,255,255],fontStyle:'bold',fontSize:11}}]);
+    g.terms.forEach(t=>{
+      const def=pdfSafe(t.d+(t.ex?('\n\nExemple : '+t.ex):''));
+      body.push([{content:pdfSafe(t.t),styles:{fontStyle:'bold',textColor:[10,31,51]}},{content:def,styles:{textColor:[40,55,65]}}]);
+    });
+  });
+  const tableOpts={
+    startY:110,
+    head:[['Terme','Définition']],
+    body:body,
+    theme:'grid',
+    styles:{font:'helvetica',fontSize:9.5,cellPadding:6,valign:'top',lineColor:[227,220,205],lineWidth:0.5,overflow:'linebreak'},
+    headStyles:{fillColor:[10,31,51],textColor:[255,255,255],fontStyle:'bold',fontSize:10},
+    columnStyles:{0:{cellWidth:150},1:{cellWidth:W-40-40-150}},
+    margin:{left:40,right:40,top:40},
+    didDrawPage:()=>{
+      const page=doc.internal.getNumberOfPages();
+      doc.setFontSize(8);doc.setTextColor(140,150,160);
+      doc.text(pdfSafe('MonBudget - Glossaire du marché financier'),40,doc.internal.pageSize.getHeight()-20);
+      doc.text('Page '+page,W-70,doc.internal.pageSize.getHeight()-20);
+    }
+  };
+  if(typeof doc.autoTable==='function')doc.autoTable(tableOpts);
+  else if(jsPDFns.autoTable)jsPDFns.autoTable(doc,tableOpts);
+  else if(window.autoTable)window.autoTable(doc,tableOpts);
+  else if(window.jspdfAutoTable&&window.jspdfAutoTable.default)window.jspdfAutoTable.default(doc,tableOpts);
+  else{toast('Module tableau PDF indisponible');return;}
+  doc.save('Glossaire_marche_financier.pdf');
+  toast('Glossaire PDF téléchargé');
 }
 
 /* ============ ADMIN ============ */
@@ -1201,6 +2756,8 @@ function recordVisit(){
 }
 function renderAdmin(){
   if(session.role!=='admin')return;
+  if(supaReady && session.cloud){renderAdminCloud();return;}
+  // --- mode local ---
   let v={};try{v=JSON.parse(localStorage.getItem(LS.visits))||{}}catch(e){}
   const users=getUsers();
   const totalVisits=Object.values(v).reduce((a,b)=>a+b,0);
@@ -1210,17 +2767,80 @@ function renderAdmin(){
     <div class="kpi k1"><div class="strip"></div><div class="kt">Comptes créés</div><div class="kv">${nUsers}</div><div class="ks up">sur cet appareil</div></div>
     <div class="kpi k3"><div class="strip"></div><div class="kt">Visites totales</div><div class="kv">${totalVisits}</div><div class="ks up">${days} jour(s) actifs</div></div>
     <div class="kpi k4"><div class="strip"></div><div class="kt">Moy. visites/jour</div><div class="kv">${days?(totalVisits/days).toFixed(1):0}</div><div class="ks up">fréquentation</div></div>`;
-  // chart
   const keys=Object.keys(v).sort();
   destroy('admin');
   charts.admin=new Chart(document.getElementById('chAdmin'),{type:'bar',
     data:{labels:keys.map(k=>k.slice(5)),datasets:[{label:'Visites',data:keys.map(k=>v[k]),backgroundColor:'#11c4d4',borderRadius:4}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0,font:{family:'Outfit'}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit',size:10}}}}}});
-  // users list
   document.getElementById('adminUsers').innerHTML=Object.entries(users).map(([u,d])=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:13.5px"><span style="font-weight:600">${escapeHtml(u)}</span><span style="color:var(--muted)">${d.role==='admin'?'Admin':'Membre'} · ${d.cur} · créé le ${new Date(d.created).toLocaleDateString('fr-FR')}</span></div>`).join('')||'<p style="color:var(--muted)">Aucun compte.</p>';
+}
+async function renderAdminCloud(){
+  document.getElementById('adminKpis').innerHTML='<div class="kpi k1"><div class="strip"></div><div class="kt">Chargement…</div><div class="kv">…</div></div>';
+  document.getElementById('adminUsers').innerHTML='<p style="color:var(--muted)">Chargement des données…</p>';
+  let visits=[],accounts=[];
+  try{const r=await supa.from('visits').select('email,visited_at').order('visited_at',{ascending:true});if(!r.error)visits=r.data||[];}catch(e){}
+  try{const r=await supa.from('user_data').select('email,updated_at');if(!r.error)accounts=r.data||[];}catch(e){}
+  // agréger visites par jour
+  const byDay={};visits.forEach(v=>{const d=(v.visited_at||'').slice(0,10);if(d)byDay[d]=(byDay[d]||0)+1;});
+  const uniqueUsers=new Set(visits.map(v=>v.email).filter(Boolean));
+  const nAccounts=accounts.length||uniqueUsers.size;
+  const totalVisits=visits.length;const days=Object.keys(byDay).length;
+  document.getElementById('adminKpis').innerHTML=`
+    <div class="kpi k1"><div class="strip"></div><div class="kt">Comptes (cloud)</div><div class="kv">${nAccounts}</div><div class="ks up">${uniqueUsers.size} actif(s)</div></div>
+    <div class="kpi k3"><div class="strip"></div><div class="kt">Connexions totales</div><div class="kv">${totalVisits}</div><div class="ks up">${days} jour(s)</div></div>
+    <div class="kpi k4"><div class="strip"></div><div class="kt">Moy. / jour</div><div class="kv">${days?(totalVisits/days).toFixed(1):0}</div><div class="ks up">fréquentation</div></div>`;
+  const keys=Object.keys(byDay).sort();
+  destroy('admin');
+  charts.admin=new Chart(document.getElementById('chAdmin'),{type:'bar',
+    data:{labels:keys.map(k=>k.slice(5)),datasets:[{label:'Connexions',data:keys.map(k=>byDay[k]),backgroundColor:'#11c4d4',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0,font:{family:'Outfit'}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit',size:10}}}}}});
+  const list=accounts.length?accounts:[...uniqueUsers].map(e=>({email:e}));
+  document.getElementById('adminUsers').innerHTML=list.map(a=>`<div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:13.5px"><span style="font-weight:600">${escapeHtml(a.email||'—')}</span><span style="color:var(--muted)">${a.updated_at?('màj '+new Date(a.updated_at).toLocaleDateString('fr-FR')):''}</span></div>`).join('')||'<p style="color:var(--muted)">Aucun compte enregistré.</p>';
 }
 
 /* ============ EXPORT / IMPORT ============ */
+function exportAmort(type,i){
+  if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
+  const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
+  if(!b){return}
+  const rows=amortTable(b);
+  if(!rows.length){toast('Renseignez d\'abord la date de valeur');return}
+  const cur=state.cur;const numFmt='#,##0 "'+cur+'"';
+  const title=(b.issuer||(type==='bond'?'Obligation':'Titre'))+' — échéancier';
+  const wb=new ExcelJS.Workbook();wb.creator='MonBudget';
+  const ws=wb.addWorksheet('Échéancier',{views:[{showGridLines:false}]});
+  ws.columns=[{width:8},{width:16},{width:20},{width:18},{width:18},{width:18},{width:20}];
+  const INK='FF0A1F33',VIOLET='FF6A3D8F',PAPER='FFFAF8F2',LINE='FFE3DCCD';
+  const border={top:{style:'thin',color:{argb:LINE}},left:{style:'thin',color:{argb:LINE}},bottom:{style:'thin',color:{argb:LINE}},right:{style:'thin',color:{argb:LINE}}};
+  ws.mergeCells('A1:G1');const tc=ws.getCell('A1');tc.value=title;
+  tc.font={name:'Arial',bold:true,size:16,color:{argb:'FFFFFFFF'}};tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:INK}};tc.alignment={vertical:'middle',indent:1};ws.getRow(1).height=30;
+  ws.mergeCells('A2:G2');const sc=ws.getCell('A2');
+  const modeLabel={infine:'In fine',constant:'Amortissement constant',annuite:'Annuités constantes',custom:'Personnalisé'};
+  sc.value='Montant : '+(+b.montant||0).toLocaleString('fr-FR')+' '+cur+'  ·  Taux facial : '+(+b.tauxFacial||0)+'%  ·  Durée : '+(b.years||'—')+' ans  ·  Mode : '+(modeLabel[b.mode]||b.mode)+'  ·  Devise : '+cur;
+  sc.font={name:'Arial',size:10,italic:true,color:{argb:'FFFFFFFF'}};sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:VIOLET}};sc.alignment={vertical:'middle',indent:1};ws.getRow(2).height=20;
+  const head=['N°','Échéance','Capital dû (début)','Intérêt','Amortissement','Annuité','Capital dû (fin)'];
+  const hr=ws.getRow(4);head.forEach((h,c)=>{const cell=hr.getCell(c+1);cell.value=h;cell.font={name:'Arial',bold:true,size:10,color:{argb:INK}};cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};cell.border=border;cell.alignment={horizontal:c<2?'left':'right'}});
+  let r=5;rows.forEach(row=>{
+    const rr=ws.getRow(r);
+    rr.getCell(1).value=row.n+(row.defer?' (différé)':'');rr.getCell(1).alignment={horizontal:'left'};
+    rr.getCell(2).value=row.date;rr.getCell(2).alignment={horizontal:'left'};
+    [row.crdStart,row.interest,row.amort,row.annuity,row.crdEnd].forEach((v,c)=>{const cell=rr.getCell(c+3);cell.value=Math.round(v);cell.numFmt=numFmt;cell.alignment={horizontal:'right'};});
+    for(let c=1;c<=7;c++){rr.getCell(c).font={name:'Arial',size:10};rr.getCell(c).border=border;}
+    r++;
+  });
+  // totaux
+  const tI=rows.reduce((a,x)=>a+x.interest,0),tA=rows.reduce((a,x)=>a+x.amort,0),tAn=rows.reduce((a,x)=>a+x.annuity,0);
+  const tr=ws.getRow(r);tr.getCell(1).value='Totaux';ws.mergeCells(r,1,r,3);
+  [['',''],['',''],['',''], [4,tI],[5,tA],[6,tAn]].forEach(()=>{});
+  tr.getCell(4).value=Math.round(tI);tr.getCell(5).value=Math.round(tA);tr.getCell(6).value=Math.round(tAn);
+  [4,5,6].forEach(c=>{tr.getCell(c).numFmt=numFmt;tr.getCell(c).alignment={horizontal:'right'};});
+  for(let c=1;c<=7;c++){tr.getCell(c).font={name:'Arial',bold:true,size:10};tr.getCell(c).fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};tr.getCell(c).border=border;}
+  wb.xlsx.writeBuffer().then(buf=>{
+    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='Echeancier_'+((b.issuer||'titre').replace(/[^a-zA-Z0-9]/g,'_'))+'.xlsx';a.click();URL.revokeObjectURL(a.href);toast('Échéancier exporté');
+  }).catch(()=>toast('Erreur export'));
+}
 function exportData(){
   if(session.role==='guest'){toast('Export réservé aux comptes');return}
   if(typeof ExcelJS==='undefined'){toast('Module Excel en cours de chargement, réessayez');return}
@@ -1314,7 +2934,7 @@ function exportData(){
   // ---- FEUILLE DE SAUVEGARDE (restauration fidèle) ----
   const bs=wb.addWorksheet('_sauvegarde',{state:'veryHidden'});
   bs.getCell('A1').value='NE PAS MODIFIER — sauvegarde technique MonBudget';
-  bs.getCell('A2').value=JSON.stringify({cur:state.cur,months:state.months});
+  bs.getCell('A2').value=JSON.stringify({cur:state.cur,months:state.months,portfolio:state.portfolio});
 
   wb.xlsx.writeBuffer().then(buf=>{
     const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
@@ -1340,7 +2960,7 @@ function importData(e){
         aoa.forEach(rw=>{(rw||[]).forEach(c=>{if(typeof c==='string'&&c.trim().startsWith('{')&&!jsonStr)jsonStr=c.trim()})});
         const d=JSON.parse(jsonStr);
         if(!d.months)throw 0;
-        state={cur:d.cur||'FCFA',months:d.months};
+        state={cur:d.cur||'FCFA',months:d.months,portfolio:d.portfolio||{stocks:[],bonds:[],money:[]}};
       }else{ // JSON legacy
         const p=JSON.parse(new TextDecoder().decode(ev.target.result));const d=p.data||p;if(!d.months)throw 0;
         state=d;if(p.cur)state.cur=p.cur;
@@ -1360,7 +2980,9 @@ function nav(v){
   if(v==='dash')renderDash();
   if(v==='admin')renderAdmin();
   if(v==='classif')renderClassif();
-  if(v==='epargne')runSim();
+  if(v==='epargne'){renderOcc();runSim();}
+  if(v==='portef'){portSub(curSub);}
+  if(v==='glossaire'){renderGloss();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1368,14 +2990,63 @@ function nav(v){
 let toastT;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2400)}
 
-/* ============ AUTO-LOGIN ============ */
+/* ============ AUTO-LOGIN + RESET ============ */
 (function(){
-  // enter key on auth
-  ['liPass','liUser'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()}));
-  ['rgPass','rgUser'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doRegister()}));
+  // touche Entrée
+  ['liPass','liEmail'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});});
+  ['rgPass','rgEmail','rgName'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter')doRegister()});});
+
+  if(supaReady){
+    // 1) cas réinitialisation de mot de passe (lien email -> ?reset=1 ou type=recovery)
+    supa.auth.onAuthStateChange((event,sess)=>{
+      if(event==='PASSWORD_RECOVERY'){openResetModal();}
+    });
+    // 2) restaurer une session existante (multi-appareils)
+    supa.auth.getSession().then(({data})=>{
+      const params=new URLSearchParams(location.search);
+      const isRecovery=params.get('reset')==='1'||location.hash.includes('type=recovery');
+      if(isRecovery){openResetModal();return;}
+      if(data && data.session && data.session.user){
+        startCloudSession(data.session.user,(data.session.user.user_metadata&&data.session.user.user_metadata.cur)||'FCFA');
+      }
+    });
+    return;
+  }
+  // --- fallback local ---
   let s=null;try{s=JSON.parse(localStorage.getItem(LS.session))}catch(e){}
-  if(s && s.role!=='guest' && getUsers()[s.user]){startSession(s.user,s.role,getUsers()[s.user].cur)}
+  if(s && s.role!=='guest' && !s.cloud && getUsers()[s.user]){startSession(s.user,s.role,getUsers()[s.user].cur)}
 })();
+
+/* modal de réinitialisation du mot de passe */
+function openResetModal(){
+  document.getElementById('authGate').classList.remove('hidden');
+  document.getElementById('app').classList.remove('show');
+  let box=document.getElementById('resetBox');
+  if(!box){
+    box=document.createElement('div');box.id='resetBox';box.className='auth-card';box.style.marginTop='16px';
+    box.innerHTML='<div class="auth-logo"><div class="auth-mark">M</div><div><b>Nouveau mot de passe</b></div></div>'+
+      '<div class="auth-err" id="resetErr"></div><div class="auth-ok" id="resetOk"></div>'+
+      '<div class="field"><label>Nouveau mot de passe</label><input id="newPass" type="password" placeholder="min. 6 caractères"></div>'+
+      '<button class="btn btn-primary" id="resetBtn" onclick="doReset()">Mettre à jour</button>';
+    const card=document.querySelector('#authGate .auth-card');
+    card.parentNode.appendChild(box);
+    card.style.display='none';
+  }
+}
+async function doReset(){
+  const p=document.getElementById('newPass').value;
+  const err=document.getElementById('resetErr'),ok=document.getElementById('resetOk');
+  err.classList.remove('show');ok.classList.remove('show');
+  if(p.length<6){err.textContent="Au moins 6 caractères.";err.classList.add('show');return;}
+  setBusy('resetBtn',true,'Mise à jour…','Mettre à jour');
+  try{
+    const {error}=await supa.auth.updateUser({password:p});
+    setBusy('resetBtn',false,'','Mettre à jour');
+    if(error){err.textContent=traduitErreur(error.message);err.classList.add('show');return;}
+    ok.textContent="Mot de passe mis à jour. Vous allez être connecté…";ok.classList.add('show');
+    setTimeout(()=>{const u=location.origin+location.pathname;history.replaceState({},'',u);location.href=u;},1500);
+  }catch(e){setBusy('resetBtn',false,'','Mettre à jour');err.textContent="Erreur réseau.";err.classList.add('show');}
+}
 </script>
 </body>
 </html>
