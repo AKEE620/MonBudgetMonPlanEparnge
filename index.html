@@ -519,6 +519,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         </select>
       </div>
       <div class="field"><label>Mot de passe</label><input id="rgPass" type="password" placeholder="min. 6 caractères"></div>
+      <div class="field"><label>Confirmez le mot de passe</label><input id="rgPass2" type="password" placeholder="ressaisissez le mot de passe"></div>
       <button class="btn btn-primary" id="regBtn" onclick="doRegister()">Créer mon compte</button>
     </div>
     <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
@@ -1032,6 +1033,8 @@ async function doRegister(){
   const name=(document.getElementById('rgName').value||'').trim();
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return showErr("Adresse email invalide.");
   if(p.length<6)return showErr("Le mot de passe doit faire au moins 6 caractères.");
+  const p2=document.getElementById('rgPass2').value;
+  if(p!==p2)return showErr("Les deux mots de passe ne correspondent pas.");
   if(supaReady){
     setBusy('regBtn',true,'Création…','Créer mon compte');
     try{
@@ -1107,7 +1110,8 @@ function traduitErreur(m){
 async function startCloudSession(user,cur){
   const email=user.email;
   const role=(email===ADMIN_EMAIL)?'admin':'member';
-  session={user:email,role,cur:cur||'FCFA',cloud:true,uid:user.id};
+  const name=(user.user_metadata&&user.user_metadata.full_name)||'';
+  session={user:email,role,cur:cur||'FCFA',cloud:true,uid:user.id,name};
   // charger les données depuis le cloud
   let cloud=null;
   try{
@@ -1125,7 +1129,8 @@ async function startCloudSession(user,cur){
 function enterGuest(){startSession('Visiteur','guest','FCFA');toast("Mode visiteur activé")}
 
 function startSession(user,role,cur){
-  session={user,role,cur,cloud:false};
+  let nm='';try{const u=getUsers()[user];if(u&&u.name)nm=u.name;}catch(e){}
+  session={user,role,cur,cloud:false,name:nm};
   localStorage.setItem(LS.session,JSON.stringify(session));
   if(role==='guest'){
     try{state=JSON.parse(sessionStorage.getItem('mb_guest_data'))}catch(e){state=null}
@@ -1170,7 +1175,7 @@ function bootApp(){
   document.getElementById('app').classList.add('show');
   // role badge
   const rb=document.getElementById('roleBadge');
-  document.getElementById('whoName').textContent=session.user;
+  document.getElementById('whoName').textContent=(session.name&&session.name.trim())?session.name:session.user;
   if(session.role==='guest'){rb.textContent='Visiteur';rb.className='badge guest';document.getElementById('exportBtn').style.display='none';}
   else if(session.role==='admin'){rb.textContent='Admin';rb.className='badge admin';document.getElementById('adminTab').style.display='flex';document.getElementById('restoreBtn').style.display='inline-flex';}
   else{rb.textContent='Membre';rb.className='badge';}
@@ -2994,18 +2999,32 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 (function(){
   // touche Entrée
   ['liPass','liEmail'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});});
-  ['rgPass','rgEmail','rgName'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter')doRegister()});});
+  ['rgPass','rgPass2','rgEmail','rgName'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('keydown',e=>{if(e.key==='Enter')doRegister()});});
 
   if(supaReady){
-    // 1) cas réinitialisation de mot de passe (lien email -> ?reset=1 ou type=recovery)
-    supa.auth.onAuthStateChange((event,sess)=>{
+    const hash=location.hash||'';
+    const params=new URLSearchParams(location.search);
+    const isRecovery=params.get('reset')==='1'||hash.includes('type=recovery');
+    const isSignup=hash.includes('type=signup')||params.get('confirmed')==='1';
+
+    // 1) réinitialisation de mot de passe
+    supa.auth.onAuthStateChange((event)=>{
       if(event==='PASSWORD_RECOVERY'){openResetModal();}
     });
+
+    if(isRecovery){openResetModal();return;}
+
+    if(isSignup){
+      // compte confirmé : on déconnecte pour forcer une connexion explicite, puis écran de succès
+      supa.auth.signOut().finally(()=>{
+        cleanUrl();
+        showConfirmedScreen();
+      });
+      return;
+    }
+
     // 2) restaurer une session existante (multi-appareils)
     supa.auth.getSession().then(({data})=>{
-      const params=new URLSearchParams(location.search);
-      const isRecovery=params.get('reset')==='1'||location.hash.includes('type=recovery');
-      if(isRecovery){openResetModal();return;}
       if(data && data.session && data.session.user){
         startCloudSession(data.session.user,(data.session.user.user_metadata&&data.session.user.user_metadata.cur)||'FCFA');
       }
@@ -3016,6 +3035,21 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
   let s=null;try{s=JSON.parse(localStorage.getItem(LS.session))}catch(e){}
   if(s && s.role!=='guest' && !s.cloud && getUsers()[s.user]){startSession(s.user,s.role,getUsers()[s.user].cur)}
 })();
+
+/* nettoie l'URL des jetons/paramètres après confirmation (sans recharger) */
+function cleanUrl(){
+  try{const u=location.origin+location.pathname;history.replaceState({},'',u);}catch(e){}
+}
+/* écran « Compte confirmé » soigné sur le formulaire de connexion */
+function showConfirmedScreen(){
+  // s'assure que l'écran d'authentification est visible et sur l'onglet connexion
+  const gate=document.getElementById('authGate');
+  if(gate)gate.classList.remove('hidden');
+  const app=document.getElementById('app');
+  if(app)app.classList.remove('show');
+  if(typeof authTab==='function')authTab('login');
+  showOk("Votre compte est confirmé. Connectez-vous avec votre email et votre mot de passe pour accéder à votre espace.");
+}
 
 /* modal de réinitialisation du mot de passe */
 function openResetModal(){
