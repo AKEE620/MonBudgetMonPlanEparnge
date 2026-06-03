@@ -1974,8 +1974,10 @@ function dayCount(d1,d2){return Math.round((new Date(d2)-new Date(d1))/86400000)
 
 /* tableau d'amortissement daté (obligations & OAT) */
 function amortTable(b){
-  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1,dY=+b.defer||0;
-  const nTot=Math.max(1,Math.round(Y*f)),nDef=Math.round(dY*f),nAmort=Math.max(1,nTot-nDef),cp=c/f;
+  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1;
+  const nTot=Math.max(1,Math.round(Y*f));
+  const nDef=Math.min(Math.max(0,Math.round(+b.defer||0)),nTot-1); // defer = nb de PÉRIODES
+  const nAmort=Math.max(1,nTot-nDef),cp=c/f;
   const monthsPerPeriod=12/f;
   let amorts=[];
   if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
