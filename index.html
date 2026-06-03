@@ -403,6 +403,15 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 .about-link b{font-weight:700}
 .al-ic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));color:#fff;font-family:'Outfit'}
 .flag-tg{font-size:16px}
+
+/* détail indicateurs synthèse */
+.syn-detail{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+@media(max-width:760px){.syn-detail{grid-template-columns:1fr}}
+.syn-detail-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}
+.syn-detail-card h4{font-family:'Fraunces';font-size:17px;font-weight:600;color:var(--ink);margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid var(--cyan)}
+.syn-kv{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:8px 0;border-bottom:1px solid var(--line-2);font-size:13px}
+.syn-kv span{color:var(--ink-soft)}
+.syn-kv b{font-family:'JetBrains Mono';font-weight:700;color:var(--ink);white-space:nowrap}
 .about-note{margin-top:22px;color:var(--muted);font-size:13.5px;line-height:1.6;border-top:1px solid var(--line-2);padding-top:18px}
 
 /* ---------- GLOSSAIRE ---------- */
@@ -815,7 +824,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           </div>
           <div class="dash-grid" id="bondsCharts" style="display:none">
             <div class="chart-card"><h3>Répartition du capital obligataire</h3><div class="csub">Poids de chaque obligation</div><div class="chart-wrap"><canvas id="chBondsAlloc"></canvas></div></div>
-            <div class="chart-card"><h3>TRI par obligation</h3><div class="csub">Taux de rendement actuariel, en %</div><div class="chart-wrap"><canvas id="chBondsTri"></canvas></div></div>
+            <div class="chart-card"><h3>Rendement annuel par obligation</h3><div class="csub">Intérêts totaux / montant / durée, en %</div><div class="chart-wrap"><canvas id="chBondsTri"></canvas></div></div>
           </div>
         </div>
         <!-- MONÉTAIRE -->
@@ -835,7 +844,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           </div>
           <div class="dash-grid" id="moneyCharts" style="display:none">
             <div class="chart-card"><h3>Répartition du capital monétaire</h3><div class="csub">Poids de chaque titre</div><div class="chart-wrap"><canvas id="chMoneyAlloc"></canvas></div></div>
-            <div class="chart-card"><h3>TRI par titre</h3><div class="csub">Taux de rendement actuariel, en %</div><div class="chart-wrap"><canvas id="chMoneyTri"></canvas></div></div>
+            <div class="chart-card"><h3>Rendement annuel par titre</h3><div class="csub">Intérêts / montant / durée, en %</div><div class="chart-wrap"><canvas id="chMoneyTri"></canvas></div></div>
           </div>
         </div>
         <!-- SYNTHÈSE GLOBALE -->
@@ -855,9 +864,10 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           </div>
           <div class="chart-card" id="synthTableCard" style="margin-top:18px;display:none">
             <h3>Tableau de synthèse consolidé</h3>
-            <div class="csub">Montant investi, poids et rendement par compartiment</div>
+            <div class="csub">Montant investi, poids et rendements par compartiment</div>
             <div class="table-scroll"><table class="recap-table" id="synthTable"></table></div>
           </div>
+          <div id="synthDetail" class="syn-detail" style="display:none"></div>
         </div>
       </div>
     </section>
@@ -2001,8 +2011,10 @@ function amortTableHTML(rows){
 }
 function addBond(){if(session.role==='guest'){toast('Réservé aux comptes');return}state.portfolio.bonds.push(freshBond());saveData();renderBonds();toast('Obligation ajoutée');}
 function bondSchedule(b){
-  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1,dY=+b.defer||0;
-  const nTot=Math.max(1,Math.round(Y*f)),nDef=Math.round(dY*f),nAmort=Math.max(1,nTot-nDef),cp=c/f;
+  const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1;
+  const nTot=Math.max(1,Math.round(Y*f));
+  const nDef=Math.min(Math.max(0,Math.round(+b.defer||0)),nTot-1); // defer = nb de PÉRIODES
+  const nAmort=Math.max(1,nTot-nDef),cp=c/f;
   const flows=[];let crd=M;let amorts=[];
   if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
   else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
@@ -2019,9 +2031,31 @@ function bondIRR(flows,price,f){
 }
 function bondMetrics(b){
   const s=bondSchedule(b);
-  const tri=bondIRR(s.flows,+b.montant||0,s.f);
+  const M=s.M,f=s.f,Y=+b.years||1,cp=s.cp;
+  // rendement simple : intérêts totaux / montant investi
+  const rows=[];let crd=M;let amorts=[];
+  // reconstruire intérêts et flux détaillés (pour duration)
+  const nDef=s.nDef,nAmort=s.nAmort;
+  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
+  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
+  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
+  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  let totalInterest=0,sw=0,swF=0,mac=0,pv=0;
+  crd=M;
+  for(let k=1;k<=s.nTot;k++){
+    const interest=crd*cp;const amort=k>nDef?(amorts[k-nDef-1]||0):0;const flow=interest+amort;
+    totalInterest+=interest;
+    const tAnnee=k/f;
+    sw+=tAnnee*flow;swF+=flow;
+    const va=flow/Math.pow(1+cp,k);mac+=tAnnee*va;pv+=va;
+    crd-=amort;
+  }
+  const rendGlobal=M>0?totalInterest/M*100:0;
+  const rendAnnuel=Y>0?rendGlobal/Y:0;
+  const durSimple=swF>0?sw/swF:0;
+  const durMac=pv>0?mac/pv:0;
   const totalRecu=s.flows.reduce((a,x)=>a+x,0);
-  return {montant:+b.montant||0,tri:(tri==null?0:tri),totalRecu,nTot:s.nTot,nAmort:s.nAmort,nDef:s.nDef,flows:s.flows,f:s.f};
+  return {montant:M,years:Y,tauxFacial:+b.tauxFacial||0,totalInterest,rendGlobal,rendAnnuel,durSimple,durMac,totalRecu,nTot:s.nTot,nAmort:s.nAmort,nDef:s.nDef,flows:s.flows,f:s.f};
 }
 function customSum(b){return (b.custom||[]).reduce((a,x)=>a+(+x||0),0);}
 function renderBonds(){
@@ -2033,7 +2067,7 @@ function renderBonds(){
   wrap.innerHTML=list.map((b,i)=>{
     const m=bondMetrics(b);
     const freqPerYear=+b.freq||1;
-    const nAmortDisplay=Math.max(1,Math.round((+b.years||1)*freqPerYear)-Math.round((+b.defer||0)*freqPerYear));
+    const nAmortDisplay=Math.max(1,Math.round((+b.years||1)*freqPerYear)-Math.min(Math.round(+b.defer||0),Math.round((+b.years||1)*freqPerYear)-1));
     let customBlock='';
     if(b.mode==='custom'){
       const sum=customSum(b);
@@ -2057,16 +2091,17 @@ function renderBonds(){
           <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${b.years||''}" placeholder="5" oninput="editBond(${i},'years',null,this.value)"></div>
           <div class="fg"><label>Périodicité coupon</label>
             <select onchange="editBond(${i},'freq',null,this.value)">
-              <option value="1" ${b.freq=='1'?'selected':''}>Annuelle</option>
-              <option value="2" ${b.freq=='2'?'selected':''}>Semestrielle</option>
+              <option value="12" ${b.freq=='12'?'selected':''}>Mensuelle</option>
               <option value="4" ${b.freq=='4'?'selected':''}>Trimestrielle</option>
+              <option value="2" ${b.freq=='2'?'selected':''}>Semestrielle</option>
+              <option value="1" ${b.freq=='1'?'selected':''}>Annuelle</option>
             </select>
           </div>
         </div>
         <div class="fgrid" style="margin-top:13px">
           <div class="fg"><label>Date de valeur</label><input type="date" value="${b.dateVal||''}" oninput="editBond(${i},'dateVal',null,this.value)"></div>
           <div class="fg"><label>Date d'échéance</label><input type="date" value="${b.dateEch||''}" oninput="editBond(${i},'dateEch',null,this.value)"></div>
-          <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(b.years,b.defer,+b.freq||1);return di.nDef+' période(s) · max '+di.maxDefYears+' an';})()}</label><input type="number" step="0.5" min="0" value="${b.defer||0}" oninput="editBond(${i},'defer',null,this.value)" title="Pendant le différé : coupons payés, pas de remboursement du capital. Borné pour laisser au moins 1 échéance d'amortissement."></div>
+          <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(b.years,b.defer,+b.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${b.defer||0}" oninput="editBond(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés). Borné pour laisser au moins 1 échéance d'amortissement."></div>
           <div class="fg"><label>Mode de remboursement</label>
             <select onchange="editBond(${i},'mode',null,this.value)">
               <option value="infine" ${b.mode==='infine'?'selected':''}>In fine</option>
@@ -2078,9 +2113,14 @@ function renderBonds(){
         </div>
         ${customBlock}
         <div class="tri-row">
-          <div class="tri-box tri"><div class="tl">Taux actuariel (TRI)</div><div class="tv">${m.tri.toFixed(3)}%</div></div>
-          <div class="tri-box cpn"><div class="tl">Total flux reçus</div><div class="tv">${money(m.totalRecu)}</div></div>
-          <div class="tri-box dur"><div class="tl">Nb d'échéances</div><div class="tv">${m.nTot}${m.nDef?' (dont '+m.nDef+' différé)':''}</div></div>
+          <div class="tri-box tri"><div class="tl">Rendement global (période)</div><div class="tv">${m.rendGlobal.toFixed(2)}%</div></div>
+          <div class="tri-box cpn"><div class="tl">Rendement annuel</div><div class="tv">${m.rendAnnuel.toFixed(2)}%</div></div>
+          <div class="tri-box dur"><div class="tl">Duration (Macaulay)</div><div class="tv">${m.durMac.toFixed(2)} an${m.durMac>1?'s':''}</div></div>
+        </div>
+        <div class="tri-row" style="margin-top:10px">
+          <div class="tri-box cpn"><div class="tl">Intérêts totaux perçus</div><div class="tv">${money(m.totalInterest)}</div></div>
+          <div class="tri-box dur"><div class="tl">Duration simple</div><div class="tv">${m.durSimple.toFixed(2)} an${m.durSimple>1?'s':''}</div></div>
+          <div class="tri-box tri"><div class="tl">Nb d'échéances</div><div class="tv">${m.nTot}${m.nDef?' (dont '+m.nDef+' diff.)':''}</div></div>
         </div>
         <div class="amort-toggle"><button onclick="toggleBondAmort(${i})">${b._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>
         ${b._open?amortTableHTML(amortTable(b))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('bond',${i})">Exporter l'échéancier (Excel)</button></div>`:''}
@@ -2095,11 +2135,13 @@ function renderBonds(){
   renderBondsRecap();
 }
 function deferInfo(years,defer,freq){
+  // defer est désormais un NOMBRE DE PÉRIODES (pas des années)
   const nTot=Math.max(1,Math.round((+years||1)*freq));
-  const maxDefPeriods=Math.max(0,nTot-1);
-  const maxDefYears=maxDefPeriods/freq;
-  const clamped=Math.min(Math.max(0,+defer||0),maxDefYears);
-  return {nTot,nDef:Math.round(clamped*freq),maxDefYears,clamped};
+  const maxDefPeriods=Math.max(0,nTot-1);          // au moins 1 période d'amortissement
+  const nDef=Math.min(Math.max(0,Math.round(+defer||0)),maxDefPeriods);
+  const freqLabel={1:'an(s)',2:'semestre(s)',4:'trimestre(s)',12:'mois'}[freq]||'période(s)';
+  const dureeDef=nDef/freq; // en années (pour info)
+  return {nTot,nDef,maxDefPeriods,freqLabel,dureeDef};
 }
 function refreshBondCard(i,rebuiltField){
   const b=state.portfolio.bonds[i];
@@ -2109,13 +2151,16 @@ function refreshBondCard(i,rebuiltField){
   const m=bondMetrics(b);
   const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
   const boxes=card.querySelectorAll('.tri-box .tv');
-  if(boxes[0])boxes[0].textContent=m.tri.toFixed(3)+'%';
-  if(boxes[1])boxes[1].textContent=money(m.totalRecu);
-  if(boxes[2])boxes[2].textContent=m.nTot+(m.nDef?' (dont '+m.nDef+' différé)':'');
+  if(boxes[0])boxes[0].textContent=m.rendGlobal.toFixed(2)+'%';
+  if(boxes[1])boxes[1].textContent=m.rendAnnuel.toFixed(2)+'%';
+  if(boxes[2])boxes[2].textContent=m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':'');
+  if(boxes[3])boxes[3].textContent=money(m.totalInterest);
+  if(boxes[4])boxes[4].textContent=m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':'');
+  if(boxes[5])boxes[5].textContent=m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':'');
   // label différé (conversion périodes)
   const di0=deferInfo(b.years,b.defer,+b.freq||1);
   const defInput=card.querySelector('input[oninput*="defer"]');
-  if(defInput){const lab=defInput.parentElement.querySelector('label');if(lab)lab.textContent='Différé — '+di0.nDef+' période(s) · max '+di0.maxDefYears+' an';}
+  if(defInput){const lab=defInput.parentElement.querySelector('label');if(lab)lab.textContent='Différé — '+di0.nDef+' '+di0.freqLabel+' · max '+di0.maxDefPeriods;}
   // reconstruire la grille personnalisée si présente (sans toucher au champ en cours)
   if(b.mode==='custom'){
     const freq=+b.freq||1;const di=deferInfo(b.years,b.defer,freq);
@@ -2152,7 +2197,7 @@ function editBond(i,field,key,val){
   // bornage du différé en fonction de durée + périodicité
   if(field==='defer'||field==='years'||field==='freq'){
     const di=deferInfo(b.years,b.defer,+b.freq||1);
-    if((+b.defer||0)>di.maxDefYears+1e-9){b.defer=+di.maxDefYears.toFixed(4);toast('Différé ramené au max : '+b.defer+' an(s) — au moins une échéance de remboursement');}
+    if((+b.defer||0)>di.maxDefPeriods){b.defer=di.maxDefPeriods;toast('Différé ramené au max : '+b.defer+' '+di.freqLabel+' (au moins une échéance de remboursement)');}
   }
   b._dirty=true;saveData();
   // mode/freq changent la STRUCTURE des champs -> re-render complet (le champ édité n'est pas un input texte continu)
@@ -2184,11 +2229,26 @@ function addBondDrag(card){
   card.addEventListener('dragover',e=>e.preventDefault());
   card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.bidx;if(bondDrag==null||bondDrag===to)return;const arr=state.portfolio.bonds;const[it]=arr.splice(bondDrag,1);arr.splice(to,0,it);bondDrag=null;saveData();renderBonds();});
 }
-// rendement pondéré au montant ET à la durée
+// indicateurs consolidés (rendements + durées + durations)
+function consolidate(metricsList){
+  const n=metricsList.length;
+  let totM=0,totDur=0;
+  metricsList.forEach(m=>{totM+=m.montant;totDur+=m.years;});
+  let rdtPondMontant=0,rdtPondDuree=0,durMoyMontant=0,durMoyArith=0;
+  let durSimplePondM=0,durMacPondM=0,durSimplePondD=0,durMacPondD=0;
+  metricsList.forEach(m=>{
+    if(totM>0){rdtPondMontant+=m.rendGlobal*m.montant/totM;durMoyMontant+=m.years*m.montant/totM;durSimplePondM+=m.durSimple*m.montant/totM;durMacPondM+=m.durMac*m.montant/totM;}
+    if(totDur>0){rdtPondDuree+=m.rendGlobal*m.years/totDur;durSimplePondD+=m.durSimple*m.years/totDur;durMacPondD+=m.durMac*m.years/totDur;}
+  });
+  durMoyArith=n>0?totDur/n:0;
+  return {totM,n,rdtPondMontant,rdtPondDuree,durMoyMontant,durMoyArith,
+    rdtAnnuelParDureeMontant:durMoyMontant>0?rdtPondMontant/durMoyMontant:0,
+    rdtAnnuelParDureeArith:durMoyArith>0?rdtPondMontant/durMoyArith:0,
+    durSimplePondM,durMacPondM,durSimplePondD,durMacPondD};
+}
 function weightedBondYield(list){
-  let wsum=0,acc=0,totM=0,accTriM=0;
-  list.forEach(b=>{const m=bondMetrics(b);const w=(+b.montant||0)*(+b.years||0);wsum+=w;acc+=w*m.tri;totM+=(+b.montant||0);accTriM+=(+b.montant||0)*m.tri;});
-  return {byMontantDuree:wsum>0?acc/wsum:0, byMontant:totM>0?accTriM/totM:0, totM};
+  const c=consolidate(list.map(b=>bondMetrics(b)));
+  return {byMontantDuree:c.rdtPondDuree,byMontant:c.rdtPondMontant,totM:c.totM,c};
 }
 function renderBondsRecap(){
   const list=state.portfolio.bonds;
@@ -2198,7 +2258,7 @@ function renderBondsRecap(){
   card.style.display='block';chartsBox.style.display='grid';
   const ms=list.map(b=>({b,m:bondMetrics(b)}));
   const totM=ms.reduce((a,{m})=>a+m.montant,0);
-  const wy=weightedBondYield(list);
+  const c=consolidate(ms.map(x=>x.m));
   const modeLabel={infine:'In fine',constant:'Amort. constant',annuite:'Annuités const.',custom:'Personnalisé'};
   let rows=ms.map(({b,m})=>`<tr>
     <td>${escapeHtml(b.issuer||'—')}</td>
@@ -2206,15 +2266,15 @@ function renderBondsRecap(){
     <td>${totM>0?(m.montant/totM*100).toFixed(1):0}%</td>
     <td>${(+b.tauxFacial||0).toFixed(2)}%</td>
     <td>${(+b.years||0)} an${(+b.years>1)?'s':''}</td>
-    <td>${modeLabel[b.mode]||b.mode}</td>
-    <td class="pos">${m.tri.toFixed(3)}%</td>
+    <td class="pos">${m.rendGlobal.toFixed(2)}%</td>
+    <td class="pos">${m.rendAnnuel.toFixed(2)}%</td>
+    <td>${m.durMac.toFixed(2)}</td>
   </tr>`).join('');
   card.querySelector('table').innerHTML=`
-    <thead><tr><th>Émetteur</th><th>Montant</th><th>Poids</th><th>Taux facial</th><th>Durée</th><th>Mode</th><th>TRI actuariel</th></tr></thead>
+    <thead><tr><th>Émetteur</th><th>Montant</th><th>Poids</th><th>Taux facial</th><th>Durée</th><th>Rdt global</th><th>Rdt annuel</th><th>Duration (Mac.)</th></tr></thead>
     <tbody>${rows}
-    <tr class="tot"><td>Compartiment obligataire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>—</td>
-      <td>TRI moyen pondéré</td><td class="pos">${wy.byMontantDuree.toFixed(3)}%</td></tr>
-    <tr class="tot"><td colspan="6" style="text-align:left;font-weight:600">Rendement pondéré au montant seul</td><td class="pos">${wy.byMontant.toFixed(3)}%</td></tr>
+    <tr class="tot"><td>Compartiment obligataire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td>
+      <td class="pos">${c.rdtPondMontant.toFixed(2)}%</td><td class="pos">${c.rdtAnnuelParDureeMontant.toFixed(2)}%</td><td>${c.durMacPondM.toFixed(2)}</td></tr>
     </tbody>`;
   drawBondsCharts(ms,totM);
 }
@@ -2226,8 +2286,8 @@ function drawBondsCharts(ms,totM){
     data:{labels:named.map(({b})=>b.issuer||'—'),datasets:[{data:named.map(({m})=>m.montant),backgroundColor:palette,borderWidth:2,borderColor:'#fff'}]},
     options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
   charts.bTri=new Chart(document.getElementById('chBondsTri'),{type:'bar',
-    data:{labels:named.map(({b})=>b.issuer||'—'),datasets:[{label:'TRI',data:named.map(({m})=>+m.tri.toFixed(3)),backgroundColor:'#0a8a96',borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'TRI : '+c.raw+'%'}}},
+    data:{labels:named.map(({b})=>b.issuer||'—'),datasets:[{label:'Rendement annuel',data:named.map(({m})=>+m.rendAnnuel.toFixed(2)),backgroundColor:'#0a8a96',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Rdt annuel : '+c.raw+'%'}}},
       scales:{y:{ticks:{callback:v=>v+'%',font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
 }
 
@@ -2255,11 +2315,17 @@ function batMetrics(t){
   const interest=N*taux*(days/base);
   const price=N-interest;
   const years=days/base;
-  const tri=(price>0&&years>0)?(Math.pow(N/price,1/years)-1)*100:0;
-  return {N,interest,price,tri,years,days,base};
+  // rendement simple : intérêt / prix investi (le BAT s'achète au prix décoté)
+  const rendGlobal=price>0?interest/price*100:0;
+  const rendAnnuel=years>0?rendGlobal/years:0;
+  return {N,interest,price,years,days,base,rendGlobal,rendAnnuel};
 }
 function moneyMetrics(t){
-  if(t.kind==='BAT'){const b=batMetrics(t);return {kind:'BAT',montant:t.montant||0,tri:b.tri,price:b.price,interest:b.interest,years:b.years,totalRecu:b.N,nTot:1,nDef:0};}
+  if(t.kind==='BAT'){const b=batMetrics(t);
+    return {kind:'BAT',montant:b.price,nominal:b.N,interest:b.interest,price:b.price,years:b.years,
+      rendGlobal:b.rendGlobal,rendAnnuel:b.rendAnnuel,totalInterest:b.interest,
+      durSimple:b.years,durMac:b.years,totalRecu:b.N,nTot:1,nDef:0};
+  }
   // OAT : identique à une obligation
   const m=bondMetrics(t);return {kind:'OAT',...m};
 }
@@ -2274,7 +2340,7 @@ function renderMoney(){
     const m=moneyMetrics(t);
     const ac=accruedCoupon(t);
     const freqPerYear=+t.freq||1;
-    const nAmortDisplay=Math.max(1,Math.round((+t.years||1)*freqPerYear)-Math.round((+t.defer||0)*freqPerYear));
+    const nAmortDisplay=Math.max(1,Math.round((+t.years||1)*freqPerYear)-Math.min(Math.round(+t.defer||0),Math.round((+t.years||1)*freqPerYear)-1));
     let customBlock='';
     if(!isBAT && t.mode==='custom'){
       const sum=customSum(t);let cells='';
@@ -2307,13 +2373,13 @@ function renderMoney(){
         <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${t.years||''}" placeholder="3" oninput="editMoney(${i},'years',null,this.value)"></div>
         <div class="fg"><label>Périodicité coupon</label>
           <select onchange="editMoney(${i},'freq',null,this.value)">
-            <option value="1" ${t.freq=='1'?'selected':''}>Annuelle</option><option value="2" ${t.freq=='2'?'selected':''}>Semestrielle</option><option value="4" ${t.freq=='4'?'selected':''}>Trimestrielle</option>
+            <option value="12" ${t.freq=='12'?'selected':''}>Mensuelle</option><option value="4" ${t.freq=='4'?'selected':''}>Trimestrielle</option><option value="2" ${t.freq=='2'?'selected':''}>Semestrielle</option><option value="1" ${t.freq=='1'?'selected':''}>Annuelle</option>
           </select></div>
       </div>
       <div class="fgrid" style="margin-top:13px">
         <div class="fg"><label>Date de valeur</label><input type="date" value="${t.dateVal||''}" oninput="editMoney(${i},'dateVal',null,this.value)"></div>
         <div class="fg"><label>Date d'échéance</label><input type="date" value="${t.dateEch||''}" oninput="editMoney(${i},'dateEch',null,this.value)"></div>
-        <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(t.years,t.defer,+t.freq||1);return di.nDef+' période(s) · max '+di.maxDefYears+' an';})()}</label><input type="number" step="0.5" min="0" value="${t.defer||0}" oninput="editMoney(${i},'defer',null,this.value)"></div>
+        <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(t.years,t.defer,+t.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${t.defer||0}" oninput="editMoney(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés)."></div>
         <div class="fg"><label>Mode de remboursement</label>
           <select onchange="editMoney(${i},'mode',null,this.value)">
             <option value="infine" ${t.mode==='infine'?'selected':''}>In fine</option><option value="constant" ${t.mode==='constant'?'selected':''}>Amort. constant</option>
@@ -2347,9 +2413,14 @@ function renderMoney(){
         ${charBlock}
         ${ccBlock}
         <div class="tri-row">
-          <div class="tri-box tri"><div class="tl">Taux actuariel (TRI)</div><div class="tv">${m.tri.toFixed(3)}%</div></div>
-          <div class="tri-box cpn"><div class="tl">${isBAT?'Valeur remboursée':'Total flux reçus'}</div><div class="tv">${money(m.totalRecu)}</div></div>
-          <div class="tri-box dur"><div class="tl">${isBAT?'Durée':'Nb d\'échéances'}</div><div class="tv">${isBAT?(m.years*12).toFixed(1)+' mois':(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
+          <div class="tri-box tri"><div class="tl">Rendement global (période)</div><div class="tv">${m.rendGlobal.toFixed(2)}%</div></div>
+          <div class="tri-box cpn"><div class="tl">Rendement annuel</div><div class="tv">${m.rendAnnuel.toFixed(2)}%</div></div>
+          <div class="tri-box dur"><div class="tl">${isBAT?'Durée':'Duration (Macaulay)'}</div><div class="tv">${isBAT?((m.years*12).toFixed(1)+' mois'):(m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':''))}</div></div>
+        </div>
+        <div class="tri-row" style="margin-top:10px">
+          <div class="tri-box cpn"><div class="tl">${isBAT?'Intérêt précompté':'Intérêts totaux'}</div><div class="tv">${money(m.totalInterest)}</div></div>
+          <div class="tri-box dur"><div class="tl">${isBAT?'Prix d\'acquisition':'Duration simple'}</div><div class="tv">${isBAT?money(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''))}</div></div>
+          <div class="tri-box tri"><div class="tl">${isBAT?'Valeur remboursée':'Nb d\'échéances'}</div><div class="tv">${isBAT?money(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
         </div>
         ${!isBAT?`<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('money',${i})">Exporter l'échéancier (Excel)</button></div>`:''}`:''}
       </div>
@@ -2370,8 +2441,15 @@ function refreshMoneyCard(i,rebuiltField){
   const m=moneyMetrics(t),ac=accruedCoupon(t);
   const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
   const boxes=card.querySelectorAll('.tri-box .tv');
-  if(boxes[0])boxes[0].textContent=m.tri.toFixed(3)+'%';
-  if(boxes[1])boxes[1].textContent=money(m.totalRecu);
+  const isBAT=t.kind==='BAT';
+  if(boxes[0])boxes[0].textContent=m.rendGlobal.toFixed(2)+'%';
+  if(boxes[1])boxes[1].textContent=m.rendAnnuel.toFixed(2)+'%';
+  if(boxes[2])boxes[2].textContent=isBAT?((m.years*12).toFixed(1)+' mois'):(m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':''));
+  if(boxes[3])boxes[3].textContent=money(m.totalInterest);
+  if(boxes[4])boxes[4].textContent=isBAT?money(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''));
+  if(boxes[5])boxes[5].textContent=isBAT?money(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''));
+  // label différé (périodes)
+  if(!isBAT){const di0=deferInfo(t.years,t.defer,+t.freq||1);const defInput=card.querySelector('input[oninput*="defer"]');if(defInput){const lab=defInput.parentElement.querySelector('label');if(lab)lab.textContent='Différé — '+di0.nDef+' '+di0.freqLabel+' · max '+di0.maxDefPeriods;}}
   // champs lecture seule : coupon couru, prix BAT, intérêt
   card.querySelectorAll('.fg input.ro').forEach(inp=>{
     const lbl=inp.parentElement.querySelector('label');if(!lbl)return;const L=lbl.textContent;
@@ -2400,7 +2478,7 @@ function editMoney(i,field,key,val){
   // bornage différé (OAT seulement, BAT n'a pas de différé)
   if(t.kind!=='BAT'&&(field==='defer'||field==='years'||field==='freq')){
     const di=deferInfo(t.years,t.defer,+t.freq||1);
-    if((+t.defer||0)>di.maxDefYears+1e-9){t.defer=+di.maxDefYears.toFixed(4);toast('Différé ramené au max : '+t.defer+' an(s)');}
+    if((+t.defer||0)>di.maxDefPeriods){t.defer=di.maxDefPeriods;toast('Différé ramené au max : '+t.defer+' '+di.freqLabel);}
   }
   t._dirty=true;saveData();
   // changements de STRUCTURE de champs -> re-render complet
@@ -2428,11 +2506,12 @@ function addMoneyDrag(card){
   card.addEventListener('dragover',e=>e.preventDefault());
   card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.midx;if(moneyDrag==null||moneyDrag===to)return;const arr=state.portfolio.money;const[it]=arr.splice(moneyDrag,1);arr.splice(to,0,it);moneyDrag=null;saveData();renderMoney();});
 }
-function weightedMoneyYield(list){
-  let wsum=0,acc=0,totM=0,accTriM=0;
-  list.forEach(t=>{const m=moneyMetrics(t);const dur=t.kind==='BAT'?((+t.batDays||0)/365):(+t.years||0);const w=(+t.montant||0)*dur;wsum+=w;acc+=w*m.tri;totM+=(+t.montant||0);accTriM+=(+t.montant||0)*m.tri;});
-  return {byMontantDuree:wsum>0?acc/wsum:0,byMontant:totM>0?accTriM/totM:0,totM};
+function moneyConsolidate(list){
+  // chaque titre : montant investi, rendement global, durée en années
+  const items=list.map(t=>{const m=moneyMetrics(t);const years=t.kind==='BAT'?((+t.batDays||0)/((t.base==='EXACT'?365:+t.base)||360)):(+t.years||0);return {montant:m.montant,rendGlobal:m.rendGlobal,years,durSimple:m.durSimple,durMac:m.durMac};});
+  return consolidate(items);
 }
+function weightedMoneyYield(list){const c=moneyConsolidate(list);return {byMontantDuree:c.rdtPondDuree,byMontant:c.rdtPondMontant,totM:c.totM,c};}
 function renderMoneyRecap(){
   const list=state.portfolio.money;
   const card=document.getElementById('moneyRecapCard'),chartsBox=document.getElementById('moneyCharts');
@@ -2441,7 +2520,7 @@ function renderMoneyRecap(){
   card.style.display='block';chartsBox.style.display='grid';
   const ms=list.map(t=>({t,m:moneyMetrics(t),ac:accruedCoupon(t)}));
   const totM=ms.reduce((a,{m})=>a+m.montant,0);
-  const wy=weightedMoneyYield(list);
+  const c=moneyConsolidate(list);
   let rows=ms.map(({t,m,ac})=>`<tr>
     <td>${escapeHtml(t.issuer||'—')} <span style="font-size:10px;color:var(--cyan-deep);font-weight:700">${t.kind}</span></td>
     <td>${money(m.montant)}</td>
@@ -2449,13 +2528,13 @@ function renderMoneyRecap(){
     <td>${(+t.tauxFacial||0).toFixed(2)}%</td>
     <td>${t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' an'+((+t.years>1)?'s':''))}</td>
     <td>${money(ac.cc)} <span style="color:var(--muted)">(${ac.pct.toFixed(2)}%)</span></td>
-    <td class="pos">${m.tri.toFixed(3)}%</td>
+    <td class="pos">${m.rendGlobal.toFixed(2)}%</td>
+    <td class="pos">${m.rendAnnuel.toFixed(2)}%</td>
   </tr>`).join('');
   card.querySelector('table').innerHTML=`
-    <thead><tr><th>Titre</th><th>Montant</th><th>Poids</th><th>Taux</th><th>Durée</th><th>Coupon couru</th><th>TRI actuariel</th></tr></thead>
+    <thead><tr><th>Titre</th><th>Montant</th><th>Poids</th><th>Taux</th><th>Durée</th><th>Coupon couru</th><th>Rdt global</th><th>Rdt annuel</th></tr></thead>
     <tbody>${rows}
-    <tr class="tot"><td>Compartiment monétaire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>—</td><td>TRI moyen pondéré</td><td class="pos">${wy.byMontantDuree.toFixed(3)}%</td></tr>
-    <tr class="tot"><td colspan="6" style="text-align:left;font-weight:600">Rendement pondéré au montant seul</td><td class="pos">${wy.byMontant.toFixed(3)}%</td></tr>
+    <tr class="tot"><td>Compartiment monétaire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td><td>—</td><td class="pos">${c.rdtPondMontant.toFixed(2)}%</td><td class="pos">${c.rdtAnnuelParDureeMontant.toFixed(2)}%</td></tr>
     </tbody>`;
   drawMoneyCharts(ms,totM);
 }
@@ -2467,24 +2546,22 @@ function drawMoneyCharts(ms,totM){
     data:{labels:named.map(({t})=>(t.issuer||'—')+' ('+t.kind+')'),datasets:[{data:named.map(({m})=>m.montant),backgroundColor:palette,borderWidth:2,borderColor:'#fff'}]},
     options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{family:'Outfit'},padding:10}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
   charts.mTri=new Chart(document.getElementById('chMoneyTri'),{type:'bar',
-    data:{labels:named.map(({t})=>(t.issuer||'—')),datasets:[{label:'TRI',data:named.map(({m})=>+m.tri.toFixed(3)),backgroundColor:'#0a8a96',borderRadius:3}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'TRI : '+c.raw+'%'}}},
+    data:{labels:named.map(({t})=>(t.issuer||'—')),datasets:[{label:'Rendement annuel',data:named.map(({m})=>+m.rendAnnuel.toFixed(2)),backgroundColor:'#0a8a96',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Rdt annuel : '+c.raw+'%'}}},
       scales:{y:{ticks:{callback:v=>v+'%',font:{family:'Outfit',size:10}},grid:{color:'#eceadf'}},x:{grid:{display:false},ticks:{font:{family:'Outfit'}}}}}});
 }
 
 /* ============ SYNTHÈSE GLOBALE ============ */
 function portfolioTotals(){
   const P=state.portfolio;
-  // actions
   let aTot=0,aReal=0;P.stocks.forEach(a=>{const m=stockMetrics(a);aTot+=m.montant;});
   P.stocks.forEach(a=>{const m=stockMetrics(a);const w=aTot>0?m.montant/aTot:0;aReal+=w*m.totalReal;});
-  // obligations
-  let bTot=0;P.bonds.forEach(b=>bTot+=(+b.montant||0));const bw=weightedBondYield(P.bonds);
-  // monétaire
-  let mTot=0;P.money.forEach(t=>mTot+=(+t.montant||0));const mw=weightedMoneyYield(P.money);
+  let bTot=0;P.bonds.forEach(b=>bTot+=(+b.montant||0));
+  const bc=consolidate(P.bonds.map(b=>bondMetrics(b)));
+  let mTot=0;P.money.forEach(t=>mTot+=(+t.montant||0));
+  const mc=moneyConsolidate(P.money);
   const grand=aTot+bTot+mTot;
-  return {aTot,aReal,bTot,bTri:bw.byMontantDuree,mTot,mTri:mw.byMontantDuree,grand,
-    P};
+  return {aTot,aReal,bTot,bc,mTot,mc,grand,P};
 }
 function renderSynth(){
   if(session.role==='guest')return;
@@ -2493,33 +2570,52 @@ function renderSynth(){
   document.getElementById('synthEmpty').style.display=empty?'block':'none';
   document.getElementById('synthCharts').style.display=empty?'none':'grid';
   document.getElementById('synthTableCard').style.display=empty?'none':'block';
-  // KPI
   const pct=v=>T.grand>0?(v/T.grand*100).toFixed(1)+'%':'0%';
   document.getElementById('synthKpis').innerHTML=`
     <div class="kpi k1"><div class="strip"></div><div class="kt">Capital total investi</div><div class="kv">${money(T.grand)}</div><div class="ks up">${T.P.stocks.length+T.P.bonds.length+T.P.money.length} ligne(s)</div></div>
     <div class="kpi k3"><div class="strip"></div><div class="kt">Actions</div><div class="kv">${money(T.aTot)}</div><div class="ks up">${pct(T.aTot)} · rdt ${T.aReal.toFixed(2)}%</div></div>
-    <div class="kpi k4"><div class="strip"></div><div class="kt">Obligations</div><div class="kv">${money(T.bTot)}</div><div class="ks up">${pct(T.bTot)} · TRI ${T.bTri.toFixed(2)}%</div></div>
-    <div class="kpi k2"><div class="strip"></div><div class="kt">Monétaire</div><div class="kv">${money(T.mTot)}</div><div class="ks up">${pct(T.mTot)} · TRI ${T.mTri.toFixed(2)}%</div></div>`;
+    <div class="kpi k4"><div class="strip"></div><div class="kt">Obligations</div><div class="kv">${money(T.bTot)}</div><div class="ks up">${pct(T.bTot)} · ${T.bc.rdtAnnuelParDureeMontant.toFixed(2)}%/an</div></div>
+    <div class="kpi k2"><div class="strip"></div><div class="kt">Monétaire</div><div class="kv">${money(T.mTot)}</div><div class="ks up">${pct(T.mTot)} · ${T.mc.rdtAnnuelParDureeMontant.toFixed(2)}%/an</div></div>`;
   if(empty){destroy('synClass');destroy('synLines');return;}
-  // tableau consolidé
+  // tableau consolidé : compartiments
   document.getElementById('synthTable').innerHTML=`
-    <thead><tr><th>Compartiment</th><th>Montant investi</th><th>Poids</th><th>Rendement / TRI</th><th>Nb lignes</th></tr></thead>
+    <thead><tr><th>Compartiment</th><th>Montant</th><th>Poids</th><th>Rdt global pond. montant</th><th>Rdt global pond. durée</th><th>Rdt annuel /durée moy.</th><th>Nb</th></tr></thead>
     <tbody>
-      <tr><td>Actions</td><td>${money(T.aTot)}</td><td>${pct(T.aTot)}</td><td class="pos">${T.aReal.toFixed(2)}% (réaliste)</td><td>${T.P.stocks.length}</td></tr>
-      <tr><td>Emprunts obligataires</td><td>${money(T.bTot)}</td><td>${pct(T.bTot)}</td><td class="pos">${T.bTri.toFixed(3)}% (TRI pondéré)</td><td>${T.P.bonds.length}</td></tr>
-      <tr><td>Monétaire (OAT/BAT)</td><td>${money(T.mTot)}</td><td>${pct(T.mTot)}</td><td class="pos">${T.mTri.toFixed(3)}% (TRI pondéré)</td><td>${T.P.money.length}</td></tr>
-      <tr class="tot"><td>Portefeuille global</td><td>${money(T.grand)}</td><td>100%</td><td>—</td><td>${T.P.stocks.length+T.P.bonds.length+T.P.money.length}</td></tr>
+      <tr><td>Actions</td><td>${money(T.aTot)}</td><td>${pct(T.aTot)}</td><td class="pos">${T.aReal.toFixed(2)}%</td><td>—</td><td>—</td><td>${T.P.stocks.length}</td></tr>
+      <tr><td>Emprunts obligataires</td><td>${money(T.bTot)}</td><td>${pct(T.bTot)}</td><td class="pos">${T.bc.rdtPondMontant.toFixed(2)}%</td><td class="pos">${T.bc.rdtPondDuree.toFixed(2)}%</td><td class="pos">${T.bc.rdtAnnuelParDureeMontant.toFixed(2)}%</td><td>${T.P.bonds.length}</td></tr>
+      <tr><td>Monétaire (OAT/BAT)</td><td>${money(T.mTot)}</td><td>${pct(T.mTot)}</td><td class="pos">${T.mc.rdtPondMontant.toFixed(2)}%</td><td class="pos">${T.mc.rdtPondDuree.toFixed(2)}%</td><td class="pos">${T.mc.rdtAnnuelParDureeMontant.toFixed(2)}%</td><td>${T.P.money.length}</td></tr>
+      <tr class="tot"><td>Portefeuille global</td><td>${money(T.grand)}</td><td>100%</td><td colspan="3">${T.P.stocks.length+T.P.bonds.length+T.P.money.length} ligne(s) au total</td><td></td></tr>
     </tbody>`;
-  // charts
+  // tableau détaillé des indicateurs obligataires/monétaires
+  const detail=document.getElementById('synthDetail');
+  if(detail){
+    const block=(title,c)=>`
+      <div class="syn-detail-card">
+        <h4>${title}</h4>
+        <div class="syn-kv"><span>Rendement global moyen (pondéré montant)</span><b>${c.rdtPondMontant.toFixed(2)}%</b></div>
+        <div class="syn-kv"><span>Rendement global moyen (pondéré durée)</span><b>${c.rdtPondDuree.toFixed(2)}%</b></div>
+        <div class="syn-kv"><span>Durée moyenne (pondérée montants)</span><b>${c.durMoyMontant.toFixed(2)} ans</b></div>
+        <div class="syn-kv"><span>Durée moyenne (arithmétique)</span><b>${c.durMoyArith.toFixed(2)} ans</b></div>
+        <div class="syn-kv"><span>Rendement annuel moyen (÷ durée pond. montant)</span><b>${c.rdtAnnuelParDureeMontant.toFixed(2)}%</b></div>
+        <div class="syn-kv"><span>Rendement annuel moyen (÷ durée arithmétique)</span><b>${c.rdtAnnuelParDureeArith.toFixed(2)}%</b></div>
+        <div class="syn-kv"><span>Duration simple moyenne (pondérée montants)</span><b>${c.durSimplePondM.toFixed(2)}</b></div>
+        <div class="syn-kv"><span>Duration de Macaulay moyenne (pondérée montants)</span><b>${c.durMacPondM.toFixed(2)}</b></div>
+        <div class="syn-kv"><span>Duration de Macaulay moyenne (pondérée durées)</span><b>${c.durMacPondD.toFixed(2)}</b></div>
+      </div>`;
+    let html='';
+    if(T.bTot>0)html+=block('Emprunts obligataires',T.bc);
+    if(T.mTot>0)html+=block('Monétaire (OAT / BAT)',T.mc);
+    detail.innerHTML=html;
+    detail.style.display=html?'grid':'none';
+  }
   destroy('synClass');destroy('synLines');
   charts.synClass=new Chart(document.getElementById('chSynthClass'),{type:'doughnut',
     data:{labels:['Actions','Obligations','Monétaire'],datasets:[{data:[T.aTot,T.bTot,T.mTot],backgroundColor:['#0a8a96','#6a3d8f','#11c4d4'],borderWidth:2,borderColor:'#fff'}]},
     options:{cutout:'58%',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Outfit'},padding:14}},tooltip:{callbacks:{label:c=>c.label+': '+money(c.raw)}}}}});
-  // toutes les lignes
   const lines=[];
   T.P.stocks.forEach(a=>{const m=stockMetrics(a);if(m.montant>0)lines.push({n:(a.name||'Action'),v:m.montant,c:'#0a8a96'});});
   T.P.bonds.forEach(b=>{if(+b.montant>0)lines.push({n:(b.issuer||'Obligation'),v:+b.montant,c:'#6a3d8f'});});
-  T.P.money.forEach(t=>{if(+t.montant>0)lines.push({n:((t.issuer||t.kind)+' ('+t.kind+')'),v:+t.montant,c:'#11c4d4'});});
+  T.P.money.forEach(t=>{const m=moneyMetrics(t);if(m.montant>0)lines.push({n:((t.issuer||t.kind)+' ('+t.kind+')'),v:m.montant,c:'#11c4d4'});});
   charts.synLines=new Chart(document.getElementById('chSynthLines'),{type:'bar',
     data:{labels:lines.map(l=>l.n),datasets:[{label:'Capital investi',data:lines.map(l=>l.v),backgroundColor:lines.map(l=>l.c),borderRadius:3}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>money(c.raw)}}},
@@ -2547,8 +2643,8 @@ function exportPortfolio(){
   headRow(ws0,['Compartiment','Montant investi ('+cur+')','Poids','Rendement / TRI','Nb lignes']);
   const pctOf=v=>T.grand>0?(v/T.grand*100):0;
   dataRow(ws0,['Actions',Math.round(T.aTot),pctOf(T.aTot)/100,T.aReal.toFixed(2)+'% (réaliste)',P.stocks.length],[null,numFmt,'0.0%',null,null]);
-  dataRow(ws0,['Emprunts obligataires',Math.round(T.bTot),pctOf(T.bTot)/100,T.bTri.toFixed(3)+'% (TRI pondéré)',P.bonds.length],[null,numFmt,'0.0%',null,null]);
-  dataRow(ws0,['Monétaire (OAT/BAT)',Math.round(T.mTot),pctOf(T.mTot)/100,T.mTri.toFixed(3)+'% (TRI pondéré)',P.money.length],[null,numFmt,'0.0%',null,null]);
+  dataRow(ws0,['Emprunts obligataires',Math.round(T.bTot),pctOf(T.bTot)/100,T.bc.rdtPondMontant.toFixed(2)+'% (pond. montant)',P.bonds.length],[null,numFmt,'0.0%',null,null]);
+  dataRow(ws0,['Monétaire (OAT/BAT)',Math.round(T.mTot),pctOf(T.mTot)/100,T.mc.rdtPondMontant.toFixed(2)+'% (pond. montant)',P.money.length],[null,numFmt,'0.0%',null,null]);
   const tr=dataRow(ws0,['Portefeuille global',Math.round(T.grand),1,'—',P.stocks.length+P.bonds.length+P.money.length],[null,numFmt,'0.0%',null,null]);
   tr.eachCell(c=>{c.font={name:'Arial',bold:true,size:10};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
 
@@ -2565,30 +2661,30 @@ function exportPortfolio(){
   // --- Feuille OBLIGATIONS + échéanciers ---
   if(P.bonds.length){
     const ws=wb.addWorksheet('Obligations',{views:[{showGridLines:false}]});
-    ws.columns=[{width:28},{width:18},{width:12},{width:10},{width:18},{width:14}];
-    titleRow(ws,'EMPRUNTS OBLIGATAIRES',6,VIOLET);ws.addRow([]);
-    headRow(ws,['Émetteur','Montant ('+cur+')','Taux facial','Durée','Mode','TRI']);
+    ws.columns=[{width:28},{width:18},{width:12},{width:10},{width:16},{width:14},{width:14},{width:14}];
+    titleRow(ws,'EMPRUNTS OBLIGATAIRES',8,VIOLET);ws.addRow([]);
+    headRow(ws,['Émetteur','Montant ('+cur+')','Taux facial','Durée','Mode','Rdt global','Rdt annuel','Duration Mac.']);
     const modeLabel={infine:'In fine',constant:'Amort. constant',annuite:'Annuités const.',custom:'Personnalisé'};
     let tot=0;P.bonds.forEach(b=>{const m=bondMetrics(b);tot+=m.montant;
-      dataRow(ws,[b.issuer||'—',Math.round(m.montant),(+b.tauxFacial||0)+'%',(+b.years||0)+' ans',modeLabel[b.mode]||b.mode,m.tri.toFixed(3)+'%'],[null,numFmt,null,null,null,null]);});
+      dataRow(ws,[b.issuer||'—',Math.round(m.montant),(+b.tauxFacial||0)+'%',(+b.years||0)+' ans',modeLabel[b.mode]||b.mode,m.rendGlobal.toFixed(2)+'%',m.rendAnnuel.toFixed(2)+'%',m.durMac.toFixed(2)],[null,numFmt,null,null,null,null,null,null]);});
     const r=dataRow(ws,['Total',Math.round(tot)],[null,numFmt]);r.eachCell(c=>{c.font={name:'Arial',bold:true};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
     // échéanciers
-    P.bonds.forEach(b=>{const rows=amortTable(b);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(b.issuer||'obligation'),6,INK);
-      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité']);
+    P.bonds.forEach(b=>{const rows=amortTable(b);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(b.issuer||'obligation'),8,INK);
+      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité','','']);
       rows.forEach(rw=>dataRow(ws,[rw.n,rw.date,Math.round(rw.crdStart),Math.round(rw.interest),Math.round(rw.amort),Math.round(rw.annuity)],[null,null,numFmt,numFmt,numFmt,numFmt]));});
   }
   // --- Feuille MONÉTAIRE ---
   if(P.money.length){
     const ws=wb.addWorksheet('Monétaire',{views:[{showGridLines:false}]});
-    ws.columns=[{width:26},{width:8},{width:18},{width:12},{width:14},{width:18},{width:14}];
-    titleRow(ws,'MONÉTAIRE — OAT / BAT',7,CYAN);ws.addRow([]);
-    headRow(ws,['Émetteur','Type','Montant ('+cur+')','Taux','Durée','Coupon couru','TRI']);
+    ws.columns=[{width:26},{width:8},{width:18},{width:12},{width:14},{width:18},{width:13},{width:13}];
+    titleRow(ws,'MONÉTAIRE — OAT / BAT',8,CYAN);ws.addRow([]);
+    headRow(ws,['Émetteur','Type','Montant ('+cur+')','Taux','Durée','Coupon couru','Rdt global','Rdt annuel']);
     let tot=0;P.money.forEach(t=>{const m=moneyMetrics(t);const ac=accruedCoupon(t);tot+=m.montant;
-      dataRow(ws,[t.issuer||'—',t.kind,Math.round(m.montant),(+t.tauxFacial||0)+'%',t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' ans'),Math.round(ac.cc),m.tri.toFixed(3)+'%'],[null,null,numFmt,null,null,numFmt,null]);});
+      dataRow(ws,[t.issuer||'—',t.kind,Math.round(m.montant),(+t.tauxFacial||0)+'%',t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' ans'),Math.round(ac.cc),m.rendGlobal.toFixed(2)+'%',m.rendAnnuel.toFixed(2)+'%'],[null,null,numFmt,null,null,numFmt,null,null]);});
     const r=dataRow(ws,['Total',null,Math.round(tot)],[null,null,numFmt]);r.eachCell(c=>{c.font={name:'Arial',bold:true};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};});
     // échéanciers OAT
-    P.money.filter(t=>t.kind!=='BAT').forEach(t=>{const rows=amortTable(t);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(t.issuer||'OAT'),7,INK);
-      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité','']);
+    P.money.filter(t=>t.kind!=='BAT').forEach(t=>{const rows=amortTable(t);if(!rows.length)return;ws.addRow([]);titleRow(ws,'Échéancier — '+(t.issuer||'OAT'),8,INK);
+      headRow(ws,['N°','Échéance','Capital dû début','Intérêt','Amortissement','Annuité','','']);
       rows.forEach(rw=>dataRow(ws,[rw.n,rw.date,Math.round(rw.crdStart),Math.round(rw.interest),Math.round(rw.amort),Math.round(rw.annuity)],[null,null,numFmt,numFmt,numFmt,numFmt]));});
   }
   // feuille sauvegarde
@@ -3004,10 +3100,13 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
   if(supaReady){
     const hash=location.hash||'';
     const params=new URLSearchParams(location.search);
-    const isRecovery=params.get('reset')==='1'||hash.includes('type=recovery');
-    const isSignup=hash.includes('type=signup')||params.get('confirmed')==='1';
+    const hashParams=new URLSearchParams(hash.replace(/^#/,''));
+    const typeParam=hashParams.get('type')||params.get('type')||'';
+    const hasCode=params.get('code');           // flux PKCE
+    const isRecovery=params.get('reset')==='1'||typeParam==='recovery'||hash.includes('type=recovery');
+    const isSignup=typeParam==='signup'||params.get('confirmed')==='1'||hash.includes('type=signup');
 
-    // 1) réinitialisation de mot de passe
+    // écoute des changements d'état (recovery / signin)
     supa.auth.onAuthStateChange((event)=>{
       if(event==='PASSWORD_RECOVERY'){openResetModal();}
     });
@@ -3016,10 +3115,20 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 
     if(isSignup){
       // compte confirmé : on déconnecte pour forcer une connexion explicite, puis écran de succès
-      supa.auth.signOut().finally(()=>{
+      supa.auth.signOut().finally(()=>{cleanUrl();showConfirmedScreen();});
+      return;
+    }
+
+    // flux PKCE (?code=) : échange le code puis route selon le type
+    if(hasCode){
+      supa.auth.exchangeCodeForSession(location.href).then(({data,error})=>{
         cleanUrl();
-        showConfirmedScreen();
-      });
+        if(error){showConfirmedScreen();return;}
+        // si c'était une récupération de mot de passe, le onAuthStateChange aura ouvert le modal
+        if(typeParam==='recovery'){openResetModal();return;}
+        // sinon : confirmation de compte -> on déconnecte et on invite à se connecter
+        supa.auth.signOut().finally(()=>showConfirmedScreen());
+      }).catch(()=>{cleanUrl();showConfirmedScreen();});
       return;
     }
 
