@@ -606,7 +606,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <div class="topbar-in">
       <div class="brand">
         <div class="brand-mark">M</div>
-        <div><b>MonBudget</b><span>Contrôler vos dépenses et planifier vos investissements avec stratégie pour atteindre votre autonomie financière au plus tôt que possible (FIRE) </span></div>
+        <div><b>MonBudget</b><span>Contrôler vos dépenses et planifier vos investissements </span></div>
       </div>
       <div class="topbar-spacer"></div>
       <div class="who">
@@ -3732,7 +3732,7 @@ function checkReportDue(){
   if(!state||session.role==='guest')return;
   const last=state._lastReport||0;
   const days=(Date.now()-last)/(1000*60*60*24);
-  if(days>=30){
+  if(last>0 && days>=30){
     setTimeout(()=>{
       confirmAction('Cela fait 30 jours ou plus depuis votre dernier rapport. Voulez-vous générer votre rapport budgétaire mensuel maintenant ?',
         ()=>generateBudgetReport());
