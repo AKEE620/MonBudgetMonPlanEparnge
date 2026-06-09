@@ -111,6 +111,56 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 
 /* ---------- BUDGET VIEW ---------- */
 .period-bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.salary-bar{display:flex;flex-wrap:wrap;align-items:center;gap:18px;background:linear-gradient(135deg,#eef9fa,#f6f1e7);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.salary-field{display:flex;flex-direction:column;gap:6px}
+.salary-field label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.salary-field input{font-family:'JetBrains Mono';font-size:15px;font-weight:700;color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;width:200px;background:#fff}
+.salary-input-wrap{display:flex;align-items:center;gap:8px}
+.salary-eye{background:#eef2f0;border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;font-family:'Outfit';font-weight:700;font-size:12px;color:var(--ink-soft);cursor:pointer;transition:.2s;white-space:nowrap}
+.salary-eye:hover{border-color:var(--cyan);color:var(--cyan-deep);background:#eef9fa}
+.budget-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.gear-btn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border:none;border-radius:11px;padding:10px 16px;font-family:'Outfit';font-weight:700;font-size:13.5px;cursor:pointer;transition:.2s}
+.gear-btn:hover{background:#13314e;transform:translateY(-1px)}
+.gear-ico{font-size:15px}
+.ghost-btn{background:#eef2f0;color:var(--ink-soft);border:1.5px solid var(--line);border-radius:11px;padding:10px 16px;font-family:'Outfit';font-weight:700;font-size:13.5px;cursor:pointer;transition:.2s}
+.ghost-btn:hover{border-color:var(--cyan);color:var(--cyan-deep);background:#eef9fa}
+.eo-section{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.eo-title{font-family:'Outfit';font-weight:700;font-size:13px;color:var(--cyan-deep);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.eo-field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.eo-field:last-child{margin-bottom:0}
+.eo-field select{font-family:'Outfit';font-size:14px;font-weight:600;color:var(--ink);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;background:#fff}
+.eo-field input[type=range]{width:100%;accent-color:var(--cyan-deep);cursor:pointer}
+.eo-checks{display:flex;flex-direction:column;gap:10px}
+.eo-check{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+.eo-check input{width:16px;height:16px;accent-color:var(--cyan-deep);cursor:pointer}
+.eo-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.eo-act{background:#eef9fa;border:1.5px solid #d4eff1;color:var(--cyan-deep);border-radius:9px;padding:10px 12px;font-family:'Outfit';font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s}
+.eo-act:hover{background:#d4eff1}
+.rec-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-2);font-size:13px}
+.rec-row:last-child{border-bottom:none}
+.rec-go{background:var(--cyan-deep);border:none;color:#fff;border-radius:8px;padding:7px 14px;font-family:'Outfit';font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap}
+.rec-go:hover{background:#0a7682}
+.rec-go:disabled{background:#cfd8dc;cursor:default}
+/* modal options : adapté à l'écran, défilable, boutons toujours visibles */
+#exportOptModal .modal-box{max-width:560px;width:calc(100% - 32px);max-height:88vh;display:flex;flex-direction:column}
+#exportOptModal .modal-box>.eo-section{overflow:visible}
+.eo-scroll{overflow-y:auto;flex:1;min-height:0;padding-right:4px}
+#exportOptModal .modal-actions{flex-shrink:0;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-2)}
+.btn-primary{background:var(--cyan-deep);border:none;color:#fff;border-radius:10px;padding:11px 22px;font-family:'Outfit';font-weight:700;font-size:14px;cursor:pointer}
+.btn-primary:hover{background:#0a7682}
+.pdf-options{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow)}
+.pdfo-head{font-family:'Fraunces';font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px}
+.pdfo-row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+.pdfo-field{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.pdfo-field select{font-family:'Outfit';font-size:14px;font-weight:600;color:var(--ink);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;background:#fff;min-width:230px;text-transform:none;letter-spacing:0}
+.pdfo-checks{display:flex;flex-direction:column;gap:8px}
+.pdfo-checks-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.pdfo-check{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+.pdfo-check input{width:16px;height:16px;accent-color:var(--cyan-deep);cursor:pointer}
+.salary-field input:focus{border-color:var(--cyan);outline:none}
+.salary-info{flex:1;min-width:200px;font-size:13px;color:var(--muted);line-height:1.5}
+.salary-toggle .sw{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+.salary-toggle input{width:16px;height:16px;accent-color:var(--cyan-deep);cursor:pointer}
 .period-bar .month-sel{display:flex;align-items:center;gap:8px}
 .period-bar select,.period-bar input[type=date]{padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit';font-weight:600;font-size:14px;background:#fff;color:var(--ink)}
 .period-bar label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
@@ -212,6 +262,10 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 .calc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);margin-bottom:18px}
 .calc-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:18px}
 .calc-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.sim-mode-tabs{display:flex;gap:8px;margin-bottom:18px;background:#eef2f0;padding:5px;border-radius:12px}
+.sim-mode-tab{flex:1;padding:11px 14px;border:none;background:transparent;border-radius:9px;font-family:'Outfit';font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;transition:.2s}
+.sim-mode-tab.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(10,31,51,.1)}
+.calc-field input.sim-locked{background:#eef9fa;color:var(--cyan-deep);font-weight:800}
 .calc-field input,.calc-field select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:'Outfit';font-size:14.5px;background:#fff;color:var(--ink)}
 .calc-field input:focus,.calc-field select:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(17,196,212,.15)}
 .calc-out{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
@@ -292,6 +346,10 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 .jactions{display:flex;align-items:center;gap:6px;justify-content:flex-end}
 .save-btn{background:var(--green);border:none;color:#fff;border-radius:8px;padding:8px 12px;font-family:'Outfit';font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
 .save-btn:hover{background:#178a5c;transform:translateY(-1px)}
+.arch-btn{background:#eef2f0;border:none;color:var(--ink-soft);border-radius:8px;padding:8px 12px;font-family:'Outfit';font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
+.arch-btn:hover{background:#dfe6e3;transform:translateY(-1px)}
+.restore-btn{background:#eef9fa;border:none;color:var(--cyan-deep);border-radius:8px;padding:8px 12px;font-family:'Outfit';font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
+.restore-btn:hover{background:#d4eff1}
 .jentry .del{border:none;background:transparent;color:#b6ae9a;cursor:pointer;font-size:18px;line-height:1;border-radius:6px;padding:2px 5px;transition:.15s}
 .jentry .del:hover{color:var(--red);background:#fdecea}
 .journal-foot{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;background:#faf8f2;border-top:2px solid var(--line);font-size:13px;color:var(--ink-soft);font-weight:600;flex-wrap:wrap;gap:8px}
@@ -439,6 +497,12 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .custom-amort .ca-sum.ok{background:#e6f6ee;color:var(--green)}
 .custom-amort .ca-sum.bad{background:#fdecea;color:var(--red)}
 .ca-rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:9px}
+.ca-validate{display:flex;align-items:center;gap:12px;margin-top:13px;flex-wrap:wrap}
+.ca-valid-btn{background:var(--cyan-deep);border:none;color:#fff;border-radius:9px;padding:9px 18px;font-family:'Outfit';font-weight:700;font-size:13px;cursor:pointer;transition:.2s}
+.ca-valid-btn:hover{background:#0a7682;transform:translateY(-1px)}
+.ca-valid-msg{font-size:12.5px;color:var(--red);font-weight:600}
+.ca-valid-msg.ok{color:var(--green)}
+.amort-locked{margin-top:14px;background:#fdf6e9;border:1px dashed #e0b85a;border-radius:11px;padding:13px 16px;font-size:13px;color:#8a6d2f;line-height:1.5}
 .ca-cell{display:flex;flex-direction:column}
 .ca-cell label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:4px}
 .ca-cell input{padding:8px;border:1.5px solid var(--line);border-radius:8px;font-family:'JetBrains Mono';font-size:13px;text-align:right;background:#fff}
@@ -550,6 +614,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <span id="whoName" style="font-weight:600"></span>
       </div>
       <button class="icon-btn" id="exportBtn" onclick="exportData()">Exporter Excel</button>
+      <button class="icon-btn" id="reportBtn" onclick="openReportMenu()">Rapport mensuel</button>
       <button class="icon-btn" id="restoreBtn" onclick="importTrigger()" style="display:none">Restaurer</button>
       <input type="file" id="importFile" accept=".xlsx,.xls,application/json" style="display:none" onchange="importData(event)">
       <button class="icon-btn danger" onclick="logout()">Quitter</button>
@@ -575,6 +640,10 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="kicker">Étape 1 · Bilan & Budget</div>
         <h2>Mon budget mensuel</h2>
         <p>Saisissez vos <b>budgets</b> prévus pour le mois, puis enregistrez vos <b>dépenses et revenus jour par jour</b> dans le journal ci-dessous. La colonne « Réalisation » des tableaux se remplit automatiquement à partir de vos saisies journalières.</p>
+        <div class="budget-actions">
+          <button class="ghost-btn" id="toggleSalaryBarBtn" onclick="toggleSalaryBar()">Afficher le salaire</button>
+          <button class="gear-btn" onclick="openExportOptions()" title="Options d'export PDF et Excel"><span class="gear-ico">⚙</span> Options d'export</button>
+        </div>
       </div>
       <div class="period-bar">
         <div class="month-sel">
@@ -596,6 +665,21 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <span class="cur-pill" id="restPill">Restant : —</span>
       </div>
 
+      <!-- SALAIRE MENSUEL (masquable) -->
+      <div class="salary-bar" id="salaryBar" style="display:none">
+        <div class="salary-field">
+          <label>Salaire mensuel (revenu fixe)</label>
+          <div class="salary-input-wrap">
+            <input type="password" id="moSalary" min="0" placeholder="••••••" oninput="saveSalary(this.value)" autocomplete="off">
+            <button type="button" class="salary-eye" id="salaryEye" onclick="toggleSalaryVisible()" title="Afficher / masquer">Afficher</button>
+          </div>
+        </div>
+        <div class="salary-info" id="salaryInfo">Renseignez votre salaire mensuel : le salaire journalier sera ajouté automatiquement à chaque jour où vous faites une saisie.</div>
+        <div class="salary-toggle">
+          <label class="sw"><input type="checkbox" id="salaryAuto" onchange="toggleSalaryAuto(this.checked)"><span>Remplissage automatique</span></label>
+        </div>
+      </div>
+
       <!-- JOURNAL QUOTIDIEN -->
       <div class="journal-card">
         <div class="journal-head">
@@ -603,7 +687,10 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
             <h3>Journal quotidien</h3>
             <div class="jsub">Enregistrez chaque dépense ou revenu du jour. Chaque saisie alimente la réalisation du poste choisi.</div>
           </div>
-          <button class="addline" onclick="addEntry()">+ Nouvelle saisie</button>
+          <div style="display:flex;gap:8px">
+            <button class="addline" style="background:#eef2f0;color:var(--ink)" onclick="archiveAll()" title="Envoyer toutes les saisies enregistrées aux archives">Archiver les saisies</button>
+            <button class="addline" onclick="addEntry()">+ Nouvelle saisie</button>
+          </div>
         </div>
         <div class="jentry-head">
           <span>Date</span><span>Type</span><span>Poste</span><span class="r">Montant</span><span>Note</span><span class="r">Action</span>
@@ -612,6 +699,23 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="journal-foot">
           <span id="journalCount">0 saisie(s)</span>
           <span>Total entrées : <b id="jIn" class="mono">—</b> · Total sorties : <b id="jOut" class="mono">—</b></span>
+        </div>
+      </div>
+
+      <!-- ARCHIVES -->
+      <div class="journal-card" id="archiveCard" style="display:none">
+        <div class="journal-head">
+          <div>
+            <h3>Archives des saisies <span id="archCount" style="font-size:13px;color:var(--muted);font-weight:600"></span></h3>
+            <div class="jsub">Saisies historiques archivées. Elles restent comptées dans la réalisation, mais n'encombrent plus le journal. Vous pouvez les restaurer ou les exporter.</div>
+          </div>
+          <button class="addline" style="background:#eef2f0;color:var(--ink)" onclick="toggleArchive()" id="archToggleBtn">Afficher</button>
+        </div>
+        <div id="archiveBody" style="display:none">
+          <div class="jentry-head">
+            <span>Date</span><span>Type</span><span>Poste</span><span class="r">Montant</span><span>Note</span><span class="r">Action</span>
+          </div>
+          <div id="archiveLines"></div>
         </div>
       </div>
 
@@ -656,10 +760,17 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <p>« L'épargne, ce n'est pas ce qu'on met de côté quand il reste de l'argent, c'est ce qu'on met de côté avant de dépenser. » Projetez la croissance de votre épargne en intérêts composés (capitalisation mensuelle).</p>
       </div>
       <div class="calc">
+        <div class="sim-mode-tabs">
+          <button id="simTabFwd" class="sim-mode-tab active" onclick="setSimMode('fwd')">Combien vais-je obtenir ?</button>
+          <button id="simTabInv" class="sim-mode-tab" onclick="setSimMode('inv')">Combien dois-je cotiser ?</button>
+        </div>
         <div class="calc-row">
           <div class="calc-field"><label>Capital de départ</label><input type="number" id="spInit" value="0" min="0" oninput="runSim()"></div>
           <div class="calc-field"><label>Taux annuel (%)</label><input type="number" id="spRate" value="6.5" step="0.1" min="0" oninput="runSim()"></div>
           <div class="calc-field"><label>Durée (années entières)</label><input type="number" id="spYears" value="20" min="1" step="1" oninput="renderOcc();runSim()"></div>
+        </div>
+        <div class="calc-row" id="simTargetRow" style="display:none">
+          <div class="calc-field"><label>Objectif à atteindre (montant visé)</label><input type="number" id="spTarget" value="10000000" min="0" oninput="runSim()"></div>
         </div>
         <div class="calc-row">
           <div class="calc-field"><label>Versement périodique</label><input type="number" id="spPeriodic" value="50000" min="0" oninput="runSim()"></div>
@@ -692,7 +803,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         </div>
 
         <div class="calc-out four">
-          <div class="o cap"><div class="ol">Capital total versé</div><div class="ov" id="oCap">—</div><div class="osub" id="oCapDetail"></div></div>
+          <div class="o cap"><div class="ol" id="simOutLabel0">Capital total versé</div><div class="ov" id="oCap">—</div><div class="osub" id="oCapDetail"></div></div>
           <div class="o int"><div class="ol">Intérêts gagnés</div><div class="ov" id="oInt">—</div><div class="osub" id="oIntPct"></div></div>
           <div class="o tot"><div class="ol">Total final</div><div class="ov" id="oTot">—</div><div class="osub" id="oTotMult"></div></div>
           <div class="o eff"><div class="ol">Effort d'épargne</div><div class="ov" id="oEff">—</div><div class="osub">par mois en moyenne</div></div>
@@ -855,6 +966,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
               <div class="pt-sub">Consolidation des trois compartiments : répartition du capital, rendements et indicateurs clés.</div>
             </div>
             <button class="add-stock" onclick="exportPortfolio()">Exporter le portefeuille (Excel)</button>
+            <button class="add-stock" onclick="exportPortfolioPDF()">Exporter le portefeuille (PDF)</button>
           </div>
           <div id="synthKpis" class="kpi-row"></div>
           <div id="synthEmpty" class="empty-soon" style="display:none">Votre portefeuille est vide. Ajoutez des actions, obligations ou titres monétaires pour voir la synthèse.</div>
@@ -956,7 +1068,60 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <p id="confirmMsg"></p>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="confirmNo()">Annuler</button>
-      <button class="btn-del" onclick="confirmYes()">Supprimer</button>
+      <button class="btn-del" id="confirmOkBtn" onclick="confirmYes()">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div id="exportOptModal" class="modal">
+  <div class="modal-box">
+    <h3>Options d'export</h3>
+    <p style="margin-bottom:16px">Réglages appliqués à vos exports PDF et Excel. Si vous ne modifiez rien, les valeurs par défaut sont utilisées.</p>
+    <div class="eo-scroll">
+    <div class="eo-section">
+      <div class="eo-title">Document PDF</div>
+      <label class="eo-field"><span>Police</span>
+        <select id="pdfFontSel" onchange="savePdfPref('font',this.value)">
+          <option value="times">Times New Roman (par défaut)</option>
+          <option value="helvetica">Helvetica</option>
+          <option value="courier">Courier</option>
+        </select>
+      </label>
+      <label class="eo-field"><span>Taille de police : <b id="pdfSizeVal">11</b> pt</span>
+        <input type="range" id="pdfSizeRange" min="8" max="14" step="1" value="11" oninput="savePdfPref('fontSize',+this.value);document.getElementById('pdfSizeVal').textContent=this.value">
+      </label>
+      <label class="eo-field"><span>Interligne : <b id="pdfLhVal">1.15</b></span>
+        <input type="range" id="pdfLhRange" min="1" max="2" step="0.05" value="1.15" oninput="savePdfPref('lineHeight',+this.value);document.getElementById('pdfLhVal').textContent=(+this.value).toFixed(2)">
+      </label>
+      <label class="eo-field"><span>Marge haute de la page (en-tête) : <b id="pdfHhVal">3.0</b> cm</span>
+        <input type="range" id="pdfHhRange" min="1" max="6" step="0.25" value="3" oninput="savePdfPref('headerCm',+this.value);document.getElementById('pdfHhVal').textContent=(+this.value).toFixed(2)">
+      </label>
+    </div>
+    <div class="eo-section">
+      <div class="eo-title">Caractéristiques optionnelles de l'échéancier</div>
+      <div class="eo-checks">
+        <label class="eo-check"><input type="checkbox" id="pdfRendAnnuel" onchange="savePdfPref('showRendAnnuel',this.checked)"><span>Rendement annuel</span></label>
+        <label class="eo-check"><input type="checkbox" id="pdfDurSimple" onchange="savePdfPref('showDurSimple',this.checked)"><span>Duration simple</span></label>
+        <label class="eo-check"><input type="checkbox" id="pdfDurMac" onchange="savePdfPref('showDurMac',this.checked)"><span>Duration de Macaulay</span></label>
+      </div>
+    </div>
+    <div class="eo-section">
+      <div class="eo-title">Récupération des saisies</div>
+      <div id="recoveryBody" style="font-size:13px"></div>
+    </div>
+    <div class="eo-section">
+      <div class="eo-title">Actions rapides</div>
+      <div class="eo-actions">
+        <button class="eo-act" onclick="closeExportOptions();exportData()">Exporter le budget (Excel)</button>
+        <button class="eo-act" onclick="closeExportOptions();openReportMenu()">Rapport mensuel (PDF)</button>
+        <button class="eo-act" onclick="closeExportOptions();exportPortfolio()">Portefeuille (Excel)</button>
+        <button class="eo-act" onclick="closeExportOptions();exportPortfolioPDF()">Portefeuille (PDF)</button>
+      </div>
+    </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="resetExportOptions()">Réinitialiser</button>
+      <button class="btn-primary" onclick="closeExportOptions()">Terminé</button>
     </div>
   </div>
 </div>
@@ -1186,7 +1351,7 @@ function bootApp(){
   // role badge
   const rb=document.getElementById('roleBadge');
   document.getElementById('whoName').textContent=(session.name&&session.name.trim())?session.name:session.user;
-  if(session.role==='guest'){rb.textContent='Visiteur';rb.className='badge guest';document.getElementById('exportBtn').style.display='none';}
+  if(session.role==='guest'){rb.textContent='Visiteur';rb.className='badge guest';document.getElementById('exportBtn').style.display='none';document.getElementById('reportBtn').style.display='none';}
   else if(session.role==='admin'){rb.textContent='Admin';rb.className='badge admin';document.getElementById('adminTab').style.display='flex';document.getElementById('restoreBtn').style.display='inline-flex';}
   else{rb.textContent='Membre';rb.className='badge';}
   // currency selects
@@ -1195,6 +1360,8 @@ function bootApp(){
   curMonthKey=Object.keys(state.months).sort().pop();
   loadMonth();
   runSim();
+  initPdfOptions();
+  checkReportDue();
 }
 
 /* ---------- currency format ---------- */
@@ -1238,11 +1405,15 @@ function addMonth(){
 /* ---------- migration anciennes données ---------- */
 function migrate(){
   if(!state.portfolio)state.portfolio={stocks:[],bonds:[],money:[]};
+  if(!state.pdfPrefs)state.pdfPrefs={font:'times',fontSize:11,lineHeight:1.15,headerCm:3,showRendAnnuel:false,showDurSimple:false,showDurMac:false};
   if(!state.portfolio.stocks)state.portfolio.stocks=[];
   if(!state.portfolio.bonds)state.portfolio.bonds=[];
   if(!state.portfolio.money)state.portfolio.money=[];
   Object.values(state.months).forEach(mo=>{
     if(!mo.entries)mo.entries=[];
+    if(!mo.archived)mo.archived=[];
+    if(mo.salary==null)mo.salary=0;
+    if(mo.salaryAuto==null)mo.salaryAuto=false;
     CAT_DEFS.forEach(cd=>{
       (mo.cats[cd.key]||[]).forEach(l=>{
         // ancienne structure : 'real' saisi à la main -> convertir en une écriture de journal
@@ -1255,14 +1426,15 @@ function migrate(){
   });
 }
 
-/* ---------- compute (réalisation = somme du journal) ---------- */
+/* ---------- compute (réalisation = somme du journal, archives incluses) ---------- */
+function allEntries(month){return [...(month.entries||[]),...(month.archived||[])];}
 function realForLine(month,key,name){
-  return (month.entries||[]).filter(e=>e.cat===key && e.line===name).reduce((s,e)=>s+(+e.amount||0),0);
+  return allEntries(month).filter(e=>e.cat===key && e.line===name).reduce((s,e)=>s+(+e.amount||0),0);
 }
 function catTotal(month,key,field){
   if(field==='budget')return month.cats[key].reduce((s,l)=>s+(+l.budget||0),0);
-  // field === 'real' : somme des écritures journal de cette catégorie
-  return (month.entries||[]).filter(e=>e.cat===key).reduce((s,e)=>s+(+e.amount||0),0);
+  // field === 'real' : somme des écritures journal (actives + archivées) de cette catégorie
+  return allEntries(month).filter(e=>e.cat===key).reduce((s,e)=>s+(+e.amount||0),0);
 }
 function computeRest(month,field){
   field=field||'real';
@@ -1276,6 +1448,10 @@ function loadMonth(){
   const mo=state.months[curMonthKey];
   document.getElementById('dStart').value=mo.start||'';
   document.getElementById('dEnd').value=mo.end||'';
+  const salEl=document.getElementById('moSalary');if(salEl){salEl.value=mo.salary||'';salEl.type='password';}
+  const eyeBtn=document.getElementById('salaryEye');if(eyeBtn)eyeBtn.textContent='Afficher';
+  const autoEl=document.getElementById('salaryAuto');if(autoEl)autoEl.checked=!!mo.salaryAuto;
+  updateSalaryInfo();
   renderJournal();renderBudget();renderDash();renderClassif();renderAdmin();
 }
 function saveMeta(){const mo=state.months[curMonthKey];mo.start=document.getElementById('dStart').value;mo.end=document.getElementById('dEnd').value;saveData();renderJournal()}
@@ -1443,6 +1619,7 @@ function renderJournal(){
       <input type="text" class="jnote" placeholder="note (option.)" value="${escapeHtml(e.note||'')}" oninput="markEntry(${idx},'note',this.value,this)">
       <div class="jactions">
         <button class="save-btn" title="Enregistrer cette saisie" onclick="saveEntry(${idx})">Enregistrer</button>
+        <button class="arch-btn" title="Envoyer aux archives" onclick="archiveEntry(${idx})">Archiver</button>
         <button class="del" title="Supprimer" onclick="delEntry(${idx})">×</button>
       </div>`;
     wrap.appendChild(row);
@@ -1453,15 +1630,211 @@ function renderJournal(){
   document.getElementById('jIn').textContent=money(tin);
   document.getElementById('jOut').textContent=money(tout);
   document.getElementById('journalCount').textContent=mo.entries.length+' saisie(s)';
+  renderArchive();
 }
+let archiveOpen=false;
+function archiveEntry(idx){
+  const mo=state.months[curMonthKey];if(!mo.entries[idx])return;
+  if(!mo.archived)mo.archived=[];
+  const e=mo.entries[idx];delete e._dirty;
+  mo.archived.push(e);
+  mo.entries.splice(idx,1);
+  saveData();renderJournal();renderBudget();toast('Saisie archivée');
+}
+function archiveAll(){
+  const mo=state.months[curMonthKey];
+  if(!mo.entries||!mo.entries.length){toast('Aucune saisie à archiver');return;}
+  const n=mo.entries.length;
+  confirmAction('Envoyer les '+n+' saisie(s) du journal vers les archives ? Elles resteront comptées dans la réalisation.',()=>{
+    if(!mo.archived)mo.archived=[];
+    mo.entries.forEach(e=>{delete e._dirty;mo.archived.push(e);});
+    mo.entries=[];
+    saveData();renderJournal();renderBudget();toast(n+' saisie(s) archivée(s)');
+  },'Archiver tout');
+}
+function toggleArchive(){
+  archiveOpen=!archiveOpen;
+  document.getElementById('archiveBody').style.display=archiveOpen?'block':'none';
+  document.getElementById('archToggleBtn').textContent=archiveOpen?'Masquer':'Afficher';
+}
+function renderArchive(){
+  const mo=state.months[curMonthKey];
+  const arch=mo.archived||[];
+  const card=document.getElementById('archiveCard');
+  if(!card)return;
+  card.style.display='block'; // toujours visible (barre permanente)
+  document.getElementById('archCount').textContent='('+arch.length+')';
+  const wrap=document.getElementById('archiveLines');wrap.innerHTML='';
+  if(!arch.length){
+    wrap.innerHTML='<div style="padding:14px 4px;font-size:13px;color:var(--muted)">Aucune saisie archivée pour ce mois. Utilisez « Archiver » sur une saisie ou « Archiver les saisies » pour les ranger ici.</div>';
+    return;
+  }
+  const order=arch.map((e,idx)=>({e,idx})).sort((a,b)=>(b.e.date||'').localeCompare(a.e.date||''));
+  const catLabels={revenus:'Revenus',facture:'Factures',depenses:'Dépenses',epargne:'Épargne',dettes:'Dettes'};
+  order.forEach(({e,idx})=>{
+    const isIn=e.cat==='revenus';
+    const row=document.createElement('div');row.className='jentry';row.style.opacity='.85';
+    row.innerHTML=`
+      <div class="mono" style="padding:8px 4px;font-size:13px">${e.date||'—'}</div>
+      <div style="padding:8px 4px;font-size:13px">${isIn?'Entrée':'Sortie'}</div>
+      <div style="padding:8px 4px;font-size:13px">${catLabels[e.cat]||e.cat} · ${escapeHtml(e.line||'')}</div>
+      <div class="mono r" style="padding:8px 4px;font-size:13px;text-align:right">${money(+e.amount||0)}</div>
+      <div style="padding:8px 4px;font-size:13px;color:var(--muted)">${escapeHtml(e.note||'')}</div>
+      <div class="jactions">
+        <button class="restore-btn" title="Renvoyer au journal" onclick="restoreArchived(${idx})">Restaurer</button>
+        <button class="del" title="Supprimer définitivement" onclick="delArchived(${idx})">×</button>
+      </div>`;
+    wrap.appendChild(row);
+  });
+}
+function restoreArchived(idx){
+  const mo=state.months[curMonthKey];if(!mo.archived||!mo.archived[idx])return;
+  const e=mo.archived[idx];
+  if(!mo.entries)mo.entries=[];
+  mo.entries.push(e);
+  mo.archived.splice(idx,1);
+  saveData();renderJournal();renderBudget();toast('Saisie restaurée dans le journal');
+}
+function delArchived(idx){
+  const mo=state.months[curMonthKey];if(!mo.archived||!mo.archived[idx])return;
+  confirmAction('Supprimer définitivement cette saisie archivée ? Elle ne sera plus comptée dans la réalisation.',()=>{
+    mo.archived.splice(idx,1);
+    saveData();renderJournal();renderBudget();toast('Saisie supprimée');
+  });
+}
+/* ---------- Salaire mensuel & salaire journalier auto ---------- */
+function calendarDaysOfMonth(key){
+  // key = "YYYY-MM" ; renvoie le nombre de jours calendaires
+  if(!key||!/^\d{4}-\d{2}$/.test(key))return 30;
+  const [y,m]=key.split('-').map(Number);
+  return new Date(y,m,0).getDate(); // jour 0 du mois suivant = dernier jour du mois courant
+}
+function dailySalary(){
+  const mo=state.months[curMonthKey];if(!mo)return 0;
+  const sal=+mo.salary||0;if(sal<=0)return 0;
+  const days=calendarDaysOfMonth(curMonthKey);
+  return Math.round(sal/days);
+}
+function savePdfPref(key,val){
+  if(!state.pdfPrefs)state.pdfPrefs={};
+  state.pdfPrefs[key]=val;
+  saveData();
+  if(key==='font')toast('Police PDF : '+({times:'Times New Roman',helvetica:'Helvetica',courier:'Courier'}[val]||val));
+}
+function initPdfOptions(){
+  if(!state)return;
+  const p=state.pdfPrefs||{};
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.value=v;};
+  const chk=(id,v)=>{const el=document.getElementById(id);if(el)el.checked=!!v;};
+  const txt=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('pdfFontSel',p.font||'times');
+  set('pdfSizeRange',p.fontSize||11);txt('pdfSizeVal',p.fontSize||11);
+  set('pdfLhRange',p.lineHeight||1.15);txt('pdfLhVal',(p.lineHeight||1.15).toFixed(2));
+  set('pdfHhRange',p.headerCm||3);txt('pdfHhVal',(p.headerCm||3).toFixed(2));
+  chk('pdfRendAnnuel',p.showRendAnnuel);chk('pdfDurSimple',p.showDurSimple);chk('pdfDurMac',p.showDurMac);
+}
+function openExportOptions(){initPdfOptions();renderRecovery();document.getElementById('exportOptModal').classList.add('show');}
+function closeExportOptions(){document.getElementById('exportOptModal').classList.remove('show');}
+// Diagnostic : scanne tous les mois et compte les saisies (journal + archives)
+function scanMonths(){
+  const res=[];
+  Object.keys(state.months||{}).sort().forEach(k=>{
+    const mo=state.months[k];
+    const nJournal=(mo.entries||[]).length;
+    const nArch=(mo.archived||[]).length;
+    const[y,m]=k.split('-');
+    res.push({key:k,label:(MONTHS[+m]||('mois '+m))+' '+y,nJournal,nArch,total:nJournal+nArch});
+  });
+  return res;
+}
+function renderRecovery(){
+  const box=document.getElementById('recoveryBody');if(!box)return;
+  const scan=scanMonths();
+  const withData=scan.filter(s=>s.total>0);
+  if(!withData.length){
+    box.innerHTML='<div style="font-size:13px;color:var(--muted)">Aucune saisie trouvée dans les mois enregistrés. Si vous aviez des saisies, vérifiez que vous êtes bien connecté au même compte.</div>';
+    return;
+  }
+  let html='<div style="font-size:13px;color:var(--ink-soft);margin-bottom:10px">Saisies trouvées dans vos mois (cliquez pour ouvrir le mois concerné) :</div>';
+  withData.forEach(s=>{
+    const cur=(s.key===curMonthKey);
+    html+=`<div class="rec-row">
+      <span><b>${s.label}</b> — ${s.nJournal} au journal, ${s.nArch} archivée(s)</span>
+      <button class="rec-go" onclick="gotoMonth('${s.key}')" ${cur?'disabled':''}>${cur?'Mois actuel':'Ouvrir'}</button>
+    </div>`;
+  });
+  box.innerHTML=html;
+}
+function gotoMonth(k){
+  if(!state.months[k])return;
+  curMonthKey=k;
+  buildMonthSelect();
+  const sel=document.getElementById('monthSel');if(sel)sel.value=k;
+  loadMonth();
+  closeExportOptions();
+  toast('Mois ouvert : '+k);
+}
+function resetExportOptions(){
+  state.pdfPrefs={font:'times',fontSize:11,lineHeight:1.15,headerCm:3,showRendAnnuel:false,showDurSimple:false,showDurMac:false};
+  saveData();initPdfOptions();toast('Options réinitialisées');
+}
+function toggleSalaryBar(){
+  const bar=document.getElementById('salaryBar');const btn=document.getElementById('toggleSalaryBarBtn');
+  if(!bar)return;
+  const showing=bar.style.display!=='none';
+  bar.style.display=showing?'none':'flex';
+  if(btn)btn.textContent=showing?'Afficher le salaire':'Masquer le salaire';
+}
+function toggleSalaryVisible(){
+  const inp=document.getElementById('moSalary');const btn=document.getElementById('salaryEye');
+  if(!inp)return;
+  if(inp.type==='password'){inp.type='text';if(btn)btn.textContent='Masquer';}
+  else{inp.type='password';if(btn)btn.textContent='Afficher';}
+}
+function saveSalary(val){
+  const mo=state.months[curMonthKey];if(!mo)return;
+  mo.salary=+val||0;
+  saveData();
+  updateSalaryInfo();
+}
+function toggleSalaryAuto(on){
+  const mo=state.months[curMonthKey];if(!mo)return;
+  mo.salaryAuto=!!on;
+  saveData();
+  updateSalaryInfo();
+}
+function updateSalaryInfo(){
+  const mo=state.months[curMonthKey];if(!mo)return;
+  const el=document.getElementById('salaryInfo');if(!el)return;
+  const sal=+mo.salary||0;
+  if(sal<=0){el.textContent='Renseignez votre salaire mensuel : le salaire journalier sera ajouté automatiquement à chaque jour où vous faites une saisie.';return;}
+  const days=calendarDaysOfMonth(curMonthKey);
+  el.innerHTML='Salaire journalier = '+money(sal)+' ÷ '+days+' jours = <b>'+money(dailySalary())+' / jour</b>'+(mo.salaryAuto?' — ajouté automatiquement.':' — activez le remplissage automatique pour l\'ajouter à chaque jour saisi.');
+}
+function salaryLineName(){return 'Salaire (journalier)';}
+function hasSalaryEntryForDate(mo,date){
+  return allEntries(mo).some(e=>e.cat==='revenus' && e.line===salaryLineName() && e.date===date);
+}
+function ensureDailySalary(date){
+  const mo=state.months[curMonthKey];if(!mo)return false;
+  if(!mo.salaryAuto)return false;
+  const ds=dailySalary();if(ds<=0)return false;
+  if(hasSalaryEntryForDate(mo,date))return false;
+  if(!mo.entries)mo.entries=[];
+  mo.entries.push({id:rid(),date:date,cat:'revenus',line:salaryLineName(),amount:ds,note:'(auto)',_dirty:false});
+  return true;
+}
+
 function addEntry(){
   const mo=state.months[curMonthKey];
   const firstDep=mo.cats.depenses[0]||mo.cats.facture[0];
   const today=fmtDate(new Date());
   const d=(mo.start && today<mo.start)?mo.start:((mo.end && today>mo.end)?mo.end:today);
+  // salaire journalier auto pour ce jour (si activé et pas déjà présent)
+  const added=ensureDailySalary(d);
   mo.entries.push({id:rid(),date:d,cat:'depenses',line:firstDep?firstDep.name:'',amount:0,note:'',_dirty:true});
   saveData();renderJournal();
-  // focus sur le champ montant de la nouvelle ligne (elle est en haut si sa date est la plus récente)
+  if(added){renderBudget();toast('Salaire du jour ('+money(dailySalary())+') ajouté automatiquement');}
 }
 // saisie silencieuse : on écrit dans l'état SANS recalculer (évite tout re-render qui volerait le focus)
 function markEntry(idx,field,val,inp){
@@ -1502,9 +1875,10 @@ function delEntry(idx){
 
 /* ============ MODAL CONFIRMATION ============ */
 let _confirmCb=null;
-function confirmAction(msg,cb){
+function confirmAction(msg,cb,okLabel){
   _confirmCb=cb;
   document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmOkBtn').textContent=okLabel||'Supprimer';
   document.getElementById('confirmModal').classList.add('show');
 }
 function confirmYes(){document.getElementById('confirmModal').classList.remove('show');if(_confirmCb)_confirmCb();_confirmCb=null}
@@ -1703,17 +2077,46 @@ function simEngine(init,annual,years,periodic,periodMonths,timing,occ){
   return {total:Math.round(total),initContrib:init,periodicContrib,occContrib,totalContrib:init+periodicContrib+occContrib,interest:Math.round(total-(init+periodicContrib+occContrib)),labels,contribCum,valueCum,N};
 }
 
+let simMode='fwd';
+function setSimMode(m){
+  simMode=m;
+  document.getElementById('simTabFwd').classList.toggle('active',m==='fwd');
+  document.getElementById('simTabInv').classList.toggle('active',m==='inv');
+  document.getElementById('simTargetRow').style.display=(m==='inv')?'grid':'none';
+  const pf=document.getElementById('spPeriodic');
+  if(m==='inv'){pf.readOnly=true;pf.classList.add('sim-locked');pf.title='Calculé automatiquement : montant à cotiser pour atteindre votre objectif';}
+  else{pf.readOnly=false;pf.classList.remove('sim-locked');pf.title='';}
+  // adapter les libellés de sortie
+  document.getElementById('simOutLabel0').textContent=(m==='inv')?'Cotisation nécessaire':'Capital total versé';
+  runSim();
+}
+function requiredPeriodic(target,init,annual,years,periodMonths,timing){
+  const im=annual/100/12, N=Math.round(years*12);
+  const fvInit=init*Math.pow(1+im,N);
+  let factor=0;
+  for(let k=0;;k++){const dm=timing==='begin'?k*periodMonths:(k+1)*periodMonths;if((timing==='begin'&&dm>N-1)||(timing==='end'&&dm>N))break;factor+=Math.pow(1+im,N-dm);if(k>100000)break;}
+  if(factor<=0)return 0;
+  return Math.max(0,(target-fvInit)/factor);
+}
+
 function runSim(){
   if(!state)return;
   const init=+document.getElementById('spInit').value||0;
   const annual=+document.getElementById('spRate').value||0;
-  const periodic=+document.getElementById('spPeriodic').value||0;
+  let periodic=+document.getElementById('spPeriodic').value||0;
   const periodMonths=+document.getElementById('spFreq').value||1;
   const timing=document.getElementById('spTiming').value;
+  let yrsCalc=Math.floor(+document.getElementById('spYears').value);
+  // MODE INVERSÉ : calculer le versement périodique nécessaire pour atteindre l'objectif
+  if(simMode==='inv' && yrsCalc>=1){
+    const target=+document.getElementById('spTarget').value||0;
+    periodic=Math.round(requiredPeriodic(target,init,annual,yrsCalc,periodMonths,timing));
+    document.getElementById('spPeriodic').value=periodic;
+  }
   // taux périodique équivalent (linéaire)
   const periodRate=annual/freqPerYear(periodMonths);
   document.getElementById('spPeriodRate').value=periodRate.toFixed(4).replace(/\.?0+$/,'')+' % / '+freqLabel(periodMonths);
-  let yrs=Math.floor(+document.getElementById('spYears').value);
+  let yrs=yrsCalc;
   const setOut=(c,i,t,e)=>{document.getElementById('oCap').textContent=c;document.getElementById('oInt').textContent=i;document.getElementById('oTot').textContent=t;document.getElementById('oEff').textContent=e;};
   if(!yrs||yrs<1){setOut('—','—','—','—');document.getElementById('oCapDetail').textContent='';document.getElementById('oIntPct').textContent='';document.getElementById('oTotMult').textContent='';destroy('sim');destroy('simLine');destroy('simPie');document.getElementById('simAdvice').innerHTML='Saisissez une durée valide (≥ 1 an).';return;}
   if(yrs>80)yrs=80;
@@ -1725,8 +2128,12 @@ function runSim(){
   drawSimCharts(R);
   // conseil
   const partInt=R.total>0?(R.interest/R.total*100):0;
+  const periodLabel=freqLabel(periodMonths);
+  const introLine = simMode==='inv'
+    ? `<div class="ai-line"><span class="ic">·</span><div>Pour atteindre <b>${money(+document.getElementById('spTarget').value||0)}</b> en <b>${yrs} ans</b> à ${annual}%, vous devez cotiser <b>${money(periodic)}</b> par versement (${periodLabel}).</div></div>`
+    : `<div class="ai-line"><span class="ic">·</span><div>Au bout de <b>${yrs} ans</b>, votre épargne atteint <b>${money(R.total)}</b>, dont <b>${money(R.interest)}</b> d'intérêts (${partInt.toFixed(0)}% du total).</div></div>`;
   document.getElementById('simAdvice').innerHTML=
-    `<div class="ai-line"><span class="ic">·</span><div>Au bout de <b>${yrs} ans</b>, votre épargne atteint <b>${money(R.total)}</b>, dont <b>${money(R.interest)}</b> d'intérêts (${partInt.toFixed(0)}% du total).</div></div>`+
+    introLine+
     `<div class="ai-line"><span class="ic">·</span><div>Verser <b>en début de période</b> rapporte un peu plus : chaque versement travaille une période de plus.</div></div>`+
     (annual>=8?`<div class="ai-line"><span class="ic">·</span><div>Un taux de ${annual}% relève d'une stratégie dynamique (actions, FCP) — plus de rendement mais plus de risque. Voir le Guide placement.</div></div>`
     :`<div class="ai-line"><span class="ic">·</span><div>À ${annual}%, vous êtes sur un profil prudent à équilibré (DAT, obligations, OAT). Voir le Guide placement.</div></div>`);
@@ -1973,17 +2380,27 @@ function fmtDateFR(d){if(!(d instanceof Date)||isNaN(d))return '—';return d.to
 function dayCount(d1,d2){return Math.round((new Date(d2)-new Date(d1))/86400000);}
 
 /* tableau d'amortissement daté (obligations & OAT) */
+function computeAmorts(b, M, nAmort, cp){
+  let amorts=[];
+  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
+  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
+  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
+  else if(b.mode==='custom'){
+    const pct=(b.custom||[]).slice(0,nAmort).map(x=>+x||0);
+    while(pct.length<nAmort)pct.push(0);
+    amorts=pct.map(p=>M*p/100);
+    const reliquat=M-amorts.reduce((a,x)=>a+x,0);
+    if(Math.abs(reliquat)>0.01)amorts[nAmort-1]+=reliquat; // dernière échéance absorbe le reliquat
+  } else { amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M; }
+  return amorts;
+}
 function amortTable(b){
   const M=+b.montant||0,c=(+b.tauxFacial||0)/100,f=+b.freq||1,Y=+b.years||1;
   const nTot=Math.max(1,Math.round(Y*f));
   const nDef=Math.min(Math.max(0,Math.round(+b.defer||0)),nTot-1); // defer = nb de PÉRIODES
   const nAmort=Math.max(1,nTot-nDef),cp=c/f;
   const monthsPerPeriod=12/f;
-  let amorts=[];
-  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
-  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
-  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
-  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  const amorts=computeAmorts(b, M, nAmort, cp);
   const rows=[];let crd=M;const dv=b.dateVal?new Date(b.dateVal):null;
   for(let k=1;k<=nTot;k++){
     const interest=crd*cp;let amort=k>nDef?(amorts[k-nDef-1]||0):0;
@@ -2017,11 +2434,8 @@ function bondSchedule(b){
   const nTot=Math.max(1,Math.round(Y*f));
   const nDef=Math.min(Math.max(0,Math.round(+b.defer||0)),nTot-1); // defer = nb de PÉRIODES
   const nAmort=Math.max(1,nTot-nDef),cp=c/f;
-  const flows=[];let crd=M;let amorts=[];
-  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
-  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
-  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
-  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  const flows=[];let crd=M;
+  const amorts=computeAmorts(b, M, nAmort, cp);
   for(let k=1;k<=nTot;k++){const interest=crd*cp;let amort=k>nDef?(amorts[k-nDef-1]||0):0;flows.push(interest+amort);crd-=amort;}
   return {flows,cp,f,nTot,nDef,nAmort,M};
 }
@@ -2038,10 +2452,7 @@ function bondMetrics(b){
   const rows=[];let crd=M;let amorts=[];
   // reconstruire intérêts et flux détaillés (pour duration)
   const nDef=s.nDef,nAmort=s.nAmort;
-  if(b.mode==='infine'){amorts=Array(nAmort).fill(0);amorts[nAmort-1]=M;}
-  else if(b.mode==='constant'){amorts=Array(nAmort).fill(M/nAmort);}
-  else if(b.mode==='annuite'){const A=cp>0?M*cp/(1-Math.pow(1+cp,-nAmort)):M/nAmort;let rem=M;for(let k=0;k<nAmort;k++){const int=rem*cp,cap=A-int;amorts.push(cap);rem-=cap;}}
-  else if(b.mode==='custom'){const pct=(b.custom||[]).map(x=>+x||0);amorts=pct.map(p=>M*p/100);while(amorts.length<nAmort)amorts.push(0);amorts=amorts.slice(0,nAmort);}
+  amorts=computeAmorts(b, M, nAmort, cp);
   let totalInterest=0,sw=0,swF=0,mac=0,pv=0;
   crd=M;
   for(let k=1;k<=s.nTot;k++){
@@ -2073,12 +2484,16 @@ function renderBonds(){
     let customBlock='';
     if(b.mode==='custom'){
       const sum=customSum(b);
+      const valid=Math.abs(sum-100)<0.01;
       let cells='';
       for(let k=0;k<nAmortDisplay;k++){cells+=`<div class="ca-cell"><label>Éch. ${k+1}</label><input type="number" step="0.5" min="0" value="${b.custom[k]!=null?b.custom[k]:''}" placeholder="0" oninput="editBond(${i},'custom',${k},this.value)"></div>`;}
       customBlock=`<div class="custom-amort">
         <div class="ca-head"><span class="ca-title">Remboursement personnalisé — % du capital à chaque échéance d'amortissement (${nAmortDisplay} échéances)</span>
-        <span class="ca-sum ${sum===100?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div>
-        <div class="ca-rows">${cells}</div></div>`;
+        <span class="ca-sum ${valid?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div>
+        <div class="ca-rows">${cells}</div>
+        <div class="ca-validate"><button class="ca-valid-btn" onclick="validateCustom('bond',${i})">Valider la répartition</button>
+        <span class="ca-valid-msg ${b._customValid?'ok':''}">${b._customValid?'✓ Répartition validée (100%)':'La somme doit faire 100% pour calculer l’échéancier'}</span></div>
+        </div>`;
     }
     return `<div class="stock-card bond-card ${b._dirty?'dirty':''}" data-bidx="${i}" draggable="true">
       <div class="stock-head">
@@ -2124,8 +2539,10 @@ function renderBonds(){
           <div class="tri-box dur"><div class="tl">Duration simple</div><div class="tv">${m.durSimple.toFixed(2)} an${m.durSimple>1?'s':''}</div></div>
           <div class="tri-box tri"><div class="tl">Nb d'échéances</div><div class="tv">${m.nTot}${m.nDef?' (dont '+m.nDef+' diff.)':''}</div></div>
         </div>
-        <div class="amort-toggle"><button onclick="toggleBondAmort(${i})">${b._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>
-        ${b._open?amortTableHTML(amortTable(b))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('bond',${i})">Exporter l'échéancier (Excel)</button></div>`:''}
+        ${(b.mode==='custom'&&!b._customValid)
+          ? `<div class="amort-locked">Validez la répartition personnalisée (somme = 100%) pour afficher le tableau d'amortissement.</div>`
+          : `<div class="amort-toggle"><button onclick="toggleBondAmort(${i})">${b._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>
+        ${b._open?amortTableHTML(amortTable(b))+`<div style="margin-top:10px;text-align:right;display:flex;gap:8px;justify-content:flex-end"><button class="icon-btn" onclick="exportAmort('bond',${i})">Échéancier (Excel)</button><button class="icon-btn" onclick="exportAmortPDF('bond',${i})">Échéancier (PDF)</button></div>`:''}`}
       </div>
       <div class="stock-foot">
         <button class="del-btn" onclick="delBond(${i})">Supprimer</button>
@@ -2194,10 +2611,11 @@ function editBond(i,field,key,val){
   if(field==='issuer')b.issuer=val;
   else if(field==='freq'||field==='mode')b[field]=val;
   else if(field==='dateVal'||field==='dateEch')b[field]=val;
-  else if(field==='custom'){b.custom[key]=(val===''?0:+val);}
+  else if(field==='custom'){b.custom[key]=(val===''?0:+val);b._customValid=false;}
   else b[field]=+val||0;
   // bornage du différé en fonction de durée + périodicité
-  if(field==='defer'||field==='years'||field==='freq'){
+  if(field==='defer'||field==='years'||field==='freq'||field==='mode'){
+    b._customValid=false; // toute modif de structure annule la validation custom
     const di=deferInfo(b.years,b.defer,+b.freq||1);
     if((+b.defer||0)>di.maxDefPeriods){b.defer=di.maxDefPeriods;toast('Différé ramené au max : '+b.defer+' '+di.freqLabel+' (au moins une échéance de remboursement)');}
   }
@@ -2220,6 +2638,19 @@ function editBond(i,field,key,val){
 function saveBond(i){const b=state.portfolio.bonds[i];if(!b)return;
   if(b.mode==='custom'&&Math.abs(customSum(b)-100)>0.01){toast('Le total des remboursements doit faire 100%');return;}
   b._dirty=false;saveData();renderBonds();toast('Obligation enregistrée');}
+function validateCustom(type,i){
+  const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
+  if(!b)return;
+  const sum=customSum(b);
+  if(Math.abs(sum-100)<0.01){
+    b._customValid=true;saveData();
+    toast('Répartition validée : le tableau d\'amortissement est disponible');
+  }else{
+    b._customValid=false;
+    toast('La somme des pourcentages fait '+sum.toFixed(1)+'% — elle doit faire exactement 100%');
+  }
+  type==='bond'?renderBonds():renderMoney();
+}
 function toggleBondAmort(i){const b=state.portfolio.bonds[i];if(!b)return;b._open=!b._open;renderBonds();}
 function delBond(i){const b=state.portfolio.bonds[i];
   confirmAction('Supprimer l\'obligation « '+(b.issuer||'sans émetteur')+' » ? Cette action est irréversible.',()=>{
@@ -2345,9 +2776,12 @@ function renderMoney(){
     const nAmortDisplay=Math.max(1,Math.round((+t.years||1)*freqPerYear)-Math.min(Math.round(+t.defer||0),Math.round((+t.years||1)*freqPerYear)-1));
     let customBlock='';
     if(!isBAT && t.mode==='custom'){
-      const sum=customSum(t);let cells='';
+      const sum=customSum(t);const valid=Math.abs(sum-100)<0.01;let cells='';
       for(let k=0;k<nAmortDisplay;k++){cells+=`<div class="ca-cell"><label>Éch. ${k+1}</label><input type="number" step="0.5" min="0" value="${t.custom[k]!=null?t.custom[k]:''}" placeholder="0" oninput="editMoney(${i},'custom',${k},this.value)"></div>`;}
-      customBlock=`<div class="custom-amort"><div class="ca-head"><span class="ca-title">Remboursement personnalisé — % du capital (${nAmortDisplay} échéances)</span><span class="ca-sum ${sum===100?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div><div class="ca-rows">${cells}</div></div>`;
+      customBlock=`<div class="custom-amort"><div class="ca-head"><span class="ca-title">Remboursement personnalisé — % du capital (${nAmortDisplay} échéances)</span><span class="ca-sum ${valid?'ok':'bad'}">Total : ${sum.toFixed(1)}%</span></div><div class="ca-rows">${cells}</div>
+      <div class="ca-validate"><button class="ca-valid-btn" onclick="validateCustom('money',${i})">Valider la répartition</button>
+      <span class="ca-valid-msg ${t._customValid?'ok':''}">${t._customValid?'✓ Répartition validée (100%)':'La somme doit faire 100% pour calculer l’échéancier'}</span></div>
+      </div>`;
     }
     // bloc caractéristiques : OAT = comme obligation ; BAT = simplifié
     let charBlock;
@@ -2424,7 +2858,9 @@ function renderMoney(){
           <div class="tri-box dur"><div class="tl">${isBAT?'Prix d\'acquisition':'Duration simple'}</div><div class="tv">${isBAT?money(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''))}</div></div>
           <div class="tri-box tri"><div class="tl">${isBAT?'Valeur remboursée':'Nb d\'échéances'}</div><div class="tv">${isBAT?money(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
         </div>
-        ${!isBAT?`<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+`<div style="margin-top:10px;text-align:right"><button class="icon-btn" onclick="exportAmort('money',${i})">Exporter l'échéancier (Excel)</button></div>`:''}`:''}
+        ${!isBAT?((t.mode==='custom'&&!t._customValid)
+          ? `<div class="amort-locked">Validez la répartition personnalisée (somme = 100%) pour afficher le tableau d'amortissement.</div>`
+          : `<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+`<div style="margin-top:10px;text-align:right;display:flex;gap:8px;justify-content:flex-end"><button class="icon-btn" onclick="exportAmort('money',${i})">Échéancier (Excel)</button><button class="icon-btn" onclick="exportAmortPDF('money',${i})">Échéancier (PDF)</button></div>`:''}`):''}
       </div>
       <div class="stock-foot">
         <button class="del-btn" onclick="delMoney(${i})">Supprimer</button>
@@ -2475,8 +2911,11 @@ function refreshMoneyCard(i,rebuiltField){
 function editMoney(i,field,key,val){
   const t=state.portfolio.money[i];if(!t)return;
   if(['issuer','kind','freq','mode','dateVal','dateEch','lastCoupon','base'].includes(field))t[field]=val;
-  else if(field==='custom')t.custom[key]=(val===''?0:+val);
+  else if(field==='custom'){t.custom[key]=(val===''?0:+val);t._customValid=false;}
   else t[field]=+val||0;
+  if(t.kind!=='BAT'&&(field==='defer'||field==='years'||field==='freq'||field==='mode'||field==='kind')){
+    t._customValid=false;
+  }
   // bornage différé (OAT seulement, BAT n'a pas de différé)
   if(t.kind!=='BAT'&&(field==='defer'||field==='years'||field==='freq')){
     const di=deferInfo(t.years,t.defer,+t.freq||1);
@@ -2902,6 +3341,405 @@ async function renderAdminCloud(){
 }
 
 /* ============ EXPORT / IMPORT ============ */
+/* ---------- Helpers PDF partagés ---------- */
+// Préférences d'export PDF (modifiables dans les options). Times par défaut.
+const PDF_FONTS={times:'times',helvetica:'helvetica',courier:'courier'};
+function pdfPrefs(){
+  const p=(state&&state.pdfPrefs)||{};
+  return {
+    font:PDF_FONTS[p.font]||'times',
+    fontSize:p.fontSize||11,
+    lineHeight:p.lineHeight||1.15,
+    headerCm:p.headerCm||3,
+    showDurSimple:!!p.showDurSimple,
+    showDurMac:!!p.showDurMac,
+    showRendAnnuel:!!p.showRendAnnuel
+  };
+}
+const PDF_INK=[20,28,38];        // noir foncé pour le texte
+const PDF_LINE=[20,28,38];       // traits de tableau noir foncé
+const PDF_BASE_SIZE=11;          // taille de police
+const PDF_LINE_H=1.15;           // interligne
+function pdfSafe(s){return (''+s)
+  .replace(/[\u202F\u00A0\u2009\u2007]/g,' ').replace(/[\u2192\u2794\u27A1]/g,'->')
+  .replace(/[\u2013\u2014]/g,'-').replace(/[\u2018\u2019\u2032]/g,"'")
+  .replace(/[\u201C\u201D]/g,'"').replace(/\u2026/g,'...').replace(/\u00AB|\u00BB/g,'"');}
+// pied de page géré globalement (évite toute superposition) : on enregistre le label et on dessine à la fin
+let _pdfFootLabel='MonBudget';
+function setPdfFooter(label){_pdfFootLabel=label||'MonBudget';}
+function stampFooters(doc){
+  const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();
+  const total=doc.internal.getNumberOfPages();
+  const F=pdfPrefs().font;
+  for(let p=1;p<=total;p++){
+    doc.setPage(p);
+    doc.setDrawColor(210,210,210);doc.setLineWidth(0.5);
+    doc.line(40,Hp-32,W-40,Hp-32);
+    doc.setFont(F,'normal');doc.setFontSize(9);doc.setTextColor(130,140,150);
+    doc.text(pdfSafe(_pdfFootLabel),40,Hp-18);
+    doc.text('Page '+p+' / '+total,W-90,Hp-18);
+  }
+}
+function runAutoTable(doc,opts){
+  const ns=window.jspdf;
+  const userDidParse=opts.didParseCell;
+  opts.didParseCell=function(data){
+    if(data.cell&&data.cell.text){
+      if(Array.isArray(data.cell.text))data.cell.text=data.cell.text.map(t=>pdfSafe(t));
+      else data.cell.text=pdfSafe(data.cell.text);
+    }
+    if(userDidParse)userDidParse(data);
+  };
+  if(typeof doc.autoTable==='function')doc.autoTable(opts);
+  else if(ns&&ns.autoTable)ns.autoTable(doc,opts);
+  else if(window.autoTable)window.autoTable(doc,opts);
+  else{toast('Module tableau PDF indisponible');return false;}
+  return true;
+}
+// style de tableau commun : police 11, interligne 1.15, texte noir, traits noirs, centré
+function tableStyle(extra){
+  const pf=pdfPrefs();
+  return Object.assign({
+    font:pf.font,fontSize:pf.fontSize,cellPadding:6,overflow:'linebreak',
+    textColor:PDF_INK,lineColor:PDF_LINE,lineWidth:0.7,valign:'middle',halign:'center',
+    lineHeight:pf.lineHeight
+  },extra||{});
+}
+function headStyle(fill){
+  return {fillColor:fill||[10,31,51],textColor:[255,255,255],fontStyle:'bold',fontSize:pdfPrefs().fontSize,halign:'center',valign:'middle',lineColor:PDF_LINE,lineWidth:0.7};
+}
+function pdfMoney(v){
+  const n=Math.round(+v||0);
+  const s=(''+Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  return (n<0?'-':'')+s+' '+state.cur;
+}
+// montant SANS devise (pour alléger les tableaux d'amortissement / portefeuille)
+function pdfNum(v){
+  const n=Math.round(+v||0);
+  const s=(''+Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  return (n<0?'-':'')+s;
+}
+// mention de devise placée en haut des documents (gras, noir foncé)
+function pdfCurrencyNote(doc,y){
+  const pf=pdfPrefs();
+  doc.setFont(pf.font,'bold');doc.setFontSize(Math.max(9,pf.fontSize-1));doc.setTextColor(...PDF_INK);
+  const txt='Sauf mention contraire, tous les montants de ce document sont exprimés en '+state.cur+'.';
+  doc.text(pdfSafe(txt),40,y);
+  doc.setFont(pf.font,'normal');doc.setTextColor(...PDF_INK);
+  return y+10;
+}
+function newPdfDoc(){const ns=window.jspdf;if(!ns||!ns.jsPDF){toast('Module PDF en chargement, réessayez');return null;}const d=new ns.jsPDF({unit:'pt',format:'a4'});d.setFont(pdfPrefs().font,'normal');return d;}
+
+// En-tête style "image 2" : marge haute réglable (cm) puis encadré pêche, bordure noire, titre+sous-titre centrés foncés
+function pdfHeader(doc,title,subtitle){
+  const W=doc.internal.pageSize.getWidth();
+  const pf=pdfPrefs();const F=pf.font;
+  const CM=28.3465; // points par cm
+  const boxX=40, boxW=W-80;
+  const boxY=Math.max(20, (pf.headerCm||3)*CM); // MARGE HAUTE de la page avant le bandeau
+  const hasSub=!!subtitle;
+  const boxH=hasSub?64:46;                  // hauteur du bandeau (compacte)
+  doc.setFillColor(250,228,213);            // pêche clair
+  doc.setDrawColor(20,28,38);doc.setLineWidth(1.4);
+  doc.rect(boxX,boxY,boxW,boxH,'FD');       // rempli + bordure
+  doc.setTextColor(20,28,38);
+  const cy=boxY+boxH/2;
+  doc.setFont(F,'bold');doc.setFontSize(17);
+  doc.text(pdfSafe(title),W/2,hasSub?cy-8:cy+5,{align:'center'});
+  if(hasSub){doc.setFont(F,'bold');doc.setFontSize(13);doc.text(pdfSafe(subtitle),W/2,cy+16,{align:'center'});}
+  return boxY+boxH; // y de fin du bandeau
+}
+
+// tableau "paramètres" présenté joliment (2 colonnes étiquette/valeur)
+function paramTable(doc,startY,pairs){
+  const body=[];
+  for(let k=0;k<pairs.length;k+=2){
+    const a=pairs[k],b=pairs[k+1]||['',''];
+    body.push([{content:a[0],styles:{fontStyle:'bold',fillColor:[245,247,249]}},a[1],
+               {content:b[0],styles:{fontStyle:'bold',fillColor:[245,247,249]}},b[1]]);
+  }
+  runAutoTable(doc,{startY,body,theme:'grid',
+    styles:tableStyle({halign:'left'}),
+    columnStyles:{0:{cellWidth:120},1:{cellWidth:'auto',halign:'right'},2:{cellWidth:120},3:{cellWidth:'auto',halign:'right'}},
+    margin:{left:40,right:40}});
+  return doc.lastAutoTable.finalY;
+}
+
+function exportAmortPDF(type,i){
+  const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
+  if(!b)return;
+  const rows=amortTable(b);
+  if(!rows.length){toast('Renseignez d\'abord la date de valeur');return}
+  const doc=newPdfDoc();if(!doc)return;
+  const W=doc.internal.pageSize.getWidth();
+  const modeLabel={infine:'In fine',constant:'Amortissement constant',annuite:'Annuités constantes',custom:'Personnalisé'};
+  const freqLabel={12:'Mensuelle',4:'Trimestrielle',2:'Semestrielle',1:'Annuelle'};
+  const m=type==='bond'?bondMetrics(b):moneyMetrics(b);
+  const title=(b.issuer||(type==='bond'?'Obligation':'Titre'));
+  setPdfFooter('MonBudget · Échéancier');
+  const headEnd=pdfHeader(doc,title,'Tableau d\'amortissement - '+new Date().toLocaleDateString('fr-FR'));
+  const pf=pdfPrefs();
+
+  // nature du titre
+  let nature='Obligation';
+  if(type==='money'){nature=(b.kind==='BAT')?'Bons du Trésor Assimilables (BTA)':'Obligations du Trésor Assimilables (OTA)';}
+
+  // 1) Tableau des CARACTÉRISTIQUES (nature par défaut ; durations + rdt annuel optionnels)
+  let ty=headEnd+24;
+  ty=pdfCurrencyNote(doc,ty);   // note devise en haut
+  ty+=18;
+  doc.setFont(pf.font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);
+  doc.text('Caractéristiques du titre',40,ty-8);
+  const params=[
+    ['Nature du titre',nature],
+    ['Émetteur',(b.issuer||'—')],
+    ['Mode de remboursement',(modeLabel[b.mode]||b.mode)],
+    ['Montant nominal',pdfNum(b.montant)],
+    ['Taux facial',(+b.tauxFacial||0)+' %'],
+    ['Durée',(b.years||'—')+' ans'],
+    ['Périodicité',(freqLabel[+b.freq]||'—')],
+    ['Différé',(+b.defer||0)+' période(s)'],
+    ['Nb d\'échéances',''+(m.nTot||rows.length)],
+    ['Rendement global',(m.rendGlobal!=null?m.rendGlobal.toFixed(2)+' %':'—')],
+  ];
+  if(pf.showRendAnnuel)params.push(['Rendement annuel',(m.rendAnnuel!=null?m.rendAnnuel.toFixed(2)+' %':'—')]);
+  if(pf.showDurSimple)params.push(['Duration simple',(m.durSimple!=null?m.durSimple.toFixed(2)+' ans':'—')]);
+  if(pf.showDurMac)params.push(['Duration de Macaulay',(m.durMac!=null?m.durMac.toFixed(2):'—')]);
+  let y=paramTable(doc,ty,params);
+
+  // 2) Si mode personnalisé : tableau des PROPORTIONS de capital amorti
+  if(b.mode==='custom'){
+    y+=22;
+    doc.setFont(pf.font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);
+    doc.text('Répartition du capital (mode personnalisé)',40,y);y+=10;
+    const M=+b.montant||0;
+    const amortRows=rows.filter(r=>!r.defer);
+    const pbody=amortRows.map((r,idx)=>{
+      const pctVal=M>0?(r.amort/M*100):0;
+      return [''+(idx+1), r.date, pctVal.toFixed(2)+' %', pdfNum(r.amort)];
+    });
+    const totPct=amortRows.reduce((a,r)=>a+(M>0?r.amort/M*100:0),0);
+    const totAmt=amortRows.reduce((a,r)=>a+r.amort,0);
+    pbody.push([{content:'Total',colSpan:2,styles:{fontStyle:'bold'}},{content:totPct.toFixed(2)+' %',styles:{fontStyle:'bold'}},{content:pdfNum(totAmt),styles:{fontStyle:'bold'}}]);
+    runAutoTable(doc,{startY:y,head:[['Éch.','Date','% du capital','Montant amorti']],body:pbody,
+      theme:'grid',styles:tableStyle(),headStyles:headStyle([10,138,150]),
+      margin:{left:40,right:40}});
+    y=doc.lastAutoTable.finalY;
+  }
+
+  // 3) TABLEAU D'AMORTISSEMENT (en-tête rouge bordeaux, texte clair, montants sans devise)
+  y+=22;
+  doc.setFont(pf.font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);
+  doc.text('Tableau d\'amortissement',40,y);y+=10;
+  const head=[['N°','Échéance','Capital dû (début)','Intérêt','Amortissement','Annuité','Capital dû (fin)']];
+  const body=rows.map(r=>[ r.n+(r.defer?' (diff.)':''), r.date, pdfNum(r.crdStart), pdfNum(r.interest), pdfNum(r.amort), pdfNum(r.annuity), pdfNum(r.crdEnd) ]);
+  const tI=rows.reduce((a,x)=>a+x.interest,0),tA=rows.reduce((a,x)=>a+x.amort,0),tAn=rows.reduce((a,x)=>a+x.annuity,0);
+  body.push([{content:'Totaux',colSpan:2,styles:{fontStyle:'bold'}}, '', {content:pdfNum(tI),styles:{fontStyle:'bold'}}, {content:pdfNum(tA),styles:{fontStyle:'bold'}}, {content:pdfNum(tAn),styles:{fontStyle:'bold'}}, '' ]);
+  runAutoTable(doc,{startY:y,head,body,theme:'grid',
+    styles:tableStyle(),
+    headStyles:headStyle([114,22,46]),   // rouge bordeaux
+    columnStyles:{0:{cellWidth:42},1:{cellWidth:70}},
+    margin:{left:40,right:40}});
+  stampFooters(doc);
+  doc.save('Echeancier_'+((b.issuer||'titre').replace(/[^a-zA-Z0-9]/g,'_'))+'.pdf');
+  toast('Échéancier PDF téléchargé');
+}
+
+function exportPortfolioPDF(){
+  if(session.role==='guest'){toast('Réservé aux comptes');return}
+  const doc=newPdfDoc();if(!doc)return;
+  const W=doc.internal.pageSize.getWidth();const P=state.portfolio;const T=portfolioTotals();
+  setPdfFooter('MonBudget · Portefeuille');
+  const headEnd=pdfHeader(doc,'Portefeuille — synthèse','Édité le '+new Date().toLocaleDateString('fr-FR'));
+  const pct=v=>T.grand>0?(v/T.grand*100).toFixed(1)+'%':'0%';
+  const nTot=P.stocks.length+P.bonds.length+P.money.length;
+  let ny=pdfCurrencyNote(doc,headEnd+22);
+  // tableau synthèse (avec ligne total)
+  runAutoTable(doc,{startY:ny+10,
+    head:[['Compartiment','Montant','Poids','Rendement','Nb lignes']],
+    body:[
+      ['Actions',pdfNum(T.aTot),pct(T.aTot),T.aReal.toFixed(2)+' % (réaliste)',''+P.stocks.length],
+      ['Emprunts obligataires',pdfNum(T.bTot),pct(T.bTot),T.bc.rdtPondMontant.toFixed(2)+' % (pond.)',''+P.bonds.length],
+      ['Monétaire (OAT/BAT)',pdfNum(T.mTot),pct(T.mTot),T.mc.rdtPondMontant.toFixed(2)+' % (pond.)',''+P.money.length],
+      [{content:'Portefeuille global',styles:{fontStyle:'bold'}},{content:pdfNum(T.grand),styles:{fontStyle:'bold'}},{content:'100 %',styles:{fontStyle:'bold'}},'',{content:''+nTot,styles:{fontStyle:'bold'}}]
+    ],
+    theme:'grid',styles:tableStyle(),headStyles:headStyle([10,31,51]),
+    margin:{left:40,right:40}});
+  let y=doc.lastAutoTable.finalY+24;
+  // Actions
+  if(P.stocks.length){
+    doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Actions',40,y);y+=8;
+    const ab=P.stocks.map(a=>{const m=stockMetrics(a);return [a.name||'—',''+(+a.qty||0),pdfNum(a.cours),pdfNum(m.montant),m.totalReal.toFixed(2)+' %'];});
+    ab.push([{content:'Total',colSpan:3,styles:{fontStyle:'bold'}},{content:pdfNum(T.aTot),styles:{fontStyle:'bold'}},'']);
+    runAutoTable(doc,{startY:y,head:[['Action','Quantité','Cours','Montant','Rdt réaliste']],body:ab,
+      theme:'grid',styles:tableStyle(),headStyles:headStyle([10,138,150]),margin:{left:40,right:40}});
+    y=doc.lastAutoTable.finalY+24;
+  }
+  // Obligations
+  if(P.bonds.length){
+    if(y>660){doc.addPage();y=56;}
+    doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Emprunts obligataires',40,y);y+=8;
+    const bb=P.bonds.map(b=>{const m=bondMetrics(b);return [b.issuer||'—',pdfNum(m.montant),(+b.tauxFacial||0)+' %',(+b.years||0)+' ans',m.rendGlobal.toFixed(2)+' %',m.rendAnnuel.toFixed(2)+' %',m.durMac.toFixed(2)];});
+    bb.push([{content:'Total',styles:{fontStyle:'bold'}},{content:pdfNum(T.bTot),styles:{fontStyle:'bold'}},'','',{content:T.bc.rdtPondMontant.toFixed(2)+' %',styles:{fontStyle:'bold'}},'','']);
+    runAutoTable(doc,{startY:y,head:[['Émetteur','Montant','Taux','Durée','Rdt global','Rdt annuel','Dur. Mac.']],body:bb,
+      theme:'grid',styles:tableStyle({fontSize:11}),headStyles:headStyle([106,61,143]),margin:{left:40,right:40}});
+    y=doc.lastAutoTable.finalY+24;
+  }
+  // Monétaire
+  if(P.money.length){
+    if(y>660){doc.addPage();y=56;}
+    doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Monétaire (OAT / BAT)',40,y);y+=8;
+    const mb=P.money.map(t=>{const m=moneyMetrics(t);return [t.issuer||'—',t.kind,pdfNum(m.montant),(+t.tauxFacial||0)+' %',t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' ans'),m.rendGlobal.toFixed(2)+' %',m.rendAnnuel.toFixed(2)+' %'];});
+    mb.push([{content:'Total',colSpan:2,styles:{fontStyle:'bold'}},{content:pdfNum(T.mTot),styles:{fontStyle:'bold'}},'','',{content:T.mc.rdtPondMontant.toFixed(2)+' %',styles:{fontStyle:'bold'}},'']);
+    runAutoTable(doc,{startY:y,head:[['Émetteur','Type','Montant','Taux','Durée','Rdt global','Rdt annuel']],body:mb,
+      theme:'grid',styles:tableStyle({fontSize:11}),headStyles:headStyle([10,138,150]),margin:{left:40,right:40}});
+  }
+  stampFooters(doc);
+  doc.save('Portefeuille_'+(session.user||'').replace(/[^a-zA-Z0-9]/g,'_')+'_'+new Date().toISOString().slice(0,10)+'.pdf');
+  toast('Portefeuille PDF téléchargé');
+}
+
+/* ============ RAPPORTS MENSUELS ============ */
+function openReportMenu(){
+  if(session.role==='guest'){toast('Réservé aux comptes');return}
+  showReportModal();
+}
+function showReportModal(){
+  let modal=document.getElementById('reportModal');
+  if(!modal){
+    modal=document.createElement('div');modal.id='reportModal';modal.className='modal';
+    modal.innerHTML=`<div class="modal-box">
+      <h3 style="font-family:'Fraunces';font-size:20px;margin-bottom:8px;color:var(--ink)">Rapport mensuel</h3>
+      <p style="color:var(--ink-soft);font-size:14px;margin-bottom:18px">Quel rapport souhaitez-vous générer en PDF ?</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="btn btn-primary" onclick="closeReportModal();generateBudgetReport()">Rapport budgétaire</button>
+        <button class="btn btn-primary" onclick="closeReportModal();generatePortfolioReport()">Rapport de portefeuille</button>
+        <button class="btn-ghost" onclick="closeReportModal()">Annuler</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+  }
+  modal.classList.add('show');
+}
+function closeReportModal(){const m=document.getElementById('reportModal');if(m)m.classList.remove('show');}
+function reportPeriodLabel(){
+  const mo=state.months[curMonthKey];
+  if(mo&&mo.start&&mo.end)return mo.start+' au '+mo.end;
+  return curMonthKey||'';
+}
+function generateBudgetReport(){
+  const doc=newPdfDoc();if(!doc)return;
+  const mo=state.months[curMonthKey];if(!mo){toast('Aucun mois à rapporter');return}
+  setPdfFooter('MonBudget · Rapport budgétaire');
+  const headEnd=pdfHeader(doc,'Rapport budgétaire','Période : '+reportPeriodLabel());
+  const cats=[['revenus','Revenus'],['facture','Factures'],['depenses','Dépenses'],['epargne','Épargne'],['dettes','Dettes']];
+  const rev=catTotal(mo,'revenus','real');
+  const charges=catTotal(mo,'facture','real')+catTotal(mo,'depenses','real');
+  const ep=catTotal(mo,'epargne','real');
+  const det=catTotal(mo,'dettes','real');
+  const solde=rev-charges-ep-det;
+  const tauxEp=rev>0?(ep/rev*100):0;
+  // KPI synthèse
+  runAutoTable(doc,{startY:headEnd+22,head:[['Indicateur','Valeur']],
+    body:[
+      ['Total revenus (réalisés)',pdfMoney(rev)],
+      ['Total charges (factures + dépenses)',pdfMoney(charges)],
+      ['Épargne',pdfMoney(ep)],
+      ['Dettes remboursées',pdfMoney(det)],
+      [{content:'Solde du mois',styles:{fontStyle:'bold'}},{content:pdfMoney(solde),styles:{fontStyle:'bold'}}],
+      [{content:'Taux d\'épargne',styles:{fontStyle:'bold'}},{content:tauxEp.toFixed(1)+' %',styles:{fontStyle:'bold'}}],
+    ],
+    theme:'grid',styles:tableStyle({halign:'left'}),headStyles:headStyle([10,31,51]),
+    columnStyles:{1:{halign:'right'}},margin:{left:40,right:40}});
+  let y=doc.lastAutoTable.finalY+24;
+  // prévu vs réalisé par catégorie (avec total)
+  doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Prévu vs réalisé par catégorie',40,y);y+=8;
+  let totB=0,totR=0;
+  const body=cats.map(([k,lbl])=>{
+    const bud=catTotal(mo,k,'budget'),real=catTotal(mo,k,'real');const ecart=real-bud;totB+=bud;totR+=real;
+    return [lbl,pdfMoney(bud),pdfMoney(real),(ecart>=0?'+':'')+pdfMoney(ecart)];
+  });
+  body.push([{content:'Total',styles:{fontStyle:'bold'}},{content:pdfMoney(totB),styles:{fontStyle:'bold'}},{content:pdfMoney(totR),styles:{fontStyle:'bold'}},{content:((totR-totB)>=0?'+':'')+pdfMoney(totR-totB),styles:{fontStyle:'bold'}}]);
+  runAutoTable(doc,{startY:y,head:[['Catégorie','Budget prévu','Réalisé','Écart']],body,
+    theme:'grid',styles:tableStyle({halign:'left'}),headStyles:headStyle([106,61,143]),
+    columnStyles:{1:{halign:'right'},2:{halign:'right'},3:{halign:'right'}},margin:{left:40,right:40}});
+  y=doc.lastAutoTable.finalY+24;
+  // top 5 dépenses (avec % des dépenses globales + total)
+  const allDeps=allEntries(mo).filter(e=>e.cat!=='revenus'&&e.cat!=='epargne');
+  const totalDeps=allDeps.reduce((a,e)=>a+(+e.amount||0),0); // dépenses globales (factures+dépenses+dettes)
+  const deps=allDeps.slice().sort((a,b)=>(+b.amount||0)-(+a.amount||0)).slice(0,5);
+  if(deps.length){
+    if(y>620){doc.addPage();y=56;}
+    doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Top 5 des sorties',40,y);y+=8;
+    const tb=deps.map(e=>{
+      const part=totalDeps>0?((+e.amount||0)/totalDeps*100):0;
+      return [e.date||'—',(e.line||''),pdfMoney(e.amount),part.toFixed(1)+' %'];
+    });
+    const totTop=deps.reduce((a,e)=>a+(+e.amount||0),0);
+    const partTop=totalDeps>0?(totTop/totalDeps*100):0;
+    tb.push([{content:'Total (top 5)',colSpan:2,styles:{fontStyle:'bold'}},{content:pdfMoney(totTop),styles:{fontStyle:'bold'}},{content:partTop.toFixed(1)+' %',styles:{fontStyle:'bold'}}]);
+    runAutoTable(doc,{startY:y,head:[['Date','Poste','Montant','% des dépenses']],body:tb,
+      theme:'grid',styles:tableStyle({halign:'left'}),headStyles:headStyle([10,31,51]),
+      columnStyles:{2:{halign:'right'},3:{halign:'right'}},margin:{left:40,right:40}});
+    y=doc.lastAutoTable.finalY+24;
+  }
+  // commentaire automatique (texte noir)
+  if(y>720){doc.addPage();y=56;}
+  doc.setFont(pdfPrefs().font,'normal');doc.setFontSize(pdfPrefs().fontSize);doc.setTextColor(...PDF_INK);
+  let comment;
+  if(tauxEp>=20)comment='Excellent : votre taux d\'épargne de '+tauxEp.toFixed(1)+' % est très solide (au-dessus de 20 %).';
+  else if(tauxEp>=10)comment='Bien : votre taux d\'épargne de '+tauxEp.toFixed(1)+' % dépasse le seuil recommandé de 10 %.';
+  else if(tauxEp>0)comment='Attention : votre taux d\'épargne de '+tauxEp.toFixed(1)+' % est sous le seuil conseillé de 10 %. Essayez d\'augmenter votre épargne.';
+  else comment='Aucune épargne ce mois : pensez à vous fixer un objectif, même modeste.';
+  doc.text(pdfSafe('Commentaire : '+comment),40,y,{maxWidth:doc.internal.pageSize.getWidth()-80});
+  stampFooters(doc);
+  doc.save('Rapport_Budget_'+(curMonthKey||'')+'.pdf');
+  markReportGenerated();
+  toast('Rapport budgétaire généré');
+}
+function generatePortfolioReport(){
+  const doc=newPdfDoc();if(!doc)return;
+  const P=state.portfolio;const T=portfolioTotals();
+  if(T.grand<=0){toast('Portefeuille vide');return}
+  setPdfFooter('MonBudget · Rapport portefeuille');
+  const headEnd=pdfHeader(doc,'Rapport de portefeuille','Édité le '+new Date().toLocaleDateString('fr-FR'));
+  const pct=v=>T.grand>0?(v/T.grand*100).toFixed(1)+'%':'0%';
+  runAutoTable(doc,{startY:headEnd+22,head:[['Compartiment','Montant','Poids','Rendement annuel']],
+    body:[
+      ['Actions',pdfMoney(T.aTot),pct(T.aTot),T.aReal.toFixed(2)+' %'],
+      ['Obligations',pdfMoney(T.bTot),pct(T.bTot),T.bc.rdtAnnuelParDureeMontant.toFixed(2)+' %'],
+      ['Monétaire',pdfMoney(T.mTot),pct(T.mTot),T.mc.rdtAnnuelParDureeMontant.toFixed(2)+' %'],
+      [{content:'Total',styles:{fontStyle:'bold'}},{content:pdfMoney(T.grand),styles:{fontStyle:'bold'}},{content:'100 %',styles:{fontStyle:'bold'}},''],
+    ],
+    theme:'grid',styles:tableStyle(),headStyles:headStyle([10,31,51]),margin:{left:40,right:40}});
+  let y=doc.lastAutoTable.finalY+24;
+  // indicateurs consolidés
+  doc.setFont(pdfPrefs().font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);doc.text('Indicateurs consolidés',40,y);y+=8;
+  const ind=[];
+  if(T.bTot>0)ind.push(['Obligations — rdt pond. montant',T.bc.rdtPondMontant.toFixed(2)+' %'],['Obligations — durée moy. (montant)',T.bc.durMoyMontant.toFixed(2)+' ans'],['Obligations — Macaulay moy.',T.bc.durMacPondM.toFixed(2)]);
+  if(T.mTot>0)ind.push(['Monétaire — rdt pond. montant',T.mc.rdtPondMontant.toFixed(2)+' %'],['Monétaire — durée moy. (montant)',T.mc.durMoyMontant.toFixed(2)+' ans']);
+  if(!ind.length)ind.push(['—','—']);
+  runAutoTable(doc,{startY:y,head:[['Indicateur','Valeur']],body:ind,
+    theme:'grid',styles:tableStyle({halign:'left'}),headStyles:headStyle([10,138,150]),
+    columnStyles:{1:{halign:'right'}},margin:{left:40,right:40}});
+  stampFooters(doc);
+  doc.save('Rapport_Portefeuille_'+new Date().toISOString().slice(0,10)+'.pdf');
+  markReportGenerated();
+  toast('Rapport de portefeuille généré');
+}
+function markReportGenerated(){state._lastReport=Date.now();saveData();}
+function checkReportDue(){
+  if(!state||session.role==='guest')return;
+  const last=state._lastReport||0;
+  const days=(Date.now()-last)/(1000*60*60*24);
+  if(days>=30){
+    setTimeout(()=>{
+      confirmAction('Cela fait 30 jours ou plus depuis votre dernier rapport. Voulez-vous générer votre rapport budgétaire mensuel maintenant ?',
+        ()=>generateBudgetReport());
+    },1500);
+  }
+}
+
 function exportAmort(type,i){
   if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
   const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
