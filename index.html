@@ -3768,7 +3768,7 @@ function exportAmortPDF(type,i){
   if(type==='money'){nature=(b.kind==='BAT')?'Bons du Trésor Assimilables (BTA)':'Obligations du Trésor Assimilables (OTA)';}
   const ent=currentEntity();
   setPdfFooter('MonBudget · Échéancier — '+(b.issuer||nature));
-  const headEnd=pdfOppHeader(doc,nature,ent);
+  const headEnd=pdfOppHeader(doc,nature+(b.issuer?' - '+b.issuer:''),ent);
   const pf=pdfPrefs();
   const botMargin=ent?72:40; // réserve le pied de page « papier à en-tête »
 
