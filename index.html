@@ -13,6 +13,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
 <style>
 :root{
   --ink:#0a1f33;        /* bleu nuit profond */
@@ -29,7 +30,7 @@
   --line-2:#eceadf;
   --muted:#4a5862;
   --green:#1f9d6b;
-  --red:#d6453b;
+  --red:#d6453b;--bordeaux:#72162e;
   --shadow:0 1px 2px rgba(10,31,51,.04),0 8px 24px rgba(10,31,51,.06);
   --shadow-lg:0 20px 60px rgba(10,31,51,.14);
   --r:16px;
@@ -576,6 +577,31 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .ent-logo-prev{height:42px;max-width:240px;object-fit:contain;display:block;margin:4px 0;border:1px dashed var(--line);border-radius:8px;padding:4px;background:#fff}
 .ent-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;margin:0 8px 8px 0;font-size:13px;background:#fff;font-family:Outfit,sans-serif}
 .ent-chip button{border:none;background:none;color:var(--red);cursor:pointer;font-size:15px;line-height:1;padding:0}
+
+/* --- outils internes : ordre d'achat --- */
+.calc-box{margin-top:16px;border:1px dashed var(--line);border-radius:12px;padding:12px 14px;background:#fdfcf9}
+.calc-title{font-weight:700;font-size:13px;color:var(--ink);margin-bottom:8px;font-family:Outfit,sans-serif}
+.calc-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:3px 0;border-bottom:1px dotted var(--line-2);font-family:Outfit,sans-serif}
+.calc-row:last-child{border-bottom:none}
+.calc-row span:last-child{font-family:'JetBrains Mono',monospace;text-align:right;white-space:nowrap}
+#ordreForm input[type=text],#ordreForm input[type=number],#ordreForm input[type=date],#ordreForm select{width:100%;box-sizing:border-box}
+/* --- Outils Internes : bordures bordeaux + responsive --- */
+#ordreForm .fg input,#ordreForm .fg select,#ordreForm .fg textarea{border:1.5px solid var(--bordeaux,#72162e)}
+#ordreForm .fg input:focus,#ordreForm .fg select:focus,#ordreForm .fg textarea:focus{border-color:var(--bordeaux,#72162e);box-shadow:0 0 0 3px rgba(114,22,46,.16)}
+.it-emit-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.it-emit-row input{flex:1;min-width:180px;border:1.5px solid var(--bordeaux,#72162e);border-radius:9px;padding:8px 11px;font-family:'Outfit';font-size:13.5px}
+.it-section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.it-toggle{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12.5px;font-family:'Outfit';cursor:pointer;white-space:nowrap}
+.it-toggle:hover{color:var(--ink);border-color:var(--muted)}
+@media(max-width:760px){
+  #ordreForm .fgrid{grid-template-columns:1fr 1fr}
+  #ordrePreviewBody{height:62vh !important}
+  .it-export-row{flex-direction:column}
+  .it-export-row button{width:100%}
+}
+@media(max-width:440px){
+  #ordreForm .fgrid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -649,6 +675,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
       <button data-v="glossaire" onclick="nav('glossaire')">Glossaire</button>
       <button data-v="portef" id="portefTab" onclick="nav('portef')">Mon portefeuille</button>
       <button data-v="apropos" onclick="nav('apropos')">À propos</button>
+      <button data-v="interne" id="interneTab" style="display:none" onclick="nav('interne')">Outils Internes</button>
       <button data-v="admin" id="adminTab" style="display:none" onclick="nav('admin')">Admin</button>
     </nav>
   </header>
@@ -1061,6 +1088,28 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     </section>
 
     <!-- ADMIN -->
+    <section class="view" id="v-interne">
+      <div class="page-head">
+        <div class="kicker">Espace réservé</div>
+        <h2>Outils Internes</h2>
+        <p>Édition de documents à usage interne (ordres d'achat de Valeurs Trésor). L'accès à cet onglet est accordé par l'administrateur.</p>
+      </div>
+      <div class="infocard">
+        <div class="it-section-head" id="ordreFormHead">
+          <h3 data-i18n="it_card" style="margin:0">Ordre d'achat de Valeurs Trésor</h3>
+          <button class="it-toggle" id="ordreFormToggle" onclick="toggleOrdreForm()" data-i18n="it_hide">Masquer</button>
+        </div>
+        <div id="ordreForm" style="margin-top:14px"></div>
+      </div>
+      <div class="infocard" id="ordrePreview" style="display:none;margin-top:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;flex-wrap:wrap">
+          <h3 style="margin:0" data-i18n="it_prev">Aperçu de l'ordre</h3>
+          <button class="icon-btn" onclick="closeOrdrePreview()" data-i18n="it_prevclose">Fermer l'aperçu</button>
+        </div>
+        <div id="ordrePreviewBody" style="height:820px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#6b7480"></div>
+      </div>
+    </section>
+
     <section class="view" id="v-admin">
       <div class="page-head">
         <div class="kicker">Espace administrateur</div>
@@ -1083,6 +1132,14 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           <button class="add-stock" onclick="entAllowAdd()">Autoriser</button>
         </div>
         <div id="entCloudNote" style="font-size:12px;color:var(--muted);margin-top:8px"></div>
+      </div>
+      <div class="infocard" style="margin-top:18px"><h3>Accès à l'onglet « Outils Internes »</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Seuls les utilisateurs listés ici (et l'administrateur) voient l'onglet Outils Internes et peuvent éditer les ordres d'achat. Pour tous les autres, l'onglet est invisible.</p>
+        <div id="internAllowedList"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <input id="internAllowEmail" type="email" placeholder="email@exemple.com" style="flex:1;min-width:220px;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-family:Outfit,sans-serif;font-size:13.5px">
+          <button class="add-stock" onclick="internAllowAdd()">Autoriser</button>
+        </div>
       </div>
       <div class="locked-note" style="margin-top:18px">Les comptes sont sécurisés et synchronisés via Supabase : chaque utilisateur retrouve ses données sur tous ses appareils, et la réinitialisation du mot de passe se fait par email. Si le serveur est momentanément indisponible, l'outil bascule automatiquement en mode local.</div>
     </section>
@@ -1108,61 +1165,75 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 
 <div id="exportOptModal" class="modal">
   <div class="modal-box">
-    <h3>Options d'export</h3>
-    <p style="margin-bottom:16px">Réglages appliqués à vos exports PDF et Excel. Si vous ne modifiez rien, les valeurs par défaut sont utilisées.</p>
+    <h3 data-i18n="m_title">Options d'export</h3>
+    <p style="margin-bottom:16px" data-i18n="m_intro">Réglages appliqués à vos exports PDF et Excel. Si vous ne modifiez rien, les valeurs par défaut sont utilisées.</p>
     <div class="eo-scroll">
     <div class="eo-section">
-      <div class="eo-title">Document PDF</div>
-      <label class="eo-field"><span>Police</span>
+      <div class="eo-title" data-i18n="m_pdf">Document PDF</div>
+      <label class="eo-field"><span data-i18n="m_font">Police</span>
         <select id="pdfFontSel" onchange="savePdfPref('font',this.value)">
           <option value="times">Times New Roman (par défaut)</option>
           <option value="helvetica">Helvetica</option>
           <option value="courier">Courier</option>
         </select>
       </label>
-      <label class="eo-field"><span>Taille de police : <b id="pdfSizeVal">11</b> pt</span>
+      <label class="eo-field"><span data-i18n="m_fsize">Taille de police : <b id="pdfSizeVal">11</b> pt</span>
         <input type="range" id="pdfSizeRange" min="8" max="14" step="1" value="11" oninput="savePdfPref('fontSize',+this.value);document.getElementById('pdfSizeVal').textContent=this.value">
       </label>
-      <label class="eo-field"><span>Interligne : <b id="pdfLhVal">1.15</b></span>
+      <label class="eo-field"><span data-i18n="m_lh">Interligne : <b id="pdfLhVal">1.15</b></span>
         <input type="range" id="pdfLhRange" min="1" max="2" step="0.05" value="1.15" oninput="savePdfPref('lineHeight',+this.value);document.getElementById('pdfLhVal').textContent=(+this.value).toFixed(2)">
       </label>
-      <label class="eo-field"><span>Marge haute de la page (en-tête) : <b id="pdfHhVal">3.0</b> cm</span>
+      <label class="eo-field"><span data-i18n="m_hh">Marge haute de la page (en-tête) : <b id="pdfHhVal">3.0</b> cm</span>
         <input type="range" id="pdfHhRange" min="1" max="6" step="0.25" value="3" oninput="savePdfPref('headerCm',+this.value);document.getElementById('pdfHhVal').textContent=(+this.value).toFixed(2)">
       </label>
     </div>
     <div class="eo-section">
-      <div class="eo-title">Caractéristiques optionnelles de l'échéancier</div>
+      <div class="eo-title" data-i18n="m_chars">Caractéristiques optionnelles de l'échéancier</div>
       <div class="eo-checks">
-        <label class="eo-check"><input type="checkbox" id="pdfRendAnnuel" onchange="savePdfPref('showRendAnnuel',this.checked)"><span>Rendement annuel</span></label>
-        <label class="eo-check"><input type="checkbox" id="pdfDurSimple" onchange="savePdfPref('showDurSimple',this.checked)"><span>Duration simple</span></label>
-        <label class="eo-check"><input type="checkbox" id="pdfDurMac" onchange="savePdfPref('showDurMac',this.checked)"><span>Duration de Macaulay</span></label>
+        <label class="eo-check"><input type="checkbox" id="pdfRendAnnuel" onchange="savePdfPref('showRendAnnuel',this.checked)"><span data-i18n="m_rann">Rendement annuel</span></label>
+        <label class="eo-check"><input type="checkbox" id="pdfDurSimple" onchange="savePdfPref('showDurSimple',this.checked)"><span data-i18n="m_dsimple">Duration simple</span></label>
+        <label class="eo-check"><input type="checkbox" id="pdfDurMac" onchange="savePdfPref('showDurMac',this.checked)"><span data-i18n="m_dmac">Duration de Macaulay</span></label>
       </div>
     </div>
-    <div class="eo-section" id="entOptSection" style="display:none">
-      <div class="eo-title">Entité émettrice (échéancier PDF)</div>
-      <label class="eo-field"><span>Papier à en-tête utilisé pour l'export des échéanciers</span>
-        <select id="pdfEntitySel" onchange="setEntityPref(this.value)"></select>
+    <div class="eo-section">
+      <div class="eo-title" data-i18n="m_lang">Langue de l'interface</div>
+      <label class="eo-field"><span data-i18n="m_lang_lbl">Choisissez la langue / Choose the language</span>
+        <select id="langSel" onchange="setLang(this.value)">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+        </select>
       </label>
-      <div style="font-size:12px;color:var(--muted)">Avec « Aucune », l'échéancier est exporté au format standard. Le logo de l'entité est centré en tête de page et ses mentions légales figurent en pied de page.</div>
     </div>
     <div class="eo-section">
-      <div class="eo-title">Récupération des saisies</div>
+      <div class="eo-title" data-i18n="m_tabs">Onglets affichés</div>
+      <div class="eo-checks" id="tabPrefList"></div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px" data-i18n="m_tabs_note">Au moins un onglet doit rester actif.</div>
+    </div>
+    <div class="eo-section" id="entOptSection" style="display:none">
+      <div class="eo-title" data-i18n="m_ent">Entité émettrice (échéancier PDF)</div>
+      <label class="eo-field"><span data-i18n="m_ent_lbl">Papier à en-tête utilisé pour l'export des échéanciers</span>
+        <select id="pdfEntitySel" onchange="setEntityPref(this.value)"></select>
+      </label>
+      <div style="font-size:12px;color:var(--muted)" data-i18n="m_ent_note">Avec « Aucune », l'échéancier est exporté au format standard. Le logo de l'entité est centré en tête de page et ses mentions légales figurent en pied de page.</div>
+    </div>
+    <div class="eo-section">
+      <div class="eo-title" data-i18n="m_recov">Récupération des saisies</div>
       <div id="recoveryBody" style="font-size:13px"></div>
     </div>
     <div class="eo-section">
-      <div class="eo-title">Actions rapides</div>
+      <div class="eo-title" data-i18n="m_quick">Actions rapides</div>
       <div class="eo-actions">
-        <button class="eo-act" onclick="closeExportOptions();exportData()">Exporter le budget (Excel)</button>
-        <button class="eo-act" onclick="closeExportOptions();openReportMenu()">Rapport mensuel (PDF)</button>
-        <button class="eo-act" onclick="closeExportOptions();exportPortfolio()">Portefeuille (Excel)</button>
-        <button class="eo-act" onclick="closeExportOptions();exportPortfolioPDF()">Portefeuille (PDF)</button>
-        <button class="eo-act" id="restoreBtn" style="display:none" onclick="closeExportOptions();importTrigger()">Restaurer une sauvegarde</button>
+        <button class="eo-act" onclick="closeExportOptions();exportData()" data-i18n="m_a_xlsx">Exporter le budget (Excel)</button>
+        <button class="eo-act" onclick="closeExportOptions();openReportMenu()" data-i18n="m_a_report">Rapport mensuel (PDF)</button>
+        <button class="eo-act" onclick="closeExportOptions();exportPortfolio()" data-i18n="m_a_pfx">Portefeuille (Excel)</button>
+        <button class="eo-act" onclick="closeExportOptions();exportPortfolioPDF()" data-i18n="m_a_pfp">Portefeuille (PDF)</button>
+        <button class="eo-act" id="restoreBtn" style="display:none" onclick="closeExportOptions();importTrigger()" data-i18n="m_a_restore">Restaurer une sauvegarde</button>
       </div>
     </div>
     </div>
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="resetExportOptions()">Réinitialiser</button>
-      <button class="btn-primary" onclick="closeExportOptions()">Terminé</button>
+      <button class="btn-cancel" onclick="resetExportOptions()" data-i18n="m_reset">Réinitialiser</button>
+      <button class="btn-primary" onclick="closeExportOptions()" data-i18n="m_done">Terminé</button>
     </div>
   </div>
 </div>
@@ -1197,9 +1268,11 @@ async function loadEntConfig(){
   }
   if(!entCfg.entities)entCfg.entities=[];
   if(!entCfg.allowed)entCfg.allowed=[];
+  if(!entCfg.internalAllowed)entCfg.internalAllowed=[];
   entLocalSave();
   initEntityOption();
   renderEntAdmin();
+  applyInterneTab();
 }
 let _entSaveT=null;
 function saveEntConfig(){
@@ -1240,6 +1313,199 @@ function setEntityPref(v){
   savePdfPref('entity',v);
   const e=(entCfg.entities||[]).find(x=>x.id===v);
   toast(e?('Échéanciers exportés sur papier : '+(e.short||e.name)):'Échéanciers exportés au format standard');
+}
+
+/* ============ INTERNATIONALISATION (FR par défaut / EN) ============ */
+const I18N_EN={
+  tb_budget:'My budget',tb_dash:'Dashboard',tb_classif:'Classify expenses',tb_epargne:'Savings simulator',tb_placement:'Investment guide',tb_titres:'Government securities',tb_glossaire:'Glossary',tb_portef:'My portfolio',tb_apropos:'About',tb_interne:'Internal Tools',tb_admin:'Admin',
+  tp_export:'Budget export',tp_report:'Monthly report',tp_options:'Options',tp_quit:'Log out',brand_sub:'Take control of your spending',
+  role_member:'Member',role_guest:'Guest',role_admin:'Admin',
+  hd_budget_k:'Step 1 \u00b7 Review & Budget',hd_budget_h:'My monthly budget',hd_budget_p:'Enter your planned <b>budgets</b> for the month, then record your <b>income and expenses day by day</b> in the journal below. The actuals column of the tables fills in automatically from your daily entries.',
+  hd_dash_k:'Tracking \u00b7 Overview',hd_dash_h:'Dashboard',hd_dash_p:'Visualise how your budget evolves, how your outflows break down and your savings rate, month by month.',
+  hd_classif_k:'Step 2 \u00b7 Reclassify',hd_classif_h:'Classify my expenses',hd_classif_p:'Following the Delta Wealth method: split your charges into <b>fixed</b>, <b>variable</b> and <b>occasional</b> to spot where to act.',
+  hd_epargne_k:'Step 4 \u00b7 Grow it',hd_epargne_h:'Savings simulator',hd_epargne_p:'"Saving is not what is left over after spending; it is what you set aside before spending." Project the growth of your savings with compound interest.',
+  hd_placement_k:'Step 3 \u00b7 Allocate',hd_placement_h:'UEMOA investment guide',hd_placement_p:'From least to most risky. Choosing an asset means trading off <b>safety</b>, <b>return</b>, <b>horizon</b> and <b>liquidity</b>.',
+  hd_titres_k:'Opportunities \u00b7 Government securities market',hd_titres_h:'T-Bills & T-Bonds: investing with the State',hd_titres_p:'Government securities are issued by UEMOA member states through UMOA-Titres to finance their budgets and projects. A reputedly safe and rewarding investment.',
+  hd_glossaire_k:'Learning \u00b7 Understand the foundations',hd_glossaire_h:'Financial market glossary',hd_glossaire_p:'The essential terms of the stock market, bonds, savings and the UEMOA financial market, explained simply.',
+  hd_portef_k:'Investing \u00b7 Portfolio tracking',hd_portef_h:'My portfolio',hd_portef_p:'Build and track your portfolio: <b>stocks</b>, <b>bonds</b> and <b>money market (T-bonds / T-bills)</b>.',
+  hd_apropos_k:'About',hd_apropos_h:'The creator of this tool',hd_apropos_p:'This budgeting, savings and portfolio tool was designed to help everyone take back control of their finances and invest better.',
+  hd_admin_k:'Administrator area',hd_admin_h:'Admin dashboard',hd_admin_p:'User activity tracking. When the server connection (Supabase) is active, these statistics are <b>centralised</b> across all devices.',
+  hd_interne_k:'Restricted area',hd_interne_h:'Internal Tools',hd_interne_p:'Internal document editing (Treasury securities purchase orders). Access to this tab is granted by the administrator.',
+  m_title:'Options',m_intro:'Settings applied to your exports and to the interface. Leave untouched to use the defaults.',
+  m_pdf:'PDF document',m_font:'Font',m_fsize:'Font size: <b id="pdfSizeVal">11</b> pt',m_lh:'Line spacing: <b id="pdfLhVal">1.15</b>',m_hh:'Top page margin (header): <b id="pdfHhVal">3.0</b> cm',
+  m_chars:'Optional schedule characteristics',m_rann:'Annual yield',m_dsimple:'Simple duration',m_dmac:'Macaulay duration',
+  m_lang:'Interface language',m_lang_lbl:'Choose the language',
+  m_tabs:'Visible tabs',m_tabs_note:'At least one tab must remain active.',
+  m_ent:'Issuing entity (PDF schedule)',m_ent_lbl:'Letterhead used for schedule exports',m_ent_note:'With "None", schedules use the standard format. The entity logo is centred at the top of the page and its legal notice appears in the footer.',
+  m_recov:'Entry recovery',m_quick:'Quick actions',
+  m_a_xlsx:'Budget export (Excel)',m_a_report:'Monthly report (PDF)',m_a_pfx:'Portfolio (Excel)',m_a_pfp:'Portfolio (PDF)',m_a_restore:'Restore a backup',
+  m_reset:'Reset',m_done:'Done',
+  it_card:'Treasury Securities purchase order',it_denied:'Access not authorised. Ask the administrator for access.',
+  it_type:'Order type',it_type_d:'Client account to be debited',it_type_v:'Transfer made to the company account',
+  it_ville:'City',it_date:'Edition date',it_code:'Issue code',it_nature:'Nature',it_emetteur:'Issuer',
+  it_montant:'Requested amount (FCFA)',it_prixon:'Price',it_prixon2:'Include the price (3-column table)',it_prix:'Price (%)',
+  it_courtage:'Brokerage rate (%)',it_tva:'VAT rate (%)',
+  it_compte:'Account No. to debit (blank = handwritten)',it_intitule:'Account name (blank = handwritten)',
+  it_vire:'Amount transferred (FCFA)',
+  it_contact:'Contact person(s)',it_tel:'Phone',it_mail:'Email address',
+  it_typo:'Document typography',it_font:'Font',it_size:'Size (pt)',it_lh2:'Line spacing',
+  it_mtop:'Top margin (cm)',it_mbot:'Bottom margin (cm)',it_mleft:'Left margin (cm)',it_mright:'Right margin (cm)',
+  it_calc:'Calculation details',
+  itc_montant:'Requested amount',itc_prix:'Price',itc_base:'Base',itc_court:'Brokerage',itc_tva:'VAT on brokerage',itc_brut:'Total before rounding',itc_arr:'Rounded amount (in figures and words in the order)',itc_lettres:'In words',itc_vire:'Amount transferred',itc_ecart:'Difference (transferred \u2212 rounded)',
+  it_pdf:'Export as PDF',it_doc:'Export as Word',it_nomontant:'Enter the requested amount first',it_okpdf:'Purchase order PDF downloaded',it_okdoc:'Purchase order Word file downloaded',
+  it_note_fr:'The exported document remains in French (official letter to the Managing Director).',
+  it_prev:'Order preview',it_prevclose:'Close preview',it_prevpdf:'PDF preview',it_prevdoc:'Word preview',
+  it_hide:'Hide',it_show:'Show',it_masked:'Form hidden. Click "Show" to display it again.',
+  it_addemit:'New issuer',it_addbtn:'Add',it_delemit:'Remove this issuer',it_added:'Issuer added:',it_deleted:'Issuer removed',
+  it_cc_on:'Include accrued coupon',it_cc_dernier:'Last coupon payment date',it_cc_valeur:'Value date',it_cc_taux:'Annual coupon rate (%)',it_cc_base:'Day-count basis',
+  itc_ccjours:'Days (value date \u2212 last coupon)',itc_ccbase:'Basis',itc_cc:'Accrued coupon',itc_baseplus:'Base + accrued coupon',
+  itc_warn:'WARNING: transferred amount below total before rounding',
+  it_vwarn_title:'Transferred amount too low',it_vwarn_body:'The transferred amount (%V FCFA) is below the total to be paid (%T FCFA). Continue anyway?',it_vwarn_ok:'Continue anyway',it_vwarn_no:'Cancel and correct'
+};
+const I18N_FR={
+  m_tabs_note:'Au moins un onglet doit rester actif.',
+  it_card:"Ordre d'achat de Valeurs Trésor",it_denied:"Accès non autorisé. Demandez l'habilitation à l'administrateur.",
+  it_type:"Type d'ordre",it_type_d:'Client à débiter',it_type_v:"Virement fait dans le compte de l'entreprise",
+  it_ville:'Ville',it_date:"Date d'édition",it_code:"Code d'émission",it_nature:'Nature',it_emetteur:'Émetteur',
+  it_montant:'Montant demandé (FCFA)',it_prixon:'Prix',it_prixon2:'Inclure le prix (tableau à 3 colonnes)',it_prix:'Prix (%)',
+  it_courtage:'Taux de courtage (%)',it_tva:'Taux de TVA (%)',
+  it_compte:'Compte n° à débiter (vide = à la main)',it_intitule:'Intitulé du compte (vide = à la main)',
+  it_vire:'Montant viré (FCFA)',
+  it_contact:'Personne(s) à contacter',it_tel:'Téléphone',it_mail:'Adresse mail',
+  it_typo:'Typographie du document',it_font:'Police',it_size:'Taille (pt)',it_lh2:'Interligne',
+  it_mtop:'Marge haut (cm)',it_mbot:'Marge bas (cm)',it_mleft:'Marge gauche (cm)',it_mright:'Marge droite (cm)',
+  it_calc:'Détail des calculs',
+  itc_montant:'Montant demandé',itc_prix:'Prix',itc_base:'Base',itc_court:'Courtage',itc_tva:'TVA sur courtage',itc_brut:'Total avant arrondi',itc_arr:"Montant arrondi (en chiffres et en lettres dans l'ordre)",itc_lettres:'En toutes lettres',itc_vire:'Montant viré',itc_ecart:'Écart (viré \u2212 arrondi)',
+  it_pdf:'Exporter en PDF',it_doc:'Exporter en Word',it_nomontant:"Saisissez d'abord le montant demandé",it_okpdf:"Ordre d'achat PDF téléchargé",it_okdoc:"Ordre d'achat Word téléchargé",
+  it_note_fr:'Le document exporté reste en français (courrier officiel adressé au Directeur Général).',
+  it_prev:"Aperçu de l'ordre",it_prevclose:"Fermer l'aperçu",it_prevpdf:'Aperçu PDF',it_prevdoc:'Aperçu Word',
+  it_hide:'Masquer',it_show:'Démasquer',it_masked:'Formulaire masqué. Cliquez sur « Démasquer » pour l\'afficher à nouveau.',
+  it_addemit:'Nouvel émetteur',it_addbtn:'Ajouter',it_delemit:'Supprimer cet émetteur',it_added:'Émetteur ajouté :',it_deleted:'Émetteur supprimé',
+  it_cc_on:'Inclure le coupon couru',it_cc_dernier:'Date du dernier coupon',it_cc_valeur:'Date de valeur',it_cc_taux:'Taux de coupon annuel (%)',it_cc_base:'Base de calcul',
+  itc_ccjours:'Jours (date valeur \u2212 dernier coupon)',itc_ccbase:'Base',itc_cc:'Coupon couru',itc_baseplus:'Base + coupon couru',
+  itc_warn:'AVERTISSEMENT : montant viré inférieur au total avant arrondi',
+  it_vwarn_title:'Montant viré insuffisant',it_vwarn_body:'Le montant viré (%V FCFA) est inférieur au total à payer (%T FCFA). Voulez-vous continuer malgré tout ?',it_vwarn_ok:'Continuer malgré tout',it_vwarn_no:'Annuler et corriger'
+};
+function curLang(){return (state&&state.lang)||'fr';}
+function t(k){
+  if(curLang()==='en'&&I18N_EN[k]!=null)return I18N_EN[k];
+  if(I18N_FR[k]!=null)return I18N_FR[k];
+  return I18N_EN[k]!=null?I18N_EN[k]:k;
+}
+function setLang(v){
+  if(!state)return;
+  state.lang=(v==='en')?'en':'fr';
+  saveData();
+  applyLang();
+  initPdfOptions();
+  toast(state.lang==='en'?'Language: English':'Langue : Français');
+}
+function applyLang(){
+  const L=curLang();
+  const setTxt=(el,k)=>{
+    if(!el)return;
+    if(el.dataset.fr0==null)el.dataset.fr0=el.innerHTML;
+    el.innerHTML=(L==='en'&&I18N_EN[k]!=null)?I18N_EN[k]:el.dataset.fr0;
+  };
+  // onglets
+  const tabMap={budget:'tb_budget',dash:'tb_dash',classif:'tb_classif',epargne:'tb_epargne',placement:'tb_placement',titres:'tb_titres',glossaire:'tb_glossaire',portef:'tb_portef',apropos:'tb_apropos',interne:'tb_interne',admin:'tb_admin'};
+  Object.entries(tabMap).forEach(([v,k])=>setTxt(document.querySelector('#tabNav button[data-v="'+v+'"]'),k));
+  // barre du haut
+  setTxt(document.getElementById('exportBtn'),'tp_export');
+  setTxt(document.getElementById('reportBtn'),'tp_report');
+  const ob=document.getElementById('optionsBtn');
+  if(ob)ob.innerHTML='<span class="gear-ico">\u2699</span> '+(L==='en'?I18N_EN.tp_options:'Options');
+  setTxt(document.querySelector('.topbar-in .icon-btn.danger'),'tp_quit');
+  setTxt(document.querySelector('.brand span'),'brand_sub');
+  const rb=document.getElementById('roleBadge');
+  if(rb&&session){
+    const rk=session.role==='admin'?'role_admin':(session.role==='guest'?'role_guest':'role_member');
+    rb.textContent=(L==='en')?I18N_EN[rk]:(session.role==='admin'?'Admin':(session.role==='guest'?'Visiteur':'Membre'));
+  }
+  // en-têtes de pages
+  ['budget','dash','classif','epargne','placement','titres','glossaire','portef','apropos','admin','interne'].forEach(v=>{
+    const sec=document.getElementById('v-'+v);if(!sec)return;
+    setTxt(sec.querySelector('.page-head .kicker'),'hd_'+v+'_k');
+    setTxt(sec.querySelector('.page-head h2'),'hd_'+v+'_h');
+    setTxt(sec.querySelector('.page-head p'),'hd_'+v+'_p');
+  });
+  // éléments marqués data-i18n (modal options, carte interne…)
+  document.querySelectorAll('[data-i18n]').forEach(el=>setTxt(el,el.getAttribute('data-i18n')));
+  initTabPrefsUI();
+  const vi=document.getElementById('v-interne');
+  if(vi&&vi.classList.contains('on'))renderInterne();
+}
+
+/* ============ PRÉFÉRENCES D'ONGLETS ============ */
+const TAB_OPT_KEYS=['budget','dash','classif','epargne','placement','titres','glossaire','portef','apropos'];
+function tabPrefs(){
+  if(!state.tabPrefs)state.tabPrefs={};
+  TAB_OPT_KEYS.forEach(k=>{if(state.tabPrefs[k]==null)state.tabPrefs[k]=true;});
+  return state.tabPrefs;
+}
+function applyTabPrefs(){
+  if(!state)return;
+  const p=tabPrefs();
+  TAB_OPT_KEYS.forEach(k=>{
+    const b=document.querySelector('#tabNav button[data-v="'+k+'"]');
+    if(b)b.style.display=p[k]?'':'none';
+  });
+  const cur=document.querySelector('#tabNav button.on');
+  if(cur&&TAB_OPT_KEYS.includes(cur.dataset.v)&&!p[cur.dataset.v]){
+    const first=TAB_OPT_KEYS.find(k=>p[k]);
+    if(first)nav(first);
+  }
+}
+function initTabPrefsUI(){
+  const box=document.getElementById('tabPrefList');
+  if(!box||!state)return;
+  const p=tabPrefs();
+  box.innerHTML=TAB_OPT_KEYS.map(k=>{
+    const b=document.querySelector('#tabNav button[data-v="'+k+'"]');
+    const lbl=b?b.textContent:k;
+    return '<label class="eo-check"><input type="checkbox" '+(p[k]?'checked':'')+' onchange="toggleTabPref(\''+k+'\',this)"><span>'+escapeHtml(lbl)+'</span></label>';
+  }).join('');
+}
+function toggleTabPref(k,el){
+  const p=tabPrefs();
+  if(!el.checked&&TAB_OPT_KEYS.filter(x=>p[x]).length<=1){
+    el.checked=true;toast(t('m_tabs_note'));return;
+  }
+  p[k]=!!el.checked;
+  saveData();
+  applyTabPrefs();
+}
+
+/* ============ ACCÈS « OUTILS INTERNES » ============ */
+function userCanInternal(){
+  if(!session)return false;
+  if(session.role==='admin')return true;
+  if(session.role==='guest')return false;
+  return (entCfg.internalAllowed||[]).map(e=>(''+e).toLowerCase()).includes((session.user||'').toLowerCase());
+}
+function applyInterneTab(){
+  const b=document.getElementById('interneTab');if(!b)return;
+  const ok=userCanInternal();
+  b.style.display=ok?'flex':'none';
+  if(!ok){
+    const sec=document.getElementById('v-interne');
+    if(sec&&sec.classList.contains('on'))nav('budget');
+  }
+}
+function internAllowAdd(){
+  const inp=document.getElementById('internAllowEmail');if(!inp)return;
+  const em=(inp.value||'').trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){toast('Adresse email invalide');return;}
+  if(!entCfg.internalAllowed)entCfg.internalAllowed=[];
+  if(entCfg.internalAllowed.includes(em)){toast('Cet utilisateur a déjà accès');return;}
+  entCfg.internalAllowed.push(em);inp.value='';
+  saveEntConfig();renderEntAdmin();applyInterneTab();
+  toast('Accès Outils Internes accordé : '+em);
+}
+function internAllowDel(em){
+  entCfg.internalAllowed=(entCfg.internalAllowed||[]).filter(x=>x!==em);
+  saveEntConfig();renderEntAdmin();applyInterneTab();
+  toast('Accès Outils Internes retiré');
 }
 let supa=null, supaReady=false;
 try{
@@ -1432,6 +1698,7 @@ async function logout(){
 
 /* ---------- fresh data ---------- */
 function monthKeyNow(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()).padStart(2,'0')}
+function _defaultEmetteurs(){return ['Cameroun','Congo','Gabon','Guinée équatoriale','République Centrafricaine','Tchad'];}
 function freshState(cur){
   const mk=monthKeyNow();
   const st={cur:cur||'FCFA',months:{},portfolio:{stocks:[],bonds:[],money:[]}};
@@ -1467,6 +1734,9 @@ function bootApp(){
   loadMonth();
   runSim();
   initPdfOptions();
+  applyLang();
+  applyTabPrefs();
+  applyInterneTab();
   loadEntConfig();
   checkReportDue();
 }
@@ -1517,6 +1787,17 @@ function migrate(){
   if(!state.portfolio.bonds)state.portfolio.bonds=[];
   if(!state.portfolio.money)state.portfolio.money=[];
   if(state.pdfPrefs.entity==null)state.pdfPrefs.entity='';
+  if(state.lang==null)state.lang='fr';
+  if(!state.tabPrefs)state.tabPrefs={};
+  if(!state.interne)state.interne={type:'debit',ville:'Yaoundé',date:'',code:'',nature:'OTA',emetteur:'',montant:0,prixOn:false,prix:95,courtage:0.1,tva:19.25,compte:'',intitule:'',vire:0,contact:'',tel:'',mail:'',font:'times',size:12,lh:1.5,mTop:2,mBot:2,mLeft:2,mRight:2};
+  const oi=state.interne;
+  if(oi.ccOn==null)oi.ccOn=false;
+  if(oi.ccDernier==null)oi.ccDernier='';
+  if(oi.ccValeur==null)oi.ccValeur='';
+  if(oi.ccTaux==null)oi.ccTaux=0;
+  if(oi.ccBase==null)oi.ccBase='365';
+  if(oi.courtage==null)oi.courtage=0.1;
+  if(!state.emetteurs)state.emetteurs=['Cameroun','Congo','Gabon','Guinée équatoriale','République Centrafricaine','Tchad'];
   [...state.portfolio.bonds,...state.portfolio.money].forEach(t=>{
     if(t.decote==null)t.decote=0;
     if(t.decoteOn==null)t.decoteOn=false;
@@ -1846,6 +2127,8 @@ function initPdfOptions(){
   set('pdfLhRange',p.lineHeight||1.15);txt('pdfLhVal',(p.lineHeight||1.15).toFixed(2));
   set('pdfHhRange',p.headerCm||3);txt('pdfHhVal',(p.headerCm||3).toFixed(2));
   chk('pdfRendAnnuel',p.showRendAnnuel);chk('pdfDurSimple',p.showDurSimple);chk('pdfDurMac',p.showDurMac);
+  set('langSel',(state&&state.lang)||'fr');
+  initTabPrefsUI();
   initEntityOption();
 }
 function openExportOptions(){initPdfOptions();renderRecovery();document.getElementById('exportOptModal').classList.add('show');}
@@ -3461,6 +3744,623 @@ function recordVisit(){
   v[d]=(v[d]||0)+1;
   localStorage.setItem(LS.visits,JSON.stringify(v));
 }
+
+/* ============ OUTILS INTERNES : ORDRE D'ACHAT DE VALEURS TRÉSOR ============ */
+const MOIS_FR=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function dateLongueFr(iso){
+  if(!iso)return '________________';
+  const pa=(''+iso).split('-').map(Number);
+  if(pa.length<3||!pa[0])return '________________';
+  return String(pa[2]).padStart(2,'0')+' '+(MOIS_FR[pa[1]-1]||'')+' '+pa[0];
+}
+function fmtIntFr(n){n=Math.round(+n||0);const s=(''+Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');return (n<0?'-':'')+s;}
+// Saisie de montant avec séparateurs de milliers (espaces) : conserve la valeur numérique exacte
+function moneyInputFmt(v){const neg=(''+v).trim().startsWith('-');const digits=(''+v).replace(/[^0-9]/g,'');if(digits==='')return '';const s=digits.replace(/\B(?=(\d{3})+(?!\d))/g,' ');return (neg?'-':'')+s;}
+function moneyInputParse(v){const neg=(''+v).trim().startsWith('-');const n=parseInt((''+v).replace(/[^0-9]/g,''),10)||0;return neg?-n:n;}
+function fmt2Fr(n){return (+n||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+// Nombre en toutes lettres (orthographe traditionnelle : « sept cent soixante-quinze »)
+function nombreEnLettres(n){
+  n=Math.round(Math.abs(+n||0));
+  if(n===0)return 'zéro';
+  const U=['','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize','dix-sept','dix-huit','dix-neuf'];
+  const D={2:'vingt',3:'trente',4:'quarante',5:'cinquante',6:'soixante'};
+  function deux(r){
+    if(r<20)return U[r];
+    const t=Math.floor(r/10),u1=r%10;
+    if(t===7)return r===71?'soixante et onze':'soixante-'+U[10+u1];
+    if(t===9)return 'quatre-vingt-'+U[10+u1];
+    if(t===8)return u1===0?'quatre-vingts':'quatre-vingt-'+U[u1];
+    return u1===0?D[t]:(u1===1?D[t]+' et un':D[t]+'-'+U[u1]);
+  }
+  function trois(x){
+    const c=Math.floor(x/100),r=x%100;let s='';
+    if(c===1)s='cent';else if(c>1)s=U[c]+' cent';
+    if(c>1&&r===0)s+='s';
+    if(r)s+=(s?' ':'')+deux(r);
+    return s;
+  }
+  let s='';
+  const md=Math.floor(n/1e9),mn=Math.floor((n%1e9)/1e6),ml=Math.floor((n%1e6)/1e3),un=n%1000;
+  if(md)s+=(md===1?'un milliard':trois(md)+' milliards');
+  if(mn)s+=(s?' ':'')+(mn===1?'un million':trois(mn)+' millions');
+  if(ml)s+=(s?' ':'')+(ml===1?'mille':trois(ml)+' mille');
+  if(un)s+=(s?' ':'')+trois(un);
+  return s;
+}
+function capFirst(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+// Nombre de jours entre deux dates ISO (date de valeur - date du dernier coupon)
+function joursEntre(d1,d2){
+  if(!d1||!d2)return 0;
+  const a=new Date(d1+'T00:00:00'),b=new Date(d2+'T00:00:00');
+  if(isNaN(a)||isNaN(b))return 0;
+  return Math.round((a-b)/86400000);
+}
+// Base Exact/Exact : nombre réel de jours de l'année de la date de valeur (365 ou 366)
+function baseExacte(isoValeur){
+  const y=(isoValeur&&(''+isoValeur).split('-')[0])|0;
+  const biss=(y%4===0&&y%100!==0)||(y%400===0);
+  return biss?366:365;
+}
+// Calculs de l'ordre.
+// Coupon couru = Montant demandé × taux coupon annuel × jours / base ; ajouté à la base (montant×prix
+// ou montant) AVANT le courtage. TVA assise sur le courtage. Arrondi mathématique (…,52 -> +1 ; …,42 -> 0).
+function ordreCalc(){
+  const o=state.interne;
+  const c=Math.max(0,+o.courtage||0)/100, tv=Math.max(0,+o.tva||0)/100;
+  const prixF=o.prixOn?Math.min(100,Math.max(0,+o.prix||0))/100:1;
+  const baseMontant=(+o.montant||0)*prixF;
+  let cc=0, ccJours=0, ccBaseVal=0;
+  if(o.ccOn){
+    ccJours=joursEntre(o.ccValeur,o.ccDernier);
+    ccBaseVal=(o.ccBase==='exact')?baseExacte(o.ccValeur):(+o.ccBase||365);
+    cc=(+o.montant||0)*(Math.max(0,+o.ccTaux||0)/100)*ccJours/ccBaseVal;
+  }
+  const base=baseMontant+cc;
+  const fCourt=base*c, fTva=fCourt*tv;
+  const brut=base+fCourt+fTva;
+  const arrondi=Math.round(brut);
+  return {baseMontant,cc,ccJours,ccBaseVal,base,fCourt,fTva,brut,arrondi,
+    lettres:capFirst(nombreEnLettres(arrondi)),
+    lettresMontant:capFirst(nombreEnLettres(+o.montant||0)),
+    lettresVire:capFirst(nombreEnLettres(+o.vire||0))};
+}
+function renderInterne(){
+  const wrap=document.getElementById('ordreForm');if(!wrap)return;
+  if(!userCanInternal()){wrap.innerHTML='<p style="color:var(--muted);font-size:13.5px">'+t('it_denied')+'</p>';
+    const hd=document.getElementById('ordreFormHead');if(hd)hd.style.display='none';return;}
+  const hd=document.getElementById('ordreFormHead');if(hd)hd.style.display='flex';
+  if(state.interne._collapsed){wrap.innerHTML='<p style="color:var(--muted);font-size:13px;margin:0">'+t('it_masked')+'</p>';return;}
+  const o=state.interne;
+  const deb=o.type!=='virement';
+  if(!state.emetteurs)state.emetteurs=_defaultEmetteurs();
+  const emetOpts=state.emetteurs.map(e=>`<option value="${escapeHtml(e)}" ${o.emetteur===e?'selected':''}>${escapeHtml(e)}</option>`).join('');
+  const inList=state.emetteurs.includes(o.emetteur);
+  wrap.innerHTML=`
+  <div class="fgrid">
+    <div class="fg"><label>${t('it_type')}</label>
+      <select onchange="editOrdre('type',this.value,1)">
+        <option value="debit" ${deb?'selected':''}>${t('it_type_d')}</option>
+        <option value="virement" ${!deb?'selected':''}>${t('it_type_v')}</option>
+      </select></div>
+    <div class="fg"><label>${t('it_ville')}</label><input type="text" value="${escapeHtml(o.ville||'')}" oninput="editOrdre('ville',this.value)"></div>
+    <div class="fg"><label>${t('it_date')}</label><input type="date" value="${o.date||''}" oninput="editOrdre('date',this.value)"></div>
+    <div class="fg"><label>${t('it_nature')}</label>
+      <select onchange="editOrdre('nature',this.value)">
+        <option ${o.nature==='OTA'?'selected':''}>OTA</option>
+        <option ${o.nature==='BTA'?'selected':''}>BTA</option>
+      </select></div>
+  </div>
+  <div class="fgrid" style="margin-top:13px">
+    <div class="fg"><label>${t('it_code')}</label><input type="text" value="${escapeHtml(o.code||'')}" oninput="editOrdre('code',this.value)"></div>
+    <div class="fg"><label>${t('it_emetteur')}</label>
+      <select onchange="editOrdre('emetteur',this.value)">
+        ${emetOpts}
+        ${inList?'':`<option value="${escapeHtml(o.emetteur||'')}" selected>${escapeHtml(o.emetteur||'(personnalisé)')}</option>`}
+      </select></div>
+    <div class="fg mono"><label>${t('it_montant')}</label><input type="text" inputmode="numeric" value="${moneyInputFmt(o.montant)}" placeholder="0" oninput="editOrdreMoney('montant',this)"></div>
+    <div class="fg"><label>${t('it_prixon')}</label><label style="display:flex;align-items:center;gap:8px;min-height:36px;cursor:pointer;font-size:13px"><input type="checkbox" ${o.prixOn?'checked':''} onchange="editOrdre('prixOn',this.checked?1:0,1)"><span>${t('it_prixon2')}</span></label></div>
+  </div>
+  <div class="it-emit-row">
+    <input type="text" id="newEmetInput" placeholder="${t('it_addemit')}" onkeydown="if(event.key==='Enter'){event.preventDefault();emetteurAdd();}">
+    <button class="it-toggle" onclick="emetteurAdd()">${t('it_addbtn')}</button>
+    ${inList&&state.emetteurs.length>1?`<button class="it-toggle" style="color:var(--red)" onclick="emetteurDel()">${t('it_delemit')}</button>`:''}
+  </div>
+  <div class="fgrid" style="margin-top:13px">
+    ${o.prixOn?`<div class="fg mono"><label>${t('it_prix')}</label><input type="number" min="0" max="100" step="0.01" value="${o.prix||''}" oninput="editOrdre('prix',this.value)"></div>`:''}
+    <div class="fg mono"><label>${t('it_courtage')}</label><input type="number" min="0" step="0.01" value="${o.courtage}" oninput="editOrdre('courtage',this.value)"></div>
+    <div class="fg mono"><label>${t('it_tva')}</label><input type="number" min="0" step="0.01" value="${o.tva}" oninput="editOrdre('tva',this.value)"></div>
+    ${!deb?`<div class="fg mono"><label>${t('it_vire')}</label><input type="text" inputmode="numeric" value="${moneyInputFmt(o.vire)}" placeholder="0" oninput="editOrdreMoney('vire',this)"></div>`:''}
+  </div>
+  <div class="fg" style="margin-top:13px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;text-transform:none;letter-spacing:0;color:var(--ink);font-weight:600"><input type="checkbox" ${o.ccOn?'checked':''} onchange="editOrdre('ccOn',this.checked?1:0,1)"><span>${t('it_cc_on')}</span></label></div>
+  ${o.ccOn?`<div class="fgrid" style="margin-top:11px">
+    <div class="fg"><label>${t('it_cc_dernier')}</label><input type="date" value="${o.ccDernier||''}" oninput="editOrdre('ccDernier',this.value)"></div>
+    <div class="fg"><label>${t('it_cc_valeur')}</label><input type="date" value="${o.ccValeur||''}" oninput="editOrdre('ccValeur',this.value)"></div>
+    <div class="fg mono"><label>${t('it_cc_taux')}</label><input type="number" min="0" step="0.01" value="${o.ccTaux||''}" placeholder="0" oninput="editOrdre('ccTaux',this.value)"></div>
+    <div class="fg"><label>${t('it_cc_base')}</label>
+      <select onchange="editOrdre('ccBase',this.value)">
+        <option value="360" ${o.ccBase==='360'?'selected':''}>360</option>
+        <option value="365" ${o.ccBase==='365'?'selected':''}>365</option>
+        <option value="366" ${o.ccBase==='366'?'selected':''}>366</option>
+        <option value="exact" ${o.ccBase==='exact'?'selected':''}>Exact/Exact</option>
+      </select></div>
+  </div>`:''}
+  ${deb?`<div class="fgrid" style="margin-top:13px">
+    <div class="fg"><label>${t('it_compte')}</label><input type="text" value="${escapeHtml(o.compte||'')}" oninput="editOrdre('compte',this.value)"></div>
+    <div class="fg"><label>${t('it_intitule')}</label><input type="text" value="${escapeHtml(o.intitule||'')}" oninput="editOrdre('intitule',this.value)"></div>
+  </div>`:''}
+  <div class="fgrid" style="margin-top:13px">
+    <div class="fg"><label>${t('it_contact')}</label><input type="text" value="${escapeHtml(o.contact||'')}" oninput="editOrdre('contact',this.value)"></div>
+    <div class="fg"><label>${t('it_tel')}</label><input type="text" value="${escapeHtml(o.tel||'')}" oninput="editOrdre('tel',this.value)"></div>
+    <div class="fg"><label>${t('it_mail')}</label><input type="text" value="${escapeHtml(o.mail||'')}" oninput="editOrdre('mail',this.value)"></div>
+  </div>
+  <div class="sub-label" style="margin-top:16px">${t('it_typo')}</div>
+  <div class="fgrid">
+    <div class="fg"><label>${t('it_font')}</label>
+      <select onchange="editOrdre('font',this.value)">
+        <option value="times" ${o.font==='times'?'selected':''}>Times New Roman</option>
+        <option value="helvetica" ${o.font==='helvetica'?'selected':''}>Helvetica / Arial</option>
+        <option value="courier" ${o.font==='courier'?'selected':''}>Courier</option>
+      </select></div>
+    <div class="fg mono"><label>${t('it_size')}</label><input type="number" min="9" max="16" step="0.5" value="${o.size}" oninput="editOrdre('size',this.value)"></div>
+    <div class="fg mono"><label>${t('it_lh2')}</label><input type="number" min="1" max="2.5" step="0.05" value="${o.lh}" oninput="editOrdre('lh',this.value)"></div>
+  </div>
+  <div class="fgrid" style="margin-top:13px">
+    <div class="fg mono"><label>${t('it_mtop')}</label><input type="number" min="0.5" max="6" step="0.25" value="${o.mTop}" oninput="editOrdre('mTop',this.value)"></div>
+    <div class="fg mono"><label>${t('it_mbot')}</label><input type="number" min="0.5" max="6" step="0.25" value="${o.mBot}" oninput="editOrdre('mBot',this.value)"></div>
+    <div class="fg mono"><label>${t('it_mleft')}</label><input type="number" min="0.5" max="6" step="0.25" value="${o.mLeft}" oninput="editOrdre('mLeft',this.value)"></div>
+    <div class="fg mono"><label>${t('it_mright')}</label><input type="number" min="0.5" max="6" step="0.25" value="${o.mRight}" oninput="editOrdre('mRight',this.value)"></div>
+  </div>
+  <div class="it-section-head" style="margin-top:16px">
+    <div class="sub-label" style="margin:0;border:none">${t('it_calc')}</div>
+    <button class="it-toggle" onclick="toggleOrdreCalc()">${o._calcCollapsed?t('it_show'):t('it_hide')}</button>
+  </div>
+  <div class="calc-box" id="ordreCalcBox" ${o._calcCollapsed?'style="display:none"':''}></div>
+  <div style="font-size:12px;color:var(--muted);margin-top:10px">${t('it_note_fr')}</div>
+  <div class="it-export-row" style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+    <button class="icon-btn" onclick="previewOrdrePDF()">${t('it_prevpdf')}</button>
+    <button class="icon-btn" onclick="previewOrdreDOC()">${t('it_prevdoc')}</button>
+    <button class="icon-btn" onclick="exportOrdreDOC()">${t('it_doc')}</button>
+    <button class="save-btn" onclick="exportOrdrePDF()">${t('it_pdf')}</button>
+  </div>`;
+  updateOrdreCalc();
+}
+function emetteurAdd(){
+  const inp=document.getElementById('newEmetInput');if(!inp)return;
+  const v=(inp.value||'').trim();
+  if(!v){toast(t('it_addemit'));return;}
+  if(!state.emetteurs)state.emetteurs=_defaultEmetteurs();
+  if(!state.emetteurs.some(e=>e.toLowerCase()===v.toLowerCase())){state.emetteurs.push(v);}
+  state.interne.emetteur=v;
+  saveData();renderInterne();
+  toast(t('it_added')+' '+v);
+}
+function emetteurDel(){
+  const cur=state.interne.emetteur;
+  if(!cur||!state.emetteurs)return;
+  state.emetteurs=state.emetteurs.filter(e=>e!==cur);
+  state.interne.emetteur=state.emetteurs[0]||'';
+  saveData();renderInterne();
+  toast(t('it_deleted'));
+}
+function toggleOrdreForm(){
+  state.interne._collapsed=!state.interne._collapsed;
+  saveData();renderInterne();
+  const b=document.getElementById('ordreFormToggle');if(b)b.textContent=state.interne._collapsed?t('it_show'):t('it_hide');
+}
+function toggleOrdreCalc(){
+  state.interne._calcCollapsed=!state.interne._calcCollapsed;
+  saveData();renderInterne();
+}
+
+function editOrdre(field,val,rerender){
+  const o=state.interne;if(!o)return;
+  if(['ville','date','code','nature','emetteur','compte','intitule','contact','tel','mail','font','type','ccBase','ccDernier','ccValeur'].includes(field))o[field]=val;
+  else if(field==='prixOn')o.prixOn=!!+val;
+  else if(field==='ccOn')o.ccOn=!!+val;
+  else o[field]=+val||0;
+  if(field==='prix')o.prix=Math.min(100,Math.max(0,+o.prix||0));
+  saveData();
+  if(rerender)renderInterne();else updateOrdreCalc();
+}
+function editOrdreMoney(field,el){
+  const o=state.interne;if(!o)return;
+  const caret=el.selectionStart, before=el.value;
+  const val=moneyInputParse(el.value);
+  o[field]=val;
+  const formatted=moneyInputFmt(val);
+  el.value=formatted;
+  // repositionne le curseur en tenant compte des espaces ajoutés/retirés
+  const diff=formatted.length-before.length;
+  try{el.setSelectionRange(Math.max(0,caret+diff),Math.max(0,caret+diff));}catch(e){}
+  saveData();
+  updateOrdreCalc();
+}
+
+function updateOrdreCalc(){
+  const box=document.getElementById('ordreCalcBox');if(!box)return;
+  const o=state.interne,k=ordreCalc();
+  const L=[];
+  L.push([t('itc_montant'),fmtIntFr(o.montant)+' FCFA']);
+  if(o.prixOn){
+    L.push([t('itc_prix'),fmt2Fr(+o.prix||0)+' %']);
+    L.push([t('itc_base')+' = '+t('itc_montant')+' \u00d7 '+t('itc_prix'),fmt2Fr(k.baseMontant)+' FCFA']);
+  }
+  if(o.ccOn){
+    L.push([t('itc_ccjours'),k.ccJours+' j']);
+    L.push([t('itc_ccbase'),(o.ccBase==='exact'?('Exact/Exact ('+k.ccBaseVal+')'):k.ccBaseVal)]);
+    L.push([t('itc_cc')+' = '+fmtIntFr(o.montant)+' \u00d7 '+fmt2Fr(+o.ccTaux||0)+' % \u00d7 '+k.ccJours+' / '+k.ccBaseVal,fmt2Fr(k.cc)+' FCFA']);
+    L.push([t('itc_baseplus'),fmt2Fr(k.base)+' FCFA']);
+  }
+  L.push([t('itc_court')+' = '+fmt2Fr(k.base)+' \u00d7 '+(+o.courtage||0)+' %',fmt2Fr(k.fCourt)+' FCFA']);
+  L.push([t('itc_tva')+' = '+fmt2Fr(k.fCourt)+' \u00d7 '+(+o.tva||0)+' %',fmt2Fr(k.fTva)+' FCFA']);
+  L.push([t('itc_brut'),fmt2Fr(k.brut)+' FCFA']);
+  L.push(['<b>'+t('itc_arr')+'</b>','<b>'+fmtIntFr(k.arrondi)+' FCFA</b>']);
+  L.push([t('itc_lettres'),'<i>'+escapeHtml(k.lettres)+'</i>']);
+  if(o.type==='virement'){
+    L.push([t('itc_vire'),fmtIntFr(o.vire)+' FCFA \u2014 <i>'+escapeHtml(k.lettresVire)+'</i>']);
+    const ec=(+o.vire||0)-k.arrondi;
+    L.push([t('itc_ecart'),(ec>0?'+':'')+fmtIntFr(ec)+' FCFA']);
+    if((+o.vire||0)<k.brut){
+      L.push(['<b style="color:var(--red)">'+t('itc_warn')+'</b>','<b style="color:var(--red)">'+fmt2Fr(k.brut-(+o.vire||0))+' FCFA</b>']);
+    }
+  }
+  box.innerHTML='<div class="calc-title">'+t('it_calc')+'</div>'+L.map(r=>'<div class="calc-row"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>').join('');
+  ordrePreviewRefresh();
+}
+
+const ORDRE_DOTS='.'.repeat(44);
+function buildOrdrePDF(silent){
+  if(!userCanInternal())return null;
+  const o=state.interne,k=ordreCalc();
+  if(!(+o.montant)){if(!silent)toast(t('it_nomontant'));return null;}
+  const ns=window.jspdf;if(!ns||!ns.jsPDF){if(!silent)toast('Module PDF en chargement, réessayez');return null;}
+  const doc=new ns.jsPDF({unit:'pt',format:'a4'});
+  const CM=28.3465,W=doc.internal.pageSize.getWidth(),H=doc.internal.pageSize.getHeight();
+  const mL=(+o.mLeft||2)*CM,mR=(+o.mRight||2)*CM,mT=(+o.mTop||2)*CM,mB=(+o.mBot||2)*CM;
+  const F=PDF_FONTS[o.font]||'times',S=+o.size||12,LHO=S*(+o.lh||1.5);
+  // Cadre des modèles : trait fin (0,8 pt) proche du bord de page, bien éloigné du texte
+  const inset=Math.min(CM,Math.min(mL,mR,mT,mB)*0.55);
+  doc.setDrawColor(0,0,0);doc.setLineWidth(0.8);
+  doc.rect(inset,inset,W-2*inset,H-2*inset);
+  const x0=mL,x1=W-mR;
+  let y=mT+S;
+  const st=(g)=>g.b&&g.i?'bolditalic':(g.b?'bold':(g.i?'italic':'normal'));
+  // ligne simple (gauche / droite avec recul / centrée avec décalage)
+  const line=(txt,opt)=>{
+    opt=opt||{};
+    doc.setFont(F,st(opt));doc.setFontSize(S);
+    doc.splitTextToSize(pdfSafe(txt),x1-x0).forEach(ln=>{
+      let lx=x0,al='left';
+      if(opt.align==='right'){lx=x1-(opt.pad||0);al='right';}
+      else if(opt.align==='center'){lx=(x0+x1)/2+(opt.shift||0);al='center';}
+      doc.text(ln,lx,y,{align:al});
+      if(opt.u){
+        const wv=doc.getTextWidth(ln);
+        let ux=lx;if(al==='right')ux=lx-wv;else if(al==='center')ux=lx-wv/2;
+        doc.setLineWidth(0.7);doc.line(ux,y+1.6,ux+wv,y+1.6);
+      }
+      y+=LHO;
+    });
+  };
+  // paragraphe à segments mixtes (gras / italique / souligné CONTINU, espaces compris)
+  const rich=(segs,indent)=>{
+    const sx=x0+(indent||0);let cx=sx;
+    segs.forEach(sg=>{
+      doc.setFont(F,st(sg));doc.setFontSize(S);
+      let runX=null;
+      const flush=()=>{if(sg.u&&runX!=null&&cx>runX){doc.setLineWidth(0.7);doc.line(runX,y+1.6,cx,y+1.6);}runX=null;};
+      (''+pdfSafe(sg.t)).split(/(\s+)/).forEach(wd=>{
+        if(wd==='')return;
+        const ww=doc.getTextWidth(wd);
+        if(cx+ww>x1&&wd.trim()){flush();y+=LHO;cx=sx;}
+        if(cx===sx&&!wd.trim())return;
+        if(sg.u&&runX==null)runX=cx;
+        doc.text(wd,cx,y);
+        cx+=ww;
+      });
+      flush();
+    });
+    y+=LHO;
+  };
+  // puce « ➢ » : petit triangle plein dessiné, texte (avec retours) aligné après la puce
+  const puce=(segs,indent)=>{
+    const bx=x0+indent;
+    doc.setFillColor(0,0,0);
+    doc.triangle(bx,y-S*0.58,bx,y-S*0.10,bx+S*0.40,y-S*0.34,'F');
+    rich(segs,indent+S*0.40+6);
+  };
+  const IND1=30,IND2=64;
+  // ---- corps du document ----
+  line((o.ville||'Yaoundé')+', le '+dateLongueFr(o.date),{align:'right',pad:26});
+  y+=LHO*0.3;
+  const sh=(x1-x0)*0.11; // adresse du destinataire légèrement à droite du centre
+  line('À',{align:'center',b:1,shift:sh});
+  line('MONSIEUR LE DIRECTEUR GENERAL',{align:'center',b:1,shift:sh});
+  line("D'AFRILAND BOURSE & INVESTISSEMENT",{align:'center',b:1,shift:sh});
+  y+=LHO*0.5;
+  rich([{t:'Objet',b:1,u:1},{t:' : Achat de Valeurs Trésor'}]); // seul « Objet » gras + souligné
+  y+=LHO*0.2;
+  line("Nous vous remettons ci-après, notre ordre pour l'achat des valeurs du Trésor détaillées ci-dessous :");
+  rich([{t:'-   Code émission : '},{t:(o.code||ORDRE_DOTS),b:1}],IND1);
+  rich([{t:'-   Nature (OTA ou BTA) : '},{t:(o.nature||''),b:1}],IND1);
+  rich([{t:'-   Emetteur : '},{t:(o.emetteur||ORDRE_DOTS),b:1}],IND1);
+  // tableau inséré juste après l'émetteur, comme dans les modèles types
+  y+=LHO*0.2;
+  const head=o.prixOn?[['Montant demandé (FCFA)','Montant en lettres (FCFA)','Prix']]:[['Montant demandé (FCFA)','Montant en lettres (FCFA)']];
+  const row=o.prixOn?[fmtIntFr(o.montant),k.lettresMontant,fmt2Fr(+o.prix||0)+' %']:[fmtIntFr(o.montant),k.lettresMontant];
+  runAutoTable(doc,{startY:y-S+6,head,body:[row],theme:'grid',
+    styles:{font:F,fontSize:Math.max(8,S-1),cellPadding:6,overflow:'linebreak',textColor:[0,0,0],lineColor:[0,0,0],lineWidth:0.6,halign:'center',valign:'middle'},
+    headStyles:{fillColor:[255,255,255],textColor:[0,0,0],fontStyle:'bold',fontSize:Math.max(8,S-1),halign:'center',valign:'middle',lineColor:[0,0,0],lineWidth:0.6},
+    margin:{left:x0,right:W-x1}});
+  y=doc.lastAutoTable.finalY+LHO*1.3;
+  if(o.type!=='virement'){
+    rich([{t:"Pour la réalisation de cet ordre d'achat, nous vous prions de bien vouloir débiter la somme de : F CFA "},{t:fmtIntFr(k.arrondi),b:1,u:1},{t:' '},{t:'('+k.lettres+'),',i:1}]);
+    line('De notre');
+    puce([{t:'Compte n° : '+(o.compte||ORDRE_DOTS)}],IND1);
+    puce([{t:'Intitulé : '+(o.intitule||ORDRE_DOTS)}],IND1);
+    line('Et de créditer le'); // sans puce, aligné à gauche
+    puce([{t:'Compte n° : '},{t:'00001 - 06104291004 - 70',b:1}],IND2);
+    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE CLIENTS',b:1},{t:'.'}],IND2);
+  }else{
+    line("Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :");
+    puce([{t:'Compte n° : '},{t:'00001 - 06104291004 - 70',b:1}],IND1);
+    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE CLIENTS',b:1}],IND1);
+    puce([{t:'Montant crédité : '},{t:'FCFA '+fmtIntFr(o.vire),b:1,u:1},{t:' '},{t:'('+k.lettresVire+' francs CFA).',i:1}],IND1);
+    y+=LHO*0.2;
+    rich([{t:"Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de "},{t:'FCFA '+fmtIntFr(k.arrondi),b:1,u:1},{t:' '},{t:'('+k.lettres+' francs CFA).',i:1}]);
+  }
+  y+=LHO*0.3;
+  line('Personne(s) à Contacter : '+(o.contact||ORDRE_DOTS));
+  line('Téléphone : '+(o.tel||ORDRE_DOTS));
+  line('Adresse mail : '+(o.mail||ORDRE_DOTS));
+  y+=LHO*0.3;
+  line("Veuillez agréer, Monsieur le Directeur Général, l'assurance de notre considération distinguée.");
+  y+=LHO*0.8;
+  line('Signature(s) autorisée(s)',{align:'center',b:1}); // centrée comme les modèles
+  return doc;
+}
+function exportOrdrePDF(){ordreVirementGuard(_exportOrdrePDF);}
+function _exportOrdrePDF(){
+  const doc=buildOrdrePDF();if(!doc)return;
+  const o=state.interne;
+  doc.save('Ordre_achat_'+((o.emetteur||o.code||'ordre').replace(/[^a-zA-Z0-9]/g,'_'))+'.pdf');
+  toast(t('it_okpdf'));
+}
+/* ---- Aperçus intégrés (PDF / Word) avec rafraîchissement automatique ---- */
+let _ordrePrevType=null,_ordrePrevT=null,_ordrePrevUrl=null;
+function showOrdrePreviewFrame(setup){
+  const pv=document.getElementById('ordrePreview');if(!pv)return;
+  pv.style.display='block';
+  const body=document.getElementById('ordrePreviewBody');
+  body.innerHTML='';
+  const fr=document.createElement('iframe');
+  fr.style.cssText='width:100%;height:100%;border:none;background:#fff';
+  body.appendChild(fr);
+  try{setup(fr);}catch(e){console.warn('aperçu',e);}
+  pv.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function _docPreviewHTML(){
+  return ordreDocHTML().replace('<body>','<body style="padding:24pt;background:#fff;max-width:18cm;margin:0 auto">');
+}
+function ordreVirementGuard(proceed){
+  const o=state.interne,k=ordreCalc();
+  if(o.type==='virement' && (+o.vire||0) < k.brut){
+    const body=t('it_vwarn_body').replace('%V',fmtIntFr(o.vire)).replace('%T',fmt2Fr(k.brut));
+    confirmAction(body,proceed,t('it_vwarn_ok'));
+    return;
+  }
+  proceed();
+}
+function previewOrdrePDF(){ordreVirementGuard(_previewOrdrePDF);}
+function _previewOrdrePDF(){
+  const doc=buildOrdrePDF();if(!doc)return;
+  _ordrePrevType='pdf';
+  showOrdrePreviewFrame(fr=>{
+    if(_ordrePrevUrl){try{URL.revokeObjectURL(_ordrePrevUrl)}catch(e){}}
+    _ordrePrevUrl=doc.output('bloburl');
+    fr.src=_ordrePrevUrl;
+  });
+}
+function previewOrdreDOC(){ordreVirementGuard(_previewOrdreDOC);}
+function _previewOrdreDOC(){
+  if(!userCanInternal())return;
+  if(!(+state.interne.montant)){toast(t('it_nomontant'));return;}
+  _ordrePrevType='doc';
+  showOrdrePreviewFrame(fr=>{fr.srcdoc=_docPreviewHTML();});
+}
+function closeOrdrePreview(){
+  _ordrePrevType=null;
+  const pv=document.getElementById('ordrePreview');if(pv)pv.style.display='none';
+  if(_ordrePrevUrl){try{URL.revokeObjectURL(_ordrePrevUrl)}catch(e){}_ordrePrevUrl=null;}
+}
+function ordrePreviewRefresh(){
+  if(!_ordrePrevType)return;
+  clearTimeout(_ordrePrevT);
+  _ordrePrevT=setTimeout(()=>{
+    const fr=document.querySelector('#ordrePreviewBody iframe');if(!fr)return;
+    if(_ordrePrevType==='pdf'){
+      const doc=buildOrdrePDF(true);if(!doc)return;
+      if(_ordrePrevUrl){try{URL.revokeObjectURL(_ordrePrevUrl)}catch(e){}}
+      _ordrePrevUrl=doc.output('bloburl');
+      fr.src=_ordrePrevUrl;
+    }else{
+      fr.srcdoc=_docPreviewHTML();
+    }
+  },700);
+}
+function ordreDocHTML(){
+  const o=state.interne,k=ordreCalc();
+  const fontMap={times:"'Times New Roman', Times, serif",helvetica:'Arial, Helvetica, sans-serif',courier:"'Courier New', Courier, monospace"};
+  const esc=escapeHtml,dots=ORDRE_DOTS;
+  const deb=o.type!=='virement';
+  // cadre des modèles : page Word à 1 cm de marge, cadre fin 1 pt, texte ramené aux marges choisies via le padding
+  const pad=(v)=>Math.max(0.15,(+v||2)-1).toFixed(2);
+  return `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Ordre d'achat</title>
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->
+<style>
+@page WordSection1{size:21cm 29.7cm;margin:1cm 1cm 1cm 1cm;}
+div.WordSection1{page:WordSection1;}
+body{font-family:${fontMap[o.font]||fontMap.times};font-size:${+o.size||12}pt;color:#000;}
+p{margin:0;line-height:${+o.lh||1.5};}
+td{font-family:${fontMap[o.font]||fontMap.times};font-size:${Math.max(8,(+o.size||12)-1)}pt;}
+</style></head><body><div class="WordSection1">
+<div style="border:1pt solid #000;padding:${pad(o.mTop)}cm ${pad(o.mRight)}cm ${pad(o.mBot)}cm ${pad(o.mLeft)}cm">
+<p style="text-align:right;margin-right:26pt">${esc(o.ville||'Yaoundé')}, le ${dateLongueFr(o.date)}</p>
+<p>&nbsp;</p>
+<p style="text-align:center;margin-left:22%"><b>À</b></p>
+<p style="text-align:center;margin-left:22%"><b>MONSIEUR LE DIRECTEUR GENERAL</b></p>
+<p style="text-align:center;margin-left:22%"><b>D'AFRILAND BOURSE &amp; INVESTISSEMENT</b></p>
+<p>&nbsp;</p>
+<p><b><u>Objet</u></b> : Achat de Valeurs Trésor</p>
+<p>&nbsp;</p>
+<p>Nous vous remettons ci-après, notre ordre pour l'achat des valeurs du Trésor détaillées ci-dessous :</p>
+<p style="margin-left:30pt">-&nbsp;&nbsp;&nbsp;Code émission : <b>${esc(o.code)||dots}</b></p>
+<p style="margin-left:30pt">-&nbsp;&nbsp;&nbsp;Nature (OTA ou BTA) : <b>${esc(o.nature||'')}</b></p>
+<p style="margin-left:30pt">-&nbsp;&nbsp;&nbsp;Emetteur : <b>${esc(o.emetteur)||dots}</b></p>
+<p>&nbsp;</p>
+<table style="border-collapse:collapse;width:100%"><tr>
+<td style="border:0.75pt solid #000;padding:5pt;text-align:center"><b>Montant demandé (FCFA)</b></td>
+<td style="border:0.75pt solid #000;padding:5pt;text-align:center"><b>Montant en lettres (FCFA)</b></td>
+${o.prixOn?'<td style="border:0.75pt solid #000;padding:5pt;text-align:center"><b>Prix</b></td>':''}</tr><tr>
+<td style="border:0.75pt solid #000;padding:5pt;text-align:center">${fmtIntFr(o.montant)}</td>
+<td style="border:0.75pt solid #000;padding:5pt;text-align:center">${esc(k.lettresMontant)}</td>
+${o.prixOn?'<td style="border:0.75pt solid #000;padding:5pt;text-align:center">'+fmt2Fr(+o.prix||0)+' %</td>':''}</tr></table>
+<p>&nbsp;</p>
+${deb?`<p>Pour la réalisation de cet ordre d'achat, nous vous prions de bien vouloir débiter la somme de : F CFA <b><u>${fmtIntFr(k.arrondi)}</u></b> <i>(${esc(k.lettres)}),</i></p>
+<p>De notre</p>
+<p style="margin-left:30pt">\u27a2 Compte n° : ${esc(o.compte)||dots}</p>
+<p style="margin-left:30pt">\u27a2 Intitulé : ${esc(o.intitule)||dots}</p>
+<p>Et de créditer le</p>
+<p style="margin-left:64pt">\u27a2 Compte n° : <b>00001 \u2013 06104291004 - 70</b></p>
+<p style="margin-left:64pt">\u27a2 Intitulé : <b>AFRILAND BOURSE CLIENTS</b>.</p>`:`<p>Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :</p>
+<p style="margin-left:30pt">\u27a2 Compte n° : <b>00001 \u2013 06104291004 - 70</b></p>
+<p style="margin-left:30pt">\u27a2 Intitulé : <b>AFRILAND BOURSE CLIENTS</b></p>
+<p style="margin-left:30pt">\u27a2 Montant crédité : <b><u>FCFA ${fmtIntFr(o.vire)}</u></b> <i>(${esc(k.lettresVire)} francs CFA).</i></p>
+<p>&nbsp;</p>
+<p>Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de <b><u>FCFA ${fmtIntFr(k.arrondi)}</u></b> <i>(${esc(k.lettres)} francs CFA).</i></p>`}
+<p>&nbsp;</p>
+<p>Personne(s) à Contacter : ${esc(o.contact)||dots}</p>
+<p>Téléphone : ${esc(o.tel)||dots}</p>
+<p>Adresse mail : ${esc(o.mail)||dots}</p>
+<p>&nbsp;</p>
+<p>Veuillez agréer, Monsieur le Directeur Général, l'assurance de notre considération distinguée.</p>
+<p>&nbsp;</p>
+<p style="text-align:center"><b>Signature(s) autorisée(s)</b></p>
+</div></div></body></html>`;
+}
+function exportOrdreDOC(){ordreVirementGuard(_exportOrdreDOC);}
+// Génère un VRAI .docx (Office XML) via la librairie docx — fidèle aux modèles types
+function buildOrdreDocx(){
+  const D=window.docx;if(!D){toast('Module Word en chargement, réessayez');return null;}
+  const o=state.interne,k=ordreCalc();
+  const fontName={times:'Times New Roman',helvetica:'Arial',courier:'Courier New'}[o.font]||'Times New Roman';
+  const sz=Math.round((+o.size||12)*2);          // demi-points
+  const szT=Math.max(16,sz-2);
+  const lineH=Math.round((+o.lh||1.5)*240);       // 240 = interligne simple
+  const TW=(t1,opt)=>{
+    if(t1&&typeof t1==='object')return new D.TextRun(Object.assign({font:fontName,size:sz},t1));
+    return new D.TextRun(Object.assign({text:t1,font:fontName,size:sz},opt||{}));
+  };
+  const para=(children,opt)=>new D.Paragraph(Object.assign({children:Array.isArray(children)?children:[children],spacing:{line:lineH,after:0}},opt||{}));
+  const empty=()=>new D.Paragraph({children:[],spacing:{line:lineH,after:0}});
+  const dots='.'.repeat(40);
+  const DOTS=(v)=>v?v:dots;
+  const arrow='\u27a2';
+  const deb=o.type!=='virement';
+  const cm=(v)=>Math.round((+v||2)*567); // cm -> twips
+
+  // tableau (2 ou 3 colonnes)
+  const cellBorder={top:{style:D.BorderStyle.SINGLE,size:6,color:'000000'},bottom:{style:D.BorderStyle.SINGLE,size:6,color:'000000'},left:{style:D.BorderStyle.SINGLE,size:6,color:'000000'},right:{style:D.BorderStyle.SINGLE,size:6,color:'000000'}};
+  const cell=(runs,head)=>new D.TableCell({borders:cellBorder,margins:{top:60,bottom:60,left:80,right:80},
+    children:[new D.Paragraph({alignment:D.AlignmentType.CENTER,spacing:{line:lineH,after:0},children:runs})]});
+  const headRow=new D.TableRow({children:[
+    cell([TW('Montant demandé (FCFA)',{bold:true,size:szT})]),
+    cell([TW('Montant en lettres (FCFA)',{bold:true,size:szT})]),
+  ].concat(o.prixOn?[cell([TW('Prix',{bold:true,size:szT})])]:[])});
+  const valRow=new D.TableRow({children:[
+    cell([TW(fmtIntFr(o.montant),{size:szT})]),
+    cell([TW(k.lettresMontant,{size:szT})]),
+  ].concat(o.prixOn?[cell([TW(fmt2Fr(+o.prix||0)+' %',{size:szT})])]:[])});
+  const table=new D.Table({width:{size:100,type:D.WidthType.PERCENTAGE},rows:[headRow,valRow]});
+
+  const kids=[];
+  kids.push(para([TW((o.ville||'Yaoundé')+', le '+dateLongueFr(o.date))],{alignment:D.AlignmentType.RIGHT}));
+  kids.push(empty());
+  const center={alignment:D.AlignmentType.CENTER,indent:{left:cm(2.2)}};
+  kids.push(para([TW('À',{bold:true})],center));
+  kids.push(para([TW('MONSIEUR LE DIRECTEUR GENERAL',{bold:true})],center));
+  kids.push(para([TW("D'AFRILAND BOURSE & INVESTISSEMENT",{bold:true})],center));
+  kids.push(empty());
+  kids.push(para([TW({text:'Objet',font:fontName,size:sz,bold:true,underline:{}}),TW(' : Achat de Valeurs Trésor')]));
+  kids.push(empty());
+  kids.push(para([TW("Nous vous remettons ci-après, notre ordre pour l'achat des valeurs du Trésor détaillées ci-dessous :")]));
+  const ind1={left:540}, ind2={left:1080};
+  kids.push(para([TW('-   Code émission : '),TW(o.code||dots,{bold:true})],{indent:ind1}));
+  kids.push(para([TW('-   Nature (OTA ou BTA) : '),TW(o.nature||'',{bold:true})],{indent:ind1}));
+  kids.push(para([TW('-   Emetteur : '),TW(o.emetteur||dots,{bold:true})],{indent:ind1}));
+  kids.push(empty());
+  kids.push(table);
+  kids.push(empty());
+  if(deb){
+    kids.push(para([TW("Pour la réalisation de cet ordre d'achat, nous vous prions de bien vouloir débiter la somme de : F CFA "),TW({text:fmtIntFr(k.arrondi),font:fontName,size:sz,bold:true,underline:{}}),TW(' '),TW('('+k.lettres+'),',{italics:true})]));
+    kids.push(para([TW('De notre')]));
+    kids.push(para([TW(arrow+' Compte n° : '+DOTS(o.compte))],{indent:ind1}));
+    kids.push(para([TW(arrow+' Intitulé : '+DOTS(o.intitule))],{indent:ind1}));
+    kids.push(para([TW('Et de créditer le')]));
+    kids.push(para([TW(arrow+' Compte n° : '),TW('00001 \u2013 06104291004 - 70',{bold:true})],{indent:ind2}));
+    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE CLIENTS',{bold:true}),TW('.')],{indent:ind2}));
+  }else{
+    kids.push(para([TW("Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :")]));
+    kids.push(para([TW(arrow+' Compte n° : '),TW('00001 \u2013 06104291004 - 70',{bold:true})],{indent:ind1}));
+    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE CLIENTS',{bold:true})],{indent:ind1}));
+    kids.push(para([TW(arrow+' Montant crédité : '),TW({text:'FCFA '+fmtIntFr(o.vire),font:fontName,size:sz,bold:true,underline:{}}),TW(' '),TW('('+k.lettresVire+' francs CFA).',{italics:true})],{indent:ind1}));
+    kids.push(empty());
+    kids.push(para([TW("Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de "),TW({text:'FCFA '+fmtIntFr(k.arrondi),font:fontName,size:sz,bold:true,underline:{}}),TW(' '),TW('('+k.lettres+' francs CFA).',{italics:true})]));
+  }
+  kids.push(empty());
+  kids.push(para([TW('Personne(s) à Contacter : '+DOTS(o.contact))]));
+  kids.push(para([TW('Téléphone : '+DOTS(o.tel))]));
+  kids.push(para([TW('Adresse mail : '+DOTS(o.mail))]));
+  kids.push(empty());
+  kids.push(para([TW("Veuillez agréer, Monsieur le Directeur Général, l'assurance de notre considération distinguée.")]));
+  kids.push(empty());
+  kids.push(para([TW('Signature(s) autorisée(s)',{bold:true})],{alignment:D.AlignmentType.CENTER}));
+
+  // cadre fin autour de toute la page, proche du bord
+  const pb=(D.BorderStyle&&D.BorderStyle.SINGLE)||'single';
+  const pageBorder={
+    pageBorderType:(D.PageBorderZOrder?undefined:undefined),
+    top:{style:pb,size:6,color:'000000',space:24},
+    bottom:{style:pb,size:6,color:'000000',space:24},
+    left:{style:pb,size:6,color:'000000',space:24},
+    right:{style:pb,size:6,color:'000000',space:24}};
+  const doc=new D.Document({
+    styles:{default:{document:{run:{font:fontName,size:sz}}}},
+    sections:[{
+      properties:{page:{
+        margin:{top:cm(o.mTop),bottom:cm(o.mBot),left:cm(o.mLeft),right:cm(o.mRight)},
+        borders:pageBorder
+      }},
+      children:kids
+    }]
+  });
+  return doc;
+}
+function _exportOrdreDOC(){
+  if(!userCanInternal())return;
+  const o=state.interne;
+  if(!(+o.montant)){toast(t('it_nomontant'));return;}
+  const doc=buildOrdreDocx();if(!doc)return;
+  window.docx.Packer.toBlob(doc).then(blob=>{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='Ordre_achat_'+((o.emetteur||o.code||'ordre').replace(/[^a-zA-Z0-9]/g,'_'))+'.docx';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(()=>{try{URL.revokeObjectURL(a.href)}catch(e){}},3000);
+    toast(t('it_okdoc'));
+  }).catch(e=>{console.error(e);toast('Erreur lors de la génération du Word');});
+}
+
 /* ---------- Admin : entités d'export et habilitations ---------- */
 function entCloudNoteText(note){
   if(!session||!session.cloud){note.textContent='Mode local : la configuration des entités est enregistrée sur cet appareil uniquement. Connectez-vous au cloud pour la partager avec les utilisateurs habilités.';return;}
@@ -3486,6 +4386,8 @@ function renderEntAdmin(){
       <div style="text-align:right;margin-top:8px"><button class="del-btn" onclick="entAdminDel(${i})">Supprimer l'entité</button></div>
     </div>`).join('')||'<p style="color:var(--muted);font-size:13px">Aucune entité. Ajoutez-en une ci-dessous.</p>';
   allow.innerHTML=(entCfg.allowed||[]).map(em=>`<span class="ent-chip">${escapeHtml(em)}<button title="Retirer l'habilitation" onclick="entAllowDel('${escapeHtml(em)}')">×</button></span>`).join('')||'<p style="color:var(--muted);font-size:13px">Aucun utilisateur habilité pour le moment (l\'administrateur l\'est toujours).</p>';
+  const ia=document.getElementById('internAllowedList');
+  if(ia)ia.innerHTML=(entCfg.internalAllowed||[]).map(em=>`<span class="ent-chip">${escapeHtml(em)}<button title="Retirer l'accès" onclick="internAllowDel('${escapeHtml(em)}')">\u00d7</button></span>`).join('')||'<p style="color:var(--muted);font-size:13px">Aucun utilisateur habilité pour le moment (l\'administrateur a toujours accès).</p>';
   const note=document.getElementById('entCloudNote');if(note)entCloudNoteText(note);
 }
 function entAdminAdd(){
@@ -4232,6 +5134,7 @@ function nav(v){
   if(v==='epargne'){renderOcc();runSim();}
   if(v==='portef'){portSub(curSub);}
   if(v==='glossaire'){renderGloss();}
+  if(v==='interne'){renderInterne();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
