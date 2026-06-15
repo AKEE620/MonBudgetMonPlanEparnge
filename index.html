@@ -4326,14 +4326,13 @@ function buildOrdreDocx(){
   kids.push(empty());
   kids.push(para([TW('Signature(s) autorisée(s)',{bold:true})],{alignment:D.AlignmentType.CENTER}));
 
-  // cadre fin autour de toute la page, proche du bord
-  const pb=(D.BorderStyle&&D.BorderStyle.SINGLE)||'single';
+  // cadre fin autour de la page (structure reconnue par MS Word : pageBorders + pageBorderXxx)
   const pageBorder={
-    pageBorderType:(D.PageBorderZOrder?undefined:undefined),
-    top:{style:pb,size:6,color:'000000',space:24},
-    bottom:{style:pb,size:6,color:'000000',space:24},
-    left:{style:pb,size:6,color:'000000',space:24},
-    right:{style:pb,size:6,color:'000000',space:24}};
+    pageBorders:{offsetFrom:D.PageBorderOffsetFrom.PAGE,display:D.PageBorderDisplay.ALL_PAGES,zOrder:D.PageBorderZOrder.FRONT},
+    pageBorderTop:{style:D.BorderStyle.SINGLE,size:6,color:'000000',space:24},
+    pageBorderBottom:{style:D.BorderStyle.SINGLE,size:6,color:'000000',space:24},
+    pageBorderLeft:{style:D.BorderStyle.SINGLE,size:6,color:'000000',space:24},
+    pageBorderRight:{style:D.BorderStyle.SINGLE,size:6,color:'000000',space:24}};
   const doc=new D.Document({
     styles:{default:{document:{run:{font:fontName,size:sz}}}},
     sections:[{
