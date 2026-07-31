@@ -8,13 +8,13 @@
    IMPORTANT : incrémentez CACHE_VERSION à chaque nouvelle version
    publiée pour forcer la mise à jour chez les utilisateurs.
    ============================================================ */
-
+ 
 const CACHE_VERSION = "monbudget-v1";
 const CORE_ASSETS = [
   "./",
   "./index.html"
 ];
-
+ 
 /* Installation : on précharge le cœur de l'application. */
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -24,7 +24,7 @@ self.addEventListener("install", (event) => {
       .catch(() => self.skipWaiting())
   );
 });
-
+ 
 /* Activation : on supprime les anciens caches. */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
@@ -35,17 +35,17 @@ self.addEventListener("activate", (event) => {
     ).then(() => self.clients.claim())
   );
 });
-
+ 
 /* Interception des requêtes. */
 self.addEventListener("fetch", (event) => {
   const req = event.request;
-
+ 
   // On ne gère que les requêtes GET.
   if (req.method !== "GET") return;
-
+ 
   const url = new URL(req.url);
   const sameOrigin = url.origin === self.location.origin;
-
+ 
   // Navigation (ouverture / rechargement de l'app) :
   // réseau d'abord, repli sur le cache -> l'app s'ouvre même hors-ligne.
   if (req.mode === "navigate") {
@@ -62,7 +62,7 @@ self.addEventListener("fetch", (event) => {
     );
     return;
   }
-
+ 
   // Ressources du même domaine (dont index.html) :
   // cache d'abord, mise à jour en arrière-plan.
   if (sameOrigin) {
@@ -82,7 +82,7 @@ self.addEventListener("fetch", (event) => {
     );
     return;
   }
-
+ 
   // Ressources externes (Supabase, polices Google, CDN) :
   // réseau d'abord ; on ne bloque jamais si le réseau échoue.
   event.respondWith(
