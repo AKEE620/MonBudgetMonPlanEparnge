@@ -49,12 +49,18 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'Outfit',sans-serif;
-  background:var(--paper);
+  background:#101d40;
   color:var(--ink);
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(circle at 12% 8%,rgba(166,25,46,.04),transparent 30%),radial-gradient(circle at 88% 0%,rgba(31,31,33,.04),transparent 28%);
   min-height:100vh;
+  background-color:#101d40;
+  background-image:
+    radial-gradient(circle at 84% 12%,rgba(166,25,46,.10),transparent 34%),
+    radial-gradient(circle at 6% 4%,rgba(255,255,255,.04),transparent 30%),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.030) 0 1px,transparent 1px 34px),
+    repeating-linear-gradient(-45deg,rgba(255,255,255,.030) 0 1px,transparent 1px 34px);
+  background-attachment:fixed;
 }
 h1,h2,h3,.display{font-family:'Fraunces',serif;}
 .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;}
@@ -94,7 +100,7 @@ h1,h2,h3,.display{font-family:'Fraunces',serif;}
 /* ---------- APP SHELL ---------- */
 #app{display:none}
 #app.show{display:block}
-header.topbar{position:sticky;top:0;z-index:100;background:rgba(246,241,231,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+header.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
 .topbar-in{max-width:1280px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--ink),var(--ink-soft));display:flex;align-items:center;justify-content:center;color:var(--cyan);font-family:'Fraunces';font-weight:900;font-size:20px}
@@ -122,9 +128,9 @@ main{max-width:1280px;margin:0 auto;padding:28px 24px 80px}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .page-head{margin-bottom:24px}
-.page-head .kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan-deep);margin-bottom:6px}
-.page-head h2{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.05}
-.page-head p{color:var(--muted);max-width:680px;margin-top:8px;font-size:15px}
+.page-head .kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0b8c0;margin-bottom:6px}
+.page-head h2{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-1px;line-height:1.05;color:#ffffff}
+.page-head p{color:#c4cde6;max-width:680px;margin-top:8px;font-size:15px}
 
 /* ---------- BUDGET VIEW ---------- */
 .period-bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin-bottom:22px;box-shadow:var(--shadow)}
@@ -970,13 +976,24 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 
     <!-- MON PORTEFEUILLE -->
     <section class="view" id="v-portef">
-      <div class="page-head">
-        <div class="kicker">Investir · Suivi de portefeuille</div>
-        <h2>Mon portefeuille</h2>
-        <p>Construisez et suivez votre portefeuille : <b>actions</b>, <b>emprunts obligataires</b> et <b>monétaire (OAT / BAT)</b>. Les compartiments obligataire et monétaire arrivent dans la prochaine étape.</p>
-      </div>
+<div class="page-head">
+  <div class="kicker" style="color:green;font-weight:bold;">
+    Investir · Suivi de portefeuille
+  </div>
 
-      <div id="portefLocked" class="locked-note" style="display:none">Le portefeuille est réservé aux comptes. Créez un compte ou connectez-vous pour y accéder.</div>
+  <h2 style="color:white;font-weight:bold;">
+    Mon portefeuille
+  </h2>
+
+  <p style="color:white;font-weight:bold;">
+    Construisez et suivez votre portefeuille :
+    <b>actions</b>, <b>emprunts obligataires</b> et
+    <b>monétaire (OAT / BAT)</b>. Les compartiments obligataire et
+    monétaire arrivent dans la prochaine étape.
+  </p>
+</div>
+
+      <div id="portefLocked" class="kicker" style="color:white;font-weight:bold;"> Le portefeuille est réservé aux comptes. Créez un compte ou connectez-vous pour y accéder.</div>
 
       <div id="portefBody">
         <div class="subtabs">
@@ -990,8 +1007,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="subview on" id="sub-actions">
           <div class="port-toolbar">
             <div>
-              <div class="pt-title">Compartiment Actions</div>
-              <div class="pt-sub">Saisissez vos lignes, choisissez le cours moyen de référence et le dividende. Les plus-values et rendements se calculent automatiquement.</div>
+              <div class="kicker" style="color:white;font-weight:bold;font-size:22px;">Compartiment Actions</div>
+              <div class="kicker" style="color:white;font-weight:bold;">Saisissez vos lignes, choisissez le cours moyen de référence et le dividende. Les plus-values et rendements se calculent automatiquement.</div>
             </div>
             <button class="add-stock" onclick="addStock()">+ Ajouter une action</button>
           </div>
@@ -1016,8 +1033,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="subview" id="sub-oblig">
           <div class="port-toolbar">
             <div>
-              <div class="pt-title">Emprunts obligataires</div>
-              <div class="pt-sub">Saisissez vos obligations (achat au pair). L'échéancier, le taux actuariel (TRI) et le rendement pondéré se calculent automatiquement.</div>
+              <div class="kicker" style="color:white;font-weight:bold;font-size:22px;">Emprunts obligataires</div>
+				<div class="kicker" style="color:white;font-weight:bold;">Saisissez vos obligations (achat au pair). L'échéancier, le taux actuariel (TRI) et le rendement pondéré se calculent automatiquement.</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="ghost-btn" id="bondsMaskAll" style="display:none" onclick="toggleAllBonds()">Tout masquer</button><button class="add-stock" onclick="addBond()">+ Ajouter une obligation</button></div>
           </div>
@@ -1036,8 +1053,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="subview" id="sub-monet">
           <div class="port-toolbar">
             <div>
-              <div class="pt-title">Monétaire — OAT / BAT</div>
-              <div class="pt-sub">OAT (moyen/long terme, comme une obligation) ou BAT (court terme, intérêts précomptés). Coupon couru calculé selon la base de votre choix.</div>
+              <div class="kicker" style="color:white;font-weight:bold;font-size:22px;">Monétaire — OAT / BAT</div>
+              <div class="kicker" style="color:white;font-weight:bold;">OAT (moyen/long terme, comme une obligation) ou BAT (court terme, intérêts précomptés). Coupon couru calculé selon la base de votre choix.</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="ghost-btn" id="moneyMaskAll" style="display:none" onclick="toggleAllMoney()">Tout masquer</button><button class="add-stock" onclick="addMoney()">+ Ajouter un titre</button></div>
           </div>
@@ -1056,8 +1073,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <div class="subview" id="sub-synth">
           <div class="port-toolbar">
             <div>
-              <div class="pt-title">Synthèse globale du portefeuille</div>
-              <div class="pt-sub">Consolidation des trois compartiments : répartition du capital, rendements et indicateurs clés.</div>
+              <div class="kicker" style="color:white;font-weight:bold;font-size:22px;">Synthèse globale du portefeuille</div>
+              <div class="kicker" style="color:white;font-weight:bold;">Consolidation des trois compartiments : répartition du capital, rendements et indicateurs clés.</div>
             </div>
             <button class="add-stock" onclick="exportPortfolio()">Exporter le portefeuille (Excel)</button>
             <button class="add-stock" onclick="exportPortfolioPDF()">Exporter le portefeuille (PDF)</button>
@@ -1090,7 +1107,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <select id="glossCat" onchange="renderGloss()"></select>
         <button class="icon-btn" onclick="exportGlossPDF()">Télécharger en PDF</button>
       </div>
-      <div id="glossCount" class="gloss-count"></div>
+      <div style="color:white;font-weight:bold;font-size:22px;"id="glossCount" class="gloss-count"></div>
       <div id="glossBody"></div>
     </section>
 
@@ -1225,9 +1242,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     </section>
   </main>
 
-  <div class="foot">
-    <b>MonBudget</b> · Outil de gestion de budget & d'épargne pour la zone UEMOA<br>
-    Gérer un budget → Reclasser → Établir un budget → Dégager une épargne · puis mieux épargner et investir
+  <div style="color:white;font-weight:bold;font-size:22px;"class="foot">
+    <b>akeekolou@gmail.com</b>
     <p class="disclaimer">Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
   </div>
 </div>
