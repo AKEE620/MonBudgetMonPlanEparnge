@@ -4744,11 +4744,11 @@ function buildOrdrePDF(silent){
     puce([{t:'Intitulé : '+(o.intitule||ORDRE_DOTS)}],IND1);
     line('Et de créditer le'); // sans puce, aligné à gauche
     puce([{t:'Compte n° : '},{t:'00001 - 06104291004 - 70',b:1}],IND2);
-    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE CLIENTS',b:1},{t:'.'}],IND2);
+    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE & INVESTISSEMENT SA',b:1},{t:'.'}],IND2);
   }else{
     line("Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :");
     puce([{t:'Compte n° : '},{t:'00001 - 06104291004 - 70',b:1}],IND1);
-    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE CLIENTS',b:1}],IND1);
+    puce([{t:'Intitulé : '},{t:'AFRILAND BOURSE & INVESTISSEMENT SA',b:1}],IND1);
     puce([{t:'Montant crédité : '},{t:'FCFA '+fmtIntFr(o.vire),b:1,u:1},{t:' '},{t:'('+k.lettresVire+' francs CFA).',i:1}],IND1);
     y+=LHO*0.2;
     rich([{t:"Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de "},{t:'FCFA '+fmtIntFr(k.arrondi),b:1,u:1},{t:' '},{t:'('+k.lettres+' francs CFA).',i:1}]);
@@ -4876,9 +4876,9 @@ ${deb?`<p>Pour la réalisation de cet ordre d'achat, nous vous prions de bien vo
 <p style="margin-left:30pt">\u27a2 Intitulé : ${esc(o.intitule)||dots}</p>
 <p>Et de créditer le</p>
 <p style="margin-left:64pt">\u27a2 Compte n° : <b>00001 \u2013 06104291004 - 70</b></p>
-<p style="margin-left:64pt">\u27a2 Intitulé : <b>AFRILAND BOURSE CLIENTS</b>.</p>`:`<p>Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :</p>
+<p style="margin-left:64pt">\u27a2 Intitulé : <b>AFRILAND BOURSE & INVESTISSEMENT SA</b>.</p>`:`<p>Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :</p>
 <p style="margin-left:30pt">\u27a2 Compte n° : <b>00001 \u2013 06104291004 - 70</b></p>
-<p style="margin-left:30pt">\u27a2 Intitulé : <b>AFRILAND BOURSE CLIENTS</b></p>
+<p style="margin-left:30pt">\u27a2 Intitulé : <b>AFRILAND BOURSE & INVESTISSEMENT SA</b></p>
 <p style="margin-left:30pt">\u27a2 Montant crédité : <b><u>FCFA ${fmtIntFr(o.vire)}</u></b> <i>(${esc(k.lettresVire)} francs CFA).</i></p>
 <p>&nbsp;</p>
 <p>Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de <b><u>FCFA ${fmtIntFr(k.arrondi)}</u></b> <i>(${esc(k.lettres)} francs CFA).</i></p>`}
@@ -4952,11 +4952,11 @@ function buildOrdreDocx(){
     kids.push(para([TW(arrow+' Intitulé : '+DOTS(o.intitule))],{indent:ind1}));
     kids.push(para([TW('Et de créditer le')]));
     kids.push(para([TW(arrow+' Compte n° : '),TW('00001 \u2013 06104291004 - 70',{bold:true})],{indent:ind2}));
-    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE CLIENTS',{bold:true}),TW('.')],{indent:ind2}));
+    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE & INVESTISSEMENT SA',{bold:true}),TW('.')],{indent:ind2}));
   }else{
     kids.push(para([TW("Pour la réalisation de cet ordre d'achat, nous avons procédé, au crédit de votre compte dont les coordonnées sont les suivantes :")]));
     kids.push(para([TW(arrow+' Compte n° : '),TW('00001 \u2013 06104291004 - 70',{bold:true})],{indent:ind1}));
-    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE CLIENTS',{bold:true})],{indent:ind1}));
+    kids.push(para([TW(arrow+' Intitulé : '),TW('AFRILAND BOURSE & INVESTISSEMENT SA',{bold:true})],{indent:ind1}));
     kids.push(para([TW(arrow+' Montant crédité : '),TW({text:'FCFA '+fmtIntFr(o.vire),font:fontName,size:sz,bold:true,underline:{}}),TW(' '),TW('('+k.lettresVire+' francs CFA).',{italics:true})],{indent:ind1}));
     kids.push(empty());
     kids.push(para([TW("Ainsi, nous vous remercions de bien vouloir procéder au débit de votre compte d'un montant de "),TW({text:'FCFA '+fmtIntFr(k.arrondi),font:fontName,size:sz,bold:true,underline:{}}),TW(' '),TW('('+k.lettres+' francs CFA).',{italics:true})]));
@@ -5889,7 +5889,7 @@ async function doReset(){
 (function(){
   // --- Manifeste généré à la volée (icônes intégrées, aucun fichier séparé requis) ---
   var manifest = {
-    name: "MonBudget — Afriland Bourse & Investissement",
+    name: "MonBudget - Afriland Bourse & Investissement",
     short_name: "MonBudget",
     description: "Gestion de budget, épargne et investissement sur le marché financier de l'Afrique centrale.",
     lang: "fr",
