@@ -621,6 +621,59 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .acc-details pre{background:#1f1f21;color:#e8e8e8;padding:12px;border-radius:9px;overflow:auto;font-size:11.5px;line-height:1.45;white-space:pre}
 .acc-details code{background:#f1f5f3;padding:1px 5px;border-radius:5px;font-size:12px}
 @media(max-width:760px){.acc-ctl{width:100%}.acc-ctl select{flex:1}}
+/* ---- Lot 3 : simulateur de prêts (frais, taxes, prêts consentis) ---- */
+.lk-tag{font-size:10.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.lk-s{background:rgba(255,255,255,.18);color:#fff}
+.lk-c{background:#fff;color:#a6192e}
+.loan-fees{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px 14px}
+.lf-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:13.5px;color:var(--ink)}
+.lf-ent{font-size:11px;background:#faf8f2;border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;color:var(--ink-soft);font-weight:700}
+.lf-tax{font-size:12.5px;color:var(--ink-soft)}
+.lf-empty{font-size:13px;color:var(--muted);margin:4px 0}
+.lf-tbl{min-width:760px;font-size:12.5px}
+.lf-tbl td{padding:6px 9px}
+.lf-tbl td.lf-l{text-align:left;font-weight:600}
+.lf-tbl td.lf-k{text-align:left;color:var(--ink-soft);font-size:12px}
+.lf-tbl td.lf-c,.lf-tbl td.lf-n{text-align:center}
+.lf-tbl tr.lf-off td{opacity:.45}
+.lf-tbl tr.lf-off td.lf-c{opacity:1}
+.lf-tag{font-size:9.5px;font-weight:700;color:#8a6d2f;background:#fff4dc;border-radius:5px;padding:1px 5px;margin-left:4px}
+.lf-foot{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;margin-top:9px;font-size:12.5px;color:var(--ink)}
+.lf-foot label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.lf-hint{font-size:11.5px;color:var(--muted)}
+.lf-show{width:16px;height:16px;cursor:pointer}
+.st-badge{display:inline-block;min-width:26px;text-align:center;font-size:11px;font-weight:700;border-radius:6px;padding:2px 6px}
+.st-pa{background:#e9f6ef;color:#1b6b47}.st-im{background:#fbeaec;color:#a6192e}.st-e{background:#eef0f2;color:#5a646e}
+.amort-tbl tr.row-im td{background:#fdf1f2}
+.lt-tag{font-size:10px;color:var(--muted)}
+.lt-legend{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.lr-row{border-top:1px dashed var(--line);padding-top:10px}
+/* ---- Lot 3 : paramètres de prêt dans l'admin ---- */
+.lp-box{margin-top:14px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.lp-box>summary{cursor:pointer;padding:10px 14px;font-weight:700;color:var(--ink);font-size:13.5px}
+.lp-in{padding:0 14px 14px}
+.lp-muted{font-size:11.8px;color:var(--muted);font-weight:400}
+.lp-copy{display:flex;justify-content:flex-end}
+.lp-copy select{border:1.5px solid var(--line);border-radius:9px;padding:7px 10px;font-family:'Outfit';font-size:12.5px}
+.lp-chk{display:flex;align-items:center;gap:8px;min-height:36px;font-size:13px;text-transform:none;letter-spacing:0;font-weight:500;color:var(--ink);cursor:pointer}
+.lp-tbl{border-collapse:collapse;width:100%;font-size:12.5px}
+.lp-tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:6px;border-bottom:1px solid var(--line)}
+.lp-tbl td{padding:5px 6px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.lp-tbl td.c{text-align:center;vertical-align:middle}
+.lp-tbl td.nw{white-space:nowrap}
+.lp-tbl input[type=text],.lp-tbl input[type=number],.lp-tbl select{border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-family:'Outfit';font-size:12.5px;background:#fff;color:var(--ink);max-width:140px}
+.lp-tbl input[type=text]{max-width:none;width:100%}
+.lp-tbl input:disabled,.lp-tbl select:disabled{background:#f1f1f1;color:var(--muted)}
+.lp-fees{min-width:980px}
+.lp-var{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
+.lp-mini{border:1px solid var(--line);background:#fff;border-radius:7px;padding:4px 8px;font-size:12px;cursor:pointer;color:var(--ink-soft);margin:2px}
+.lp-mini:hover{border-color:var(--muted);color:var(--ink)}
+.lp-mini.del:hover{border-color:var(--red);color:var(--red)}
+.lp-mini.add{margin-top:8px;font-weight:600}
+.lp-formula{font-family:'JetBrains Mono',monospace;min-height:56px}
+.lp-tegrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:13px}
+.lp-vars td{text-align:left!important;font-size:12px}
+.lp-vars code{font-size:11.5px}
 
 .stock-foot .ghost-btn{padding:9px 14px;font-size:13px}
 .amort-locked{margin-top:14px;background:#fdf6e9;border:1px dashed #e0b85a;border-radius:11px;padding:13px 16px;font-size:13px;color:#8a6d2f;line-height:1.5}
@@ -754,7 +807,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 <!-- ============ AUTH GATE ============ -->
 <div id="authGate">
   <div class="auth-card">
-    <div class="auth-org">AFRILAND GROUP</div>
+    <div class="auth-org">Afriland Bourse &amp; Investissement</div>
     <div class="auth-logo">
       <div class="auth-mark">MB</div>
       <div><b>MonBudget</b><span style="display:block;font-size:11px;color:var(--muted);letter-spacing:.5px">Gestion &amp; Investissement</span></div>
@@ -791,7 +844,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <div class="auth-sep">ou</div>
     <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
     <p class="guest-note">En mode visiteur, certaines fonctions sont limitées. Avec un compte, vos données vous suivent sur tous vos appareils.</p>
-    <div class="auth-foot">THE PACT WITH SUCCESS.</div>
+    <div class="auth-foot">Afriland Bourse &amp; Investissement — Société de Bourse agréée COSUMAF (MFAC-SDB-01/2019), marché BVMAC. Vos données sont protégées.</div>
   </div>
 </div>
 
@@ -1134,9 +1187,9 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           <div class="port-toolbar">
             <div>
               <div class="kicker" style="color:white;font-weight:bold;font-size:22px;">Simulateur de prêts</div>
-              <div class="kicker" style="color:white;font-weight:bold;">Simulez un prêt et éditez son tableau d'amortissement : mode de remboursement, périodicité, différé, assurance, frais de dossier et TEG. Ces simulations ne sont pas intégrées à la synthèse du portefeuille.</div>
+              <div class="kicker" style="color:white;font-weight:bold;">Simulez un prêt aux conditions de votre filiale (taux, taxes, frais et commissions, TEG) ou suivez un prêt consenti (échéances payées, impayées, à échoir) et éditez la lettre de relance. Ces fiches ne sont pas intégrées à la synthèse du portefeuille.</div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="ghost-btn" id="loansMaskAll" style="display:none" onclick="toggleAllLoans()">Tout masquer</button><button class="add-stock" onclick="addLoan()">+ Nouvelle simulation</button></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="ghost-btn" id="loansMaskAll" style="display:none" onclick="toggleAllLoans()">Tout masquer</button><button class="add-stock" onclick="addLoan('simulation')">+ Nouvelle simulation</button><button class="add-stock" onclick="addLoan('consenti')">+ Prêt consenti</button></div>
           </div>
           <div id="loansList"></div>
         </div>
@@ -2231,6 +2284,7 @@ function migrateEntCfg(c){
   if(!Array.isArray(c.entities))c.entities=[];
   if(!c.users||typeof c.users!=='object')c.users={};
   if(!Array.isArray(c.superAdmins))c.superAdmins=[];
+  // paramètres du simulateur de prêt : c.loanDefaults (défaut) et e.loan (par filiale), complétés à l'usage
   c.entities.forEach(e=>{
     if(!Array.isArray(e.domains))e.domains=[];
     if(!e.defaults||typeof e.defaults!=='object')e.defaults={};
@@ -2516,8 +2570,11 @@ function renderFilialesAdmin(){
   const box=document.getElementById('admFilialesList');if(!box)return;
   const list=filialesVisible();
   const addBtn=document.getElementById('admFilAddBtn');if(addBtn)addBtn.style.display=isSuperAdmin()?'':'none';
-  if(!list.length){box.innerHTML='<div class="empty-soon">Aucune filiale. Ajoutez la première avec « + Nouvelle filiale ».</div>';return;}
-  box.innerHTML=list.map(e=>{
+  const defCard=isSuperAdmin()?`<div class="fil-card"><div class="fil-head"><div class="fil-logo"><span>Défaut</span></div>
+    <div class="fil-id"><div class="fil-name">Paramètres par défaut</div><div class="fil-meta">Appliqués aux utilisateurs non rattachés à une filiale</div></div></div>
+    <div class="fil-body">${filLoanHTML('def','Paramètres par défaut du simulateur de prêt')}</div></div>`:'';
+  if(!list.length){box.innerHTML=defCard+'<div class="empty-soon">Aucune filiale. Ajoutez la première avec « + Nouvelle filiale ».</div>';return;}
+  box.innerHTML=defCard+list.map(e=>{
     const idx=entCfg.entities.indexOf(e);
     const nUsers=usersOfEnt(e.id).length;
     const prof=rightsProfile(e.id);
@@ -2538,6 +2595,7 @@ function renderFilialesAdmin(){
         <div class="fg" style="margin-top:12px"><label>Pied de page — mentions légales (chaque ligne saisie devient une ligne)</label>
           <textarea class="fil-foot" onchange="filEdit(${idx},'footer',this.value)" placeholder="Raison sociale, capital, siège, RC, agrément, téléphone, e-mail…">${escapeHtml(e.footer||'')}</textarea></div>
         <div class="fil-prev" id="filPrev-${e.id}" style="display:none"></div>
+        ${filLoanHTML(idx)}
         <div class="sub-label">Profil de droits par défaut des utilisateurs de la filiale</div>
         <div class="acc-grid">${rightsGridHTML(prof,'filRightCb').replace(/filRightCb\('/g,"filRight("+idx+",'")}</div>
         <div class="fil-actions">
@@ -2608,6 +2666,163 @@ function filPreview(id,keepOpen){
     <div class="fil-sheet-lines"><i></i><i></i><i style="width:70%"></i></div>
     <div class="fil-sheet-foot">${(e.footer||'Aucun pied de page').split(/\n+/).map(escapeHtml).join('<br>')}</div>
   </div>`;
+}
+
+/* ---------- Paramètres du simulateur de prêt (par filiale) ----------
+   Cible « tgt » : index de la filiale dans entCfg.entities, ou 'def' pour
+   les paramètres par défaut (utilisateurs non rattachés, super-admin). */
+function lpObj(tgt){
+  if(tgt==='def'){entCfg.loanDefaults=normLoanParams(entCfg.loanDefaults);return entCfg.loanDefaults;}
+  const e=entCfg.entities[+tgt];if(!e)return null;
+  e.loan=normLoanParams(e.loan);return e.loan;
+}
+function lpCanEdit(tgt){return tgt==='def'?isSuperAdmin():filCanEdit(+tgt);}
+function lpSave(){saveEntConfig();renderFilialesAdmin();if(typeof renderLoans==='function'&&document.getElementById('loansList'))renderLoans();}
+function lpToggle(key,open){accUI.lpOpen=accUI.lpOpen||{};accUI.lpOpen[key]=open;}
+function lpSet(tgt,field,val){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
+  if(['rateLocked','taxOnInterest'].includes(field))p[field]=!!val;
+  else if(['rate','letterDelay'].includes(field))p[field]=val===''?0:+val;
+  else if(field==='currency')p[field]=(''+val).trim().toUpperCase();
+  else p[field]=val;
+  lpSave();
+}
+function lpBracket(tgt,k,field,val){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const b=p.taxBrackets[k];if(!b)return;
+  if(field==='upTo')b.upTo=(val===''?null:Math.max(1,Math.round(+val)));else b.rate=+val||0;
+  lpSave();
+}
+function lpBracketAdd(tgt){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
+  const maxUp=Math.max(0,...p.taxBrackets.filter(b=>b.upTo!=null).map(b=>+b.upTo));
+  p.taxBrackets.unshift({upTo:maxUp+12,rate:0});lpSave();
+}
+function lpBracketDel(tgt,k){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
+  if(p.taxBrackets.length<=1){toast('Au moins une tranche est nécessaire');return;}
+  p.taxBrackets.splice(k,1);lpSave();
+}
+function lpSlug(label,fees){
+  let base=(''+label).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,24)||'frais';
+  let id=base,k=2;while(fees.some(f=>f.id===id))id=base+'_'+(k++);
+  return id;
+}
+function lpFee(tgt,k,field,val){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const f=p.fees[k];if(!f)return;
+  if(['taxable','show'].includes(field))f[field]=!!val;
+  else if(field==='value')f.value=+val||0;
+  else if(field==='min'||field==='max')f[field]=val===''?'':Math.max(0,+val||0);
+  else f[field]=val;
+  if(f.min!==''&&f.max!==''&&+f.min>+f.max)toast('Attention : le minimum dépasse le maximum');
+  lpSave();
+}
+function lpFeeAdd(tgt){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
+  p.fees.push({id:lpSlug('nouveau frais',p.fees),label:'Nouveau frais',kind:'pct',value:0,min:'',max:'',period:'once',taxable:true,show:true});
+  lpSave();toast('Frais ajouté : complétez son libellé et son calcul');
+}
+function lpFeeDel(tgt,k){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const f=p.fees[k];if(!f)return;
+  confirmAction('Supprimer « '+f.label+' » des paramètres ?',()=>{p.fees.splice(k,1);lpSave();},'Supprimer');
+}
+function lpFeeMove(tgt,k,d){
+  if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const j=k+d;if(j<0||j>=p.fees.length)return;
+  const [x]=p.fees.splice(k,1);p.fees.splice(j,0,x);lpSave();
+}
+/* reprise d'un modèle : Guinée (DG), autre filiale ou paramètres par défaut */
+function lpCopy(tgt,src){
+  if(!lpCanEdit(tgt)||!src)return;
+  let from=null,label='';
+  if(src==='guinee'){from=guineaLoanParams();label='modèle Guinée';}
+  else if(src==='def'){from=normLoanParams(entCfg.loanDefaults);label='paramètres par défaut';}
+  else{const e=entById(src);if(e){from=normLoanParams(e.loan);label=e.short||e.name;}}
+  if(!from)return;
+  confirmAction('Remplacer les paramètres de prêt actuels par ceux de « '+label+' » ?',()=>{
+    const copy=JSON.parse(JSON.stringify(from));
+    if(tgt==='def')entCfg.loanDefaults=copy;else entCfg.entities[+tgt].loan=copy;
+    lpSave();toast('Paramètres repris : '+label);
+  },'Remplacer');
+}
+/* test de la formule du TEG sur un prêt type (100 fois le minimum le plus élevé, 12 mois) */
+function lpTegTest(tgt){
+  const p=lpObj(tgt);if(!p)return '';
+  const M=100000000;
+  const L=Object.assign(freshLoan('simulation'),{montant:M,taux:p.rate,duree:12,freq:'12',mode:'annuite',dateDebut:loanIso(loanToday()),_params:p});
+  try{
+    tegCompile(p.tegFormula||'teg_proportionnel');
+    const m=loanMetrics(L);
+    if(m.teg==null)return `<span class="acc-ko">${escapeHtml(m.tegErr||'Non calculable')}</span>`;
+    return `<span class="acc-ok">TEG = ${loanPct(m.teg,2,2)}</span> <span class="lp-muted">— prêt test de ${fmtIntFr(M)} ${escapeHtml(loanCur(p))} sur 12 mois (mensuel, annuités constantes) : frais TTC ${fmtIntFr(m.feesTTC)}, coût total ${fmtIntFr(m.coutTotal)}</span>`;
+  }catch(e){return `<span class="acc-ko">${escapeHtml(e.message)}</span>`;}
+}
+function lpTegRun(tgt){const el=document.getElementById('lpTeg-'+tgt);if(el)el.innerHTML=lpTegTest(tgt);}
+function filLoanHTML(tgt,title){
+  const p=lpObj(tgt);if(!p)return '';
+  const key='lp-'+tgt;const open=accUI.lpOpen&&accUI.lpOpen[key];
+  const dis=lpCanEdit(tgt)?'':'disabled';
+  const T=`'${tgt}'`;
+  const C=escapeHtml(loanCur(p));
+  const others=(entCfg.entities||[]).filter((e,k)=>String(k)!==String(tgt));
+  const brackets=p.taxBrackets.map((b,k)=>`<tr>
+    <td>${b.upTo==null?'<span class="lp-muted">au-delà / toutes durées</span><input type="hidden">':''}<input type="number" min="1" step="1" value="${b.upTo==null?'':b.upTo}" placeholder="(vide = au-delà)" ${dis} onchange="lpBracket(${T},${k},'upTo',this.value)" style="${b.upTo==null?'display:none':''}"> ${b.upTo==null?`<button class="lp-mini" ${dis} onclick="lpBracket(${T},${k},'upTo','12')">fixer une limite</button>`:'mois'}</td>
+    <td><input type="number" step="0.01" min="0" value="${b.rate}" ${dis} onchange="lpBracket(${T},${k},'rate',this.value)"> %</td>
+    <td><button class="lp-mini del" ${dis} onclick="lpBracketDel(${T},${k})" title="Supprimer la tranche">✕</button></td></tr>`).join('');
+  const per=Object.entries(FEE_PERIODS);
+  const fees=p.fees.map((f,k)=>`<tr>
+    <td><input type="text" value="${escapeHtml(f.label)}" ${dis} onchange="lpFee(${T},${k},'label',this.value)" style="min-width:210px"><div class="lp-var">frais_${escapeHtml(f.id)}_ttc</div></td>
+    <td><select ${dis} onchange="lpFee(${T},${k},'kind',this.value)"><option value="pct" ${f.kind==='pct'?'selected':''}>% du prêt</option><option value="fixed" ${f.kind==='fixed'?'selected':''}>Montant fixe</option></select></td>
+    <td><input type="number" step="0.01" min="0" value="${f.value}" ${dis} onchange="lpFee(${T},${k},'value',this.value)"></td>
+    <td><input type="number" min="0" value="${f.min}" placeholder="—" ${dis||(f.kind!=='pct'?'disabled':'')} onchange="lpFee(${T},${k},'min',this.value)"></td>
+    <td><input type="number" min="0" value="${f.max}" placeholder="—" ${dis||(f.kind!=='pct'?'disabled':'')} onchange="lpFee(${T},${k},'max',this.value)"></td>
+    <td><select ${dis} onchange="lpFee(${T},${k},'period',this.value)">${per.map(([id,x])=>`<option value="${id}" ${f.period===id?'selected':''}>${x.lbl}</option>`).join('')}</select></td>
+    <td class="c"><input type="checkbox" ${f.taxable?'checked':''} ${dis} onchange="lpFee(${T},${k},'taxable',this.checked)"></td>
+    <td class="c"><input type="checkbox" ${f.show!==false?'checked':''} ${dis} onchange="lpFee(${T},${k},'show',this.checked)"></td>
+    <td class="nw"><button class="lp-mini" ${dis} onclick="lpFeeMove(${T},${k},-1)" title="Monter">↑</button><button class="lp-mini" ${dis} onclick="lpFeeMove(${T},${k},1)" title="Descendre">↓</button><button class="lp-mini del" ${dis} onclick="lpFeeDel(${T},${k})" title="Supprimer">✕</button></td>
+  </tr>`).join('');
+  const vars=TEG_VARS.map(([n,d])=>`<tr><td><code>${n}</code></td><td>${escapeHtml(d)}</td></tr>`).join('')
+    +p.fees.map(f=>`<tr><td><code>frais_${escapeHtml(f.id)}_ht</code> · <code>frais_${escapeHtml(f.id)}_ttc</code></td><td>${escapeHtml(f.label)} (HT / TTC, 0 si non appliqué)</td></tr>`).join('');
+  return `<details class="lp-box" ${open?'open':''} ontoggle="lpToggle('${key}',this.open)">
+  <summary>${escapeHtml(title||'Paramètres du simulateur de prêt')} <span class="lp-muted">— ${C}, taux ${loanPct(p.rate)}, ${p.fees.length} frais</span></summary>
+  <div class="lp-in">
+    <div class="lp-copy">
+      <select ${dis} onchange="lpCopy(${T},this.value);this.value=''">
+        <option value="">Reprendre un modèle…</option>
+        <option value="guinee">Modèle Guinée (Direction Générale)</option>
+        ${tgt!=='def'&&isSuperAdmin()?'<option value="def">Paramètres par défaut</option>':''}
+        ${isSuperAdmin()?others.map(e=>`<option value="${e.id}">Filiale ${escapeHtml(e.short||e.name||'')}</option>`).join(''):''}
+      </select>
+    </div>
+    <div class="sub-label">Conditions générales</div>
+    <div class="fgrid">
+      <div class="fg"><label>Devise des activités</label><input type="text" maxlength="6" value="${escapeHtml(p.currency||'')}" placeholder="${escapeHtml(state.cur||'FCFA')}" ${dis} onchange="lpSet(${T},'currency',this.value)" title="Code devise (GNF, XOF, XAF…). Vide = devise choisie par l'utilisateur."></div>
+      <div class="fg"><label>Taux d'intérêt HT (% annuel)</label><input type="number" step="0.01" min="0" value="${p.rate}" ${dis} onchange="lpSet(${T},'rate',this.value)"></div>
+      <div class="fg"><label>Taux modifiable par l'utilisateur</label><label class="lp-chk"><input type="checkbox" ${p.rateLocked?'':'checked'} ${dis} onchange="lpSet(${T},'rateLocked',!this.checked)"><span>Oui (pré-rempli, modifiable)</span></label></div>
+      <div class="fg"><label>Taxe sur les intérêts</label><label class="lp-chk"><input type="checkbox" ${p.taxOnInterest?'checked':''} ${dis} onchange="lpSet(${T},'taxOnInterest',this.checked)"><span>Colonne « Taxe/Int. »</span></label></div>
+    </div>
+    <div class="sub-label">Taxe applicable selon la durée du prêt</div>
+    <table class="lp-tbl"><thead><tr><th>Durée jusqu'à (incluse)</th><th>Taux de taxe</th><th></th></tr></thead><tbody>${brackets}</tbody></table>
+    <button class="lp-mini add" ${dis} onclick="lpBracketAdd(${T})">+ Ajouter une tranche</button>
+    <div class="lp-muted" style="margin-top:4px">Exemple Guinée : jusqu'à 12 mois → 13 % ; au-delà → 5 %. La tranche « au-delà » s'applique aux durées supérieures à toutes les limites.</div>
+    <div class="sub-label">Frais, commissions et autres charges</div>
+    <div class="table-scroll"><table class="lp-tbl lp-fees"><thead><tr><th>Libellé (et variable)</th><th>Type</th><th>Valeur</th><th>Minimum</th><th>Maximum</th><th>Périodicité</th><th>Taxable</th><th>Détaillé par défaut</th><th></th></tr></thead>
+    <tbody>${fees||'<tr><td colspan="9" class="lp-muted">Aucun frais paramétré.</td></tr>'}</tbody></table></div>
+    <button class="lp-mini add" ${dis} onclick="lpFeeAdd(${T})">+ Ajouter un frais</button>
+    <div class="lp-muted" style="margin-top:4px">Valeur : pourcentage du montant du prêt ou montant fixe (en ${C}). Minimum et maximum s'appliquent à chaque occurrence. Les frais périodiques sont comptés sur la durée initiale, par excès (8 mois → 3 trimestres, 1 année).</div>
+    <div class="sub-label">Formule du TEG (résultat en % annuel)</div>
+    <textarea class="fil-foot lp-formula" ${dis} onchange="lpSet(${T},'tegFormula',this.value)" placeholder="teg_proportionnel">${escapeHtml(p.tegFormula||'')}</textarea>
+    <div class="lp-tegrow"><button class="icon-btn" onclick="lpTegRun(${T})">Tester la formule</button><span id="lpTeg-${tgt}">${lpTegTest(tgt)}</span></div>
+    <details class="acc-details"><summary>Variables et fonctions disponibles</summary>
+      <p>Opérateurs : <code>+ - * / ^</code>, parenthèses, comparaisons <code>&lt; &gt; &lt;= &gt;= == !=</code>. Décimales avec un point (<code>0.5</code>) ; arguments séparés par une virgule ou un point-virgule. Fonctions : <code>min max abs round(x;d) floor ceil pow sqrt exp ln log si(condition;alors;sinon)</code>.</p>
+      <p>Exemples : <code>teg_actuariel</code> · <code>cout_total / montant / duree_annees * 100</code> · <code>(total_interets + total_taxe_interets + frais_ttc) / montant * 12 / duree_mois * 100</code></p>
+      <table class="recap-table lp-vars"><thead><tr><th>Variable</th><th>Signification</th></tr></thead><tbody>${vars}</tbody></table>
+    </details>
+    <div class="sub-label">Lettre de relance (prêts consentis)</div>
+    <div class="fgrid">
+      <div class="fg"><label>Ville (lieu de la lettre)</label><input type="text" value="${escapeHtml(p.city||'')}" placeholder="Conakry" ${dis} onchange="lpSet(${T},'city',this.value)"></div>
+      <div class="fg"><label>Signataire</label><input type="text" value="${escapeHtml(p.signatory||'')}" placeholder="La Direction Générale" ${dis} onchange="lpSet(${T},'signatory',this.value)"></div>
+      <div class="fg"><label>Délai de régularisation par défaut (jours)</label><input type="number" min="1" step="1" value="${p.letterDelay||15}" ${dis} onchange="lpSet(${T},'letterDelay',this.value)"></div>
+    </div>
+  </div></details>`;
 }
 
 /* ---------- Utilisateurs & droits ---------- */
@@ -4536,35 +4751,128 @@ function addBondDrag(card){
   card.addEventListener('dragover',e=>e.preventDefault());
   card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.bidx;if(bondDrag==null||bondDrag===to)return;const arr=state.portfolio.bonds;const[it]=arr.splice(bondDrag,1);arr.splice(to,0,it);bondDrag=null;saveData();renderBonds();});
 }
-/* ================= SIMULATEUR DE PRÊTS =================
+/* ======================================================================
+   SIMULATEUR DE PRÊTS — MOTEUR ET ÉCRAN (lots 1 à 3)
+   ----------------------------------------------------------------------
    Les simulations vivent dans state.loans (HORS de state.portfolio) :
-   elles sont donc totalement exclues de la synthèse globale et des
-   exports du portefeuille, mais incluses dans la sauvegarde des données.
+   elles sont exclues de la synthèse et des exports du portefeuille, mais
+   incluses dans la sauvegarde des données.
+
+   Deux types de fiche (L.kind) :
+   - 'simulation' : prêt à l'étude, avec frais et commissions de la filiale ;
+   - 'consenti'   : prêt déjà accordé, avec suivi des échéances
+                    (PA = payée, IM = impayée, E = à échoir) et lettre de relance.
+
+   Les PARAMÈTRES (devise, taux, taxe, frais, formule du TEG, lettre) sont
+   définis par filiale dans Admin › Filiales (entity.loan) et appliqués selon
+   la filiale de l'utilisateur (le super-admin choisit la filiale par fiche).
+
    Règles de calcul :
-   - taux périodique = taux annuel / nombre de périodes par an ;
-   - intérêts = solde initial de la période × taux périodique × fraction de période ;
-   - échéance = intérêts + capital remboursé ; solde restant dû = solde initial − capital ;
-   - durée en mois non multiple de la périodicité : dernière échéance « brisée »,
-     intérêts au prorata des mois (taux annuel / 12 × nombre de mois) ;
-   - arrondi au franc près, la dernière échéance absorbe les écarts (solde final = 0) ;
-   - différé d'amortissement : intérêts seuls, borné pour laisser au moins une échéance de capital ;
-   - assurance : prime unique = taux × montant, payée au déblocage ;
-   - TEG : taux périodique égalisant le montant net perçu (montant − assurance − frais)
-     et les échéances, annualisé par la méthode proportionnelle. */
+   - taux périodique = taux annuel HT / nombre de périodes par an ;
+   - intérêts = solde initial × taux périodique × fraction de période ;
+   - Taxe/Int. = intérêts × taux de taxe (taux selon la durée du prêt) ;
+   - échéance = intérêts + Taxe/Int. + capital remboursé ;
+   - annuités constantes : calculées au taux TTC (taux × (1 + taxe)) pour que
+     l'échéance TTC soit constante ;
+   - durée non multiple de la périodicité : dernière échéance « brisée »,
+     intérêts au prorata des mois ;
+   - arrondi à l'unité, la dernière échéance solde exactement le prêt ;
+   - frais périodiques : nombre de périodes arrondi par excès sur la durée
+     initiale (ex. 8 mois, frais trimestriels -> 3 trimestres).
+   ====================================================================== */
 const LOAN_FREQ_LBL={12:'Mensuelle',4:'Trimestrielle',2:'Semestrielle',1:'Annuelle'};
 const LOAN_ECH_LBL={12:'Mensualité',4:'Trimestrialité',2:'Semestrialité',1:'Annuité'};
 const LOAN_PER_LBL={12:'mois',4:'trimestre(s)',2:'semestre(s)',1:'an(s)'};
 const LOAN_MODE_LBL={infine:'In fine',constant:'Amortissement constant',annuite:'Annuités constantes',custom:'Personnalisé'};
-function freshLoan(){return {id:rid(),client:'',montant:0,taux:0,assurance:0,fraisType:'pct',frais:0,duree:12,freq:'12',defer:0,mode:'annuite',dateDebut:'',custom:[],tegOn:true,_customValid:false,_hidden:false,_open:false,_dirty:true};}
-function loanRateLabel(f){return f===1?'Taux annuel (rappel)':'Taux '+({12:'mensuel',4:'trimestriel',2:'semestriel'}[f]||'périodique')+' équivalent';}
+const LOAN_KIND_LBL={simulation:'Simulation',consenti:'Prêt consenti'};
+const LOAN_STATUS={PA:{lbl:'Payée',cls:'st-pa'},IM:{lbl:'Impayée',cls:'st-im'},E:{lbl:'À échoir',cls:'st-e'}};
+/* périodicités des frais : nombre d'occurrences sur la durée initiale D (mois), par excès */
+const FEE_PERIODS={
+  once:    {lbl:'Unique',        unit:'',            plural:'',          count:(D,s)=>1},
+  echeance:{lbl:'Par échéance',  unit:'par échéance',plural:'échéance(s)',count:(D,s)=>s.nTot},
+  month:   {lbl:'Mensuelle',     unit:'par mois',    plural:'mois',      count:D=>D},
+  quarter: {lbl:'Trimestrielle', unit:'par trimestre',plural:'trimestre(s)',count:D=>Math.ceil(D/3)},
+  semester:{lbl:'Semestrielle',  unit:'par semestre',plural:'semestre(s)',count:D=>Math.ceil(D/6)},
+  year:    {lbl:'Annuelle',      unit:'par an',      plural:'année(s)',  count:D=>Math.ceil(D/12)}
+};
+
+function freshLoan(kind){return {id:rid(),kind:kind==='consenti'?'consenti':'simulation',ent:'',client:'',
+  montant:0,taux:0,duree:12,freq:'12',defer:0,mode:'annuite',dateDebut:'',custom:[],tegOn:true,
+  feeOpts:{},feeDetail:true,
+  ref:'',civilite:'Monsieur',adresse:'',nPaid:0,nUnpaid:0,dateLimite:'',
+  _customValid:false,_hidden:false,_open:false,_dirty:true};}
 function loanList(){if(!state.loans)state.loans=[];return state.loans;}
+function loanRateLabel(f){return f===1?'Taux annuel (rappel)':'Taux '+({12:'mensuel',4:'trimestriel',2:'semestriel'}[f]||'périodique')+' équivalent';}
 function loanPct(v,dec,minDec){return (+v||0).toLocaleString('fr-FR',{minimumFractionDigits:minDec||0,maximumFractionDigits:dec==null?4:dec})+' %';}
+function loanMoney(v,cur){return fmtIntFr(v)+' '+(cur||'');}
 function loanParseDate(s){
   if(!s)return null;const p=(''+s).split('-').map(Number);
   if(p.length<3||!p[0])return null;
   const d=new Date(p[0],p[1]-1,p[2]);return isNaN(d)?null:d; // date LOCALE (pas UTC)
 }
-/* structure du prêt : nombre d'échéances, fractions de période, différé */
+function loanIso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function loanToday(){const d=new Date();d.setHours(0,0,0,0);return d;}
+
+/* ======================= PARAMÈTRES PAR FILIALE ======================= */
+/* paramètres neutres (utilisateur non rattaché, filiale non paramétrée) */
+function defaultLoanParams(){return {currency:'',rate:0,rateLocked:false,taxOnInterest:true,
+  taxBrackets:[{upTo:null,rate:0}],fees:[],tegFormula:'teg_proportionnel',
+  city:'',signatory:'La Direction',letterDelay:15};}
+/* modèle transmis par la Direction Générale pour la filiale de Guinée */
+function guineaLoanParams(){return {currency:'GNF',rate:18,rateLocked:false,taxOnInterest:true,
+  taxBrackets:[{upTo:12,rate:13},{upTo:null,rate:5}],
+  fees:[
+    {id:'assurance',    label:"Assurance",                              kind:'pct',  value:0.5, min:'',     max:'',      period:'once',   taxable:true, show:true},
+    {id:'mise_en_place',label:'Commission de mise en place',            kind:'pct',  value:1,   min:1000000,max:10000000,period:'once',   taxable:true, show:true},
+    {id:'engagement',   label:"Commission d'engagement",                kind:'pct',  value:1,   min:1000000,max:'',      period:'once',   taxable:true, show:true},
+    {id:'etude',        label:"Frais d'étude de dossier",               kind:'pct',  value:0.5, min:1000000,max:10000000,period:'once',   taxable:true, show:true},
+    {id:'notification', label:'Frais de notification',                  kind:'fixed',value:500000,min:'',   max:'',      period:'once',   taxable:true, show:true},
+    {id:'redaction',    label:'Frais de rédaction de la convention',    kind:'pct',  value:1,   min:1000000,max:'',      period:'once',   taxable:false,show:true},
+    {id:'info_cautions',label:"Lettre d'information aux cautions",      kind:'fixed',value:100000,min:'',   max:'',      period:'quarter',taxable:false,show:true},
+    {id:'conservation', label:'Frais de conservation de garantie',      kind:'fixed',value:100000,min:'',   max:'',      period:'year',   taxable:false,show:true},
+    {id:'caution',      label:'Frais de caution personnelle et solidaire',kind:'fixed',value:500000,min:'',max:'',      period:'once',   taxable:true, show:true},
+    {id:'enregistrement',label:"Frais d'enregistrement de la convention",kind:'pct', value:0.5, min:'',     max:'',      period:'once',   taxable:false,show:true}
+  ],
+  tegFormula:'teg_proportionnel',city:'Conakry',signatory:'La Direction Générale',letterDelay:15};}
+/* complète et assainit une configuration saisie dans l'admin */
+function normLoanParams(p){
+  const d=defaultLoanParams();p=Object.assign(d,p||{});
+  if(!Array.isArray(p.taxBrackets)||!p.taxBrackets.length)p.taxBrackets=[{upTo:null,rate:0}];
+  if(!Array.isArray(p.fees))p.fees=[];
+  p.fees.forEach(f=>{if(!FEE_PERIODS[f.period])f.period='once';if(f.kind!=='fixed')f.kind='pct';});
+  return p;
+}
+/* filiale de rattachement d'une fiche : libre pour le super-admin, imposée sinon */
+function loanEntIdFor(L){
+  if(!session)return '';
+  if(isSuperAdmin())return (L&&L.ent&&entById(L.ent))?L.ent:(userEntId(session.user)||'');
+  return userEntId(session.user)||'';
+}
+function loanParams(L){
+  if(L&&L._params)return normLoanParams(L._params);   // paramètres explicites (test de formule dans l'admin)
+  const e=entById(loanEntIdFor(L));
+  if(e&&e.loan)return normLoanParams(e.loan);
+  return normLoanParams(entCfg.loanDefaults);
+}
+function loanCur(p){return (p&&p.currency)||state.cur||'FCFA';}
+/* taux d'intérêt effectif : imposé par la filiale si verrouillé (hors super-admin) */
+function loanRate(L,p){return (p.rateLocked&&!isSuperAdmin())?(+p.rate||0):(+L.taux||0);}
+function loanRateLocked(p){return !!p.rateLocked&&!isSuperAdmin();}
+/* taux de taxe applicable selon la durée (tranches « jusqu'à N mois », la dernière sans limite) */
+function loanTaxInfo(p,D){
+  const br=(p.taxBrackets||[]).slice().sort((a,b)=>(a.upTo==null?1e9:+a.upTo)-(b.upTo==null?1e9:+b.upTo));
+  let prev=null;
+  for(const b of br){
+    if(b.upTo==null||b.upTo===''||D<=+b.upTo){
+      const label=(b.upTo==null||b.upTo==='')?(prev==null?'toutes durées':'durée de plus de '+prev+' mois'):'durée jusqu\'à '+b.upTo+' mois';
+      return {rate:+b.rate||0,label};
+    }
+    prev=+b.upTo;
+  }
+  return {rate:0,label:'aucune tranche applicable'};
+}
+
+/* =========================== STRUCTURE =========================== */
 function loanStructure(L){
   const f=+L.freq||12, pm=12/f;
   const D=Math.max(1,Math.round(+L.duree||0));
@@ -4576,103 +4884,290 @@ function loanStructure(L){
   const nDef=Math.min(Math.max(0,Math.round(+L.defer||0)),maxDef);
   return {f,pm,D,nFull,rem,nTot,w,maxDef,nDef,nAmort:nTot-nDef,broken:rem>0};
 }
-function loanFrais(L,M){
-  const v=Math.max(0,+L.frais||0);
-  return L.fraisType==='fixe'?Math.round(v):Math.round(M*v/100);
+
+/* ======================= FRAIS ET COMMISSIONS =======================
+   Pour chaque frais paramétré : montant unitaire HT (pourcentage du prêt ou
+   montant fixe, borné par min/max), nombre d'occurrences selon la
+   périodicité, taxe si le frais y est soumis.
+   Options par fiche (L.feeOpts[id]) : on = appliqué, show = détaillé dans
+   les tableaux (sinon regroupé dans « Autres frais et commissions »). */
+function loanFees(L,p,s,M,taxRate){
+  if(L.kind==='consenti')return [];
+  return (p.fees||[]).map(f=>{
+    const o=(L.feeOpts||{})[f.id]||{};
+    const per=FEE_PERIODS[f.period]||FEE_PERIODS.once;
+    const count=per.count(s.D,s);
+    const raw=f.kind==='pct'?M*(+f.value||0)/100:(+f.value||0);
+    let unit=raw,capped='';
+    if(f.min!==''&&f.min!=null&&unit<+f.min){unit=+f.min;capped='min';}
+    if(f.max!==''&&f.max!=null&&unit>+f.max){unit=+f.max;capped='max';}
+    unit=Math.round(unit);
+    const ht=unit*count;
+    const tax=f.taxable?Math.round(ht*taxRate/100):0;
+    return {f,per,count,raw,unit,capped,ht,tax,ttc:ht+tax,
+      applied:o.on!==false,show:o.show!=null?!!o.show:(f.show!==false)};
+  });
 }
-/* tableau d'amortissement arrondi */
+/* libellé du calcul d'un frais (ex. « 1 % × 50 000 000 → minimum 1 000 000 ») */
+function loanFeeCalc(fr,M,cur){
+  let t=fr.f.kind==='pct'?loanPct(fr.f.value)+' × '+fmtIntFr(M)+' = '+fmtIntFr(fr.raw):fmtIntFr(fr.unit)+' '+cur;
+  if(fr.capped)t+=' → '+(fr.capped==='min'?'minimum ':'maximum ')+fmtIntFr(fr.unit);
+  if(fr.per.unit)t+=' '+fr.per.unit;
+  return t;
+}
+/* paramètre d'un frais pour le tableau des caractéristiques */
+function loanFeeParam(fr,cur){
+  const f=fr.f;
+  let t=f.kind==='pct'?loanPct(f.value):fmtIntFr(f.value)+' '+cur;
+  if(f.taxable)t+=' HT';
+  if(fr.per.unit)t+=' '+fr.per.unit;
+  const b=[];
+  if(f.min!==''&&f.min!=null)b.push('min '+fmtIntFr(f.min));
+  if(f.max!==''&&f.max!=null)b.push('max '+fmtIntFr(f.max));
+  if(f.kind==='pct'&&b.length)t+=' ('+b.join(' ; ')+')';
+  return t;
+}
+
+/* ======================= TABLEAU D'AMORTISSEMENT ======================= */
 function loanTable(L){
+  const p=loanParams(L);
   const s=loanStructure(L);
   const M=Math.max(0,Math.round(+L.montant||0));
-  const cp=Math.max(0,+L.taux||0)/100/s.f;
-  const aw=s.w.slice(s.nDef);          // fractions des périodes d'amortissement
+  const tax=loanTaxInfo(p,s.D);
+  const ti=p.taxOnInterest?tax.rate/100:0;          // taux de taxe appliqué aux intérêts
+  const cp=Math.max(0,loanRate(L,p))/100/s.f;        // taux périodique HT
+  const aw=s.w.slice(s.nDef);                       // fractions des périodes d'amortissement
   let caps=[],A=null;
   if(L.mode==='infine'){caps=aw.map(()=>0);}
   else if(L.mode==='constant'){const c=Math.round(M/aw.length);caps=aw.map(()=>c);}
   else if(L.mode==='custom'){
     const pct=(L.custom||[]).slice(0,aw.length).map(x=>+x||0);
     while(pct.length<aw.length)pct.push(0);
-    caps=pct.map(p=>Math.round(M*p/100));
-  }else{ // annuités constantes (tient compte d'une éventuelle période brisée)
-    let sum=0,disc=1;aw.forEach(wj=>{disc/=(1+cp*wj);sum+=disc;});
+    caps=pct.map(q=>Math.round(M*q/100));
+  }else{ // annuités constantes TTC (période brisée comprise)
+    const cpt=cp*(1+ti);
+    let sum=0,disc=1;aw.forEach(wj=>{disc/=(1+cpt*wj);sum+=disc;});
     A=Math.round(sum>0?M/sum:M/aw.length);
   }
+  const nPaid=L.kind==='consenti'?Math.max(0,Math.round(+L.nPaid||0)):0;
+  const nUnpaid=L.kind==='consenti'?Math.max(0,Math.round(+L.nUnpaid||0)):0;
   const rows=[];let crd=M;const d0=loanParseDate(L.dateDebut);
   for(let k=1;k<=s.nTot;k++){
     const wk=s.w[k-1];
     const interest=Math.round(crd*cp*wk);
+    const taxInt=Math.round(interest*ti);
     const isDef=k<=s.nDef;
     let cap=0;
     if(!isDef){
       if(k===s.nTot)cap=crd;                                   // la dernière échéance solde le prêt
-      else if(A!=null)cap=Math.min(crd,Math.max(0,A-interest));
+      else if(A!=null)cap=Math.min(crd,Math.max(0,A-interest-taxInt));
       else cap=Math.min(crd,Math.max(0,caps[k-s.nDef-1]||0));
     }
     const months=(k===s.nTot)?s.D:Math.round(s.pm*k);
     const date=d0?addMonths(d0,months):null;
-    rows.push({n:k,date,dateTxt:date?fmtDateFR(date):'—',crdStart:crd,interest,amort:cap,ech:interest+cap,
-      crdEnd:crd-cap,defer:isDef,broken:s.broken&&k===s.nTot,w:wk});
+    const status=L.kind==='consenti'?(k<=nPaid?'PA':(k<=nPaid+nUnpaid?'IM':'E')):'';
+    rows.push({n:k,date,dateTxt:date?fmtDateFR(date):'—',crdStart:crd,interest,taxInt,amort:cap,
+      ech:interest+taxInt+cap,crdEnd:crd-cap,defer:isDef,broken:s.broken&&k===s.nTot,w:wk,status});
     crd-=cap;
   }
-  return {rows,s,M,cp,A};
+  return {rows,s,M,cp,A,p,tax,ti};
 }
-/* TEG : taux périodique r tel que montant net = somme actualisée des échéances */
-function loanTEG(t,charges){
-  const N=t.M-charges;
-  if(!(t.M>0)||N<=0||!t.rows.length)return null;
-  const npv=r=>{let v=-N,disc=1;for(const x of t.rows){disc/=(1+r*x.w);v+=x.ech*disc;}return v;};
+
+/* ======================= FORMULE DU TEG =======================
+   Mini-interpréteur d'expressions (aucun eval) : nombres (point décimal),
+   variables, + - * / ^, comparaisons, parenthèses et fonctions.
+   Séparateur d'arguments : virgule ou point-virgule. */
+const TEG_FUNCS={
+  min:(...a)=>Math.min(...a),max:(...a)=>Math.max(...a),abs:Math.abs,
+  round:(x,d)=>{const k=Math.pow(10,d||0);return Math.round(x*k)/k;},
+  arrondi:(x,d)=>{const k=Math.pow(10,d||0);return Math.round(x*k)/k;},
+  floor:Math.floor,ceil:Math.ceil,pow:Math.pow,sqrt:Math.sqrt,exp:Math.exp,ln:Math.log,
+  log:Math.log10,si:(c,a,b)=>c?a:b
+};
+function tegCompile(expr){
+  const src=''+(expr||'');
+  const re=/\s*(\d+(?:\.\d+)?|[A-Za-z_][A-Za-z0-9_]*|<=|>=|==|!=|[-+*/^(),;<>])/y;
+  const toks=[];let m;re.lastIndex=0;
+  while(re.lastIndex<src.length){
+    const at=re.lastIndex;m=re.exec(src);
+    if(!m){if(/^\s*$/.test(src.slice(at)))break;throw new Error('Caractère non reconnu : « '+src.slice(at).trim().charAt(0)+' »');}
+    toks.push(m[1]);
+  }
+  let i=0;
+  const peek=()=>toks[i],next=()=>toks[i++];
+  const expect=t=>{if(toks[i]!==t)throw new Error('« '+t+' » attendu');i++;};
+  function cmp(){let a=add();while(['<','>','<=','>=','==','!='].includes(peek())){const o=next(),b=add();a={op:o,a,b};}return a;}
+  function add(){let a=mul();while(peek()==='+'||peek()==='-'){const o=next(),b=mul();a={op:o,a,b};}return a;}
+  function mul(){let a=un();while(peek()==='*'||peek()==='/'){const o=next(),b=un();a={op:o,a,b};}return a;}
+  function un(){if(peek()==='-'){next();return {op:'neg',a:un()};}if(peek()==='+'){next();return un();}return pw();}
+  function pw(){const a=prim();if(peek()==='^'){next();return {op:'^',a,b:un()};}return a;}
+  function prim(){
+    const t=next();
+    if(t==null)throw new Error('Expression incomplète');
+    if(/^\d/.test(t))return {num:+t};
+    if(t==='('){const e=cmp();expect(')');return e;}
+    if(/^[A-Za-z_]/.test(t)){
+      if(peek()==='('){
+        next();const args=[];
+        if(peek()!==')'){args.push(cmp());while(peek()===','||peek()===';'){next();args.push(cmp());}}
+        expect(')');
+        if(!TEG_FUNCS[t.toLowerCase()])throw new Error('Fonction inconnue : '+t);
+        return {fn:t.toLowerCase(),args};
+      }
+      return {v:t};
+    }
+    throw new Error('Symbole inattendu : « '+t+' »');
+  }
+  if(!toks.length)throw new Error('Formule vide');
+  const ast=cmp();
+  if(i<toks.length)throw new Error('Symbole inattendu : « '+toks[i]+' »');
+  const ev=(n,vars)=>{
+    if(n.num!=null)return n.num;
+    if(n.v!=null){if(!(n.v in vars))throw new Error('Variable inconnue : '+n.v);return +vars[n.v];}
+    if(n.fn)return TEG_FUNCS[n.fn](...n.args.map(x=>ev(x,vars)));
+    const a=ev(n.a,vars);
+    switch(n.op){
+      case 'neg':return -a;
+      case '+':return a+ev(n.b,vars);case '-':return a-ev(n.b,vars);
+      case '*':return a*ev(n.b,vars);case '/':return a/ev(n.b,vars);
+      case '^':return Math.pow(a,ev(n.b,vars));
+      case '<':return a<ev(n.b,vars)?1:0;case '>':return a>ev(n.b,vars)?1:0;
+      case '<=':return a<=ev(n.b,vars)?1:0;case '>=':return a>=ev(n.b,vars)?1:0;
+      case '==':return a===ev(n.b,vars)?1:0;case '!=':return a!==ev(n.b,vars)?1:0;
+    }
+    throw new Error('Opérateur inconnu');
+  };
+  return vars=>ev(ast,vars);
+}
+/* variables mises à disposition de la formule (documentées dans l'admin) */
+const TEG_VARS=[
+  ['montant','Montant du prêt'],
+  ['taux_annuel','Taux d\'intérêt annuel HT (en %)'],
+  ['taux_periodique','Taux périodique HT (en %)'],
+  ['periodicite','Nombre d\'échéances par an (12, 4, 2 ou 1)'],
+  ['duree_mois','Durée initiale en mois'],
+  ['duree_annees','Durée initiale en années (duree_mois / 12)'],
+  ['nb_echeances','Nombre total d\'échéances'],
+  ['differe','Nombre de périodes de différé'],
+  ['taux_taxe','Taux de taxe applicable selon la durée (en %)'],
+  ['echeance','Échéance TTC (constante, ou première échéance d\'amortissement)'],
+  ['total_interets','Total des intérêts HT'],
+  ['total_taxe_interets','Total de la taxe sur intérêts'],
+  ['total_capital','Total du capital remboursé'],
+  ['total_echeances','Total des échéances TTC'],
+  ['frais_ht','Total des frais et commissions HT (appliqués)'],
+  ['frais_taxe','Total de la taxe sur frais et commissions'],
+  ['frais_ttc','Total des frais et commissions TTC'],
+  ['frais_ponctuels_ttc','Frais TTC perçus une seule fois (au déblocage)'],
+  ['frais_periodiques_ttc','Frais TTC récurrents (sur la durée)'],
+  ['cout_total','Coût total du crédit TTC (intérêts + taxe + frais)'],
+  ['montant_net','Montant net perçu (montant − frais ponctuels TTC)'],
+  ['total_rembourse','Montant total remboursé (échéances + frais TTC)'],
+  ['tri_periodique','Taux actuariel périodique (en %) : égalise le montant net et les flux (échéances TTC + frais récurrents répartis)'],
+  ['teg_proportionnel','tri_periodique × periodicite (en %) — formule par défaut'],
+  ['teg_actuariel','((1 + tri_periodique/100)^periodicite − 1) × 100 (en %)']
+];
+/* taux actuariel périodique (bisection) */
+function loanIRR(rows,net,extraPerEch){
+  if(!(net>0)||!rows.length)return null;
+  const npv=r=>{let v=-net,disc=1;for(const x of rows){disc/=(1+r*x.w);v+=(x.ech+extraPerEch)*disc;}return v;};
   let lo=-0.9,hi=5;
   if(npv(lo)*npv(hi)>0)return null;
-  for(let i=0;i<200;i++){const mid=(lo+hi)/2;if(npv(lo)*npv(mid)<=0)hi=mid;else lo=mid;}
-  const teg=(lo+hi)/2*t.s.f*100;
-  return Math.abs(teg)<1e-6?0:teg;
+  for(let k=0;k<200;k++){const mid=(lo+hi)/2;if(npv(lo)*npv(mid)<=0)hi=mid;else lo=mid;}
+  const r=(lo+hi)/2;return Math.abs(r)<1e-10?0:r;
 }
+function loanTegVars(m,L){
+  const s=m.s;
+  const r=loanIRR(m.rows,m.M-m.feesOnceTTC,s.nTot?m.feesPerTTC/s.nTot:0);
+  const v={montant:m.M,taux_annuel:m.rate,taux_periodique:m.rate/s.f,periodicite:s.f,duree_mois:s.D,duree_annees:s.D/12,
+    nb_echeances:s.nTot,differe:s.nDef,taux_taxe:m.taxRate,echeance:m.echVal!=null?m.echVal:m.echFirst,
+    total_interets:m.totInt,total_taxe_interets:m.totTaxInt,total_capital:m.totCap,total_echeances:m.totEch,
+    frais_ht:m.feesHT,frais_taxe:m.feesTax,frais_ttc:m.feesTTC,frais_ponctuels_ttc:m.feesOnceTTC,frais_periodiques_ttc:m.feesPerTTC,
+    cout_total:m.coutTotal,montant_net:m.M-m.feesOnceTTC,total_rembourse:m.totalRemb,
+    tri_periodique:r==null?0:r*100,teg_proportionnel:r==null?0:r*s.f*100,teg_actuariel:r==null?0:(Math.pow(1+r,s.f)-1)*100};
+  (m.fees||[]).forEach(fr=>{const id=(''+fr.f.id).replace(/[^A-Za-z0-9_]/g,'_');
+    v['frais_'+id+'_ht']=fr.applied?fr.ht:0;v['frais_'+id+'_ttc']=fr.applied?fr.ttc:0;});
+  return {vars:v,irrOk:r!=null};
+}
+function loanTEG(m,L){
+  const {vars,irrOk}=loanTegVars(m,L);
+  const f=(m.p.tegFormula||'teg_proportionnel').trim();
+  if(!irrOk&&/tri_periodique|teg_/.test(f))return {teg:null,err:'Taux actuariel non calculable (montant net nul ou négatif)'};
+  try{const x=tegCompile(f)(vars);if(!isFinite(x))throw new Error('Résultat non numérique');return {teg:Math.abs(x)<1e-9?0:x,err:''};}
+  catch(e){return {teg:null,err:'Formule du TEG : '+e.message};}
+}
+
+/* ======================= INDICATEURS ======================= */
 function loanMetrics(L){
-  const t=loanTable(L);const rows=t.rows;
-  const totInt=rows.reduce((a,r)=>a+r.interest,0);
-  const totCap=rows.reduce((a,r)=>a+r.amort,0);
-  const totEch=rows.reduce((a,r)=>a+r.ech,0);
-  const assur=Math.round(t.M*Math.max(0,+L.assurance||0)/100);
-  const frais=loanFrais(L,t.M);
-  const coutTotal=totInt+assur+frais;
+  const t=loanTable(L);const rows=t.rows;const s=t.s;const p=t.p;
+  const sum=k=>rows.reduce((a,r)=>a+r[k],0);
+  const taxRate=t.tax.rate;
+  const fees=loanFees(L,p,s,t.M,taxRate);
+  const ap=fees.filter(x=>x.applied);
+  const feesHT=ap.reduce((a,x)=>a+x.ht,0),feesTax=ap.reduce((a,x)=>a+x.tax,0),feesTTC=feesHT+feesTax;
+  const feesOnceTTC=ap.filter(x=>x.f.period==='once').reduce((a,x)=>a+x.ttc,0);
+  const feesHiddenTTC=ap.filter(x=>!x.show).reduce((a,x)=>a+x.ttc,0);
+  const totInt=sum('interest'),totTaxInt=sum('taxInt'),totCap=sum('amort'),totEch=sum('ech');
   const amortRows=rows.filter(r=>!r.defer);
   const vals=amortRows.map(r=>r.ech);
-  const echMin=vals.length?Math.min(...vals):0, echMax=vals.length?Math.max(...vals):0;
+  const echMin=vals.length?Math.min(...vals):0,echMax=vals.length?Math.max(...vals):0;
   let echVal=null;
   if(t.A!=null)echVal=t.A;
   else if(vals.length&&echMax-echMin<=vals.length)echVal=vals[0];
-  const echDiff=t.s.nDef>0?rows[0].ech:null;
-  return {t,rows,M:t.M,totInt,totCap,totEch,assur,frais,coutTotal,totalRemb:totEch+assur+frais,
-    echVal,echMin,echMax,echDiff,teg:loanTEG(t,assur+frais),
-    echLabel:LOAN_ECH_LBL[t.s.f]||'Échéance',s:t.s,periodRate:t.cp*100};
+  const m={t,rows,s,p,M:t.M,cur:loanCur(p),rate:loanRate(L,p),taxRate,taxLabel:t.tax.label,ti:t.ti,
+    fees,feesHT,feesTax,feesTTC,feesOnceTTC,feesPerTTC:feesTTC-feesOnceTTC,feesHiddenTTC,
+    totInt,totTaxInt,totCap,totEch,coutTotal:totInt+totTaxInt+feesTTC,totalRemb:totEch+feesTTC,
+    echVal,echMin,echMax,echFirst:vals.length?vals[0]:0,echDiff:s.nDef>0?rows[0].ech:null,
+    echLabel:LOAN_ECH_LBL[s.f]||'Échéance',periodRate:t.cp*100};
+  const tg=loanTEG(m,L);m.teg=tg.teg;m.tegErr=tg.err;
+  if(L.kind==='consenti'){
+    const im=rows.filter(r=>r.status==='IM'),pa=rows.filter(r=>r.status==='PA'),e=rows.filter(r=>r.status==='E');
+    m.nPA=pa.length;m.nIM=im.length;m.nE=e.length;
+    m.imRows=im;m.impaye=im.reduce((a,r)=>a+r.ech,0);
+    const firstOpen=rows.find(r=>r.status!=='PA');
+    m.crdRestant=firstOpen?firstOpen.crdStart:0;
+    m.nextDue=e[0]||null;
+    const today=loanToday();
+    m.retard=im.length&&im[0].date?Math.max(0,Math.round((today-im[0].date)/864e5)):0;
+    m.echues=rows.filter(r=>r.date&&r.date<=today).length;
+    m.paye=pa.reduce((a,r)=>a+r.ech,0);
+  }
+  return m;
 }
-function loanEchText(m,money_){
-  if(m.echVal!=null)return money_(m.echVal);
-  return 'Variable ('+money_(m.echMin)+' à '+money_(m.echMax)+')';
+function loanEchText(m,fmt){
+  if(m.echVal!=null)return fmt(m.echVal);
+  return 'Variable ('+fmt(m.echMin)+' à '+fmt(m.echMax)+')';
 }
-/* contrôles : erreurs bloquantes et avertissements */
+
+/* ======================= CONTRÔLES ======================= */
 function loanChecks(L){
   const out=[];const M=+L.montant||0,D=+L.duree||0;
+  const p=loanParams(L);
   if(!(M>0))out.push({lvl:'err',msg:'Saisissez le montant du prêt.'});
   if(!(D>=1)||Math.round(D)!==D)out.push({lvl:'err',msg:'La durée doit être un nombre entier de mois, au moins égal à 1.'});
-  if((+L.taux||0)<0||(+L.taux||0)>100)out.push({lvl:'err',msg:"Le taux d'intérêt annuel doit être compris entre 0 et 100 %."});
-  if((+L.assurance||0)<0||(+L.assurance||0)>100)out.push({lvl:'err',msg:"Le taux d'assurance doit être compris entre 0 et 100 %."});
-  if((+L.frais||0)<0)out.push({lvl:'err',msg:'Les frais de dossier ne peuvent pas être négatifs.'});
-  if(M>0){
-    const charges=Math.round(M*Math.max(0,+L.assurance||0)/100)+loanFrais(L,M);
-    if(charges>=M)out.push({lvl:'err',msg:"L'assurance et les frais de dossier ne peuvent pas atteindre le montant du prêt."});
-  }
+  const r=loanRate(L,p);
+  if(r<0||r>100)out.push({lvl:'err',msg:"Le taux d'intérêt annuel doit être compris entre 0 et 100 %."});
   if((+L.defer||0)<0)out.push({lvl:'err',msg:'Le différé ne peut pas être négatif.'});
   if(D>=1&&Math.round(D)===D){
     const s=loanStructure(L);
+    if(L.kind==='consenti'){
+      const pa=+L.nPaid||0,im=+L.nUnpaid||0;
+      if(pa<0||im<0||Math.round(pa)!==pa||Math.round(im)!==im)out.push({lvl:'err',msg:"Les nombres d'échéances payées et impayées doivent être des entiers positifs."});
+      else if(pa+im>s.nTot)out.push({lvl:'err',msg:'Échéances payées + impayées ('+(pa+im)+') supérieures au nombre total d\'échéances ('+s.nTot+').'});
+      else if(L.dateDebut&&M>0){
+        const d0=loanParseDate(L.dateDebut),today=loanToday();let due=0;
+        for(let k=1;k<=s.nTot;k++){const mo=k===s.nTot?s.D:Math.round(s.pm*k);if(addMonths(d0,mo)<=today)due++;}
+        if(due!==pa+im)out.push({lvl:'warn',msg:"D'après la date de début, "+due+' échéance(s) sont échues à ce jour ; vous en avez déclaré '+(pa+im)+' (payées + impayées). Vérifiez la saisie.'});
+      }
+    }
     if(s.broken){
       const per={12:'mensuelle',4:'trimestrielle',2:'semestrielle',1:'annuelle'}[s.f];
       out.push({lvl:'warn',msg:'La durée de '+s.D+' mois n\'est pas un multiple de la périodicité '+per+' ('+s.pm+' mois). '
         +'Le calcul respecte la durée saisie : '+s.nFull+' échéance(s) complète(s) + 1 échéance brisée de '+s.rem+' mois, '
-        +'dont les intérêts sont calculés au taux de '+loanPct((+L.taux||0)/12*s.rem)+' (taux annuel / 12 × '+s.rem+').'});
+        +'dont les intérêts sont calculés au taux de '+loanPct(r/12*s.rem)+' (taux annuel / 12 × '+s.rem+').'});
     }
   }
-  if(!L.dateDebut)out.push({lvl:'warn',msg:"Renseignez la date de début de l'emprunt pour dater les échéances et exporter la simulation."});
+  if(!L.dateDebut)out.push({lvl:'warn',msg:"Renseignez la date de début de l'emprunt pour dater les échéances et exporter."});
   return out;
 }
 function loanReady(L,silent){
@@ -4683,8 +5178,10 @@ function loanReady(L,silent){
 }
 function loanCustomSum(L){return (L.custom||[]).slice(0,loanStructure(L).nAmort).reduce((a,x)=>a+(+x||0),0);}
 
-/* ---------- rendu ---------- */
+/* ======================= RENDU DE L'ÉCRAN ======================= */
 function loanDeferLabel(L){const s=loanStructure(L);return 'Différé — '+s.nDef+' '+(LOAN_PER_LBL[s.f]||'période(s)')+' · max '+s.maxDef;}
+function loanTaxLabel(L){const p=loanParams(L);const tx=loanTaxInfo(p,loanStructure(L).D);return loanPct(tx.rate)+' ('+tx.label+')';}
+function loanRestLabel(L){const s=loanStructure(L);return ''+Math.max(0,s.nTot-(+L.nPaid||0)-(+L.nUnpaid||0));}
 function loanCustomHTML(L,i){
   const s=loanStructure(L);const sum=loanCustomSum(L);const valid=Math.abs(sum-100)<0.01;
   let cells='';
@@ -4697,47 +5194,92 @@ function loanCustomHTML(L,i){
     <span class="ca-valid-msg ${L._customValid?'ok':''}">${L._customValid?'✓ Répartition validée (100%)':'La somme doit faire 100% pour calculer l’échéancier'}</span></div>
   </div>`;
 }
-function loanTableHTML(m){
-  const rows=m.rows;
-  const body=rows.map(r=>`<tr${r.defer?' style="opacity:.7"':''}>
-    <td>${r.n}${r.defer?' <span style="font-size:10px;color:var(--violet)">(différé)</span>':''}${r.broken?' <span style="font-size:10px;color:var(--violet)">(brisée)</span>':''}</td>
+/* panneau « Frais, commissions et taxes » (affiché avant le tableau) */
+function loanFeesHTML(L,i,m){
+  const ent=entById(loanEntIdFor(L));
+  const who=ent?(ent.short||ent.name):'paramètres par défaut';
+  const head=`<div class="lf-head"><div><b>Frais, commissions et taxes</b> <span class="lf-ent">${escapeHtml(who)}</span></div>
+    <div class="lf-tax">Taxe applicable : <b>${loanPct(m.taxRate)}</b> (${escapeHtml(m.taxLabel)})${m.ti>0?' — appliquée aux intérêts et aux frais taxables':''}</div></div>`;
+  if(!m.fees.length)return `<div class="loan-fees">${head}<p class="lf-empty">Aucun frais ni commission paramétré pour ${escapeHtml(who)}. ${isAnyAdmin()?'Paramétrez-les dans Admin › Filiales.':'Contactez votre administrateur.'}</p></div>`;
+  const C=m.cur;
+  const rows=m.fees.map(fr=>`<tr class="${fr.applied?'':'lf-off'}">
+    <td class="lf-c"><label class="acc-sw" title="Appliquer ce frais au prêt"><input type="checkbox" ${fr.applied?'checked':''} onchange="editLoanFee(${i},'${fr.f.id}','on',this.checked)"><span class="acc-sl"></span></label></td>
+    <td class="lf-l">${escapeHtml(fr.f.label)}${fr.f.taxable?' <span class="lf-tag">taxable</span>':''}</td>
+    <td class="lf-k">${escapeHtml(loanFeeCalc(fr,m.M,C))}</td>
+    <td class="lf-n">${fr.count}</td>
+    <td>${fmtIntFr(fr.ht)}</td><td>${fmtIntFr(fr.tax)}</td><td><b>${fmtIntFr(fr.ttc)}</b></td>
+    <td class="lf-c"><input type="checkbox" class="lf-show" title="Détailler ce frais dans les tableaux (sinon regroupé dans « Autres frais et commissions »)" ${fr.show?'checked':''} ${fr.applied?'':'disabled'} onchange="editLoanFee(${i},'${fr.f.id}','show',this.checked)"></td>
+  </tr>`).join('');
+  return `<div class="loan-fees">${head}
+    <div class="table-scroll"><table class="recap-table lf-tbl">
+      <thead><tr><th>Appliqué</th><th style="text-align:left">Frais / commission</th><th style="text-align:left">Calcul</th><th>Nb</th><th>HT (${escapeHtml(C)})</th><th>Taxe</th><th>TTC</th><th>Tableaux</th></tr></thead>
+      <tbody>${rows}
+      <tr class="tot"><td></td><td colspan="3" style="text-align:left">Total des frais et commissions appliqués</td><td>${fmtIntFr(m.feesHT)}</td><td>${fmtIntFr(m.feesTax)}</td><td>${fmtIntFr(m.feesTTC)}</td><td></td></tr>
+      </tbody></table></div>
+    <div class="lf-foot">
+      <label><input type="checkbox" ${L.feeDetail!==false?'checked':''} onchange="editLoan(${i},'feeDetail',null,this.checked?1:0)"> Joindre ce détail aux exports</label>
+      <label><input type="checkbox" ${L.tegOn?'checked':''} onchange="editLoan(${i},'tegOn',null,this.checked?1:0)"> Afficher le TEG dans les exports</label>
+      <span class="lf-hint">Case « Tableaux » décochée : le frais reste compté et apparaît dans « Autres frais et commissions ».</span>
+    </div>
+  </div>`;
+}
+function loanTableHTML(m,L){
+  const cons=L.kind==='consenti',tx=m.ti>0,C=m.cur;
+  const body=m.rows.map(r=>`<tr class="${r.status==='IM'?'row-im':''}"${r.defer?' style="opacity:.75"':''}>
+    <td style="text-align:left">${r.n}${r.defer?' <span class="lt-tag">différé</span>':''}${r.broken?' <span class="lt-tag">brisée</span>':''}</td>
     <td style="text-align:left">${r.dateTxt}</td>
-    <td>${money(r.crdStart)}</td><td>${money(r.interest)}</td><td>${money(r.amort)}</td>
-    <td>${money(r.ech)}</td><td>${money(r.crdEnd)}</td></tr>`).join('');
+    <td>${fmtIntFr(r.crdStart)}</td><td>${fmtIntFr(r.interest)}</td>${tx?`<td>${fmtIntFr(r.taxInt)}</td>`:''}<td>${fmtIntFr(r.amort)}</td>
+    <td><b>${fmtIntFr(r.ech)}</b></td><td>${fmtIntFr(r.crdEnd)}</td>
+    ${cons?`<td><span class="st-badge ${LOAN_STATUS[r.status].cls}" title="${LOAN_STATUS[r.status].lbl}">${r.status}</span></td>`:''}</tr>`).join('');
   return `<div class="table-scroll"><table class="recap-table amort-tbl">
-    <thead><tr><th style="text-align:left">N°</th><th style="text-align:left">Date du versement</th><th>Solde initial</th><th>Intérêts</th><th>Capital remboursé</th><th>${m.echLabel}</th><th>Solde restant dû</th></tr></thead>
+    <thead><tr><th style="text-align:left">N°</th><th style="text-align:left">Date</th><th>Solde initial</th><th>Intérêts</th>${tx?'<th>Taxe/Int.</th>':''}<th>Capital remboursé</th><th>${m.echLabel}</th><th>Solde restant dû</th>${cons?'<th>Statut</th>':''}</tr></thead>
     <tbody>${body}
-    <tr class="tot"><td colspan="3" style="text-align:left">Totaux</td><td>${money(m.totInt)}</td><td>${money(m.totCap)}</td><td>${money(m.totEch)}</td><td>—</td></tr>
-    </tbody></table></div>`;
+    <tr class="tot"><td colspan="3" style="text-align:left">Totaux (${escapeHtml(C)})</td><td>${fmtIntFr(m.totInt)}</td>${tx?`<td>${fmtIntFr(m.totTaxInt)}</td>`:''}<td>${fmtIntFr(m.totCap)}</td><td>${fmtIntFr(m.totEch)}</td><td>—</td>${cons?'<td></td>':''}</tr>
+    </tbody></table></div>
+    ${cons?'<div class="lt-legend"><span class="st-badge st-pa">PA</span> payée <span class="st-badge st-im">IM</span> impayée <span class="st-badge st-e">E</span> à échoir</div>':''}`;
 }
 function loanLiveHTML(L,i){
   const checks=loanChecks(L);
   let html=checks.map(c=>`<div class="loan-msg ${c.lvl}">${escapeHtml(c.msg)}</div>`).join('');
   if(checks.some(c=>c.lvl==='err'))
     return html+`<div class="amort-locked">Corrigez les points signalés pour afficher la simulation.</div>`;
-  const m=loanMetrics(L);
-  const echSub=m.echDiff!=null?`<div style="font-size:11px;opacity:.85;margin-top:3px">${money(m.echDiff)} pendant le différé</div>`:'';
+  const m=loanMetrics(L);const F=v=>loanMoney(v,m.cur);
+  const cons=L.kind==='consenti';
+  if(m.tegErr&&!cons)html+=`<div class="loan-msg warn">${escapeHtml(m.tegErr)}</div>`;
+  const echSub=m.echDiff!=null?`<div style="font-size:11px;opacity:.85;margin-top:3px">${F(m.echDiff)} pendant le différé</div>`:'';
   html+=`<div class="tri-row">
-      <div class="tri-box tri"><div class="tl">${m.echLabel}</div><div class="tv" style="${m.echVal==null?'font-size:15px':''}">${loanEchText(m,money)}</div>${echSub}</div>
-      <div class="tri-box cpn"><div class="tl">Coût du crédit (intérêts)</div><div class="tv">${money(m.totInt)}</div></div>
-      <div class="tri-box dur"><div class="tl">Coût total du crédit</div><div class="tv">${money(m.coutTotal)}</div></div>
-    </div>
-    <div class="tri-row" style="margin-top:10px">
-      <div class="tri-box cpn"><div class="tl">Montant total remboursé</div><div class="tv">${money(m.totalRemb)}</div></div>
+      <div class="tri-box tri"><div class="tl">${m.echLabel} TTC</div><div class="tv" style="${m.echVal==null?'font-size:15px':''}">${loanEchText(m,F)}</div>${echSub}</div>
+      <div class="tri-box cpn"><div class="tl">Intérêts + taxe</div><div class="tv">${F(m.totInt+m.totTaxInt)}</div></div>`;
+  if(cons){
+    html+=`<div class="tri-box dur"><div class="tl">Montant des impayés</div><div class="tv">${F(m.impaye)}</div><div style="font-size:11px;opacity:.85;margin-top:3px">${m.nIM} échéance(s)${m.retard?' · '+m.retard+' jour(s) de retard':''}</div></div>
+    </div><div class="tri-row" style="margin-top:10px">
+      <div class="tri-box cpn"><div class="tl">Capital restant dû</div><div class="tv">${F(m.crdRestant)}</div></div>
+      <div class="tri-box dur"><div class="tl">Échéances PA · IM · E</div><div class="tv">${m.nPA} · ${m.nIM} · ${m.nE}</div></div>
+      <div class="tri-box tri"><div class="tl">Prochaine échéance</div><div class="tv" style="font-size:15px">${m.nextDue?m.nextDue.dateTxt+' — '+F(m.nextDue.ech):'—'}</div></div>
+    </div>`;
+  }else{
+    html+=`<div class="tri-box dur"><div class="tl">Frais & commissions TTC</div><div class="tv">${F(m.feesTTC)}</div></div>
+    </div><div class="tri-row" style="margin-top:10px">
+      <div class="tri-box cpn"><div class="tl">Coût total du crédit TTC</div><div class="tv">${F(m.coutTotal)}</div></div>
       <div class="tri-box dur"><div class="tl">TEG (annuel)</div><div class="tv">${m.teg!=null?loanPct(m.teg,2,2):'—'}</div></div>
       <div class="tri-box tri"><div class="tl">Nb d'échéances</div><div class="tv">${m.s.nTot}${m.s.nDef?' (dont '+m.s.nDef+' diff.)':''}</div></div>
-    </div>`;
-  if(m.assur>0||m.frais>0){
-    html+=`<div class="loan-costs">${m.assur>0?'Coût d\'assurance (prime unique) : <b>'+money(m.assur)+'</b>':''}${m.assur>0&&m.frais>0?' · ':''}${m.frais>0?'Frais de dossier : <b>'+money(m.frais)+'</b>':''} · Montant net perçu : <b>${money(m.M-m.assur-m.frais)}</b></div>`;
+    </div>
+    <div class="loan-costs">Montant total remboursé : <b>${F(m.totalRemb)}</b> · Montant net perçu : <b>${F(m.M-m.feesOnceTTC)}</b></div>`;
+    html+=loanFeesHTML(L,i,m);
   }
   if(L.mode==='custom'&&!L._customValid)
     return html+`<div class="amort-locked">Validez la répartition personnalisée (somme = 100%) pour afficher le tableau d'amortissement.</div>`;
   html+=`<div class="amort-toggle"><button onclick="toggleLoanAmort(${i})">${L._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>`;
   if(L._open){
-    html+=loanTableHTML(m)+`<div class="loan-exports">
+    html+=loanTableHTML(m,L)+`<div class="loan-exports">
       <div class="le-grp"><span class="le-lbl">Aperçu</span><button class="icon-btn" onclick="previewLoan(${i},'pdf')">PDF</button><button class="icon-btn" onclick="previewLoan(${i},'doc')">Word</button><button class="icon-btn" onclick="previewLoan(${i},'xls')">Excel</button></div>
       <div class="le-grp"><span class="le-lbl">Télécharger</span><button class="icon-btn" onclick="exportLoanPDF(${i})">PDF</button><button class="icon-btn" onclick="exportLoanDOCX(${i})">Word</button><button class="icon-btn" onclick="exportLoanXLSX(${i})">Excel</button></div>
     </div>`;
+    if(cons){
+      html+=`<div class="loan-exports lr-row">
+        <div class="le-grp"><span class="le-lbl">Lettre de relance</span>${m.nIM?`<button class="icon-btn" onclick="previewLoan(${i},'lpdf')">Aperçu</button><button class="icon-btn" onclick="exportRelancePDF(${i})">PDF</button><button class="icon-btn" onclick="exportRelanceDOCX(${i})">Word</button>`:'<span class="lf-hint">Aucune échéance impayée : pas de relance à émettre.</span>'}</div>
+      </div>`;
+    }
   }
   return html;
 }
@@ -4747,31 +5289,49 @@ function renderLoans(){
   const wrap=document.getElementById('loansList');if(!wrap)return;
   const maskB=document.getElementById('loansMaskAll');
   if(!list.length){
-    wrap.innerHTML='<div class="empty-soon">Aucune simulation. Cliquez sur « + Nouvelle simulation » pour démarrer.</div>';
+    wrap.innerHTML='<div class="empty-soon">Aucune fiche. Cliquez sur « + Nouvelle simulation » ou « + Prêt consenti » pour démarrer.</div>';
     if(maskB)maskB.style.display='none';return;
   }
   if(maskB){maskB.style.display='inline-flex';maskB.textContent=list.some(x=>!x._hidden)?'Tout masquer':'Tout afficher';}
+  const SA=isSuperAdmin();
   wrap.innerHTML=list.map((L,i)=>{
+    const p=loanParams(L);const C=loanCur(p);const cons=L.kind==='consenti';
+    const kindTag=`<span class="lk-tag ${cons?'lk-c':'lk-s'}">${LOAN_KIND_LBL[L.kind]||'Simulation'}</span>`;
     if(L._hidden){return `<div class="stock-card loan-card hidden-card" data-lidx="${i}" draggable="true">
       <div class="stock-head">
-        <span class="grip" title="Glisser pour réorganiser">⠿</span>
+        <span class="grip" title="Glisser pour réorganiser">⠿</span>${kindTag}
         <span class="sname-static">${escapeHtml(L.client)||'Client non renseigné'}</span>
-        <span class="sbadge">${money(+L.montant||0)}</span>
+        <span class="sbadge">${loanMoney(+L.montant||0,C)}</span>
         <button class="hide-title-btn" onclick="toggleLoanHide(${i})">Démasquer</button>
       </div></div>`;}
     const s=loanStructure(L);
+    const entId=loanEntIdFor(L);const ent=entById(entId);
+    const entField=SA
+      ?`<select onchange="editLoan(${i},'ent',null,this.value)"><option value="">— Paramètres par défaut —</option>${(entCfg.entities||[]).map(e=>`<option value="${e.id}" ${entId===e.id?'selected':''}>${escapeHtml(e.short||e.name||'Filiale')}</option>`).join('')}</select>`
+      :`<input class="ro" readonly tabindex="-1" value="${escapeHtml(ent?(ent.short||ent.name):'Par défaut')}">`;
+    const locked=loanRateLocked(p);
     return `<div class="stock-card loan-card ${L._dirty?'dirty':''}" data-lidx="${i}" draggable="true">
       <div class="stock-head">
-        <span class="grip" title="Glisser pour réorganiser">⠿</span>
+        <span class="grip" title="Glisser pour réorganiser">⠿</span>${kindTag}
         <input class="sname" value="${escapeHtml(L.client)}" placeholder="Nom et prénoms du client" oninput="editLoan(${i},'client',null,this.value)">
-        <span class="sbadge">${money(+L.montant||0)}</span>
+        <span class="sbadge">${loanMoney(+L.montant||0,C)}</span>
         <button class="hide-title-btn" onclick="toggleLoanHide(${i})">Masquer</button>
       </div>
       <div class="stock-body">
         <div class="fgrid">
-          <div class="fg mono"><label>Montant du prêt</label><input type="number" min="0" value="${L.montant||''}" placeholder="0" oninput="editLoan(${i},'montant',null,this.value)"></div>
-          <div class="fg mono"><label>Taux d'intérêt (% annuel)</label><input type="number" step="0.01" min="0" value="${L.taux||''}" placeholder="0" oninput="editLoan(${i},'taux',null,this.value)"></div>
-          <div class="fg mono"><label class="loan-pratelbl">${loanRateLabel(s.f)}</label><input class="ro loan-prate" readonly tabindex="-1" title="Taux annuel / ${s.f} — pour vérification" value="${loanPct((+L.taux||0)/s.f)}"></div>
+          <div class="fg"><label>Type de fiche</label>
+            <select onchange="editLoan(${i},'kind',null,this.value)">
+              <option value="simulation" ${!cons?'selected':''}>Simulation</option>
+              <option value="consenti" ${cons?'selected':''}>Prêt consenti</option>
+            </select></div>
+          <div class="fg"><label>Filiale (paramètres)</label>${entField}</div>
+          <div class="fg mono"><label>Devise</label><input class="ro" readonly tabindex="-1" value="${escapeHtml(C)}"></div>
+          <div class="fg mono"><label>Taxe applicable</label><input class="ro loan-taxlbl" readonly tabindex="-1" value="${escapeHtml(loanTaxLabel(L))}"></div>
+        </div>
+        <div class="fgrid" style="margin-top:13px">
+          <div class="fg mono"><label>Montant du prêt (${escapeHtml(C)})</label><input type="number" min="0" value="${L.montant||''}" placeholder="0" oninput="editLoan(${i},'montant',null,this.value)"></div>
+          <div class="fg mono"><label>Taux d'intérêt HT (% annuel)${locked?' — fixé par la filiale':''}</label><input type="number" step="0.01" min="0" value="${loanRate(L,p)||''}" placeholder="0" ${locked?'readonly class="ro" title="Taux imposé par la filiale"':''} oninput="editLoan(${i},'taux',null,this.value)"></div>
+          <div class="fg mono"><label class="loan-pratelbl">${loanRateLabel(s.f)}</label><input class="ro loan-prate" readonly tabindex="-1" title="Taux annuel / ${s.f} — pour vérification" value="${loanPct(loanRate(L,p)/s.f)}"></div>
           <div class="fg"><label>Périodicité</label>
             <select onchange="editLoan(${i},'freq',null,this.value)">
               <option value="12" ${L.freq=='12'?'selected':''}>Mensuelle</option>
@@ -4790,18 +5350,23 @@ function renderLoans(){
               <option value="infine" ${L.mode==='infine'?'selected':''}>In fine</option>
               <option value="custom" ${L.mode==='custom'?'selected':''}>Personnalisé</option>
             </select></div>
-          <div class="fg mono"><label class="loan-deflbl">${loanDeferLabel(L)}</label><input type="number" step="1" min="0" value="${L.defer||0}" oninput="editLoan(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (intérêts payés). Borné pour laisser au moins une échéance de capital."></div>
+          <div class="fg mono"><label class="loan-deflbl">${loanDeferLabel(L)}</label><input type="number" step="1" min="0" value="${L.defer||0}" oninput="editLoan(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (intérêts et taxe payés). Borné pour laisser au moins une échéance de capital."></div>
+        </div>
+        ${cons?`<div class="sub-label">Suivi du prêt consenti</div>
+        <div class="fgrid">
+          <div class="fg"><label>Référence du prêt</label><input type="text" value="${escapeHtml(L.ref||'')}" placeholder="Ex. PRT-2026-0145" oninput="editLoan(${i},'ref',null,this.value)"></div>
+          <div class="fg mono"><label>Échéances payées (PA)</label><input type="number" step="1" min="0" value="${L.nPaid||0}" oninput="editLoan(${i},'nPaid',null,this.value)"></div>
+          <div class="fg mono"><label>Échéances impayées (IM)</label><input type="number" step="1" min="0" value="${L.nUnpaid||0}" oninput="editLoan(${i},'nUnpaid',null,this.value)"></div>
+          <div class="fg mono"><label>Échéances restantes (E)</label><input class="ro loan-rest" readonly tabindex="-1" value="${loanRestLabel(L)}" title="Durée − payées − impayées"></div>
         </div>
         <div class="fgrid" style="margin-top:13px">
-          <div class="fg mono"><label>Taux d'assurance (% — prime unique)</label><input type="number" step="0.01" min="0" value="${L.assurance||''}" placeholder="0" oninput="editLoan(${i},'assurance',null,this.value)" title="Prime unique = taux × montant du prêt, payée au déblocage. Laisser à 0 si le prêt n'est pas assuré."></div>
-          <div class="fg"><label>Frais de dossier</label>
-            <select onchange="editLoan(${i},'fraisType',null,this.value)">
-              <option value="pct" ${L.fraisType!=='fixe'?'selected':''}>En % du montant</option>
-              <option value="fixe" ${L.fraisType==='fixe'?'selected':''}>Montant fixe</option>
+          <div class="fg"><label>Civilité</label>
+            <select onchange="editLoan(${i},'civilite',null,this.value)">
+              ${['Monsieur','Madame','Madame, Monsieur','Monsieur le Directeur Général','Madame la Directrice Générale'].map(c=>`<option ${L.civilite===c?'selected':''}>${c}</option>`).join('')}
             </select></div>
-          <div class="fg mono"><label>${L.fraisType==='fixe'?'Montant des frais':'Taux des frais (%)'}</label><input type="number" step="${L.fraisType==='fixe'?'1':'0.01'}" min="0" value="${L.frais||''}" placeholder="0" oninput="editLoan(${i},'frais',null,this.value)"></div>
-          <div class="fg"><label>TEG dans les exports</label><label style="display:flex;align-items:center;gap:8px;min-height:36px;cursor:pointer;font-size:13px"><input type="checkbox" ${L.tegOn?'checked':''} onchange="editLoan(${i},'tegOn',null,this.checked?1:0)"><span>Afficher le TEG</span></label></div>
-        </div>
+          <div class="fg" style="grid-column:span 2"><label>Adresse du client (lettre de relance)</label><input type="text" value="${escapeHtml(L.adresse||'')}" placeholder="BP, quartier, ville" oninput="editLoan(${i},'adresse',null,this.value)"></div>
+          <div class="fg"><label>Date limite de régularisation</label><input type="date" value="${L.dateLimite||''}" oninput="editLoan(${i},'dateLimite',null,this.value)"></div>
+        </div>`:''}
         <div class="loan-custom-host">${L.mode==='custom'?loanCustomHTML(L,i):''}</div>
         <div class="loan-live">${loanLiveHTML(L,i)}</div>
         <div class="loan-preview-host" id="loanPrev-${L.id}"></div>
@@ -4814,18 +5379,20 @@ function renderLoans(){
     </div>`;
   }).join('');
   wrap.querySelectorAll('.loan-card').forEach(c=>addLoanDrag(c));
-  // un aperçu ouvert est reconstruit après un rendu complet de la liste
-  if(_loanPrev)loanPreviewRender(true);
+  if(_loanPrev)loanPreviewRender(true);   // un aperçu ouvert est reconstruit après un rendu complet
 }
+/* mise à jour légère d'une carte (conserve le focus du champ en cours de saisie) */
 function refreshLoanCard(i,field){
   const L=loanList()[i];
   const card=document.querySelector('.loan-card[data-lidx="'+i+'"]');
   if(!L||!card)return;
   card.classList.add('dirty');
-  const s=loanStructure(L);
-  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(+L.montant||0);
-  const pr=card.querySelector('.loan-prate');if(pr){pr.value=loanPct((+L.taux||0)/s.f);pr.title='Taux annuel / '+s.f+' — pour vérification';}
+  const s=loanStructure(L);const p=loanParams(L);
+  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=loanMoney(+L.montant||0,loanCur(p));
+  const pr=card.querySelector('.loan-prate');if(pr)pr.value=loanPct(loanRate(L,p)/s.f);
   const dl=card.querySelector('.loan-deflbl');if(dl)dl.textContent=loanDeferLabel(L);
+  const tl=card.querySelector('.loan-taxlbl');if(tl)tl.value=loanTaxLabel(L);
+  const rs=card.querySelector('.loan-rest');if(rs)rs.value=loanRestLabel(L);
   if(L.mode==='custom'){
     const host=card.querySelector('.loan-custom-host');
     const block=host&&host.querySelector('.custom-amort');
@@ -4835,16 +5402,24 @@ function refreshLoanCard(i,field){
       if(sumEl){sumEl.textContent='Total : '+sum.toFixed(1)+'%';sumEl.className='ca-sum '+(Math.abs(sum-100)<0.01?'ok':'bad');}
       const msg=block.querySelector('.ca-valid-msg');
       if(msg){msg.className='ca-valid-msg';msg.textContent='La somme doit faire 100% pour calculer l’échéancier';}
-    }else if(host){host.innerHTML=loanCustomHTML(L,i);}
+    }else if(host&&['duree','defer','freq','mode','open','kind'].includes(field)){host.innerHTML=loanCustomHTML(L,i);}
   }
   const live=card.querySelector('.loan-live');if(live)live.innerHTML=loanLiveHTML(L,i);
   if(_loanPrev&&_loanPrev.id===L.id)loanPreviewRefresh();
 }
 function editLoan(i,field,key,val){
   const L=loanList()[i];if(!L)return;
-  if(field==='client')L.client=val;
-  else if(field==='freq'||field==='mode'||field==='fraisType'||field==='dateDebut')L[field]=val;
-  else if(field==='tegOn')L.tegOn=!!+val;
+  const TXT=['client','freq','mode','dateDebut','ref','civilite','adresse','dateLimite'];
+  if(TXT.includes(field))L[field]=val;
+  else if(field==='tegOn'||field==='feeDetail')L[field]=!!+val;
+  else if(field==='kind'){L.kind=val==='consenti'?'consenti':'simulation';
+    if(L.kind==='consenti'&&!L.dateLimite){const d=loanToday();d.setDate(d.getDate()+(+loanParams(L).letterDelay||15));L.dateLimite=loanIso(d);}}
+  else if(field==='ent'){
+    if(!isSuperAdmin())return;
+    L.ent=val;L.feeOpts={};
+    const p=loanParams(L);L.taux=+p.rate||0;             // le taux de la filiale est repris
+    toast('Paramètres appliqués : '+((entById(val)||{}).short||'par défaut'));
+  }
   else if(field==='custom'){if(!Array.isArray(L.custom))L.custom=[];L.custom[key]=(val===''?0:+val);L._customValid=false;}
   else L[field]=(val===''?0:+val);
   if(field==='defer'||field==='duree'||field==='freq'||field==='mode'){
@@ -4857,24 +5432,37 @@ function editLoan(i,field,key,val){
     }
   }
   L._dirty=true;saveData();
-  if(field==='mode'||field==='freq'||field==='fraisType'){renderLoans();return;}
+  if(['mode','freq','kind','ent'].includes(field)){renderLoans();return;}
   refreshLoanCard(i,field);
 }
-function addLoan(){
+/* case « Appliqué » / « Tableaux » d'un frais */
+function editLoanFee(i,id,what,checked){
+  const L=loanList()[i];if(!L)return;
+  if(!L.feeOpts)L.feeOpts={};
+  const o=L.feeOpts[id]||(L.feeOpts[id]={});
+  o[what]=!!checked;
+  L._dirty=true;saveData();refreshLoanCard(i,'fee');
+}
+function addLoan(kind){
   if(!session||session.role==='guest'){toast('Réservé aux comptes');return}
-  loanList().push(freshLoan());saveData();renderLoans();toast('Nouvelle simulation de prêt ajoutée');
+  const L=freshLoan(kind);
+  const p=loanParams(L);
+  L.taux=+p.rate||0;                                      // taux par défaut de la filiale
+  if(L.kind==='consenti'){const d=loanToday();d.setDate(d.getDate()+(+p.letterDelay||15));L.dateLimite=loanIso(d);}
+  loanList().push(L);saveData();renderLoans();
+  toast(L.kind==='consenti'?'Nouveau prêt consenti ajouté':'Nouvelle simulation de prêt ajoutée');
 }
 function dupLoan(i){
   const L=loanList()[i];if(!L)return;
   const c=JSON.parse(JSON.stringify(L));c.id=rid();c.client=(L.client||'')+(L.client?' (copie)':'');c._dirty=true;c._open=false;
-  loanList().splice(i+1,0,c);saveData();renderLoans();toast('Simulation dupliquée');
+  loanList().splice(i+1,0,c);saveData();renderLoans();toast('Fiche dupliquée');
 }
 function saveLoan(i){
   const L=loanList()[i];if(!L)return;
   const errs=loanChecks(L).filter(c=>c.lvl==='err');
   if(errs.length){toast(errs[0].msg);return;}
   if(L.mode==='custom'&&Math.abs(loanCustomSum(L)-100)>0.01){toast('Le total des remboursements doit faire 100%');return;}
-  L._dirty=false;saveData();renderLoans();toast('Simulation enregistrée');
+  L._dirty=false;saveData();renderLoans();toast('Fiche enregistrée');
 }
 function validateLoanCustom(i){
   const L=loanList()[i];if(!L)return;
@@ -4885,12 +5473,12 @@ function validateLoanCustom(i){
 }
 function toggleLoanAmort(i){const L=loanList()[i];if(!L)return;L._open=!L._open;refreshLoanCard(i,'open');}
 function toggleLoanHide(i){const L=loanList()[i];if(!L)return;L._hidden=!L._hidden;saveData();renderLoans();}
-function toggleAllLoans(){const arr=loanList();if(!arr.length)return;const any=arr.some(x=>!x._hidden);arr.forEach(x=>x._hidden=any);saveData();renderLoans();toast(any?'Simulations masquées':'Simulations affichées');}
+function toggleAllLoans(){const arr=loanList();if(!arr.length)return;const any=arr.some(x=>!x._hidden);arr.forEach(x=>x._hidden=any);saveData();renderLoans();toast(any?'Fiches masquées':'Fiches affichées');}
 function delLoan(i){
   const L=loanList()[i];if(!L)return;
-  confirmAction('Supprimer la simulation de prêt « '+(L.client||'client non renseigné')+' » ? Cette action est irréversible.',()=>{
+  confirmAction('Supprimer la fiche de prêt « '+(L.client||'client non renseigné')+' » ? Cette action est irréversible.',()=>{
     if(_loanPrev&&_loanPrev.id===L.id)closeLoanPreview();
-    loanList().splice(i,1);saveData();renderLoans();toast('Simulation supprimée');});
+    loanList().splice(i,1);saveData();renderLoans();toast('Fiche supprimée');});
 }
 let loanDrag=null;
 function addLoanDrag(card){
@@ -4900,41 +5488,91 @@ function addLoanDrag(card){
   card.addEventListener('drop',e=>{e.preventDefault();const to=+card.dataset.lidx;if(loanDrag==null||loanDrag===to)return;const arr=loanList();const[it]=arr.splice(loanDrag,1);arr.splice(to,0,it);loanDrag=null;saveData();renderLoans();});
 }
 
-/* ---------- exports (PDF / Excel / Word) ---------- */
-/* Données communes : les lignes sans objet (assurance, frais, différé…) sont omises. */
+/* ======================================================================
+   SIMULATEUR DE PRÊTS — DOCUMENTS (tableaux, aperçus, lettre de relance)
+   ----------------------------------------------------------------------
+   loanDocData(L) prépare UNE fois les données communes aux trois formats
+   (PDF, Excel, Word) et aux aperçus :
+   - rows : lignes « Caractéristiques | Récapitulatif » ALIGNÉES et de même
+     nombre (tableaux équilibrés) ;
+   - feeTable : détail des frais et commissions (simulation) ;
+   - head/body/tot : tableau d'amortissement (Taxe/Int. et Statut selon le cas).
+   ====================================================================== */
+/* papier à en-tête d'une fiche : filiale de la fiche (super-admin) ou de l'utilisateur */
+function loanEntity(L){
+  if(!userCanChooseEntity())return null;
+  if(isSuperAdmin()){
+    if(L&&L.ent&&entById(L.ent))return entById(L.ent);
+    return currentEntity();
+  }
+  return currentEntity();
+}
 function loanDocData(L){
-  const m=loanMetrics(L);const s=m.s;const cur=state.cur;
-  const mny=v=>pdfMoney(v);
-  const carac=[
-    {l:'Montant du prêt',v:mny(m.M),n:m.M},
-    {l:"Taux d'intérêt (annuel)",v:loanPct(L.taux),n:(+L.taux||0)/100,pct:true}];
-  if((+L.assurance||0)>0)carac.push({l:"Taux d'assurance (prime unique)",v:loanPct(L.assurance),n:(+L.assurance||0)/100,pct:true});
-  if((+L.frais||0)>0)carac.push(L.fraisType==='fixe'
-    ?{l:'Frais de dossier',v:mny(m.frais),n:m.frais}
-    :{l:'Frais de dossier (% du montant)',v:loanPct(L.frais),n:(+L.frais||0)/100,pct:true});
-  carac.push({l:'Durée initiale en mois',v:s.D+' mois',n:s.D,xfmt:'0 "mois"'});
-  carac.push({l:'Périodicité',v:LOAN_FREQ_LBL[s.f]});
-  carac.push({l:'Mode de remboursement',v:LOAN_MODE_LBL[L.mode]||L.mode});
-  if(s.nDef>0)carac.push({l:"Différé d'amortissement",v:s.nDef+' '+(LOAN_PER_LBL[s.f]||'période(s)')});
-  carac.push({l:"Date de début de l'emprunt",v:fmtDateFR(loanParseDate(L.dateDebut))});
-  const recap=[];
-  if(m.echVal!=null)recap.push({l:m.echLabel,v:mny(m.echVal),n:m.echVal});
-  else recap.push({l:m.echLabel,v:loanEchText(m,mny)});
-  if(m.echDiff!=null)recap.push({l:m.echLabel+' pendant le différé',v:mny(m.echDiff),n:m.echDiff});
-  recap.push({l:"Nombre d'échéances",v:''+s.nTot,n:s.nTot,int:true});
-  recap.push({l:'Coût du crédit',v:mny(m.totInt),n:m.totInt});
-  if(m.assur>0)recap.push({l:"Coût d'assurance",v:mny(m.assur),n:m.assur});
-  if(m.frais>0)recap.push({l:'Frais de dossier',v:mny(m.frais),n:m.frais});
-  recap.push({l:'Coût total du crédit',v:mny(m.coutTotal),n:m.coutTotal});
-  recap.push({l:'Montant total remboursé',v:mny(m.totalRemb),n:m.totalRemb});
-  if(L.tegOn&&m.teg!=null)recap.push({l:'TEG (annuel)',v:loanPct(m.teg,2,2),n:m.teg/100,pct:true,xfmt:'0.00%'});
-  const head=['N°','Date du versement','Solde initial','Intérêts','Capital remboursé',m.echLabel,'Solde restant dû'];
-  const body=m.rows.map(r=>({n:r.n+(r.defer?' (diff.)':'')+(r.broken?' (*)':''),d:r.dateTxt,v:[r.crdStart,r.interest,r.amort,r.ech,r.crdEnd]}));
-  const tot=[null,m.totInt,m.totCap,m.totEch,null];
-  let note='';
-  if(s.broken)note='(*) Échéance brisée de '+s.rem+' mois : intérêts calculés au taux de '+loanPct((+L.taux||0)/12*s.rem)+' (taux annuel / 12 × '+s.rem+').';
-  const fileBase='Tableau_amortissement_pret_'+((L.client||'client').replace(/[^a-zA-Z0-9]/g,'_'));
-  return {m,carac,recap,head,body,tot,note,fileBase,client:L.client||'',cur};
+  const m=loanMetrics(L);const s=m.s;const C=m.cur;const cons=L.kind==='consenti';
+  const F=v=>loanMoney(v,C);
+  const left=[],right=[];
+  // ---- Caractéristiques
+  if(cons&&L.ref)left.push({l:'Référence du prêt',v:L.ref});
+  left.push({l:'Montant du prêt',v:F(m.M),n:m.M,cur:true});
+  left.push({l:"Taux d'intérêt annuel (HT)",v:loanPct(m.rate),n:m.rate/100,pct:true});
+  if(m.ti>0)left.push({l:'Taux de taxe',v:loanPct(m.taxRate)+' ('+m.taxLabel+')'});
+  left.push({l:'Durée initiale',v:s.D+' mois',n:s.D,fmt:'0 "mois"'});
+  left.push({l:'Périodicité',v:LOAN_FREQ_LBL[s.f]});
+  left.push({l:'Mode de remboursement',v:LOAN_MODE_LBL[L.mode]||L.mode});
+  if(s.nDef>0)left.push({l:"Différé d'amortissement",v:s.nDef+' '+(LOAN_PER_LBL[s.f]||'période(s)')});
+  left.push({l:"Date de début de l'emprunt",v:fmtDateFR(loanParseDate(L.dateDebut))});
+  if(cons){
+    left.push({l:'Échéances payées (PA)',v:''+m.nPA,n:m.nPA,fmt:'0'});
+    left.push({l:'Échéances impayées (IM)',v:''+m.nIM,n:m.nIM,fmt:'0'});
+    left.push({l:'Échéances restantes (E)',v:''+m.nE,n:m.nE,fmt:'0'});
+  }else{
+    m.fees.filter(x=>x.applied&&x.show).forEach(fr=>left.push({l:fr.f.label,v:loanFeeParam(fr,C)}));
+  }
+  // ---- Récapitulatif
+  right.push(m.echVal!=null?{l:m.echLabel+' TTC',v:F(m.echVal),n:m.echVal,cur:true}:{l:m.echLabel+' TTC',v:loanEchText(m,F)});
+  if(m.echDiff!=null)right.push({l:m.echLabel+' pendant le différé',v:F(m.echDiff),n:m.echDiff,cur:true});
+  right.push({l:"Nombre d'échéances",v:''+s.nTot,n:s.nTot,fmt:'0'});
+  right.push({l:'Intérêts (HT)',v:F(m.totInt),n:m.totInt,cur:true});
+  if(m.ti>0)right.push({l:'Taxe sur intérêts',v:F(m.totTaxInt),n:m.totTaxInt,cur:true});
+  if(cons){
+    right.push({l:'Coût du crédit (intérêts + taxe)',v:F(m.totInt+m.totTaxInt),n:m.totInt+m.totTaxInt,cur:true});
+    right.push({l:'Montant des impayés',v:F(m.impaye),n:m.impaye,cur:true});
+    if(m.nIM)right.push({l:'Plus ancienne échéance impayée',v:m.imRows[0].dateTxt+(m.retard?' ('+m.retard+' j de retard)':'')});
+    right.push({l:'Capital restant dû',v:F(m.crdRestant),n:m.crdRestant,cur:true});
+    right.push({l:'Prochaine échéance',v:m.nextDue?m.nextDue.dateTxt+' — '+F(m.nextDue.ech):'—'});
+  }else{
+    m.fees.filter(x=>x.applied&&x.show).forEach(fr=>right.push({l:fr.f.label+(fr.f.taxable?' (TTC)':''),v:F(fr.ttc),n:fr.ttc,cur:true}));
+    if(m.feesHiddenTTC>0)right.push({l:'Autres frais et commissions (TTC)',v:F(m.feesHiddenTTC),n:m.feesHiddenTTC,cur:true});
+    if(m.fees.some(x=>x.applied))right.push({l:'Total frais et commissions (TTC)',v:F(m.feesTTC),n:m.feesTTC,cur:true,bold:true});
+    right.push({l:'Coût total du crédit (TTC)',v:F(m.coutTotal),n:m.coutTotal,cur:true,bold:true});
+    right.push({l:'Montant total remboursé',v:F(m.totalRemb),n:m.totalRemb,cur:true});
+    if(L.tegOn&&m.teg!=null)right.push({l:'TEG (annuel)',v:loanPct(m.teg,2,2),n:m.teg/100,fmt:'0.00%'});
+  }
+  // lignes alignées : les deux tableaux ont le même nombre de lignes
+  const n=Math.max(left.length,right.length);
+  const rows=[];for(let k=0;k<n;k++)rows.push([left[k]||null,right[k]||null]);
+  // ---- Détail des frais (simulation)
+  let feeTable=null;
+  const ap=m.fees.filter(x=>x.applied);
+  if(!cons&&L.feeDetail!==false&&ap.length){
+    feeTable={head:['Frais et commissions','Base de calcul','Nb','Montant HT','Taxe','Montant TTC'],
+      rows:ap.map(fr=>[fr.f.label,loanFeeCalc(fr,m.M,C),fr.count,fr.ht,fr.tax,fr.ttc]),
+      tot:[m.feesHT,m.feesTax,m.feesTTC]};
+  }
+  // ---- Tableau d'amortissement
+  const tx=m.ti>0;
+  const head=['N°','Date','Solde initial','Intérêts'].concat(tx?['Taxe/Int.']:[],['Capital remboursé',m.echLabel,'Solde restant dû'],cons?['Statut']:[]);
+  const body=m.rows.map(r=>({n:r.n+(r.defer?' (diff.)':'')+(r.broken?' (*)':''),d:r.dateTxt,
+    v:[r.crdStart,r.interest].concat(tx?[r.taxInt]:[],[r.amort,r.ech,r.crdEnd]),st:r.status}));
+  const tot=[null,m.totInt].concat(tx?[m.totTaxInt]:[],[m.totCap,m.totEch,null]);
+  const notes=[];
+  if(tx)notes.push('Taxe/Int. : taxe de '+loanPct(m.taxRate)+' ('+m.taxLabel+') appliquée aux intérêts ; '+m.echLabel.toLowerCase()+' = intérêts + taxe + capital remboursé.');
+  if(s.broken)notes.push('(*) Échéance brisée de '+s.rem+' mois : intérêts calculés au taux de '+loanPct(m.rate/12*s.rem)+' (taux annuel / 12 × '+s.rem+').');
+  if(cons)notes.push('Statut : PA = échéance payée · IM = échéance impayée · E = échéance à échoir.');
+  const title=cons?"SITUATION DU PRÊT — TABLEAU D'AMORTISSEMENT":"TABLEAU D'AMORTISSEMENT DE PRÊT";
+  const fileBase=(cons?'Situation_pret_':'Tableau_amortissement_pret_')+((L.client||'client').replace(/[^a-zA-Z0-9]/g,'_'));
+  return {m,L,cons,title,rows,feeTable,head,body,tot,notes,fileBase,client:L.client||'',cur:C,
+    ent:loanEntity(L),statusCol:cons?head.length-1:-1};
 }
 function loanExportGuard(L){
   if(!L)return false;
@@ -4942,25 +5580,38 @@ function loanExportGuard(L){
   if(!L.dateDebut){toast("Renseignez d'abord la date de début de l'emprunt");return false;}
   return true;
 }
-/* Construit le PDF (utilisé par l'export ET par l'aperçu : rendu identique) */
+function loanDownloadBlob(blob,name,msg){
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>{try{URL.revokeObjectURL(a.href)}catch(e){}},3000);
+  if(msg)toast(msg);
+}
+const ST_RGB={PA:[27,107,71],IM:[166,25,46],E:[110,120,130]};
+
+/* ============================ PDF ============================ */
+/* en-tête commun (logo de la filiale) ; renvoie l'ordonnée de départ */
+function loanPdfTop(doc,ent){
+  const W=doc.internal.pageSize.getWidth();const pf=pdfPrefs();const CM=28.3465;
+  if(ent&&ent.logo){
+    try{const pr=doc.getImageProperties(ent.logo);const lw=Math.min(180,W-160);const lh=lw*pr.height/pr.width;
+      doc.addImage(ent.logo,pr.fileType||'JPEG',(W-lw)/2,30,lw,lh);return 30+lh+16;}
+    catch(e){}
+  }
+  return Math.max(20,(pf.headerCm||3)*CM);
+}
 function buildLoanPDF(L){
   const doc=newPdfDoc();if(!doc)return null;
   const dd=loanDocData(L);
-  const W=doc.internal.pageSize.getWidth();const pf=pdfPrefs();const F=pf.font;const CM=28.3465;
-  const ent=currentEntity();const botMargin=ent?72:40;
-  setPdfFooter('MonBudget · Tableau d\'amortissement de prêt'+(dd.client?' — '+dd.client:''));
-  let y;
-  if(ent&&ent.logo){
-    y=30;
-    try{const pr=doc.getImageProperties(ent.logo);const lw=Math.min(180,W-160);const lh=lw*pr.height/pr.width;
-      doc.addImage(ent.logo,pr.fileType||'JPEG',(W-lw)/2,y,lw,lh);y+=lh+16;}
-    catch(e){y=Math.max(20,(pf.headerCm||3)*CM);}
-  }else y=Math.max(20,(pf.headerCm||3)*CM);
-  // bandeau titre rouge
+  const W=doc.internal.pageSize.getWidth();const pf=pdfPrefs();const F=pf.font;
+  const ent=dd.ent;const botMargin=ent?72:40;
+  const fs=Math.max(7.5,pf.fontSize-2);
+  setPdfFooter('MonBudget · '+(dd.cons?'Situation de prêt':'Tableau d\'amortissement de prêt')+(dd.client?' — '+dd.client:''));
+  let y=loanPdfTop(doc,ent);
+  // bandeau titre
   doc.setFillColor(166,25,46);doc.setDrawColor(20,28,38);doc.setLineWidth(0.8);
   doc.rect(40,y,W-80,32,'FD');
-  doc.setFont(F,'bold');doc.setFontSize(17);doc.setTextColor(255,255,255);
-  doc.text(pdfSafe("TABLEAU D'AMORTISSEMENT DE PRÊT"),W/2,y+21.5,{align:'center'});
+  doc.setFont(F,'bold');doc.setFontSize(dd.cons?15:17);doc.setTextColor(255,255,255);
+  doc.text(pdfSafe(dd.title),W/2,y+21,{align:'center'});
   y+=32;
   doc.setFont(F,'normal');doc.setFontSize(8.5);doc.setTextColor(110,120,130);
   doc.text(pdfSafe('Édité le '+new Date().toLocaleDateString('fr-FR')),W-40,y+12,{align:'right'});
@@ -4970,39 +5621,62 @@ function buildLoanPDF(L){
     body:[[{content:'Nom et prénoms du client :',styles:{fontStyle:'bold',fontSize:pf.fontSize+1}},{content:dd.client||'—',styles:{fontStyle:'bolditalic'}}]],
     styles:tableStyle({cellPadding:8}),columnStyles:{0:{cellWidth:(W-80)*0.56}}});
   y=doc.lastAutoTable.finalY+14;
-  y=pdfCurrencyNote(doc,y)+6;
-  // deux blocs côte à côte
-  const gap=18,bw=(W-80-gap)/2;
-  const block=(title,items,left)=>{
-    runAutoTable(doc,{startY:y,theme:'grid',tableWidth:bw,margin:{left,right:W-left-bw,bottom:botMargin},
-      head:[[{content:title,colSpan:2}]],
-      body:items.map(it=>[it.l,it.v]),
-      styles:tableStyle({fontSize:Math.max(8,pf.fontSize-1.5),cellPadding:4,halign:'left'}),
-      headStyles:{fillColor:[255,255,255],textColor:[31,56,100],fontStyle:'bold',halign:'center',lineColor:PDF_LINE,lineWidth:0.7,fontSize:Math.max(9,pf.fontSize-0.5)},
-      columnStyles:{0:{cellWidth:bw*0.54},1:{fillColor:[222,232,246],halign:'right',fontStyle:'bold'}}});
-    return doc.lastAutoTable.finalY;
-  };
-  const startPage=doc.internal.getCurrentPageInfo().pageNumber;
-  const y1=block('Caractéristiques du crédit',dd.carac,40);
-  doc.setPage(startPage);
-  const y2=block('Récapitulatif du crédit',dd.recap,40+bw+gap);
-  y=Math.max(y1,y2)+22;
+  doc.setFont(F,'bold');doc.setFontSize(Math.max(8,pf.fontSize-2));doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe('Sauf mention contraire, tous les montants de ce document sont exprimés en '+dd.cur+'.'),40,y);
+  y+=10;
+  // caractéristiques | récapitulatif : UN tableau à 5 colonnes => lignes alignées et blocs équilibrés
+  const gap=16,bw=(W-80-gap)/2,lw=bw*0.55;
+  const gapCell={content:'',styles:{lineWidth:0,fillColor:[255,255,255]}};
+  const lab=it=>it?{content:it.l,styles:{fontStyle:it.bold?'bold':'normal'}}:'';
+  const val=it=>it?{content:it.v,styles:{fillColor:[222,232,246],fontStyle:'bold',halign:'right'}}:{content:'',styles:{fillColor:[222,232,246]}};
+  runAutoTable(doc,{startY:y,theme:'grid',margin:{left:40,right:40,bottom:botMargin},
+    head:[[{content:'Caractéristiques du crédit',colSpan:2},gapCell,{content:'Récapitulatif du crédit',colSpan:2}]],
+    body:dd.rows.map(([a,b])=>[lab(a),val(a),gapCell,lab(b),val(b)]),
+    styles:tableStyle({fontSize:fs,cellPadding:3.6,halign:'left'}),
+    headStyles:{fillColor:[255,255,255],textColor:[31,56,100],fontStyle:'bold',halign:'center',lineColor:PDF_LINE,lineWidth:0.7,fontSize:fs+1},
+    columnStyles:{0:{cellWidth:lw},1:{cellWidth:bw-lw},2:{cellWidth:gap},3:{cellWidth:lw},4:{cellWidth:bw-lw}}});
+  y=doc.lastAutoTable.finalY+18;
+  // détail des frais
+  if(dd.feeTable){
+    doc.setFont(F,'bold');doc.setFontSize(11);doc.setTextColor(...PDF_INK);
+    doc.text(pdfSafe('Détail des frais et commissions'),40,y);y+=6;
+    const ft=dd.feeTable;
+    const body=ft.rows.map(r=>[r[0],r[1],''+r[2],pdfNum(r[3]),pdfNum(r[4]),pdfNum(r[5])]);
+    body.push([{content:'Total',colSpan:3,styles:{fontStyle:'bold'}},{content:pdfNum(ft.tot[0]),styles:{fontStyle:'bold'}},{content:pdfNum(ft.tot[1]),styles:{fontStyle:'bold'}},{content:pdfNum(ft.tot[2]),styles:{fontStyle:'bold'}}]);
+    runAutoTable(doc,{startY:y,head:[ft.head],body,theme:'grid',
+      styles:tableStyle({fontSize:fs,cellPadding:3.6}),
+      headStyles:Object.assign(headStyle([60,60,64]),{fontSize:fs}),
+      columnStyles:{0:{halign:'left',cellWidth:150},1:{halign:'left'},2:{cellWidth:28},3:{halign:'right',cellWidth:66},4:{halign:'right',cellWidth:58},5:{halign:'right',cellWidth:70}},
+      margin:{left:40,right:40,bottom:botMargin}});
+    y=doc.lastAutoTable.finalY+18;
+  }
   // tableau d'amortissement
-  const body=dd.body.map(r=>[r.n,r.d].concat(r.v.map(pdfNum)));
-  body.push([{content:'Totaux',colSpan:3,styles:{fontStyle:'bold',halign:'left'}},
-    {content:pdfNum(dd.tot[1]),styles:{fontStyle:'bold'}},{content:pdfNum(dd.tot[2]),styles:{fontStyle:'bold'}},
-    {content:pdfNum(dd.tot[3]),styles:{fontStyle:'bold'}},'']);
+  doc.setFont(F,'bold');doc.setFontSize(11);doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe("Tableau d'amortissement"),40,y);y+=6;
+  const body=dd.body.map(r=>[r.n,r.d].concat(r.v.map(pdfNum),dd.cons?[r.st]:[]));
+  const tr=[{content:'Totaux',colSpan:3,styles:{fontStyle:'bold',halign:'left'}}];
+  dd.tot.slice(1).forEach(v=>tr.push(v==null?'':{content:pdfNum(v),styles:{fontStyle:'bold'}}));
+  if(dd.cons)tr.push('');
+  body.push(tr);
+  const cs={0:{cellWidth:40},1:{cellWidth:58}};
+  for(let c=2;c<2+dd.body[0].v.length;c++)cs[c]={halign:'right'};
+  if(dd.cons)cs[dd.statusCol]={cellWidth:40,fontStyle:'bold'};
   runAutoTable(doc,{startY:y,head:[dd.head],body,theme:'grid',
-    styles:tableStyle({fontSize:Math.max(8,pf.fontSize-1.5),cellPadding:4.5}),
-    headStyles:Object.assign(headStyle([166,25,46]),{fontSize:Math.max(8,pf.fontSize-1)}),
-    columnStyles:{0:{cellWidth:44},1:{cellWidth:72},2:{halign:'right'},3:{halign:'right'},4:{halign:'right'},5:{halign:'right'},6:{halign:'right'}},
-    margin:{left:40,right:40,bottom:botMargin}});
-  if(dd.note){
+    styles:tableStyle({fontSize:fs,cellPadding:3.6}),
+    headStyles:Object.assign(headStyle([166,25,46]),{fontSize:fs}),
+    columnStyles:cs,margin:{left:40,right:40,bottom:botMargin},
+    didParseCell:data=>{
+      if(dd.cons&&data.section==='body'&&data.column.index===dd.statusCol&&ST_RGB[data.cell.raw])data.cell.styles.textColor=ST_RGB[data.cell.raw];
+      if(dd.cons&&data.section==='body'&&dd.body[data.row.index]&&dd.body[data.row.index].st==='IM')data.cell.styles.fillColor=[252,236,238];
+    }});
+  // notes
+  if(dd.notes.length){
     const Hp=doc.internal.pageSize.getHeight();
-    let ny=doc.lastAutoTable.finalY+16;
-    if(ny>Hp-(botMargin+20)){doc.addPage();ny=60;}
-    doc.setFont(F,'italic');doc.setFontSize(8.5);doc.setTextColor(...PDF_INK);
-    doc.splitTextToSize(pdfSafe(dd.note),W-80).forEach((ln,k)=>doc.text(ln,40,ny+k*11));
+    let ny=doc.lastAutoTable.finalY+14;
+    doc.setFont(F,'italic');doc.setFontSize(8);doc.setTextColor(...PDF_INK);
+    dd.notes.forEach(nt=>doc.splitTextToSize(pdfSafe(nt),W-80).forEach(ln=>{
+      if(ny>Hp-(botMargin+14)){doc.addPage();ny=60;}
+      doc.text(ln,40,ny);ny+=10.5;}));
   }
   if(ent)stampEntityFooters(doc,ent);else stampFooters(doc);
   return doc;
@@ -5011,90 +5685,113 @@ function exportLoanPDF(i){
   const L=loanList()[i];if(!loanExportGuard(L))return;
   const doc=buildLoanPDF(L);if(!doc)return;
   doc.save(loanDocData(L).fileBase+'.pdf');
-  toast('Tableau d\'amortissement PDF téléchargé');
+  toast('Tableau PDF téléchargé');
 }
+
+/* ============================ EXCEL ============================
+   Disposition sur nc colonnes (7 à 9 selon Taxe/Int. et Statut) :
+   bloc gauche = libellé A..(g-2), valeur (g-1) ; colonne vide g ;
+   bloc droit = libellé (g+1)..(nc-1), valeur nc ; avec g = arrondi sup. de nc/2. */
 function exportLoanXLSX(i){
   const L=loanList()[i];if(!loanExportGuard(L))return;
   if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
-  const dd=loanDocData(L);const cur=dd.cur;
-  const numFmt='#,##0';const moneyFmt='#,##0 "'+cur+'"';
-  const RED='FFA6192E',BLUE_T='FF1F3864',BLUE_F='FFDEE8F6',INK='FF1F1F21',LINE='FF7F7F7F';
+  const dd=loanDocData(L);const C=dd.cur;
+  const nc=dd.head.length,g=Math.ceil(nc/2);
+  const numFmt='#,##0',moneyFmt='#,##0 "'+C+'"';
+  const RED='FFA6192E',BLUE_T='FF1F3864',BLUE_F='FFDEE8F6',INK='FF1F1F21',LINE='FF7F7F7F',GREY='FFF2F2F2';
   const border={top:{style:'thin',color:{argb:LINE}},left:{style:'thin',color:{argb:LINE}},bottom:{style:'thin',color:{argb:LINE}},right:{style:'thin',color:{argb:LINE}}};
   const wb=new ExcelJS.Workbook();wb.creator='MonBudget';wb.created=new Date();
-  const ws=wb.addWorksheet('Tableau amortissement',{views:[{showGridLines:false}],pageSetup:{paperSize:9,orientation:'portrait',fitToPage:true,fitToWidth:1,fitToHeight:0}});
-  ws.columns=[{width:10},{width:18},{width:18},{width:16},{width:18},{width:18},{width:18}];
-  const fnt=(o)=>Object.assign({name:'Arial',size:10,color:{argb:INK}},o||{});
-  // titre
-  ws.mergeCells('A1:G1');const tc=ws.getCell('A1');tc.value="TABLEAU D'AMORTISSEMENT DE PRÊT";
-  tc.font=fnt({bold:true,size:16,color:{argb:'FFFFFFFF'}});tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:RED}};
-  tc.alignment={horizontal:'center',vertical:'middle'};ws.getRow(1).height=32;
-  ws.mergeCells('A2:G2');const nc=ws.getCell('A2');
-  nc.value='Sauf mention contraire, les montants sont exprimés en '+cur+'. Édité le '+new Date().toLocaleDateString('fr-FR')+'.';
-  nc.font=fnt({italic:true,size:9});nc.alignment={horizontal:'right'};
-  // client
-  ws.mergeCells('A4:D4');ws.mergeCells('E4:G4');
-  const c1=ws.getCell('A4');c1.value='Nom et prénoms du client :';c1.font=fnt({bold:true,size:12});c1.alignment={horizontal:'center',vertical:'middle'};
-  const c2=ws.getCell('E4');c2.value=dd.client||'—';c2.font=fnt({bold:true,italic:true,size:11});c2.alignment={horizontal:'center',vertical:'middle'};
-  for(let c=1;c<=7;c++)ws.getRow(4).getCell(c).border=border;
-  ws.getRow(4).height=24;
-  // blocs
-  let r0=6;
-  const blockHead=(range,cell,txt)=>{ws.mergeCells(range);const h=ws.getCell(cell);h.value=txt;h.font=fnt({bold:true,color:{argb:BLUE_T}});h.alignment={horizontal:'center'};};
-  blockHead('A6:C6','A6','Caractéristiques du crédit');
-  blockHead('E6:G6','E6','Récapitulatif du crédit');
-  ['A','B','C','E','F','G'].forEach(col=>ws.getCell(col+'6').border=border);
-  const putItem=(row,cL1,cL2,cV,it)=>{
-    ws.mergeCells(cL1+row+':'+cL2+row);
-    const lc=ws.getCell(cL1+row);lc.value=it.l;lc.font=fnt();
-    ws.getCell(cL1+row).border=border;ws.getCell(cL2+row).border=border;
-    const vc=ws.getCell(cV+row);
-    if(it.n!=null&&!isNaN(it.n)){vc.value=it.n;vc.numFmt=it.xfmt||(it.pct?'0.00##%':(it.int?'0':moneyFmt));}
-    else vc.value=it.v;
-    vc.font=fnt({bold:true});vc.alignment={horizontal:'right'};vc.border=border;
+  const ws=wb.addWorksheet(dd.cons?'Situation du prêt':'Tableau amortissement',{views:[{showGridLines:false}],pageSetup:{paperSize:9,orientation:'portrait',fitToPage:true,fitToWidth:1,fitToHeight:0}});
+  const widths={N:9,D:13};
+  ws.columns=dd.head.map((h,c)=>({width:c===0?widths.N:c===1?widths.D:(dd.cons&&c===nc-1?10:19)}));
+  const fnt=o=>Object.assign({name:'Arial',size:10,color:{argb:INK}},o||{});
+  const L1=c=>ws.getColumn(c).letter;
+  const merge=(r,c1,c2)=>{if(c2>c1)ws.mergeCells(r,c1,r,c2);};
+  const box=(r,c1,c2)=>{for(let c=c1;c<=c2;c++)ws.getCell(r,c).border=border;};
+  let r=1;
+  merge(r,1,nc);const tc=ws.getCell(r,1);tc.value=dd.title;
+  tc.font=fnt({bold:true,size:15,color:{argb:'FFFFFFFF'}});tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:RED}};
+  tc.alignment={horizontal:'center',vertical:'middle'};ws.getRow(r).height=32;
+  r=2;merge(r,1,nc);const nc2=ws.getCell(r,1);
+  nc2.value='Sauf mention contraire, les montants sont exprimés en '+C+'. Édité le '+new Date().toLocaleDateString('fr-FR')+'.';
+  nc2.font=fnt({italic:true,size:9});nc2.alignment={horizontal:'right'};
+  r=4;merge(r,1,g);merge(r,g+1,nc);
+  const c1=ws.getCell(r,1);c1.value='Nom et prénoms du client :';c1.font=fnt({bold:true,size:12});c1.alignment={horizontal:'center',vertical:'middle'};
+  const c2=ws.getCell(r,g+1);c2.value=dd.client||'—';c2.font=fnt({bold:true,italic:true,size:11});c2.alignment={horizontal:'center',vertical:'middle'};
+  box(r,1,nc);ws.getRow(r).height=24;
+  r=6;
+  merge(r,1,g-1);merge(r,g+1,nc);
+  [[1,'Caractéristiques du crédit'],[g+1,'Récapitulatif du crédit']].forEach(([c,t])=>{const h=ws.getCell(r,c);h.value=t;h.font=fnt({bold:true,color:{argb:BLUE_T}});h.alignment={horizontal:'center'};});
+  box(r,1,g-1);box(r,g+1,nc);
+  const rv=dd.cons?nc-1:nc;   // début de la valeur du bloc droit (fusion sur 2 colonnes si « Statut »)
+  const put=(row,cl1,cl2,cv,it,cvEnd)=>{
+    merge(row,cl1,cl2);merge(row,cv,cvEnd||cv);box(row,cl1,cvEnd||cv);
+    const vc=ws.getCell(row,cv);
     vc.fill={type:'pattern',pattern:'solid',fgColor:{argb:BLUE_F}};
+    if(!it)return;
+    const lc=ws.getCell(row,cl1);lc.value=it.l;lc.font=fnt({bold:!!it.bold});lc.alignment={wrapText:true,vertical:'middle'};
+    if(it.n!=null&&!isNaN(it.n)){vc.value=it.n;vc.numFmt=it.fmt||(it.pct?'0.00##%':(it.cur?moneyFmt:numFmt));}
+    else vc.value=it.v;
+    vc.font=fnt({bold:true});vc.alignment={horizontal:'right',vertical:'middle',wrapText:true};
   };
-  dd.carac.forEach((it,k)=>putItem(r0+1+k,'A','B','C',it));
-  dd.recap.forEach((it,k)=>putItem(r0+1+k,'E','F','G',it));
-  // tableau
-  let r=r0+1+Math.max(dd.carac.length,dd.recap.length)+2;
+  dd.rows.forEach(([a,b],k)=>{put(r+1+k,1,g-2,g-1,a);put(r+1+k,g+1,rv-1,rv,b,nc);});
+  r=r+1+dd.rows.length+1;
+  // détail des frais : libellé | base | Nb | HT | Taxe | TTC sur nc colonnes
+  if(dd.feeTable){
+    const ft=dd.feeTable;const kl=Math.max(1,Math.floor((nc-4)/2));
+    const spans=[[1,kl],[kl+1,nc-4],[nc-3,nc-3],[nc-2,nc-2],[nc-1,nc-1],[nc,nc]];
+    const t=ws.getCell(r,1);t.value='Détail des frais et commissions';t.font=fnt({bold:true,size:11});r++;
+    spans.forEach(([a,b],k)=>{merge(r,a,b);const c=ws.getCell(r,a);c.value=ft.head[k];c.font=fnt({bold:true,color:{argb:'FFFFFFFF'}});
+      c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF3C3C40'}};c.alignment={horizontal:'center',vertical:'middle',wrapText:true};});
+    box(r,1,nc);ws.getRow(r).height=28;r++;
+    ft.rows.forEach(row=>{
+      spans.forEach(([a,b],k)=>{merge(r,a,b);const c=ws.getCell(r,a);c.value=k>=2?Math.round(row[k]):row[k];c.font=fnt({size:9.5});
+        if(k>=3){c.numFmt=numFmt;c.alignment={horizontal:'right'};}else if(k===2)c.alignment={horizontal:'center'};else c.alignment={wrapText:true,vertical:'middle'};});
+      box(r,1,nc);r++;
+    });
+    merge(r,1,nc-3);ws.getCell(r,1).value='Total';
+    [[nc-2,ft.tot[0]],[nc-1,ft.tot[1]],[nc,ft.tot[2]]].forEach(([c,v])=>{const x=ws.getCell(r,c);x.value=Math.round(v);x.numFmt=numFmt;x.alignment={horizontal:'right'};});
+    for(let c=1;c<=nc;c++){const x=ws.getCell(r,c);x.font=fnt({bold:true});x.fill={type:'pattern',pattern:'solid',fgColor:{argb:GREY}};}
+    box(r,1,nc);r+=2;
+  }
+  // tableau d'amortissement
   const hr=ws.getRow(r);
   dd.head.forEach((h,c)=>{const cell=hr.getCell(c+1);cell.value=h;cell.font=fnt({bold:true,color:{argb:'FFFFFFFF'}});
     cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:RED}};cell.border=border;cell.alignment={horizontal:'center',vertical:'middle',wrapText:true};});
   hr.height=30;r++;
+  const stArgb={PA:'FF1B6B47',IM:'FFA6192E',E:'FF6E7882'};
   dd.body.forEach(row=>{
     const rr=ws.getRow(r);
     rr.getCell(1).value=row.n;rr.getCell(1).alignment={horizontal:'center'};
     rr.getCell(2).value=row.d;rr.getCell(2).alignment={horizontal:'center'};
     row.v.forEach((v,c)=>{const cell=rr.getCell(c+3);cell.value=Math.round(v);cell.numFmt=numFmt;cell.alignment={horizontal:'right'};});
-    for(let c=1;c<=7;c++){rr.getCell(c).font=fnt();rr.getCell(c).border=border;}
+    for(let c=1;c<=nc;c++){rr.getCell(c).font=fnt();rr.getCell(c).border=border;
+      if(row.st==='IM')rr.getCell(c).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFCECEE'}};}
+    if(dd.cons){const sc=rr.getCell(nc);sc.value=row.st;sc.alignment={horizontal:'center'};sc.font=fnt({bold:true,color:{argb:stArgb[row.st]}});}
     r++;
   });
-  const tr=ws.getRow(r);
-  ws.mergeCells(r,1,r,3);tr.getCell(1).value='Totaux';
-  [[4,dd.tot[1]],[5,dd.tot[2]],[6,dd.tot[3]]].forEach(([c,v])=>{tr.getCell(c).value=Math.round(v);tr.getCell(c).numFmt=numFmt;tr.getCell(c).alignment={horizontal:'right'};});
-  for(let c=1;c<=7;c++){tr.getCell(c).font=fnt({bold:true});tr.getCell(c).border=border;tr.getCell(c).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFF2F2F2'}};}
-  if(dd.note){r+=2;ws.mergeCells(r,1,r,7);const n=ws.getCell(r,1);n.value=dd.note;n.font=fnt({italic:true,size:9});n.alignment={wrapText:true};ws.getRow(r).height=26;}
-  wb.xlsx.writeBuffer().then(buf=>{
-    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=dd.fileBase+'.xlsx';
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-    setTimeout(()=>{try{URL.revokeObjectURL(a.href)}catch(e){}},3000);
-    toast('Tableau d\'amortissement Excel téléchargé');
-  }).catch(()=>toast('Erreur export Excel'));
+  const trw=ws.getRow(r);merge(r,1,3);trw.getCell(1).value='Totaux';
+  dd.tot.forEach((v,k)=>{if(k===0||v==null)return;const cell=trw.getCell(k+3);cell.value=Math.round(v);cell.numFmt=numFmt;cell.alignment={horizontal:'right'};});
+  for(let c=1;c<=nc;c++){trw.getCell(c).font=fnt({bold:true});trw.getCell(c).border=border;trw.getCell(c).fill={type:'pattern',pattern:'solid',fgColor:{argb:GREY}};}
+  r+=2;
+  dd.notes.forEach(nt=>{merge(r,1,nc);const n=ws.getCell(r,1);n.value=nt;n.font=fnt({italic:true,size:9});n.alignment={wrapText:true,vertical:'top'};ws.getRow(r).height=26;r++;});
+  wb.xlsx.writeBuffer().then(buf=>loanDownloadBlob(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),dd.fileBase+'.xlsx','Tableau Excel téléchargé'))
+    .catch(()=>toast('Erreur export Excel'));
 }
+
+/* ============================ WORD ============================ */
 function loanImgSize(src){return new Promise(res=>{const im=new Image();im.onload=()=>res({w:im.naturalWidth,h:im.naturalHeight});im.onerror=()=>res(null);im.src=src;});}
 function loanDataUrlBytes(u){const b=atob((''+u).split(',')[1]||'');const out=new Uint8Array(b.length);for(let k=0;k<b.length;k++)out[k]=b.charCodeAt(k);return out;}
-async function buildLoanDocx(L){
-  const D=window.docx;if(!D){toast('Module Word en chargement, réessayez');return null;}
-  const dd=loanDocData(L);
+/* boîte à outils docx commune (tableaux, en-tête, pied de page) */
+function loanDocxKit(sizePt){
+  const D=window.docx;
   const pf=pdfPrefs();
   const font={times:'Times New Roman',helvetica:'Arial',courier:'Courier New'}[pf.font]||'Times New Roman';
-  const sz=Math.round(Math.max(8,pf.fontSize-1.5)*2);       // demi-points
-  const PAGE_W=11906,MARG=1020,TW=PAGE_W-2*MARG;              // A4, marges 1,8 cm
-  const B=(c)=>({style:D.BorderStyle.SINGLE,size:4,color:c||'1F1F21'});
+  const sz=Math.round((sizePt||Math.max(8,pf.fontSize-2))*2);
+  const PAGE_W=11906,MARG=1020,TW=PAGE_W-2*MARG;
+  const B=c=>({style:D.BorderStyle.SINGLE,size:4,color:c||'1F1F21'});
   const NB={style:D.BorderStyle.NONE,size:0,color:'FFFFFF'};
-  const ALLB={top:B(),bottom:B(),left:B(),right:B()};
-  const NOB={top:NB,bottom:NB,left:NB,right:NB};
+  const ALLB={top:B(),bottom:B(),left:B(),right:B()},NOB={top:NB,bottom:NB,left:NB,right:NB};
   const run=(text,o)=>new D.TextRun(Object.assign({text:''+text,font,size:sz},o||{}));
   const P=(children,o)=>new D.Paragraph(Object.assign({children:Array.isArray(children)?children:[children],spacing:{before:0,after:0}},o||{}));
   const cell=(content,o)=>{o=o||{};
@@ -5102,116 +5799,227 @@ async function buildLoanDocx(L){
       children:[P([run(content,{bold:o.bold,italics:o.italics,color:o.color,size:o.size})],{alignment:o.align||D.AlignmentType.LEFT})],
       width:{size:o.w,type:D.WidthType.DXA},columnSpan:o.span,
       borders:o.noBorder?NOB:ALLB,verticalAlign:D.VerticalAlign.CENTER,
-      margins:{top:50,bottom:50,left:90,right:90},
+      margins:{top:40,bottom:40,left:80,right:80},
       shading:o.fill?{fill:o.fill,type:D.ShadingType.CLEAR,color:'auto'}:undefined});
   };
   const table=(cols,rows)=>new D.Table({width:{size:TW,type:D.WidthType.DXA},columnWidths:cols,layout:D.TableLayoutType.FIXED,rows});
+  async function section(ent,footLabel,children){
+    const C=D.AlignmentType.CENTER,R=D.AlignmentType.RIGHT;
+    const headerKids=[];
+    if(ent&&ent.logo){
+      try{const s0=await loanImgSize(ent.logo);
+        if(s0&&s0.w){const w=220,h=Math.round(w*s0.h/s0.w);
+          const type=/^data:image\/png/i.test(ent.logo)?'png':'jpg';
+          headerKids.push(P([new D.ImageRun({type,data:loanDataUrlBytes(ent.logo),transformation:{width:w,height:h}})],{alignment:C}));}}
+      catch(e){}
+    }
+    const pgo={font,size:14,color:'6E7882'};
+    const pageRuns=[new D.TextRun(Object.assign({text:'Page '},pgo)),new D.TextRun(Object.assign({children:[D.PageNumber.CURRENT]},pgo)),new D.TextRun(Object.assign({text:' / '},pgo)),new D.TextRun(Object.assign({children:[D.PageNumber.TOTAL_PAGES]},pgo))];
+    const lines=ent&&ent.footer?(''+ent.footer).trim().split(/\n+/):[footLabel];
+    const footKids=lines.map((ln,k)=>P([run(ln,{italics:true,size:15,color:'5A646E'})],{alignment:C,
+      border:k===0?{top:{style:D.BorderStyle.SINGLE,size:6,color:'1F1F21',space:4}}:undefined}));
+    footKids.push(P(pageRuns,{alignment:R}));
+    return new D.Document({creator:'MonBudget',styles:{default:{document:{run:{font,size:sz}}}},
+      sections:[{properties:{page:{size:{width:PAGE_W,height:16838},margin:{top:headerKids.length?1700:1134,bottom:1300,left:MARG,right:MARG,header:400,footer:350}}},
+        headers:{default:new D.Header({children:headerKids.length?headerKids:[P([])]})},
+        footers:{default:new D.Footer({children:footKids})},children}]});
+  }
+  return {D,font,sz,TW,run,P,cell,table,section};
+}
+async function buildLoanDocx(L){
+  if(!window.docx){toast('Module Word en chargement, réessayez');return null;}
+  const dd=loanDocData(L);
+  const K=loanDocxKit();const {D,TW,run,P,cell,table,sz}=K;
+  const C=D.AlignmentType.CENTER,R=D.AlignmentType.RIGHT;
   const kids=[];
-  // titre
-  kids.push(table([TW],[new D.TableRow({children:[cell("TABLEAU D'AMORTISSEMENT DE PRÊT",{w:TW,bold:true,color:'FFFFFF',size:32,fill:'A6192E',align:D.AlignmentType.CENTER})]})]));
-  kids.push(P([run('Édité le '+new Date().toLocaleDateString('fr-FR'),{size:16,italics:true,color:'6E7882'})],{alignment:D.AlignmentType.RIGHT,spacing:{before:40,after:120}}));
-  // client
+  kids.push(table([TW],[new D.TableRow({children:[cell(dd.title,{w:TW,bold:true,color:'FFFFFF',size:dd.cons?28:32,fill:'A6192E',align:C})]})]));
+  kids.push(P([run('Édité le '+new Date().toLocaleDateString('fr-FR'),{size:16,italics:true,color:'6E7882'})],{alignment:R,spacing:{before:40,after:120}}));
   const cw1=Math.round(TW*0.56);
   kids.push(table([cw1,TW-cw1],[new D.TableRow({height:{value:460,rule:D.HeightRule.ATLEAST},children:[
-    cell('Nom et prénoms du client :',{w:cw1,bold:true,size:sz+2,align:D.AlignmentType.CENTER}),
-    cell(dd.client||'—',{w:TW-cw1,bold:true,italics:true,align:D.AlignmentType.CENTER})]})]));
-  kids.push(P([run('Sauf mention contraire, tous les montants de ce document sont exprimés en '+dd.cur+'.',{bold:true,size:sz-2})],{spacing:{before:160,after:120}}));
-  // blocs côte à côte : libellé | valeur | espace | libellé | valeur
-  const GAP=260,LW=Math.round((TW-GAP)/2*0.6),VW=Math.round((TW-GAP)/2)-LW;
-  const cols=[LW,VW,GAP,LW,VW];
+    cell('Nom et prénoms du client :',{w:cw1,bold:true,size:sz+2,align:C}),cell(dd.client||'—',{w:TW-cw1,bold:true,italics:true,align:C})]})]));
+  kids.push(P([run('Sauf mention contraire, tous les montants de ce document sont exprimés en '+dd.cur+'.',{bold:true,size:sz-1})],{spacing:{before:160,after:120}}));
+  // blocs équilibrés : libellé | valeur | espace | libellé | valeur
+  const GAP=240,half=Math.round((TW-GAP)/2),LW=Math.round(half*0.56),VW=half-LW;
   const bRows=[new D.TableRow({children:[
-    cell('Caractéristiques du crédit',{w:LW+VW,span:2,bold:true,color:'1F3864',align:D.AlignmentType.CENTER}),
-    cell('',{w:GAP,noBorder:true}),
-    cell('Récapitulatif du crédit',{w:LW+VW,span:2,bold:true,color:'1F3864',align:D.AlignmentType.CENTER})]})];
-  const nMax=Math.max(dd.carac.length,dd.recap.length);
-  for(let k=0;k<nMax;k++){
-    const a=dd.carac[k],b=dd.recap[k];
-    const side=(it)=>it
-      ?[cell(it.l,{w:LW}),cell(it.v,{w:VW,bold:true,fill:'DEE8F6',align:D.AlignmentType.RIGHT})]
-      :[cell('',{w:LW,noBorder:true}),cell('',{w:VW,noBorder:true})];
-    bRows.push(new D.TableRow({children:side(a).concat([cell('',{w:GAP,noBorder:true})],side(b))}));
+    cell('Caractéristiques du crédit',{w:LW+VW,span:2,bold:true,color:'1F3864',align:C}),cell('',{w:GAP,noBorder:true}),
+    cell('Récapitulatif du crédit',{w:LW+VW,span:2,bold:true,color:'1F3864',align:C})]})];
+  const side=it=>[cell(it?it.l:'',{w:LW,bold:!!(it&&it.bold)}),cell(it?it.v:'',{w:VW,bold:true,fill:'DEE8F6',align:R})];
+  dd.rows.forEach(([a,b])=>bRows.push(new D.TableRow({children:side(a).concat([cell('',{w:GAP,noBorder:true})],side(b))})));
+  kids.push(table([LW,VW,GAP,LW,VW],bRows));
+  // détail des frais
+  if(dd.feeTable){
+    const ft=dd.feeTable;
+    kids.push(P([run('Détail des frais et commissions',{bold:true,size:sz+4})],{spacing:{before:240,after:80}}));
+    const fc=[2500,3000,500,1350,1150];fc.push(TW-fc.reduce((a,x)=>a+x,0));
+    const fr=[new D.TableRow({tableHeader:true,children:ft.head.map((h,c)=>cell(h,{w:fc[c],bold:true,color:'FFFFFF',fill:'3C3C40',align:C}))})];
+    ft.rows.forEach(r=>fr.push(new D.TableRow({cantSplit:true,children:[cell(r[0],{w:fc[0]}),cell(r[1],{w:fc[1]}),cell(''+r[2],{w:fc[2],align:C}),
+      cell(fmtIntFr(r[3]),{w:fc[3],align:R}),cell(fmtIntFr(r[4]),{w:fc[4],align:R}),cell(fmtIntFr(r[5]),{w:fc[5],align:R})]})));
+    fr.push(new D.TableRow({children:[cell('Total',{w:fc[0]+fc[1]+fc[2],span:3,bold:true,fill:'F2F2F2'}),
+      cell(fmtIntFr(ft.tot[0]),{w:fc[3],bold:true,align:R,fill:'F2F2F2'}),cell(fmtIntFr(ft.tot[1]),{w:fc[4],bold:true,align:R,fill:'F2F2F2'}),cell(fmtIntFr(ft.tot[2]),{w:fc[5],bold:true,align:R,fill:'F2F2F2'})]}));
+    kids.push(table(fc,fr));
   }
-  kids.push(table(cols,bRows));
-  kids.push(P([],{spacing:{before:0,after:240}}));
+  kids.push(P([run("Tableau d'amortissement",{bold:true,size:sz+4})],{spacing:{before:240,after:80}}));
   // tableau d'amortissement
-  const tc=[800,1500,1470,1270,1470,1400];tc.push(TW-tc.reduce((a,x)=>a+x,0));
-  const R=D.AlignmentType.RIGHT,C=D.AlignmentType.CENTER;
+  const nc=dd.head.length;const fixed=[720,1150];const stW=dd.cons?700:0;
+  const numW=Math.floor((TW-fixed[0]-fixed[1]-stW)/(nc-2-(dd.cons?1:0)));
+  const tc=[fixed[0],fixed[1]];for(let c=2;c<nc-(dd.cons?1:0);c++)tc.push(numW);if(dd.cons)tc.push(stW);
+  tc[tc.length-1]+=TW-tc.reduce((a,x)=>a+x,0);
+  const stCol={PA:'1B6B47',IM:'A6192E',E:'6E7882'};
   const tRows=[new D.TableRow({tableHeader:true,children:dd.head.map((h,c)=>cell(h,{w:tc[c],bold:true,color:'FFFFFF',fill:'A6192E',align:C}))})];
   dd.body.forEach(rw=>{
-    tRows.push(new D.TableRow({cantSplit:true,children:[cell(rw.n,{w:tc[0],align:C}),cell(rw.d,{w:tc[1],align:C})]
-      .concat(rw.v.map((v,c)=>cell(fmtIntFr(v),{w:tc[c+2],align:R})))}));
+    const fill=rw.st==='IM'?'FCECEE':undefined;
+    const cells=[cell(rw.n,{w:tc[0],align:C,fill}),cell(rw.d,{w:tc[1],align:C,fill})].concat(rw.v.map((v,c)=>cell(fmtIntFr(v),{w:tc[c+2],align:R,fill})));
+    if(dd.cons)cells.push(cell(rw.st,{w:tc[nc-1],align:C,bold:true,color:stCol[rw.st],fill}));
+    tRows.push(new D.TableRow({cantSplit:true,children:cells}));
   });
-  tRows.push(new D.TableRow({children:[
-    cell('Totaux',{w:tc[0]+tc[1]+tc[2],span:3,bold:true,fill:'F2F2F2'}),
-    cell(fmtIntFr(dd.tot[1]),{w:tc[3],bold:true,align:R,fill:'F2F2F2'}),
-    cell(fmtIntFr(dd.tot[2]),{w:tc[4],bold:true,align:R,fill:'F2F2F2'}),
-    cell(fmtIntFr(dd.tot[3]),{w:tc[5],bold:true,align:R,fill:'F2F2F2'}),
-    cell('',{w:tc[6],fill:'F2F2F2'})]}));
+  const tcells=[cell('Totaux',{w:tc[0]+tc[1]+tc[2],span:3,bold:true,fill:'F2F2F2'})];
+  dd.tot.slice(1).forEach((v,k)=>tcells.push(cell(v==null?'':fmtIntFr(v),{w:tc[k+3],bold:true,align:R,fill:'F2F2F2'})));
+  if(dd.cons)tcells.push(cell('',{w:tc[nc-1],fill:'F2F2F2'}));
+  tRows.push(new D.TableRow({children:tcells}));
   kids.push(table(tc,tRows));
-  if(dd.note)kids.push(P([run(dd.note,{italics:true,size:16})],{spacing:{before:160}}));
-  // en-tête (logo de l'entité) et pied de page (mentions légales ou pied standard)
-  const ent=currentEntity();
-  const headerKids=[];
-  if(ent&&ent.logo){
-    try{
-      const sz0=await loanImgSize(ent.logo);
-      if(sz0&&sz0.w){const w=220,h=Math.round(w*sz0.h/sz0.w);
-        headerKids.push(P([new D.ImageRun({data:loanDataUrlBytes(ent.logo),transformation:{width:w,height:h}})],{alignment:C}));}
-    }catch(e){}
-  }
-  const pgo={font,size:14,color:'6E7882'};
-  const pageRuns=[new D.TextRun(Object.assign({text:'Page '},pgo)),new D.TextRun(Object.assign({children:[D.PageNumber.CURRENT]},pgo)),new D.TextRun(Object.assign({text:' / '},pgo)),new D.TextRun(Object.assign({children:[D.PageNumber.TOTAL_PAGES]},pgo))];
-  const footKids=[];
-  const footLines=ent&&ent.footer?(''+ent.footer).trim().split(/\n+/):['MonBudget · Tableau d\'amortissement de prêt'+(dd.client?' — '+dd.client:'')];
-  footLines.forEach((ln,k)=>footKids.push(P([run(ln,{italics:true,size:15,color:'5A646E'})],{alignment:C,
-    border:k===0?{top:{style:D.BorderStyle.SINGLE,size:6,color:'1F1F21',space:4}}:undefined})));
-  footKids.push(P(pageRuns,{alignment:R}));
-  return new D.Document({
-    creator:'MonBudget',title:"Tableau d'amortissement de prêt",
-    styles:{default:{document:{run:{font,size:sz}}}},
-    sections:[{
-      properties:{page:{size:{width:PAGE_W,height:16838},margin:{top:headerKids.length?1700:1134,bottom:1300,left:MARG,right:MARG,header:400,footer:350}}},
-      headers:{default:new D.Header({children:headerKids.length?headerKids:[P([])]})},
-      footers:{default:new D.Footer({children:footKids})},
-      children:kids
-    }]
-  });
+  dd.notes.forEach((nt,k)=>kids.push(P([run(nt,{italics:true,size:15})],{spacing:{before:k?40:140}})));
+  return K.section(dd.ent,'MonBudget · '+(dd.cons?'Situation de prêt':"Tableau d'amortissement de prêt")+(dd.client?' — '+dd.client:''),kids);
 }
 async function exportLoanDOCX(i){
   const L=loanList()[i];if(!loanExportGuard(L))return;
   try{
     const doc=await buildLoanDocx(L);if(!doc)return;
     const blob=await window.docx.Packer.toBlob(doc);
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-    a.download=loanDocData(L).fileBase+'.docx';
-    document.body.appendChild(a);a.click();document.body.removeChild(a);
-    setTimeout(()=>{try{URL.revokeObjectURL(a.href)}catch(e){}},3000);
-    toast('Tableau d\'amortissement Word téléchargé');
+    loanDownloadBlob(blob,loanDocData(L).fileBase+'.docx','Tableau Word téléchargé');
   }catch(e){console.error(e);toast('Erreur lors de la génération du Word');}
 }
 
+/* ======================= LETTRE DE RELANCE =======================
+   Modèle proposé en attendant la lettre type de la filiale : le texte
+   s'appuie sur le nom du client, le nombre et le montant des impayés
+   et la date limite de régularisation. */
+function relanceData(L){
+  const m=loanMetrics(L);const p=m.p;const C=m.cur;const F=v=>loanMoney(v,C);
+  const n=m.nIM,pl=n>1;
+  const lim=L.dateLimite?dateLongueFr(L.dateLimite):'__________';
+  const civ=L.civilite||'Madame, Monsieur';
+  const lettres=capFirst(nombreEnLettres(m.impaye));
+  const refTxt=L.ref?' (référence '+L.ref+')':'';
+  const paras=[
+    civ+',',
+    "Sauf erreur ou omission de notre part, nous constatons qu'à ce jour "+(pl?n+' échéances':'une échéance')+' de remboursement du prêt de '+F(m.M)+' que nous vous avons consenti le '+dateLongueFr(L.dateDebut)+refTxt+(pl?' demeurent impayées.':' demeure impayée.')
+      +' Le montant total exigible s\'élève à '+F(m.impaye)+' ('+lettres+' '+C+'), selon le détail ci-dessous :',
+    'Nous vous prions de bien vouloir régulariser votre situation au plus tard le '+lim+', par versement du montant ci-dessus sur votre compte ou auprès de nos guichets.',
+    "À défaut de régularisation dans ce délai, nous nous verrons contraints de mettre en œuvre les dispositions prévues par la convention de prêt, y compris la réalisation des garanties, sans autre préavis.",
+    "Si ce règlement a été effectué entre-temps, nous vous prions de ne pas tenir compte de la présente. Nos services restent à votre disposition pour tout renseignement ou pour convenir des modalités de régularisation.",
+    "Nous vous prions d'agréer, "+civ+", l'expression de nos salutations distinguées."
+  ];
+  const today=loanToday();
+  return {m,C,n,paras,
+    lieuDate:(p.city?p.city+', ':'')+'le '+dateLongueFr(loanIso(today)),
+    ref:L.ref||'',client:L.client||'',civ,adresse:L.adresse||'',
+    objet:'Relance pour '+(pl?'échéances impayées':'échéance impayée')+' — prêt'+(L.ref?' n° '+L.ref:''),
+    head:['Échéance','Date d\'échéance','Montant dû ('+C+')','Jours de retard'],
+    rows:m.imRows.map(r=>[''+r.n,r.dateTxt,r.ech,r.date?Math.max(0,Math.round((today-r.date)/864e5)):0]),
+    total:m.impaye,signatory:p.signatory||'La Direction',ent:loanEntity(L),
+    fileBase:'Lettre_relance_'+((L.client||'client').replace(/[^a-zA-Z0-9]/g,'_'))};
+}
+function relanceGuard(L){
+  if(!loanExportGuard(L))return false;
+  if(L.kind!=='consenti'){toast('La lettre de relance concerne les prêts consentis');return false;}
+  if(!loanMetrics(L).nIM){toast('Aucune échéance impayée : pas de relance à émettre');return false;}
+  if(!L.client){toast('Renseignez le nom du client');return false;}
+  return true;
+}
+function buildRelancePDF(L){
+  const doc=newPdfDoc();if(!doc)return null;
+  const r=relanceData(L);
+  const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();const pf=pdfPrefs();const F=pf.font;
+  const ent=r.ent;const bot=ent?80:50;const fs=pf.fontSize;const lh=fs*1.45;
+  setPdfFooter('MonBudget · Lettre de relance — '+r.client);
+  let y=loanPdfTop(doc,ent)+6;
+  doc.setTextColor(...PDF_INK);doc.setFont(F,'normal');doc.setFontSize(fs);
+  doc.text(pdfSafe(r.lieuDate),W-60,y,{align:'right'});y+=lh*1.6;
+  if(r.ref){doc.text(pdfSafe('Réf. : '+r.ref),60,y);}
+  // destinataire (bloc à droite)
+  let dy=y;const dx=W/2+20;
+  doc.setFont(F,'bold');doc.text(pdfSafe(r.civ.startsWith('Madame, ')?r.client:r.civ+' '+r.client),dx,dy);dy+=lh;
+  doc.setFont(F,'normal');
+  if(r.adresse)doc.splitTextToSize(pdfSafe(r.adresse),W-dx-60).forEach(l=>{doc.text(l,dx,dy);dy+=lh;});
+  y=Math.max(y,dy)+lh*1.5;
+  doc.setFont(F,'bold');doc.text(pdfSafe('Objet : '),60,y);
+  const ow=doc.getTextWidth('Objet : ');doc.setFont(F,'normal');
+  doc.text(pdfSafe(r.objet),60+ow,y);y+=lh*2;
+  const para=t=>{doc.splitTextToSize(pdfSafe(t),W-120).forEach(l=>{if(y>Hp-bot-20){doc.addPage();y=70;}doc.text(l,60,y,{maxWidth:W-120});y+=lh;});y+=lh*0.6;};
+  para(r.paras[0]);para(r.paras[1]);
+  const body=r.rows.map(x=>[x[0],x[1],pdfNum(x[2]),''+x[3]]);
+  body.push([{content:'Total exigible',colSpan:2,styles:{fontStyle:'bold',halign:'left'}},{content:pdfNum(r.total),styles:{fontStyle:'bold'}},'']);
+  runAutoTable(doc,{startY:y-4,head:[r.head],body,theme:'grid',styles:tableStyle({fontSize:fs-1,cellPadding:4}),
+    headStyles:Object.assign(headStyle([166,25,46]),{fontSize:fs-1}),columnStyles:{2:{halign:'right'}},margin:{left:80,right:80,bottom:bot}});
+  y=doc.lastAutoTable.finalY+lh*1.4;
+  r.paras.slice(2).forEach(para);
+  if(y>Hp-bot-70){doc.addPage();y=70;}
+  y+=lh;doc.setFont(F,'bold');doc.text(pdfSafe(r.signatory),W-60,y,{align:'right'});
+  doc.setFont(F,'italic');doc.setFontSize(fs-2);doc.setTextColor(110,120,130);
+  doc.text(pdfSafe('Signature et cachet'),W-60,y+lh,{align:'right'});
+  if(ent)stampEntityFooters(doc,ent);else stampFooters(doc);
+  return doc;
+}
+function exportRelancePDF(i){
+  const L=loanList()[i];if(!relanceGuard(L))return;
+  const doc=buildRelancePDF(L);if(!doc)return;
+  doc.save(relanceData(L).fileBase+'.pdf');toast('Lettre de relance PDF téléchargée');
+}
+async function buildRelanceDocx(L){
+  if(!window.docx){toast('Module Word en chargement, réessayez');return null;}
+  const r=relanceData(L);
+  const K=loanDocxKit(pdfPrefs().fontSize);const {D,TW,run,P,cell,table,sz}=K;
+  const J=D.AlignmentType.JUSTIFIED,R=D.AlignmentType.RIGHT,C=D.AlignmentType.CENTER;
+  const sp={spacing:{before:0,after:160,line:300}};
+  const kids=[];
+  kids.push(P([run(r.lieuDate)],{alignment:R,spacing:{after:240}}));
+  if(r.ref)kids.push(P([run('Réf. : '+r.ref)],{spacing:{after:120}}));
+  const ind={indent:{left:Math.round(TW*0.52)}};
+  kids.push(P([run(r.civ.startsWith('Madame, ')?r.client:r.civ+' '+r.client,{bold:true})],ind));
+  if(r.adresse)kids.push(P([run(r.adresse)],ind));
+  kids.push(P([run('Objet : ',{bold:true}),run(r.objet)],{spacing:{before:360,after:280}}));
+  kids.push(P([run(r.paras[0])],sp));
+  kids.push(P([run(r.paras[1])],Object.assign({alignment:J},sp)));
+  const w=[1400,2300,2600,1900];const tw=w.reduce((a,x)=>a+x,0);
+  const rows=[new D.TableRow({tableHeader:true,children:r.head.map((h,c)=>cell(h,{w:w[c],bold:true,color:'FFFFFF',fill:'A6192E',align:C}))})];
+  r.rows.forEach(x=>rows.push(new D.TableRow({children:[cell(x[0],{w:w[0],align:C}),cell(x[1],{w:w[1],align:C}),cell(fmtIntFr(x[2]),{w:w[2],align:R}),cell(''+x[3],{w:w[3],align:C})]})));
+  rows.push(new D.TableRow({children:[cell('Total exigible',{w:w[0]+w[1],span:2,bold:true,fill:'F2F2F2'}),cell(fmtIntFr(r.total),{w:w[2],bold:true,align:R,fill:'F2F2F2'}),cell('',{w:w[3],fill:'F2F2F2'})]}));
+  kids.push(new D.Table({width:{size:tw,type:D.WidthType.DXA},columnWidths:w,layout:D.TableLayoutType.FIXED,alignment:C,rows}));
+  kids.push(P([],{spacing:{after:200}}));
+  r.paras.slice(2).forEach(t=>kids.push(P([run(t)],Object.assign({alignment:J},sp))));
+  kids.push(P([run(r.signatory,{bold:true})],{alignment:R,spacing:{before:480}}));
+  kids.push(P([run('Signature et cachet',{italics:true,size:sz-4,color:'6E7882'})],{alignment:R}));
+  return K.section(r.ent,'MonBudget · Lettre de relance — '+r.client,kids);
+}
+async function exportRelanceDOCX(i){
+  const L=loanList()[i];if(!relanceGuard(L))return;
+  try{
+    const doc=await buildRelanceDocx(L);if(!doc)return;
+    const blob=await window.docx.Packer.toBlob(doc);
+    loanDownloadBlob(blob,relanceData(L).fileBase+'.docx','Lettre de relance Word téléchargée');
+  }catch(e){console.error(e);toast('Erreur lors de la génération du Word');}
+}
 
-/* ---------- Aperçus intégrés (PDF / Word / Excel) ----------
-   Même principe que l'aperçu des ordres d'achat : un panneau refermable,
-   rafraîchi automatiquement (700 ms) quand la simulation change.
-   - PDF   : document réel (même fonction que l'export) ;
-   - Word  : rendu HTML fidèle à la mise en page du .docx ;
-   - Excel : rendu HTML de la feuille (quadrillage, lignes, colonnes). */
+/* ======================= APERÇUS INTÉGRÉS =======================
+   Panneau refermable (comme l'aperçu des ordres d'achat), rafraîchi
+   automatiquement (700 ms). Onglets : PDF, Word, Excel et, pour un prêt
+   consenti, la lettre de relance (PDF et Word). */
 let _loanPrev=null,_loanPrevT=null,_loanPrevUrl=null;
-const LOAN_PREV_LBL={pdf:'PDF',doc:'Word',xls:'Excel'};
+const LOAN_PREV_LBL={pdf:'Tableau PDF',doc:'Tableau Word',xls:'Tableau Excel',lpdf:'Relance PDF',ldoc:'Relance Word'};
+function loanPrevTypes(L){return L&&L.kind==='consenti'?['pdf','doc','xls','lpdf','ldoc']:['pdf','doc','xls'];}
 function previewLoan(i,type){
   const L=loanList()[i];if(!L)return;
-  if(!loanExportGuard(L))return;
+  if(type[0]==='l'?!relanceGuard(L):!loanExportGuard(L))return;
   _loanPrev={id:L.id,type};
-  // un seul aperçu à la fois : on vide les autres hôtes
   document.querySelectorAll('.loan-preview-host').forEach(h=>{if(h.id!=='loanPrev-'+L.id)h.innerHTML='';});
+  const h=document.getElementById('loanPrev-'+L.id);if(h)h.innerHTML='';
   loanPreviewRender(false);
 }
 function loanPrevSwitch(type){if(!_loanPrev)return;_loanPrev.type=type;loanPreviewRender(true);}
 function loanPrevDownload(){
   if(!_loanPrev)return;
   const i=loanList().findIndex(x=>x.id===_loanPrev.id);if(i<0)return;
-  ({pdf:exportLoanPDF,doc:exportLoanDOCX,xls:exportLoanXLSX})[_loanPrev.type](i);
+  ({pdf:exportLoanPDF,doc:exportLoanDOCX,xls:exportLoanXLSX,lpdf:exportRelancePDF,ldoc:exportRelanceDOCX})[_loanPrev.type](i);
 }
 function closeLoanPreview(){
   if(_loanPrev){const h=document.getElementById('loanPrev-'+_loanPrev.id);if(h)h.innerHTML='';}
@@ -5223,125 +6031,177 @@ function loanPreviewRefresh(){
   clearTimeout(_loanPrevT);
   _loanPrevT=setTimeout(()=>loanPreviewRender(true),700);
 }
-/* construit (ou met à jour) le panneau ; keep=true : pas de défilement */
 function loanPreviewRender(keep){
   if(!_loanPrev)return;
   const L=loanList().find(x=>x.id===_loanPrev.id);
   const host=document.getElementById('loanPrev-'+_loanPrev.id);
-  if(!L||!host){if(!L)closeLoanPreview();return;}
+  if(!L){closeLoanPreview();return;}
+  if(!host)return;
+  const types=loanPrevTypes(L);
+  if(!types.includes(_loanPrev.type))_loanPrev.type='pdf';
   const type=_loanPrev.type;
   let panel=host.querySelector('.loan-preview');
-  if(!panel){
-    host.innerHTML=`<div class="loan-preview">
+  if(!panel||panel.dataset.kind!==L.kind){
+    host.innerHTML=`<div class="loan-preview" data-kind="${L.kind}">
       <div class="lp-head">
         <h3 class="lp-title"></h3>
-        <div class="lp-tabs">${Object.keys(LOAN_PREV_LBL).map(k=>`<button data-t="${k}" onclick="loanPrevSwitch('${k}')">${LOAN_PREV_LBL[k]}</button>`).join('')}</div>
-        <div class="lp-act"><button class="icon-btn" onclick="loanPrevDownload()">Télécharger ce format</button><button class="icon-btn" onclick="closeLoanPreview()">Fermer l'aperçu</button></div>
+        <div class="lp-tabs">${types.map(k=>`<button data-t="${k}" onclick="loanPrevSwitch('${k}')">${LOAN_PREV_LBL[k]}</button>`).join('')}</div>
+        <div class="lp-act"><button class="icon-btn" onclick="loanPrevDownload()">Télécharger ce document</button><button class="icon-btn" onclick="closeLoanPreview()">Fermer l'aperçu</button></div>
       </div>
       <div class="lp-body"></div>
       <div class="lp-note"></div>
     </div>`;
     panel=host.querySelector('.loan-preview');
   }
-  panel.querySelector('.lp-title').textContent="Aperçu du tableau d'amortissement — "+LOAN_PREV_LBL[type];
+  panel.querySelector('.lp-title').textContent='Aperçu — '+LOAN_PREV_LBL[type];
   panel.querySelectorAll('.lp-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===type));
-  panel.querySelector('.lp-note').textContent=type==='pdf'
-    ?'Aperçu exact du document PDF exporté.'
-    :(type==='doc'?'Aperçu de la mise en page Word (le rendu final peut légèrement varier selon la version de Word).'
-                  :'Aperçu de la feuille Excel (formats numériques et largeurs de colonnes appliqués à l\'export).');
+  panel.querySelector('.lp-note').textContent={pdf:'Aperçu exact du document PDF exporté.',lpdf:'Aperçu exact de la lettre PDF exportée.',
+    doc:'Aperçu de la mise en page Word (le rendu final peut légèrement varier selon la version de Word).',
+    ldoc:'Aperçu de la lettre Word (modèle proposé, à adapter à la lettre type de la filiale).',
+    xls:'Aperçu de la feuille Excel (formats numériques et largeurs de colonnes appliqués à l\'export).'}[type];
   const body=panel.querySelector('.lp-body');
-  let fr=body.querySelector('iframe');
-  if(!loanReady(L,true)||!L.dateDebut){
-    body.innerHTML='<div class="lp-msg">Corrigez les points signalés dans la simulation (et renseignez la date de début) pour afficher l\'aperçu.</div>';
+  const okDoc=loanReady(L,true)&&!!L.dateDebut;
+  const okLetter=okDoc&&L.kind==='consenti'&&loanMetrics(L).nIM>0&&!!L.client;
+  if(type[0]==='l'?!okLetter:!okDoc){
+    body.innerHTML='<div class="lp-msg">'+(type[0]==='l'
+      ?'La lettre nécessite un prêt consenti valide, le nom du client et au moins une échéance impayée.'
+      :'Corrigez les points signalés dans la fiche (et renseignez la date de début) pour afficher l\'aperçu.')+'</div>';
     return;
   }
+  let fr=body.querySelector('iframe');
   if(!fr){body.innerHTML='';fr=document.createElement('iframe');fr.title='Aperçu';body.appendChild(fr);}
-  if(type==='pdf'){
-    const doc=buildLoanPDF(L);if(!doc)return;
+  if(type==='pdf'||type==='lpdf'){
+    const doc=type==='pdf'?buildLoanPDF(L):buildRelancePDF(L);if(!doc)return;
     if(_loanPrevUrl){try{URL.revokeObjectURL(_loanPrevUrl)}catch(e){}}
     _loanPrevUrl=doc.output('bloburl');
     fr.removeAttribute('srcdoc');fr.src=_loanPrevUrl;
   }else{
     fr.removeAttribute('src');
-    fr.srcdoc=type==='doc'?loanWordHTML(L):loanExcelHTML(L);
+    fr.srcdoc=type==='doc'?loanWordHTML(L):(type==='xls'?loanExcelHTML(L):relanceWordHTML(L));
   }
   if(!keep)host.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-/* rendu « Word » : page A4 blanche sur fond gris, comme dans Word */
-function loanWordHTML(L){
-  const dd=loanDocData(L);const ent=currentEntity();const pf=pdfPrefs();
+/* page « Word » commune (A4 blanc sur fond gris) */
+function loanPageHTML(ent,footLabel,inner,extraCss){
+  const pf=pdfPrefs();
   const font={times:"'Times New Roman',Times,serif",helvetica:'Arial,Helvetica,sans-serif',courier:"'Courier New',monospace"}[pf.font]||"'Times New Roman',serif";
-  const E=escapeHtml;
-  const side=it=>it?`<td class="l">${E(it.l)}</td><td class="v">${E(it.v)}</td>`:'<td class="x"></td><td class="x"></td>';
-  let blocks='';
-  for(let k=0;k<Math.max(dd.carac.length,dd.recap.length);k++)blocks+=`<tr>${side(dd.carac[k])}<td class="gap"></td>${side(dd.recap[k])}</tr>`;
-  const rows=dd.body.map(r=>`<tr><td class="c">${E(r.n)}</td><td class="c">${E(r.d)}</td>${r.v.map(v=>`<td class="r">${fmtIntFr(v)}</td>`).join('')}</tr>`).join('');
-  const foot=ent&&ent.footer?(''+ent.footer).trim().split(/\n+/).map(E).join('<br>'):E('MonBudget · Tableau d\'amortissement de prêt'+(dd.client?' — '+dd.client:''));
+  const foot=ent&&ent.footer?(''+ent.footer).trim().split(/\n+/).map(escapeHtml).join('<br>'):escapeHtml(footLabel);
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><style>
-  body{margin:0;background:#8a929c;padding:24px 0;font-family:${font};font-size:${Math.max(8,pf.fontSize-1.5)}pt;color:#1f1f21}
+  body{margin:0;background:#8a929c;padding:24px 0;font-family:${font};font-size:${Math.max(8,pf.fontSize-2)}pt;color:#1f1f21}
   .page{width:21cm;min-height:29.7cm;margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.35);padding:${ent&&ent.logo?'0.7cm':'2cm'} 1.8cm 1.2cm;box-sizing:border-box;display:flex;flex-direction:column}
-  .logo{text-align:center;margin-bottom:.9cm}.logo img{width:5.8cm}
+  .logo{text-align:center;margin-bottom:.8cm}.logo img{width:5.8cm}
   table{border-collapse:collapse;width:100%}
-  td,th{border:.75pt solid #1f1f21;padding:3pt 5pt;vertical-align:middle}
-  .title td{background:#a6192e;color:#fff;font-weight:bold;font-size:16pt;text-align:center;padding:6pt}
-  .ed{text-align:right;font-size:8pt;font-style:italic;color:#6e7882;margin:3pt 0 8pt}
-  .cli td{font-weight:bold;text-align:center;height:22pt}.cli td+td{font-style:italic}
-  .cur{font-weight:bold;font-size:${Math.max(7,pf.fontSize-2.5)}pt;margin:10pt 0 7pt}
-  .blk td.l{width:25%}.blk td.v{width:20%;background:#dee8f6;font-weight:bold;text-align:right}
-  .blk th{color:#1f3864;background:#fff}.blk td.gap,.blk th.gap,.blk td.x{border:none}
-  .amo{margin-top:14pt}.amo th{background:#a6192e;color:#fff}
+  td,th{border:.75pt solid #1f1f21;padding:2.5pt 4pt;vertical-align:middle}
   .c{text-align:center}.r{text-align:right}.tot td{font-weight:bold;background:#f2f2f2}
-  .note{font-style:italic;font-size:8pt;margin-top:8pt}
-  .foot{margin-top:auto;padding-top:20pt}.foot div{border-top:.75pt solid #1f1f21;padding-top:3pt;text-align:center;font-style:italic;font-size:7.5pt;color:#5a646e}
-  .pg{text-align:right;font-size:7pt;color:#6e7882}
+  .foot{margin-top:auto;padding-top:18pt}.foot div{border-top:.75pt solid #1f1f21;padding-top:3pt;text-align:center;font-style:italic;font-size:7.5pt;color:#5a646e}
+  .pg{text-align:right;font-size:7pt;color:#6e7882;margin:2pt 0 0}
+  ${extraCss||''}
   </style></head><body><div class="page">
   ${ent&&ent.logo?`<div class="logo"><img src="${ent.logo}" alt=""></div>`:''}
-  <table class="title"><tr><td>TABLEAU D'AMORTISSEMENT DE PRÊT</td></tr></table>
+  ${inner}
+  <div class="foot"><div>${foot}</div><p class="pg">Page 1 / 1</p></div>
+  </div></body></html>`;
+}
+function loanWordHTML(L){
+  const dd=loanDocData(L);const E=escapeHtml;const pf=pdfPrefs();
+  const side=it=>`<td class="l${it&&it.bold?' b':''}">${it?E(it.l):''}</td><td class="v">${it?E(it.v):''}</td>`;
+  const blocks=dd.rows.map(([a,b])=>`<tr>${side(a)}<td class="gap"></td>${side(b)}</tr>`).join('');
+  let fees='';
+  if(dd.feeTable){
+    const ft=dd.feeTable;
+    fees=`<h4>Détail des frais et commissions</h4><table class="fee"><thead><tr>${ft.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>
+    ${ft.rows.map(r=>`<tr><td>${E(r[0])}</td><td>${E(r[1])}</td><td class="c">${r[2]}</td><td class="r">${fmtIntFr(r[3])}</td><td class="r">${fmtIntFr(r[4])}</td><td class="r">${fmtIntFr(r[5])}</td></tr>`).join('')}
+    <tr class="tot"><td colspan="3">Total</td><td class="r">${fmtIntFr(ft.tot[0])}</td><td class="r">${fmtIntFr(ft.tot[1])}</td><td class="r">${fmtIntFr(ft.tot[2])}</td></tr></tbody></table>`;
+  }
+  const stc={PA:'#1b6b47',IM:'#a6192e',E:'#6e7882'};
+  const rows=dd.body.map(r=>`<tr${r.st==='IM'?' class="im"':''}><td class="c">${E(r.n)}</td><td class="c">${E(r.d)}</td>${r.v.map(v=>`<td class="r">${fmtIntFr(v)}</td>`).join('')}${dd.cons?`<td class="c" style="font-weight:bold;color:${stc[r.st]}">${r.st}</td>`:''}</tr>`).join('');
+  const tot=`<tr class="tot"><td colspan="3">Totaux</td>${dd.tot.slice(1).map(v=>`<td class="r">${v==null?'':fmtIntFr(v)}</td>`).join('')}${dd.cons?'<td></td>':''}</tr>`;
+  const inner=`<table class="title"><tr><td>${E(dd.title)}</td></tr></table>
   <div class="ed">Édité le ${new Date().toLocaleDateString('fr-FR')}</div>
   <table class="cli"><tr><td style="width:56%">Nom et prénoms du client :</td><td>${E(dd.client||'—')}</td></tr></table>
   <div class="cur">Sauf mention contraire, tous les montants de ce document sont exprimés en ${E(dd.cur)}.</div>
   <table class="blk"><tr><th colspan="2">Caractéristiques du crédit</th><th class="gap"></th><th colspan="2">Récapitulatif du crédit</th></tr>${blocks}</table>
-  <table class="amo"><thead><tr>${dd.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows}
-  <tr class="tot"><td colspan="3">Totaux</td><td class="r">${fmtIntFr(dd.tot[1])}</td><td class="r">${fmtIntFr(dd.tot[2])}</td><td class="r">${fmtIntFr(dd.tot[3])}</td><td></td></tr></tbody></table>
-  ${dd.note?`<div class="note">${E(dd.note)}</div>`:''}
-  <div class="foot"><div>${foot}</div><p class="pg">Page 1 / 1</p></div>
-  </div></body></html>`;
+  ${fees}
+  <h4>Tableau d'amortissement</h4>
+  <table class="amo"><thead><tr>${dd.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows}${tot}</tbody></table>
+  ${dd.notes.map(n=>`<div class="note">${E(n)}</div>`).join('')}`;
+  return loanPageHTML(dd.ent,'MonBudget · '+(dd.cons?'Situation de prêt':"Tableau d'amortissement de prêt"),inner,`
+  .title td{background:#a6192e;color:#fff;font-weight:bold;font-size:${dd.cons?14:16}pt;text-align:center;padding:6pt}
+  .ed{text-align:right;font-size:8pt;font-style:italic;color:#6e7882;margin:3pt 0 8pt}
+  .cli td{font-weight:bold;text-align:center;height:22pt}.cli td+td{font-style:italic}
+  .cur{font-weight:bold;font-size:${Math.max(7,pf.fontSize-3)}pt;margin:10pt 0 7pt}
+  .blk td.l{width:26%}.blk td.l.b{font-weight:bold}.blk td.v{width:21%;background:#dee8f6;font-weight:bold;text-align:right}
+  .blk th{color:#1f3864;background:#fff}.blk td.gap,.blk th.gap{border:none;width:2%}
+  h4{margin:14pt 0 5pt;font-size:${pf.fontSize}pt}
+  .fee th{background:#3c3c40;color:#fff}.amo th{background:#a6192e;color:#fff}
+  tr.im td{background:#fcecee}
+  .note{font-style:italic;font-size:7.5pt;margin-top:4pt}`);
+}
+function relanceWordHTML(L){
+  const r=relanceData(L);const E=escapeHtml;
+  const rows=r.rows.map(x=>`<tr><td class="c">${E(x[0])}</td><td class="c">${E(x[1])}</td><td class="r">${fmtIntFr(x[2])}</td><td class="c">${x[3]}</td></tr>`).join('');
+  const inner=`<p class="r">${E(r.lieuDate)}</p>
+  ${r.ref?`<p>Réf. : ${E(r.ref)}</p>`:''}
+  <div class="dest"><b>${E(r.civ.startsWith('Madame, ')?r.client:r.civ+' '+r.client)}</b>${r.adresse?'<br>'+E(r.adresse):''}</div>
+  <p class="obj"><b>Objet : </b>${E(r.objet)}</p>
+  <p>${E(r.paras[0])}</p><p class="j">${E(r.paras[1])}</p>
+  <table class="rl"><thead><tr>${r.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows}
+  <tr class="tot"><td colspan="2">Total exigible</td><td class="r">${fmtIntFr(r.total)}</td><td></td></tr></tbody></table>
+  ${r.paras.slice(2).map(t=>`<p class="j">${E(t)}</p>`).join('')}
+  <p class="sig"><b>${E(r.signatory)}</b><br><i>Signature et cachet</i></p>`;
+  const pf=pdfPrefs();
+  return loanPageHTML(r.ent,'MonBudget · Lettre de relance',inner,`
+  body{font-size:${pf.fontSize}pt}.page p{margin:0 0 9pt;line-height:1.45}.j{text-align:justify}
+  .dest{margin:14pt 0 20pt 52%;line-height:1.45}.obj{margin:10pt 0 16pt!important}
+  table.rl{width:80%;margin:4pt auto 14pt}.rl th{background:#a6192e;color:#fff}
+  .sig{text-align:right;margin-top:26pt!important}.sig i{font-size:${pf.fontSize-2}pt;color:#6e7882}`);
 }
 /* rendu « Excel » : même disposition de cellules que l'export .xlsx */
 function loanExcelHTML(L){
   const dd=loanDocData(L);const E=escapeHtml;
+  const nc=dd.head.length,g=Math.ceil(nc/2);
   const fmtV=it=>{
+    if(!it)return '';
     if(it.n==null||isNaN(it.n))return E(it.v);
-    if(it.xfmt==='0.00%')return (it.n*100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
-    if(it.xfmt)return it.n+' mois';
+    if(it.fmt==='0.00%')return (it.n*100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+'%';
+    if(it.fmt==='0 "mois"')return it.n+' mois';
     if(it.pct)return (it.n*100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:4})+'%';
-    if(it.int)return ''+it.n;
-    return fmtIntFr(it.n)+' '+E(dd.cur);
+    if(it.cur)return fmtIntFr(it.n)+' '+E(dd.cur);
+    return ''+it.n;
   };
-  const cols=['A','B','C','D','E','F','G'];
-  const widths=[70,126,126,112,126,126,126];
-  const rowsOut=[];let rn=1;
-  const R=(cells,cls,h)=>rowsOut.push(`<tr class="${cls||''}"${h?` style="height:${h}px"`:''}><th class="rn">${rn++}</th>${cells}</tr>`);
+  const letters='ABCDEFGHIJ'.slice(0,nc).split('');
+  const widths=dd.head.map((h,c)=>c===0?64:c===1?92:(dd.cons&&c===nc-1?64:118));
+  const out=[];let rn=1;
+  const R=(cells,h)=>out.push(`<tr${h?` style="height:${h}px"`:''}><th class="rn">${rn++}</th>${cells}</tr>`);
   const empty=n=>'<td></td>'.repeat(n);
-  R(`<td colspan="7" class="ttl">TABLEAU D'AMORTISSEMENT DE PRÊT</td>`,'',40);
-  R(`<td colspan="7" class="nt">Sauf mention contraire, les montants sont exprimés en ${E(dd.cur)}. Édité le ${new Date().toLocaleDateString('fr-FR')}.</td>`);
-  R(empty(7));
-  R(`<td colspan="4" class="b bc cl">Nom et prénoms du client :</td><td colspan="3" class="b bc cl i">${E(dd.client||'—')}</td>`,'',30);
-  R(empty(7));
-  R(`<td colspan="3" class="b bh">Caractéristiques du crédit</td><td></td><td colspan="3" class="b bh">Récapitulatif du crédit</td>`);
-  const n=Math.max(dd.carac.length,dd.recap.length);
-  for(let k=0;k<n;k++){
-    const a=dd.carac[k],b=dd.recap[k];
-    const c1=a?`<td colspan="2" class="b">${E(a.l)}</td><td class="b v">${fmtV(a)}</td>`:empty(3);
-    const c2=b?`<td colspan="2" class="b">${E(b.l)}</td><td class="b v">${fmtV(b)}</td>`:empty(3);
-    R(c1+'<td></td>'+c2);
+  const span=(a,b)=>b>a?` colspan="${b-a+1}"`:'';
+  R(`<td colspan="${nc}" class="ttl">${E(dd.title)}</td>`,40);
+  R(`<td colspan="${nc}" class="nt">Sauf mention contraire, les montants sont exprimés en ${E(dd.cur)}. Édité le ${new Date().toLocaleDateString('fr-FR')}.</td>`);
+  R(empty(nc));
+  R(`<td${span(1,g)} class="b bc cl">Nom et prénoms du client :</td><td${span(g+1,nc)} class="b bc cl i">${E(dd.client||'—')}</td>`,30);
+  R(empty(nc));
+  R(`<td${span(1,g-1)} class="b bh">Caractéristiques du crédit</td><td></td><td${span(g+1,nc)} class="b bh">Récapitulatif du crédit</td>`);
+  const rv=dd.cons?nc-1:nc;
+  dd.rows.forEach(([a,b])=>R(`<td${span(1,g-2)} class="b${a&&a.bold?' bb':''}">${a?E(a.l):''}</td><td class="b v">${fmtV(a)}</td><td></td><td${span(g+1,rv-1)} class="b${b&&b.bold?' bb':''}">${b?E(b.l):''}</td><td${span(rv,nc)} class="b v">${fmtV(b)}</td>`));
+  R(empty(nc));
+  if(dd.feeTable){
+    const ft=dd.feeTable;const kl=Math.max(1,Math.floor((nc-4)/2));
+    const sp=[[1,kl],[kl+1,nc-4],[nc-3,nc-3],[nc-2,nc-2],[nc-1,nc-1],[nc,nc]];
+    R(`<td colspan="${nc}" class="sec">Détail des frais et commissions</td>`);
+    R(sp.map(([a,b],k)=>`<td${span(a,b)} class="b fh">${E(ft.head[k])}</td>`).join(''),30);
+    ft.rows.forEach(r=>R(sp.map(([a,b],k)=>`<td${span(a,b)} class="b ${k>=3?'num':k===2?'bc':'wr'}">${k>=3?fmtIntFr(r[k]):E(''+r[k])}</td>`).join('')));
+    R(`<td${span(1,nc-3)} class="b tot">Total</td><td class="b num tot">${fmtIntFr(ft.tot[0])}</td><td class="b num tot">${fmtIntFr(ft.tot[1])}</td><td class="b num tot">${fmtIntFr(ft.tot[2])}</td>`);
+    R(empty(nc));
   }
-  R(empty(7));
-  R(dd.head.map(h=>`<td class="b th">${E(h)}</td>`).join(''),'',38);
-  dd.body.forEach(r=>R(`<td class="b bc">${E(r.n)}</td><td class="b bc">${E(r.d)}</td>`+r.v.map(v=>`<td class="b num">${fmtIntFr(v)}</td>`).join('')));
-  R(`<td colspan="3" class="b tot">Totaux</td><td class="b num tot">${fmtIntFr(dd.tot[1])}</td><td class="b num tot">${fmtIntFr(dd.tot[2])}</td><td class="b num tot">${fmtIntFr(dd.tot[3])}</td><td class="b tot"></td>`);
-  if(dd.note){R(empty(7));R(`<td colspan="7" class="nt l">${E(dd.note)}</td>`);}
-  for(let k=0;k<4;k++)R(empty(7));
+  R(dd.head.map(h=>`<td class="b th">${E(h)}</td>`).join(''),38);
+  const stc={PA:'#1b6b47',IM:'#a6192e',E:'#6e7882'};
+  dd.body.forEach(r=>R(`<td class="b bc${r.st==='IM'?' im':''}">${E(r.n)}</td><td class="b bc${r.st==='IM'?' im':''}">${E(r.d)}</td>`
+    +r.v.map(v=>`<td class="b num${r.st==='IM'?' im':''}">${fmtIntFr(v)}</td>`).join('')
+    +(dd.cons?`<td class="b bc${r.st==='IM'?' im':''}" style="font-weight:bold;color:${stc[r.st]}">${r.st}</td>`:'')));
+  R(`<td colspan="3" class="b tot">Totaux</td>`+dd.tot.slice(1).map(v=>`<td class="b num tot">${v==null?'':fmtIntFr(v)}</td>`).join('')+(dd.cons?'<td class="b tot"></td>':''));
+  R(empty(nc));
+  dd.notes.forEach(n=>R(`<td colspan="${nc}" class="nt l">${E(n)}</td>`));
+  for(let k=0;k<3;k++)R(empty(nc));
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><style>
   body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#fff;color:#1f1f21;display:flex;flex-direction:column;height:100vh}
   .bar{background:#217346;color:#fff;padding:6px 12px;font-size:12px;font-weight:bold;flex:none}
@@ -5350,27 +6210,31 @@ function loanExcelHTML(L){
   table{border-collapse:collapse;table-layout:fixed}
   th.ch,th.rn{background:#f3f3f3;color:#555;font-weight:normal;font-size:11px;border:1px solid #d4d4d4;position:sticky}
   th.ch{top:0;height:20px;z-index:2}th.rn{left:0;width:36px;z-index:1}th.corner{left:0;z-index:3}
-  td{border:1px solid #e6e6e6;padding:2px 5px;height:18px;white-space:nowrap;overflow:hidden}
+  td{border:1px solid #e6e6e6;padding:2px 5px;height:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   td.b{border:1px solid #7f7f7f}
-  .ttl{background:#a6192e;color:#fff;font-weight:bold;font-size:16px;text-align:center;border:1px solid #a6192e}
+  .ttl{background:#a6192e;color:#fff;font-weight:bold;font-size:15px;text-align:center;border:1px solid #a6192e}
   .nt{font-style:italic;font-size:10px;text-align:right}.nt.l{text-align:left;white-space:normal}
-  .bc{text-align:center}.cl{font-weight:bold;font-size:13px}.i{font-style:italic}
+  .sec{font-weight:bold;font-size:12.5px}
+  .bc{text-align:center}.cl{font-weight:bold;font-size:13px}.i{font-style:italic}.bb{font-weight:bold}
   .bh{color:#1f3864;font-weight:bold;text-align:center}
   .v{background:#dee8f6;font-weight:bold;text-align:right}
   .th{background:#a6192e;color:#fff;font-weight:bold;text-align:center;white-space:normal}
-  .num{text-align:right}.tot{font-weight:bold;background:#f2f2f2}
+  .fh{background:#3c3c40;color:#fff;font-weight:bold;text-align:center;white-space:normal}
+  .wr{white-space:normal;font-size:11px}
+  .num{text-align:right}.tot{font-weight:bold;background:#f2f2f2}.im{background:#fcecee}
   .tabs{flex:none;border-top:1px solid #d4d4d4;background:#f3f3f3;padding:0 10px;font-size:11px}
   .tabs span{display:inline-block;background:#fff;border:1px solid #d4d4d4;border-top:none;padding:4px 14px;color:#217346;font-weight:bold}
   </style></head><body>
   <div class="bar">${E(dd.fileBase)}.xlsx</div>
-  <div class="fx">A1 &nbsp;|&nbsp; TABLEAU D'AMORTISSEMENT DE PRÊT</div>
+  <div class="fx">A1 &nbsp;|&nbsp; ${E(dd.title)}</div>
   <div class="wrap"><table>
     <colgroup><col style="width:36px">${widths.map(w=>`<col style="width:${w}px">`).join('')}</colgroup>
-    <thead><tr><th class="ch rn corner"></th>${cols.map(c=>`<th class="ch">${c}</th>`).join('')}</tr></thead>
-    <tbody>${rowsOut.join('')}</tbody></table></div>
-  <div class="tabs"><span>Tableau amortissement</span></div>
+    <thead><tr><th class="ch rn corner"></th>${letters.map(c=>`<th class="ch">${c}</th>`).join('')}</tr></thead>
+    <tbody>${out.join('')}</tbody></table></div>
+  <div class="tabs"><span>${dd.cons?'Situation du prêt':'Tableau amortissement'}</span></div>
   </body></html>`;
 }
+
 // indicateurs consolidés (rendements + durées + durations)
 function consolidate(metricsList){
   const n=metricsList.length;
