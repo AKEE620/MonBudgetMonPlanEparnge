@@ -674,6 +674,79 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .lp-tegrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:13px}
 .lp-vars td{text-align:left!important;font-size:12px}
 .lp-vars code{font-size:11.5px}
+/* ---- Lot 4 : portefeuille de crédit ---- */
+.cr-tools{margin:0 0 14px}
+.cr-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:14px;margin-bottom:14px}
+.cr-block{margin-bottom:16px}
+.cr-block h3{margin:0 0 10px;font-size:16px}
+.cr-count{font-size:12px;font-weight:700;background:#faf8f2;border:1px solid var(--line-2);border-radius:20px;padding:2px 9px;color:var(--ink-soft);margin-left:6px}
+.cr-empty{font-size:13.5px;color:var(--muted);margin:0}
+.cr-hint{font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.cr-tbl{font-size:12.8px;min-width:640px}
+.cr-tbl td,.cr-tbl th{padding:7px 9px}
+.cr-tbl tbody tr:hover{background:#faf8f2}
+.cr-lines{min-width:1100px}
+.cr-sched{min-width:900px}
+.cr-foot{font-size:12px;color:var(--muted);margin-top:8px;text-align:right}
+.cr-bad{color:var(--red);font-weight:700}
+.cr-late{font-size:11px;color:var(--red);font-weight:700}
+.cr-strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.cr-paid td{background:#f4fbf7}
+.cr-unpaid td{background:#fdf1f2}
+.cr-check{width:18px;height:18px;cursor:pointer;accent-color:#1f9d6b}
+.cr-pay{width:110px;border:1.5px solid var(--line);border-radius:8px;padding:5px 8px;font-family:'Outfit';font-size:12.5px;text-align:right}
+.cr-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.cr-head h3{margin:0;font-size:18px;flex:1;min-width:220px;color:#fff}
+.cr-tag{font-size:10.5px;font-weight:700;background:#faf8f2;border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;color:var(--ink-soft)}
+.cr-st{font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.cr-st-actif{background:#e9f6ef;color:#1b6b47}
+.cr-st-solde{background:#eef0f2;color:#5a646e}
+.cr-st-suppression_demandee{background:#fff4dc;color:#8a6d2f}
+.cr-st-archive{background:#fbeaec;color:#a6192e}
+.cr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.cr-f{background:#faf8f2;border:1px solid var(--line-2);border-radius:10px;padding:8px 11px}
+.cr-f label{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700;margin-bottom:3px}
+.cr-f span{font-size:13.5px;color:var(--ink);font-weight:600;word-break:break-word}
+.cr-prevbox{background:#faf8f2;border:1px solid var(--line-2);border-radius:10px;padding:10px 13px;font-size:13px;color:var(--ink-soft)}
+.st-pp{background:#fff4dc;color:#8a6d2f}
+/* statut de compte et bloc crédit dans la fiche utilisateur */
+.acc-credit{grid-column:1/-1}
+.acc-crow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.acc-crow label{display:flex;flex-direction:column;gap:4px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700}
+.acc-crow select{border:1.5px solid var(--line);border-radius:9px;padding:7px 9px;font-family:'Outfit';font-size:12.5px;text-transform:none;letter-spacing:0;color:var(--ink);background:#fff}
+.acc-stat{font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px}
+.acc-stat-active{background:#e9f6ef;color:#1b6b47}
+.acc-stat-suspended{background:#fff4dc;color:#8a6d2f}
+.acc-stat-banned{background:#fbeaec;color:#a6192e}
+.fil-mini .fil-head{border-bottom:none}
+.fil-logo.mini{width:74px;height:30px}
+/* blocage d'un compte suspendu ou banni */
+.acc-block{position:fixed;inset:0;background:rgba(20,22,28,.92);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.acc-block-card{background:#fff;border-radius:16px;max-width:430px;padding:26px 28px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.4)}
+.acc-block-t{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;color:var(--red);margin-bottom:10px}
+.acc-block-card p{font-size:13.5px;color:var(--ink-soft);line-height:1.55;margin:0 0 8px}
+.acc-block-r{font-weight:600;color:var(--ink)}
+.acc-block-s{font-size:12.5px!important;color:var(--muted)!important}
+.pr-f{display:flex;flex-direction:column;gap:5px;margin:12px 0;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.pr-f input{border:1.5px solid var(--line);border-radius:9px;padding:9px 11px;font-family:'Outfit';font-size:13.5px;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:500}
+/* ---- Lot 5 : règlements partiels et piste d'audit ---- */
+.cr-paycell{white-space:nowrap}
+.cr-paycell .lp-mini{padding:3px 8px;margin-left:4px}
+.cr-hist{font-size:10.5px;color:var(--muted);margin-top:3px;white-space:normal;max-width:220px;text-align:right}
+.au-tbl{min-width:1000px}
+.au-tbl td{vertical-align:top}
+.au-tbl td.nw{white-space:nowrap}
+.au-det{font-size:11.5px;color:var(--ink-soft);max-width:360px;white-space:normal}
+.au-cat{display:inline-block;font-size:10px;font-weight:700;border-radius:5px;padding:1px 6px;margin-right:5px;white-space:nowrap}
+.au-credit{background:#e9f6ef;color:#1b6b47}
+.au-droits{background:#eef9fa;color:var(--cyan-deep)}
+.au-compte{background:#fbeaec;color:#a6192e}
+.au-config{background:#fff4dc;color:#8a6d2f}
+.au-doc{background:#f0eef8;color:#4a3f83}
+.au-session{background:#eef0f2;color:#5a646e}
+.au-date{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600}
+.au-date input{border:1.5px solid var(--line);border-radius:9px;padding:7px 9px;font-family:'Outfit';font-size:12.5px;color:var(--ink)}
+
 
 .stock-foot .ghost-btn{padding:9px 14px;font-size:13px}
 .amort-locked{margin-top:14px;background:#fdf6e9;border:1px dashed #e0b85a;border-radius:11px;padding:13px 16px;font-size:13px;color:#8a6d2f;line-height:1.5}
@@ -879,6 +952,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
       <button data-v="titres" onclick="nav('titres')">Titres publics</button>
       <button data-v="glossaire" onclick="nav('glossaire')">Glossaire</button>
       <button data-v="portef" id="portefTab" onclick="nav('portef')">Mon portefeuille</button>
+      <button data-v="credit" id="creditTab" style="display:none" onclick="nav('credit')">Portefeuille de crédit</button>
       <button data-v="apropos" onclick="nav('apropos')">À propos</button>
       <button data-v="interne" id="interneTab" style="display:none" onclick="nav('interne')">Outils Internes</button>
       <button data-v="admin" id="adminTab" style="display:none" onclick="nav('admin')">Admin</button>
@@ -1318,6 +1392,25 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     </section>
 
     <!-- ADMIN -->
+    <!-- PORTEFEUILLE DE CRÉDIT -->
+    <section class="view" id="v-credit">
+      <div class="page-head">
+        <div class="kicker">Suivi du risque</div>
+        <h2>Portefeuille de crédit</h2>
+        <p>Base des crédits accordés, suivi des remboursements et tableaux de bord. Le périmètre affiché dépend de votre rôle : gestionnaire, chef, administrateur de filiale ou super-administrateur.</p>
+      </div>
+      <div id="creditBody">
+        <div class="acc-note" id="creditMode"></div>
+        <div class="subtabs">
+          <button class="on" data-sub="dash" onclick="creditNav('dash')">Tableau de bord</button>
+          <button data-sub="lignes" onclick="creditNav('lignes')">Lignes de crédit</button>
+          <button data-sub="clients" onclick="creditNav('clients')">Clients</button>
+          <button data-sub="valid" id="creditValidTab" onclick="creditNav('valid')">Validations</button>
+        </div>
+        <div id="creditView"></div>
+      </div>
+    </section>
+
     <section class="view" id="v-interne">
       <div class="page-head">
         <div class="kicker">Espace réservé</div>
@@ -1381,6 +1474,8 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <button data-sub="activite" onclick="admNav('activite')">Activité</button>
         <button data-sub="filiales" onclick="admNav('filiales')">Filiales</button>
         <button data-sub="users" onclick="admNav('users')">Utilisateurs &amp; droits</button>
+        <button data-sub="credit" onclick="admNav('credit')">Crédit</button>
+        <button data-sub="audit" onclick="admNav('audit')">Piste d'audit</button>
         <button data-sub="outils" onclick="admNav('outils')">Outils (versions)</button>
         <button data-sub="deploy" onclick="admNav('deploy')">Déploiement</button>
       </div>
@@ -1400,7 +1495,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
               <h3 style="margin:0">Filiales</h3>
               <p style="margin:4px 0 0;font-size:13px;color:var(--muted)">Chaque filiale dispose de son papier à en-tête (logo et pied de page), de ses domaines et d'un profil de droits appliqué par défaut à ses utilisateurs. Le papier à en-tête est utilisé pour les échéanciers et les tableaux d'amortissement ; il sera étendu aux ordres d'achat, avis d'opéré et attestations.</p>
             </div>
-            <button class="add-stock" id="admFilAddBtn" onclick="filAdd()">+ Nouvelle filiale</button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="ghost-btn" id="admFilMaskBtn" onclick="filToggleAll()">Tout masquer</button><button class="add-stock" id="admFilAddBtn" onclick="filAdd()">+ Nouvelle filiale</button></div>
           </div>
           <div id="admFilialesList"></div>
         </div>
@@ -1432,6 +1527,22 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         </div>
       </div>
 
+      <!-- PORTEFEUILLE DE CRÉDIT : colonnes personnalisées et base de données -->
+      <div class="adm-view" id="adm-credit">
+        <div class="infocard">
+          <h3 style="margin:0 0 10px">Portefeuille de crédit</h3>
+          <div id="admCreditBody"></div>
+        </div>
+      </div>
+
+      <!-- PISTE D'AUDIT : qui a fait quoi et quand -->
+      <div class="adm-view" id="adm-audit">
+        <div class="infocard">
+          <h3 style="margin:0 0 10px">Piste d'audit</h3>
+          <div id="admAuditBody"></div>
+        </div>
+      </div>
+
       <!-- OUTILS (versions) -->
       <div class="adm-view" id="adm-outils">
       <div class="infocard" ><h3>Gestion des outils (versions)</h3>
@@ -1454,6 +1565,19 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
   <div style="color:white;font-weight:bold;font-size:22px;"class="foot">
     <b>akeekolou@gmail.com</b>
     <p class="disclaimer">Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
+  </div>
+</div>
+
+<div id="promptModal" class="modal">
+  <div class="modal-box">
+    <h3>Confirmation</h3>
+    <p id="promptMsg" style="white-space:pre-line"></p>
+    <label class="pr-f"><span id="promptLbl">Motif</span><input id="promptInput" type="text" placeholder="Saisissez le motif"></label>
+    <label class="pr-f" id="promptExtraWrap" style="display:none"><span id="promptExtraLbl"></span><input id="promptExtra" type="date"></label>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="promptCancel()">Annuler</button>
+      <button class="btn-del" onclick="promptOk()">Valider</button>
+    </div>
   </div>
 </div>
 
@@ -2247,14 +2371,19 @@ const RIGHTS_CATALOG=[
   {key:'tool_releves', group:'tools', label:'Relevés de compte, Attestations & Avis', sub:true},
   {key:'tool_risk',    group:'tools', label:'Profil de risque (barre du haut)'},
   {key:'tool_frais',   group:'tools', label:'Simulateur de frais (barre du haut)'},
+  {key:'credit',       group:'credit',label:'Onglet « Portefeuille de crédit »', hint:'Accès au module : base des crédits, clients et tableau de bord, dans la limite du périmètre du rôle.'},
+  {key:'credit_create',group:'credit',label:'Créer et modifier des lignes de crédit', sub:true},
+  {key:'credit_export',group:'credit',label:'Exporter le portefeuille en Excel', sub:true},
+  {key:'credit_validate',group:'credit',label:'Valider les demandes de suppression', sub:true, hint:'Accordé d\'office aux chefs et aux administrateurs de filiale.'},
   {key:'letterhead',   group:'docs',  label:'Papier à en-tête de la filiale', hint:"Les échéanciers et tableaux d'amortissement sont exportés avec le logo et le pied de page de la filiale."}
 ];
-const RIGHTS_GROUPS={port:'Mon portefeuille',tools:'Outils',docs:'Documents'};
+const RIGHTS_GROUPS={port:'Mon portefeuille',tools:'Outils',docs:'Documents',credit:'Portefeuille de crédit'};
 /* droits par défaut (comportement historique : portefeuille et outils de la
    barre du haut ouverts ; outils internes et papier à en-tête fermés) */
 const RIGHTS_DEFAULT={port_actions:true,port_prets:true,port_oblig:true,port_monet:true,port_synth:true,
   interne:false,tool_ordre:false,tool_simulateur:false,tool_avis:false,tool_releves:false,
-  tool_risk:true,tool_frais:true,letterhead:false};
+  tool_risk:true,tool_frais:true,letterhead:false,
+  credit:false,credit_create:false,credit_export:false,credit_validate:false};
 /* visiteurs : identiques à l'existant (le portefeuille reste verrouillé par sa propre logique) */
 const GUEST_RIGHTS=Object.assign({},RIGHTS_DEFAULT);
 /* sous-onglet du portefeuille -> droit */
@@ -2337,6 +2466,39 @@ function userEntId(em){
 }
 function userEntity(){return session?entById(userEntId(session.user)):null;}
 
+/* ---------- Statut du compte (actif, suspendu, banni) ----------
+   La suspension et le bannissement bloquent l'interface ET, pour les données
+   partagées du portefeuille de crédit, l'accès au serveur (règles RLS). */
+function accountStatus(em){
+  const u=entCfg.users[normEmail(em||(session&&session.user))]||{};
+  const st=u.status||'active';
+  if(st==='suspended'&&u.suspendUntil){
+    const d=new Date(u.suspendUntil+'T23:59:59');
+    if(!isNaN(d)&&d<new Date())return {state:'active',reason:'',until:''};   // fin de suspension atteinte
+  }
+  return {state:st,reason:u.statusReason||'',until:u.suspendUntil||''};
+}
+const ACCOUNT_STATUS_LBL={active:'Actif',suspended:'Suspendu',banned:'Banni'};
+/* écran de blocage : l'utilisateur ne peut plus rien faire hors déconnexion */
+function applyAccountBlock(){
+  const st=accountStatus();
+  let box=document.getElementById('accBlock');
+  if(st.state==='active'){if(box)box.remove();document.body.style.overflow='';return false;}
+  if(!box){
+    box=document.createElement('div');box.id='accBlock';box.className='acc-block';
+    document.body.appendChild(box);
+  }
+  const banned=st.state==='banned';
+  box.innerHTML=`<div class="acc-block-card">
+    <div class="acc-block-t">${banned?'Accès retiré':'Accès suspendu'}</div>
+    <p>${banned?'Votre accès à la plateforme a été retiré par un administrateur.':'Votre accès est temporairement suspendu'+(st.until?" jusqu'au "+fmtDateFR(new Date(st.until+'T00:00:00')):'')+'.'}</p>
+    ${st.reason?'<p class="acc-block-r">Motif : '+escapeHtml(st.reason)+'</p>':''}
+    <p class="acc-block-s">Contactez l'administrateur de votre filiale pour toute question.</p>
+    <button class="icon-btn danger" onclick="logout()">Se déconnecter</button></div>`;
+  document.body.style.overflow='hidden';
+  return true;
+}
+
 /* ---------- Droits ---------- */
 function rightsProfile(entId){
   const e=entById(entId);
@@ -2350,6 +2512,8 @@ function effectiveRights(em){
 function can(key){
   if(!session)return false;
   if(session.role==='guest')return !!GUEST_RIGHTS[key];
+  if(accountStatus().state!=='active')return false;         // compte suspendu ou banni
+  if(key==='credit_validate'&&(isAnyAdmin()||creditRole()==='chef'))return true;
   if(isSuperAdmin())return true;
   return !!effectiveRights(session.user)[key];
 }
@@ -2371,6 +2535,7 @@ function userCanInternal(){return can('interne');}
    chaque modification faite dans l'administration. */
 function applyAccess(){
   if(!session)return;
+  if(session.role!=='guest'&&applyAccountBlock())return;     // compte suspendu / banni
   // 1) promotion éventuelle en super-admin (liste gérée dans l'admin)
   if(session.role==='member'&&isSuperAdminEmail(session.user)){session.role='admin';}
   session.entAdmin=entAdminOf();
@@ -2401,7 +2566,11 @@ function applyAccess(){
   });
   const none=document.getElementById('itc-none');if(none)none.style.display=(intOk&&!anyTool)?'':'none';
   if(!intOk){const sec=document.getElementById('v-interne');if(sec&&sec.classList.contains('on'))nav('budget');}
-  // 6) onglets visibles (préférences utilisateur + droits)
+  // 6) onglet Portefeuille de crédit
+  const ct=document.getElementById('creditTab');
+  if(ct)ct.style.display=can('credit')?'flex':'none';
+  if(!can('credit')){const sec=document.getElementById('v-credit');if(sec&&sec.classList.contains('on'))nav('budget');}
+  // 7) onglets visibles (préférences utilisateur + droits)
   if(typeof applyTabPrefs==='function')applyTabPrefs();
   initEntityOption();
 }
@@ -2521,7 +2690,7 @@ let admSub='activite';
 let accUI={q:'',ent:'',open:{},known:[],knownLoaded:false};
 function admSubAllowed(s){
   if(isSuperAdmin())return true;
-  return ['filiales','users'].includes(s);
+  return ['filiales','users','audit'].includes(s);   // l'admin de filiale voit aussi la piste d'audit
 }
 function admNav(s){
   if(!admSubAllowed(s))s='users';
@@ -2535,6 +2704,8 @@ function admNav(s){
   if(s==='outils')renderToolAdmin();
   if(s==='filiales')renderFilialesAdmin();
   if(s==='users')renderUsersAdmin();
+  if(s==='credit')renderCreditAdmin();
+  if(s==='audit')renderAuditAdmin();
   if(s==='deploy')renderDeployAdmin();
 }
 function renderAccessAdmin(){
@@ -2566,9 +2737,19 @@ function rightsGridHTML(values,onchange,opts){
     return `<div class="acc-grp"><div class="acc-grp-t">${RIGHTS_GROUPS[g]}</div>${items}</div>`;
   }).join('');
 }
+function filHidden(id){accUI.filHide=accUI.filHide||{};return !!accUI.filHide[id];}
+function filToggleHide(id){accUI.filHide=accUI.filHide||{};accUI.filHide[id]=!accUI.filHide[id];renderFilialesAdmin();}
+function filToggleAll(){
+  const list=filialesVisible();accUI.filHide=accUI.filHide||{};
+  const any=list.some(e=>!accUI.filHide[e.id]);
+  list.forEach(e=>accUI.filHide[e.id]=any);
+  renderFilialesAdmin();
+}
 function renderFilialesAdmin(){
   const box=document.getElementById('admFilialesList');if(!box)return;
   const list=filialesVisible();
+  const mask=document.getElementById('admFilMaskBtn');
+  if(mask){mask.style.display=list.length?'':'none';mask.textContent=list.some(e=>!filHidden(e.id))?'Tout masquer':'Tout afficher';}
   const addBtn=document.getElementById('admFilAddBtn');if(addBtn)addBtn.style.display=isSuperAdmin()?'':'none';
   const defCard=isSuperAdmin()?`<div class="fil-card"><div class="fil-head"><div class="fil-logo"><span>Défaut</span></div>
     <div class="fil-id"><div class="fil-name">Paramètres par défaut</div><div class="fil-meta">Appliqués aux utilisateurs non rattachés à une filiale</div></div></div>
@@ -2578,12 +2759,20 @@ function renderFilialesAdmin(){
     const idx=entCfg.entities.indexOf(e);
     const nUsers=usersOfEnt(e.id).length;
     const prof=rightsProfile(e.id);
+    if(filHidden(e.id))return `<div class="fil-card fil-mini" data-ent="${e.id}">
+      <div class="fil-head">
+        <div class="fil-logo mini">${e.logo?`<img src="${e.logo}" alt="">`:'<span>Logo</span>'}</div>
+        <div class="fil-id"><div class="fil-name">${escapeHtml(e.name||'Filiale sans nom')}</div>
+          <div class="fil-meta">${escapeHtml(e.short||'—')} · ${nUsers} utilisateur${nUsers>1?'s':''}</div></div>
+        <button class="ghost-btn" onclick="filToggleHide('${e.id}')">Afficher</button>
+      </div></div>`;
     return `<div class="fil-card" data-ent="${e.id}">
       <div class="fil-head">
         <div class="fil-logo">${e.logo?`<img src="${e.logo}" alt="">`:'<span>Logo</span>'}</div>
         <div class="fil-id"><div class="fil-name">${escapeHtml(e.name||'Filiale sans nom')}</div>
           <div class="fil-meta">${escapeHtml(e.short||'—')} · ${nUsers} utilisateur${nUsers>1?'s':''}${(e.domains||[]).length?' · '+e.domains.map(escapeHtml).join(', '):''}</div></div>
         <button class="ghost-btn" onclick="filPreview('${e.id}')">Aperçu de l'en-tête</button>
+        <button class="ghost-btn" onclick="filToggleHide('${e.id}')">Masquer</button>
       </div>
       <div class="fil-body">
         <div class="fgrid">
@@ -2618,6 +2807,7 @@ function filEdit(idx,field,val){
   const e=entCfg.entities[idx];
   if(field==='domains'){if(!isSuperAdmin())return;e.domains=(''+val).split(/[,;\s]+/).map(d=>d.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'')).filter(Boolean);}
   else e[field]=val;
+  auditLog('config.filiale',{type:'filiale',id:e.id,label:e.short||e.name||e.id,details:{champ:field}});
   saveEntConfig();renderFilialesAdmin();renderUsersToolbar();
   const p=document.getElementById('filPrev-'+e.id);if(p&&p.style.display!=='none')filPreview(e.id,true);
 }
@@ -2642,6 +2832,7 @@ function filDel(idx){
   const n=usersOfEnt(e.id).length;
   confirmAction('Supprimer la filiale « '+(e.name||e.short||'sans nom')+' » ?'+(n?' Ses '+n+' utilisateur(s) seront détachés et reprendront les droits par défaut.':''),()=>{
     Object.values(entCfg.users).forEach(u=>{if(u.ent===e.id){u.ent='';if(u.role==='entadmin')u.role='member';}});
+    auditLog('config.filiale_suppression',{type:'filiale',id:e.id,label:e.name||e.short||e.id,details:{utilisateursDétachés:n}});
     entCfg.entities.splice(idx,1);
     if(state.pdfPrefs&&state.pdfPrefs.entity===e.id)savePdfPref('entity','');
     saveEntConfig();renderFilialesAdmin();renderUsersAdmin();toast('Filiale supprimée');
@@ -2677,7 +2868,10 @@ function lpObj(tgt){
   e.loan=normLoanParams(e.loan);return e.loan;
 }
 function lpCanEdit(tgt){return tgt==='def'?isSuperAdmin():filCanEdit(+tgt);}
-function lpSave(){saveEntConfig();renderFilialesAdmin();if(typeof renderLoans==='function'&&document.getElementById('loansList'))renderLoans();}
+function lpSave(tgt,champ){
+  if(tgt!=null)auditLog('config.pret',{type:'filiale',id:tgt==='def'?'défaut':(entCfg.entities[+tgt]||{}).id,
+    label:tgt==='def'?'Paramètres par défaut':((entCfg.entities[+tgt]||{}).short||''),details:champ?{champ}:{}});
+  saveEntConfig();renderFilialesAdmin();if(typeof renderLoans==='function'&&document.getElementById('loansList'))renderLoans();}
 function lpToggle(key,open){accUI.lpOpen=accUI.lpOpen||{};accUI.lpOpen[key]=open;}
 function lpSet(tgt,field,val){
   if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
@@ -2685,7 +2879,7 @@ function lpSet(tgt,field,val){
   else if(['rate','letterDelay'].includes(field))p[field]=val===''?0:+val;
   else if(field==='currency')p[field]=(''+val).trim().toUpperCase();
   else p[field]=val;
-  lpSave();
+  lpSave(tgt,field);
 }
 function lpBracket(tgt,k,field,val){
   if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const b=p.taxBrackets[k];if(!b)return;
@@ -2714,16 +2908,16 @@ function lpFee(tgt,k,field,val){
   else if(field==='min'||field==='max')f[field]=val===''?'':Math.max(0,+val||0);
   else f[field]=val;
   if(f.min!==''&&f.max!==''&&+f.min>+f.max)toast('Attention : le minimum dépasse le maximum');
-  lpSave();
+  lpSave(tgt,'frais : '+f.label);
 }
 function lpFeeAdd(tgt){
   if(!lpCanEdit(tgt))return;const p=lpObj(tgt);
   p.fees.push({id:lpSlug('nouveau frais',p.fees),label:'Nouveau frais',kind:'pct',value:0,min:'',max:'',period:'once',taxable:true,show:true});
-  lpSave();toast('Frais ajouté : complétez son libellé et son calcul');
+  lpSave(tgt,'ajout de frais');toast('Frais ajouté : complétez son libellé et son calcul');
 }
 function lpFeeDel(tgt,k){
   if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const f=p.fees[k];if(!f)return;
-  confirmAction('Supprimer « '+f.label+' » des paramètres ?',()=>{p.fees.splice(k,1);lpSave();},'Supprimer');
+  confirmAction('Supprimer « '+f.label+' » des paramètres ?',()=>{p.fees.splice(k,1);lpSave(tgt,'frais supprimé : '+f.label);},'Supprimer');
 }
 function lpFeeMove(tgt,k,d){
   if(!lpCanEdit(tgt))return;const p=lpObj(tgt);const j=k+d;if(j<0||j>=p.fees.length)return;
@@ -2740,7 +2934,7 @@ function lpCopy(tgt,src){
   confirmAction('Remplacer les paramètres de prêt actuels par ceux de « '+label+' » ?',()=>{
     const copy=JSON.parse(JSON.stringify(from));
     if(tgt==='def')entCfg.loanDefaults=copy;else entCfg.entities[+tgt].loan=copy;
-    lpSave();toast('Paramètres repris : '+label);
+    lpSave(tgt,'modèle repris : '+label);toast('Paramètres repris : '+label);
   },'Remplacer');
 }
 /* test de la formule du TEG sur un prêt type (100 fois le minimum le plus élevé, 12 mois) */
@@ -2904,11 +3098,12 @@ function renderUsersList(){
       <div class="acc-row">
         <div class="acc-av r-${r.role}">${initials}</div>
         <div class="acc-id"><div class="acc-em">${escapeHtml(r.em)}${self?' <span class="acc-me">vous</span>':''}</div>
-          <div class="acc-sum">${isSA?'<b>Tous les droits</b>':`Portefeuille ${nPort}/5 · Outils ${nTools}/7 · Papier ${eff.letterhead?'oui':'non'}`}${nOv?` · <span class="acc-ovc">${nOv} dérogation${nOv>1?'s':''}</span>`:''}${hostEnt&&!isSA?` · <i>profil ${escapeHtml(hostEnt.short||hostEnt.name)} (domaine)</i>`:''}</div></div>
+          <div class="acc-sum">${isSA?'<b>Tous les droits</b>':`Portefeuille ${nPort}/5 · Outils ${nTools}/7 · Papier ${eff.letterhead?'oui':'non'}`}${nOv?` · <span class="acc-ovc">${nOv} dérogation${nOv>1?'s':''}</span>`:''}${(()=>{const s=accountStatus(r.em);return s.state==='active'?'':' · <span class="acc-stat acc-stat-'+s.state+'">'+ACCOUNT_STATUS_LBL[s.state]+'</span>';})()}${creditRole(r.em)==='chef'?' · <span class="cr-tag">chef crédit</span>':''}${hostEnt&&!isSA?` · <i>profil ${escapeHtml(hostEnt.short||hostEnt.name)} (domaine)</i>`:''}</div></div>
         <div class="acc-ctl">${entSel}${roleSel}
           <button class="icon-btn" ${isSA?'disabled':''} onclick="accToggle('${r.em}')">${open?'Masquer les droits':'Droits'}</button></div>
       </div>
       ${open&&!isSA?`<div class="acc-detail">
+        ${accCreditHTML(r)}
         <div class="acc-grid">${rightsGridHTML(eff,'accRightCb',{overrides:(r.u&&r.u.rights)||{}}).replace(/accRightCb\('/g,"accRight('"+r.em+"','")}</div>
         <div class="fil-actions">
           <span class="acc-legend"><i></i> dérogation au profil de la filiale</span>
@@ -2918,6 +3113,104 @@ function renderUsersList(){
     </div>`;
   }).join('');
 }
+/* bloc « module crédit » et statut du compte dans la fiche utilisateur */
+function accCreditHTML(r){
+  const u=r.u||{};const cr=u.credit||{};
+  const st=accountStatus(r.em);
+  const mine=entAdminOf();
+  const chefs=Object.keys(entCfg.users).filter(k=>k!==r.em&&entCfg.users[k].ent===(r.ent||mine)&&((entCfg.users[k].credit||{}).role==='chef'));
+  return `<div class="acc-grp acc-credit">
+    <div class="acc-grp-t">Portefeuille de crédit — rôle et rattachement</div>
+    <div class="acc-crow">
+      <label>Rôle
+        <select onchange="accCredit('${r.em}','role',this.value)">
+          <option value="gestionnaire" ${cr.role!=='chef'?'selected':''}>Gestionnaire</option>
+          <option value="chef" ${cr.role==='chef'?'selected':''}>Chef</option>
+        </select></label>
+      <label>Chef direct
+        <select ${cr.role==='chef'?'disabled':''} onchange="accCredit('${r.em}','chef',this.value)">
+          <option value="">— Aucun —</option>
+          ${chefs.map(c=>`<option value="${c}" ${normEmail(cr.chef)===c?'selected':''}>${escapeHtml(c)}</option>`).join('')}
+        </select></label>
+      <span class="lf-hint">Le chef voit et valide le portefeuille des gestionnaires qui lui sont rattachés.</span>
+    </div>
+    <div class="acc-grp-t" style="margin-top:10px">Statut du compte</div>
+    <div class="acc-crow">
+      <span class="acc-stat acc-stat-${st.state}">${ACCOUNT_STATUS_LBL[st.state]}${st.until&&st.state==='suspended'?" jusqu'au "+fmtDateFR(new Date(st.until+'T00:00:00')):''}</span>
+      ${st.state==='active'
+        ?`<button class="ghost-btn" onclick="accSuspend('${r.em}')">Suspendre temporairement</button>
+          <button class="del-btn" onclick="accBan('${r.em}')">Retirer l'accès (bannir)</button>`
+        :`<button class="save-btn" onclick="accReactivate('${r.em}')">Réactiver l'accès</button>`}
+      ${st.reason?`<span class="lf-hint">Motif : ${escapeHtml(st.reason)}</span>`:''}
+    </div>
+  </div>`;
+}
+function accCredit(em,field,val){
+  em=normEmail(em);
+  if(!accCanEdit(em)){toast('Action non autorisée');return;}
+  const u=accEnsure(em);u.credit=u.credit||{};
+  if(field==='role'){u.credit.role=val;if(val==='chef')u.credit.chef='';}
+  else u.credit.chef=normEmail(val);
+  auditLog('droits.credit',{type:'utilisateur',id:em,label:em,details:{champ:field==='role'?'rôle crédit':'chef',valeur:val||'aucun'}});
+  saveEntConfig();renderUsersList();
+  toast(field==='role'?('Rôle crédit : '+(val==='chef'?'Chef':'Gestionnaire')):(val?'Rattaché à '+val:'Rattachement retiré'));
+}
+function accSuspend(em){
+  em=normEmail(em);
+  if(!accCanEdit(em)){toast('Action non autorisée');return;}
+  if(normEmail(session.user)===em){toast('Vous ne pouvez pas suspendre votre propre compte');return;}
+  const d=new Date();d.setDate(d.getDate()+7);
+  promptAction("Suspendre temporairement l'accès de "+em+" ?\nL'utilisateur ne pourra plus rien faire jusqu'à la date indiquée.",'Motif de la suspension',reason=>{
+    const u=accEnsure(em);u.status='suspended';u.statusReason=reason||'';u.suspendUntil=loanIso(d);
+    auditLog('compte.suspension',{type:'utilisateur',id:em,label:em,details:{motif:reason||'',jusquAu:u.suspendUntil}});
+    saveEntConfig();renderUsersList();toast('Accès suspendu jusqu\'au '+fmtDateFR(d));
+  },{extra:{label:'Suspendu jusqu\'au',type:'date',value:loanIso(d),key:'until'},onExtra:(reason,extra)=>{
+    const u=accEnsure(em);u.status='suspended';u.statusReason=reason||'';u.suspendUntil=extra||loanIso(d);
+    auditLog('compte.suspension',{type:'utilisateur',id:em,label:em,details:{motif:reason||'',jusquAu:u.suspendUntil}});
+    saveEntConfig();renderUsersList();toast('Accès suspendu');
+  }});
+}
+function accBan(em){
+  em=normEmail(em);
+  if(!accCanEdit(em)){toast('Action non autorisée');return;}
+  if(normEmail(session.user)===em){toast('Vous ne pouvez pas retirer votre propre accès');return;}
+  promptAction("Retirer définitivement l'accès de "+em+" à la plateforme ?\nLe compte est conservé (pour la piste d'audit) mais ne peut plus se connecter ni accéder aux données.",'Motif',reason=>{
+    const u=accEnsure(em);u.status='banned';u.statusReason=reason||'';u.suspendUntil='';
+    auditLog('compte.bannissement',{type:'utilisateur',id:em,label:em,details:{motif:reason||''}});
+    saveEntConfig();renderUsersList();toast('Accès retiré');
+  });
+}
+function accReactivate(em){
+  em=normEmail(em);
+  if(!accCanEdit(em)){toast('Action non autorisée');return;}
+  const u=accEnsure(em);u.status='active';u.statusReason='';u.suspendUntil='';
+  auditLog('compte.reactivation',{type:'utilisateur',id:em,label:em});
+  saveEntConfig();renderUsersList();toast('Accès rétabli');
+}
+/* petite boîte de dialogue avec saisie (motif, date) */
+let _promptCb=null,_promptExtra=null;
+function promptAction(msg,label,cb,opt){
+  opt=opt||{};
+  _promptCb=opt.onExtra||cb;_promptExtra=!!opt.extra;   // le rappel reçoit (saisie, champ complémentaire)
+  const box=document.getElementById('promptModal');if(!box)return;
+  document.getElementById('promptMsg').textContent=msg;
+  document.getElementById('promptLbl').textContent=label||'Motif';
+  const inp=document.getElementById('promptInput');inp.value='';
+  const ex=document.getElementById('promptExtraWrap');
+  if(opt.extra){ex.style.display='';document.getElementById('promptExtraLbl').textContent=opt.extra.label;
+    const e=document.getElementById('promptExtra');e.type=opt.extra.type||'text';e.value=opt.extra.value||'';}
+  else ex.style.display='none';
+  box.classList.add('show');setTimeout(()=>inp.focus(),50);
+}
+function promptOk(){
+  const v=document.getElementById('promptInput').value.trim();
+  const ex=_promptExtra?document.getElementById('promptExtra').value:null;
+  document.getElementById('promptModal').classList.remove('show');
+  const cb=_promptCb;_promptCb=null;
+  if(cb)cb(v,ex);
+}
+function promptCancel(){document.getElementById('promptModal').classList.remove('show');_promptCb=null;}
+
 function accEnsure(em){
   em=normEmail(em);
   if(!entCfg.users[em])entCfg.users[em]={ent:entAdminOf()||'',role:'member',rights:{}};
@@ -2937,15 +3230,17 @@ function accSet(em,field,val){
   const u=accEnsure(em);
   if(field==='ent'){
     if(!isSuperAdmin())return;
-    u.ent=val;if(!val&&u.role==='entadmin')u.role='member';
+    const avant=u.ent;u.ent=val;if(!val&&u.role==='entadmin')u.role='member';
+    auditLog('droits.filiale',{type:'utilisateur',id:em,label:em,details:{avant:(entById(avant)||{}).short||'aucune',après:(entById(val)||{}).short||'aucune'}});
     toast(val?'Utilisateur rattaché à '+((entById(val)||{}).short||'la filiale'):'Utilisateur détaché');
   }else if(field==='role'){
     if(val==='superadmin'&&!isSuperAdmin())return;
     if(self&&isSuperAdmin()){toast('Vous ne pouvez pas modifier votre propre rôle');renderUsersList();return;}
     if(val==='entadmin'&&!u.ent){toast("Rattachez d'abord l'utilisateur à une filiale");renderUsersList();return;}
-    u.role=val;
+    const avant=u.role;u.role=val;
     entCfg.superAdmins=(entCfg.superAdmins||[]).filter(x=>x!==em);
     if(val==='superadmin')entCfg.superAdmins.push(em);
+    auditLog('droits.role',{type:'utilisateur',id:em,label:em,details:{avant:ROLE_LBL[avant]||avant,après:ROLE_LBL[val]}});
     toast('Rôle mis à jour : '+ROLE_LBL[val]);
   }
   saveEntConfig();renderUsersList();renderFilialesAdmin();
@@ -2956,6 +3251,7 @@ function accRight(em,key,val){
   const u=accEnsure(em);
   const prof=rightsProfile(u.ent||hostEntityId());
   if(val===prof[key])delete u.rights[key];else u.rights[key]=val;
+  auditLog('droits.droit',{type:'utilisateur',id:em,label:em,details:{droit:key,valeur:val?'accordé':'retiré'}});
   // cohérence : un outil interne accordé implique l'accès à l'onglet
   if(val&&key.startsWith('tool_')&&['tool_ordre','tool_simulateur','tool_avis','tool_releves'].includes(key)){
     const eff=effectiveRights(em);
@@ -2967,7 +3263,8 @@ function accToggle(em){accUI.open[em]=!accUI.open[em];renderUsersList();}
 function accReset(em){
   if(!accCanEdit(em))return;
   const u=entCfg.users[normEmail(em)];if(!u)return;
-  u.rights={};saveEntConfig();renderUsersList();toast('Droits alignés sur le profil de la filiale');
+  u.rights={};auditLog('droits.reset',{type:'utilisateur',id:em,label:em});
+  saveEntConfig();renderUsersList();toast('Droits alignés sur le profil de la filiale');
 }
 function accRemove(em){
   em=normEmail(em);
@@ -2975,6 +3272,7 @@ function accRemove(em){
   if(session&&normEmail(session.user)===em){toast('Vous ne pouvez pas vous retirer vous-même');return;}
   confirmAction('Retirer '+em+' de la configuration ? Le compte n\'est pas supprimé : il reprend les droits par défaut.',()=>{
     delete entCfg.users[em];entCfg.superAdmins=(entCfg.superAdmins||[]).filter(x=>x!==em);
+    auditLog('droits.retrait',{type:'utilisateur',id:em,label:em});
     saveEntConfig();renderUsersList();renderFilialesAdmin();toast('Utilisateur retiré de la configuration');
   },'Retirer');
 }
@@ -2992,8 +3290,64 @@ function accAdd(){
   if(role==='superadmin'&&!entCfg.superAdmins.includes(em))entCfg.superAdmins.push(em);
   if(inp)inp.value='';
   accUI.open[em]=true;if(!accUI.known.includes(em))accUI.known.push(em);
+  auditLog('droits.ajout',{type:'utilisateur',id:em,label:em,details:{filiale:(entById(ent)||{}).short||'aucune',rôle:ROLE_LBL[role]}});
   saveEntConfig();renderUsersList();renderFilialesAdmin();
   toast('Utilisateur ajouté : '+em);
+}
+
+/* ---------- Portefeuille de crédit : colonnes personnalisées (super-admin) ---------- */
+function creditColsAll(){if(!Array.isArray(entCfg.creditCols))entCfg.creditCols=[];return entCfg.creditCols;}
+function ccAdd(){
+  if(!isSuperAdmin())return;
+  const cols=creditColsAll();
+  if(cols.length>=12){toast('12 colonnes personnalisées au maximum');return;}
+  let k=1;while(cols.some(c=>c.key==='c'+k))k++;
+  cols.push({key:'c'+k,label:'',type:'text',options:[],show:true});
+  auditLog('config.colonnes',{type:'colonnes',label:'Ajout d\'une colonne'});
+  saveEntConfig();renderCreditAdmin();
+}
+function ccSet(i,field,val){
+  if(!isSuperAdmin())return;
+  const c=creditColsAll()[i];if(!c)return;
+  if(field==='options')c.options=(''+val).split(/[;,]/).map(x=>x.trim()).filter(Boolean);
+  else if(field==='show')c.show=!!val;
+  else c[field]=val;
+  auditLog('config.colonnes',{type:'colonnes',id:c.key,label:c.label||c.key,details:{champ:field}});
+  saveEntConfig();renderCreditAdmin();
+}
+function ccDel(i){
+  if(!isSuperAdmin())return;
+  const c=creditColsAll()[i];if(!c)return;
+  confirmAction('Supprimer la colonne « '+(c.label||c.key)+' » ? Les valeurs déjà saisies dans les lignes de crédit ne seront plus affichées.',()=>{
+    auditLog('config.colonnes',{type:'colonnes',id:c.key,label:'Suppression : '+(c.label||c.key)});
+    creditColsAll().splice(i,1);saveEntConfig();renderCreditAdmin();},'Supprimer');
+}
+function ccMove(i,d){
+  if(!isSuperAdmin())return;
+  const cols=creditColsAll();const j=i+d;if(j<0||j>=cols.length)return;
+  const [x]=cols.splice(i,1);cols.splice(j,0,x);saveEntConfig();renderCreditAdmin();
+}
+function renderCreditAdmin(){
+  const box=document.getElementById('admCreditBody');if(!box||!isSuperAdmin())return;
+  const cols=creditColsAll();
+  box.innerHTML=`<p class="lp-muted">Ces colonnes s'ajoutent à chaque ligne de crédit (saisie, tableau et export Excel). Vous les nommez et choisissez leur type ; le type détermine le format d'affichage et de totalisation.</p>
+  <div class="table-scroll"><table class="lp-tbl"><thead><tr><th>Nom de la colonne</th><th>Type</th><th>Choix (liste, séparés par « ; »)</th><th>Visible dans le tableau</th><th>Clé</th><th></th></tr></thead><tbody>
+  ${cols.length?cols.map((c,i)=>`<tr>
+    <td><input type="text" value="${escapeHtml(c.label||'')}" placeholder="Ex. Secteur d'activité" onchange="ccSet(${i},'label',this.value)"></td>
+    <td><select onchange="ccSet(${i},'type',this.value)">${Object.entries(CREDIT_COL_TYPES).map(([k,v])=>`<option value="${k}" ${c.type===k?'selected':''}>${v}</option>`).join('')}</select></td>
+    <td><input type="text" value="${escapeHtml((c.options||[]).join(' ; '))}" placeholder="Commerce ; Agriculture ; Services" ${c.type==='select'?'':'disabled'} onchange="ccSet(${i},'options',this.value)"></td>
+    <td class="c"><input type="checkbox" ${c.show!==false?'checked':''} onchange="ccSet(${i},'show',this.checked)"></td>
+    <td><code>${c.key}</code></td>
+    <td class="nw"><button class="lp-mini" onclick="ccMove(${i},-1)">↑</button><button class="lp-mini" onclick="ccMove(${i},1)">↓</button><button class="lp-mini del" onclick="ccDel(${i})">✕</button></td></tr>`).join('')
+  :'<tr><td colspan="6" class="lp-muted">Aucune colonne personnalisée.</td></tr>'}
+  </tbody></table></div>
+  <button class="lp-mini add" onclick="ccAdd()">+ Ajouter une colonne</button>
+  <div class="sub-label">Base de données du portefeuille</div>
+  <p class="lp-muted">Le module fonctionne en mode local tant que les tables ne sont pas créées. Exécutez ce script une fois dans Supabase (SQL Editor) pour activer le partage entre gestionnaires, chefs et administrateurs, avec cloisonnement par filiale.</p>
+  <details class="acc-details"><summary>Script SQL — tables et règles de sécurité du portefeuille de crédit</summary>
+    <pre>${escapeHtml(CREDIT_SQL)}</pre>
+    <button class="icon-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText(CREDIT_SQL).then(()=>toast('Script SQL copié'))">Copier le script</button>
+  </details>`;
 }
 
 /* ---------- Déploiement ---------- */
@@ -3238,6 +3592,7 @@ function startSession(user,role,cur){
   let nm='';try{const u=getUsers()[user];if(u&&u.name)nm=u.name;}catch(e){}
   session={user,role,cur,cloud:false,name:nm};
   localStorage.setItem(LS.session,JSON.stringify(session));
+  setTimeout(()=>auditLog('session.connexion',{type:'session',label:session.user,details:{mode:session.cloud?'cloud':'local'}}),1500);
   if(role==='guest'){
     try{state=JSON.parse(sessionStorage.getItem('mb_guest_data'))}catch(e){state=null}
   }else{
@@ -3252,6 +3607,7 @@ function startSession(user,role,cur){
 
 async function logout(){
   if(supaReady && session && session.cloud){try{await supa.auth.signOut();}catch(e){}}
+  auditLog('session.deconnexion',{type:'session',label:session&&session.user});
   localStorage.removeItem(LS.session);location.reload();
 }
 
@@ -5515,7 +5871,7 @@ function loanDocData(L){
   if(cons&&L.ref)left.push({l:'Référence du prêt',v:L.ref});
   left.push({l:'Montant du prêt',v:F(m.M),n:m.M,cur:true});
   left.push({l:"Taux d'intérêt annuel (HT)",v:loanPct(m.rate),n:m.rate/100,pct:true});
-  if(m.ti>0)left.push({l:'Taux de taxe',v:loanPct(m.taxRate)+' ('+m.taxLabel+')'});
+  if(m.ti>0)left.push({l:'Taux de taxe',v:loanPct(m.taxRate)});   // sans rappel de la tranche de durée
   left.push({l:'Durée initiale',v:s.D+' mois',n:s.D,fmt:'0 "mois"'});
   left.push({l:'Périodicité',v:LOAN_FREQ_LBL[s.f]});
   left.push({l:'Mode de remboursement',v:LOAN_MODE_LBL[L.mode]||L.mode});
@@ -5566,7 +5922,6 @@ function loanDocData(L){
     v:[r.crdStart,r.interest].concat(tx?[r.taxInt]:[],[r.amort,r.ech,r.crdEnd]),st:r.status}));
   const tot=[null,m.totInt].concat(tx?[m.totTaxInt]:[],[m.totCap,m.totEch,null]);
   const notes=[];
-  if(tx)notes.push('Taxe/Int. : taxe de '+loanPct(m.taxRate)+' ('+m.taxLabel+') appliquée aux intérêts ; '+m.echLabel.toLowerCase()+' = intérêts + taxe + capital remboursé.');
   if(s.broken)notes.push('(*) Échéance brisée de '+s.rem+' mois : intérêts calculés au taux de '+loanPct(m.rate/12*s.rem)+' (taux annuel / 12 × '+s.rem+').');
   if(cons)notes.push('Statut : PA = échéance payée · IM = échéance impayée · E = échéance à échoir.');
   const title=cons?"SITUATION DU PRÊT — TABLEAU D'AMORTISSEMENT":"TABLEAU D'AMORTISSEMENT DE PRÊT";
@@ -5634,7 +5989,18 @@ function buildLoanPDF(L){
     body:dd.rows.map(([a,b])=>[lab(a),val(a),gapCell,lab(b),val(b)]),
     styles:tableStyle({fontSize:fs,cellPadding:3.6,halign:'left'}),
     headStyles:{fillColor:[255,255,255],textColor:[31,56,100],fontStyle:'bold',halign:'center',lineColor:PDF_LINE,lineWidth:0.7,fontSize:fs+1},
-    columnStyles:{0:{cellWidth:lw},1:{cellWidth:bw-lw},2:{cellWidth:gap},3:{cellWidth:lw},4:{cellWidth:bw-lw}}});
+    columnStyles:{0:{cellWidth:lw},1:{cellWidth:bw-lw},2:{cellWidth:gap},3:{cellWidth:lw},4:{cellWidth:bw-lw}},
+    // Les traits intérieurs d'un tableau sont dessinés par les deux cellules
+    // voisines ; ceux qui bordent la colonne d'écartement (sans bordure) ne le
+    // sont qu'une fois et paraissent plus fins. On les redessine pour que tous
+    // les contours aient la même épaisseur.
+    didDrawCell:data=>{
+      if(data.column.index!==1&&data.column.index!==3&&data.column.index!==4)return;
+      const c=data.cell;
+      doc.setDrawColor.apply(doc,PDF_LINE);doc.setLineWidth(0.7);   // même épaisseur que les traits du tableau
+      const x=(data.column.index===3)?c.x:(c.x+c.width);      // bord accolé à l'écartement ou bord extérieur droit
+      doc.line(x,c.y,x,c.y+c.height);
+    }});
   y=doc.lastAutoTable.finalY+18;
   // détail des frais
   if(dd.feeTable){
@@ -5926,9 +6292,11 @@ function relanceGuard(L){
   if(!L.client){toast('Renseignez le nom du client');return false;}
   return true;
 }
-function buildRelancePDF(L){
+/* accepte une fiche de prêt (L) ou un jeu de données déjà préparé
+   (notamment creditRelanceData d'une ligne du portefeuille de crédit) */
+function buildRelancePDF(src){
   const doc=newPdfDoc();if(!doc)return null;
-  const r=relanceData(L);
+  const r=(src&&src.paras)?src:relanceData(src);
   const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();const pf=pdfPrefs();const F=pf.font;
   const ent=r.ent;const bot=ent?80:50;const fs=pf.fontSize;const lh=fs*1.45;
   setPdfFooter('MonBudget · Lettre de relance — '+r.client);
@@ -5965,9 +6333,9 @@ function exportRelancePDF(i){
   const doc=buildRelancePDF(L);if(!doc)return;
   doc.save(relanceData(L).fileBase+'.pdf');toast('Lettre de relance PDF téléchargée');
 }
-async function buildRelanceDocx(L){
+async function buildRelanceDocx(src){
   if(!window.docx){toast('Module Word en chargement, réessayez');return null;}
-  const r=relanceData(L);
+  const r=(src&&src.paras)?src:relanceData(src);
   const K=loanDocxKit(pdfPrefs().fontSize);const {D,TW,run,P,cell,table,sz}=K;
   const J=D.AlignmentType.JUSTIFIED,R=D.AlignmentType.RIGHT,C=D.AlignmentType.CENTER;
   const sp={spacing:{before:0,after:160,line:300}};
@@ -6137,8 +6505,8 @@ function loanWordHTML(L){
   tr.im td{background:#fcecee}
   .note{font-style:italic;font-size:7.5pt;margin-top:4pt}`);
 }
-function relanceWordHTML(L){
-  const r=relanceData(L);const E=escapeHtml;
+function relanceWordHTML(src){
+  const r=(src&&src.paras)?src:relanceData(src);const E=escapeHtml;
   const rows=r.rows.map(x=>`<tr><td class="c">${E(x[0])}</td><td class="c">${E(x[1])}</td><td class="r">${fmtIntFr(x[2])}</td><td class="c">${x[3]}</td></tr>`).join('');
   const inner=`<p class="r">${E(r.lieuDate)}</p>
   ${r.ref?`<p>Réf. : ${E(r.ref)}</p>`:''}
@@ -6235,6 +6603,1339 @@ function loanExcelHTML(L){
   </body></html>`;
 }
 
+
+/* Script SQL du portefeuille de crédit (copiable depuis Admin > Crédit) */
+const CREDIT_SQL=`-- ======================================================================
+-- MonBudget · Portefeuille de crédit — schéma et règles de sécurité
+-- À exécuter une fois dans Supabase : SQL Editor > New query > Run.
+-- Les droits s'appuient sur la configuration des filiales déjà stockée
+-- dans app_config (clé 'entities') : filiale, rôle, rôle crédit, chef
+-- de rattachement et statut du compte (actif / suspendu / banni).
+-- ======================================================================
+
+-- ---------- 1. Fonctions d'identité et de rôle -----------------------
+create or replace function public.mb_email() returns text
+language sql stable as $$ select lower(coalesce(auth.jwt()->>'email','')) $$;
+
+create or replace function public.mb_cfg() returns jsonb
+language sql stable security definer set search_path = public as $$
+  select coalesce((select value from public.app_config where key = 'entities'), '{}'::jsonb) $$;
+
+create or replace function public.mb_user() returns jsonb
+language sql stable security definer set search_path = public as $$
+  select coalesce(public.mb_cfg()->'users'->public.mb_email(), '{}'::jsonb) $$;
+
+create or replace function public.mb_ent() returns text
+language sql stable security definer set search_path = public as $$
+  select public.mb_user()->>'ent' $$;
+
+-- statut du compte : active (défaut), suspended, banned
+create or replace function public.mb_active() returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce(public.mb_user()->>'status', 'active') = 'active' $$;
+
+create or replace function public.mb_is_super() returns boolean
+language sql stable security definer set search_path = public as $$
+  select public.mb_email() in ('akeekolou@gmail.com')          -- super-admins de déploiement
+      or (public.mb_cfg()->'superAdmins') ? public.mb_email()
+      or (public.mb_user()->>'role') = 'superadmin' $$;
+
+create or replace function public.mb_is_entadmin() returns boolean
+language sql stable security definer set search_path = public as $$
+  select (public.mb_user()->>'role') = 'entadmin' $$;
+
+-- rôle dans le module crédit : gestionnaire (défaut) ou chef
+create or replace function public.mb_credit_role() returns text
+language sql stable security definer set search_path = public as $$
+  select coalesce(public.mb_user()->'credit'->>'role', 'gestionnaire') $$;
+
+-- gestionnaires rattachés à l'utilisateur (s'il est chef), plus lui-même
+create or replace function public.mb_team() returns text[]
+language sql stable security definer set search_path = public as $$
+  select array(select u.key from jsonb_each(public.mb_cfg()->'users') as u(key, val)
+               where val->'credit'->>'chef' = public.mb_email())
+         || array[public.mb_email()] $$;
+
+-- ---------- 2. Tables ------------------------------------------------
+create table if not exists public.credit_clients (
+  id            text primary key,
+  ent           text not null,                 -- filiale
+  code          text,                          -- code client
+  nom           text, prenom text,
+  tel           text, adresse text, civilite text,
+  gestionnaire  text not null,                 -- email du gestionnaire
+  notes         text,
+  created_by    text, created_at timestamptz default now(), updated_at timestamptz default now()
+);
+
+create table if not exists public.credit_lines (
+  id            text primary key,
+  ent           text not null,
+  client_id     text references public.credit_clients(id) on delete restrict,
+  numero        integer,                       -- numéro séquentiel par filiale
+  ref           text,                          -- référence du crédit
+  montant       numeric not null default 0,
+  taux          numeric not null default 0,    -- taux d'intérêt HT annuel (%)
+  taf           numeric not null default 0,    -- taxe sur activités financières (% des intérêts)
+  freq          integer not null default 12,   -- 12, 4, 2 ou 1 échéances par an
+  duree         integer not null default 12,   -- durée en mois
+  mode          text not null default 'annuite',
+  differe       integer default 0,
+  date_octroi   date,
+  gestionnaire  text not null,
+  statut        text not null default 'actif', -- actif | solde | suppression_demandee | archive
+  cols          jsonb default '{}'::jsonb,     -- colonnes personnalisées
+  created_by    text, created_at timestamptz default now(), updated_at timestamptz default now()
+);
+
+create table if not exists public.credit_schedule (
+  id            text primary key,
+  line_id       text references public.credit_lines(id) on delete cascade,
+  ent           text not null,
+  gestionnaire  text not null,
+  n             integer not null,              -- numéro d'échéance
+  due_date      date,
+  capital       numeric default 0,
+  interet       numeric default 0,             -- intérêts HT
+  taf           numeric default 0,             -- taxe sur les intérêts
+  montant       numeric default 0,             -- échéance due = intérêts + taxe + capital
+  crd           numeric default 0,             -- solde restant dû après l'échéance
+  paid          boolean default false,
+  paid_amount   numeric default 0,
+  paid_date     date,
+  updated_at    timestamptz default now()
+);
+
+-- historique des versements partiels d'une échéance (ajout du lot 5)
+alter table public.credit_schedule add column if not exists paid_hist jsonb default '[]'::jsonb;
+
+create table if not exists public.credit_requests (
+  id            text primary key,
+  ent           text not null,
+  line_id       text,
+  line_label    text,                          -- référence lisible, conservée après archivage
+  type          text not null default 'delete',
+  reason        text,
+  requested_by  text not null,
+  status        text not null default 'pending', -- pending | approved | rejected
+  decided_by    text, decided_at timestamptz, decision_note text,
+  created_at    timestamptz default now()
+);
+
+-- horodatage de dernière modification (toutes les tables du module)
+alter table public.credit_requests add column if not exists updated_at timestamptz default now();
+
+create index if not exists credit_lines_ent_idx     on public.credit_lines(ent, gestionnaire);
+create index if not exists credit_sched_due_idx     on public.credit_schedule(ent, due_date);
+create index if not exists credit_sched_line_idx    on public.credit_schedule(line_id);
+create index if not exists credit_clients_ent_idx   on public.credit_clients(ent, gestionnaire);
+create index if not exists credit_requests_ent_idx  on public.credit_requests(ent, status);
+
+-- ---------- 3. Règles d'accès (RLS) ----------------------------------
+-- Lecture / écriture : super-admin partout ; admin de filiale sur sa filiale ;
+-- chef sur son équipe ; gestionnaire sur son propre portefeuille.
+-- Un compte suspendu ou banni n'a plus aucun accès.
+alter table public.credit_clients  enable row level security;
+alter table public.credit_lines    enable row level security;
+alter table public.credit_schedule enable row level security;
+alter table public.credit_requests enable row level security;
+
+create or replace function public.mb_can_see(p_ent text, p_gest text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select public.mb_active() and (
+      public.mb_is_super()
+      or (p_ent = public.mb_ent() and (
+            public.mb_is_entadmin()
+            or (public.mb_credit_role() = 'chef' and p_gest = any(public.mb_team()))
+            or p_gest = public.mb_email()))) $$;
+
+do $$
+declare t text;
+begin
+  foreach t in array array['credit_clients','credit_lines','credit_schedule'] loop
+    execute format('drop policy if exists mb_%1$s_rw on public.%1$s', t);
+    execute format($f$create policy mb_%1$s_rw on public.%1$s for all to authenticated
+        using (public.mb_can_see(ent, gestionnaire))
+        with check (public.mb_can_see(ent, gestionnaire))$f$, t);
+  end loop;
+end $$;
+
+-- suppression définitive réservée au super-admin et à l'admin de filiale
+-- (l'application procède par archivage : rien n'est effacé sans validation)
+drop policy if exists mb_credit_lines_del on public.credit_lines;
+create policy mb_credit_lines_del on public.credit_lines for delete to authenticated
+  using (public.mb_active() and (public.mb_is_super() or (ent = public.mb_ent() and public.mb_is_entadmin())));
+
+-- demandes de suppression : visibles dans la filiale, décidées par chef / admin
+drop policy if exists mb_credit_requests_sel on public.credit_requests;
+create policy mb_credit_requests_sel on public.credit_requests for select to authenticated
+  using (public.mb_active() and (public.mb_is_super() or ent = public.mb_ent()));
+
+drop policy if exists mb_credit_requests_ins on public.credit_requests;
+create policy mb_credit_requests_ins on public.credit_requests for insert to authenticated
+  with check (public.mb_active() and (public.mb_is_super() or ent = public.mb_ent()) and requested_by = public.mb_email());
+
+drop policy if exists mb_credit_requests_upd on public.credit_requests;
+create policy mb_credit_requests_upd on public.credit_requests for update to authenticated
+  using (public.mb_active() and (public.mb_is_super()
+         or (ent = public.mb_ent() and (public.mb_is_entadmin() or public.mb_credit_role() = 'chef'))))
+  with check (true);
+
+
+-- ---------- 4. Piste d'audit (lot 5) ---------------------------------
+-- Journal des actions sensibles. Les lignes sont insérées puis lues :
+-- ni modification ni suppression ne sont autorisées, pour personne.
+create table if not exists public.audit_log (
+  id          text primary key,
+  at          timestamptz not null default now(),
+  ent         text,                    -- filiale concernée
+  actor       text not null,           -- email de l'auteur de l'action
+  actor_role  text,                    -- rôle au moment de l'action
+  action      text not null,           -- ex. credit.creation, compte.suspension
+  obj_type    text, obj_id text, label text,
+  details     jsonb default '{}'::jsonb
+);
+create index if not exists audit_log_at_idx    on public.audit_log(at desc);
+create index if not exists audit_log_ent_idx   on public.audit_log(ent, at desc);
+create index if not exists audit_log_actor_idx on public.audit_log(actor, at desc);
+
+alter table public.audit_log enable row level security;
+
+-- lecture : super-admin partout, admin de filiale sur sa filiale,
+-- chacun sur ses propres actions
+drop policy if exists mb_audit_sel on public.audit_log;
+create policy mb_audit_sel on public.audit_log for select to authenticated
+  using (public.mb_is_super()
+      or (ent = public.mb_ent() and public.mb_is_entadmin())
+      or actor = public.mb_email());
+
+-- écriture : chacun ne peut journaliser que ses propres actions
+drop policy if exists mb_audit_ins on public.audit_log;
+create policy mb_audit_ins on public.audit_log for insert to authenticated
+  with check (actor = public.mb_email());
+
+-- aucune politique de update / delete : le journal est inaltérable
+`;
+/* ======================================================================
+   PORTEFEUILLE DE CRÉDIT — NOYAU (données, échéanciers, indicateurs)
+   ----------------------------------------------------------------------
+   Données PARTAGÉES entre plusieurs utilisateurs (gestionnaire, chef,
+   admin de filiale), donc stockées dans des tables Supabase dédiées :
+     credit_clients · credit_lines · credit_schedule · credit_requests
+   Le script SQL de création et les règles de sécurité (RLS) figurent dans
+   Admin › Crédit. Sans connexion au serveur, le module bascule en mode
+   local (localStorage « mb_credit ») : utile pour la démonstration sur un
+   poste, sans partage entre utilisateurs.
+
+   Périmètre de visibilité (appliqué ici ET par les règles du serveur) :
+     super-admin  -> toutes les filiales
+     admin filiale-> toute sa filiale
+     chef         -> son équipe (gestionnaires rattachés) et lui-même
+     gestionnaire -> son propre portefeuille
+   ====================================================================== */
+const CREDIT_STATUS={actif:'Actif',solde:'Soldé',suppression_demandee:'Suppression demandée',archive:'Archivé'};
+const CREDIT_ECH={PA:{lbl:'Payée',cls:'st-pa'},PP:{lbl:'Partielle',cls:'st-pp'},IM:{lbl:'Impayée',cls:'st-im'},E:{lbl:'À échoir',cls:'st-e'}};
+const CREDIT_COL_TYPES={text:'Texte',number:'Nombre',money:'Montant',date:'Date',select:'Liste de choix',bool:'Oui / Non'};
+const CREDIT_AGING=[[1,30,'1 à 30 j'],[31,60,'31 à 60 j'],[61,90,'61 à 90 j'],[91,1e9,'plus de 90 j']];
+let CDB={clients:[],lines:[],sched:[],reqs:[],loaded:false,at:0,cloud:false,err:''};
+let _cdbTimer=null;
+
+/* ---------- identité, rôles et périmètre ---------- */
+function creditUser(em){return entCfg.users[normEmail(em||(session&&session.user))]||{};}
+function creditRole(em){const u=creditUser(em);return (u.credit&&u.credit.role)||'gestionnaire';}
+function creditChef(em){const u=creditUser(em);return (u.credit&&u.credit.chef)||'';}
+function creditStatus(em){return creditUser(em).status||'active';}
+/* gestionnaires visibles par l'utilisateur courant */
+function creditTeam(){
+  const me=normEmail(session.user);
+  const t=[me];
+  Object.entries(entCfg.users).forEach(([k,u])=>{if(u.credit&&normEmail(u.credit.chef)===me&&!t.includes(k))t.push(k);});
+  return t;
+}
+function creditScope(){
+  if(!session||session.role==='guest')return 'none';
+  if(isSuperAdmin())return 'all';
+  if(entAdminOf())return 'ent';
+  return creditRole()==='chef'?'team':'own';
+}
+function creditScopeLabel(){return {all:'Toutes les filiales',ent:'Toute la filiale',team:'Mon équipe',own:'Mon portefeuille'}[creditScope()]||'';}
+function creditCanSee(row){
+  const sc=creditScope();
+  if(sc==='all')return true;
+  if(!row)return false;
+  if(row.ent!==userEntId(session.user))return false;
+  if(sc==='ent')return true;
+  if(sc==='team')return creditTeam().includes(normEmail(row.gestionnaire));
+  return normEmail(row.gestionnaire)===normEmail(session.user);
+}
+/* droits d'action */
+function creditCanCreate(){return can('credit_create')||isAnyAdmin();}
+function creditCanEdit(row){return creditCanSee(row)&&(can('credit_create')||isAnyAdmin());}
+function creditCanValidate(){return can('credit_validate')||isAnyAdmin()||creditRole()==='chef';}
+function creditCanExport(){return can('credit_export')||isAnyAdmin();}
+function creditEnt(){return userEntId(session.user)||'';}
+function creditGestOptions(){
+  // gestionnaires de la filiale que l'on peut désigner (selon le périmètre)
+  const sc=creditScope();const mine=creditEnt();
+  let list=Object.keys(entCfg.users).filter(k=>entCfg.users[k].ent===mine);
+  if(sc==='all')list=Object.keys(entCfg.users);
+  else if(sc==='team')list=creditTeam();
+  else if(sc==='own')list=[normEmail(session.user)];
+  if(!list.includes(normEmail(session.user)))list.push(normEmail(session.user));
+  return [...new Set(list)].sort();
+}
+
+/* ---------- colonnes personnalisées (définies par le super-admin) ---------- */
+function creditCols(){
+  if(!Array.isArray(entCfg.creditCols))entCfg.creditCols=[];
+  return entCfg.creditCols.filter(c=>c&&c.label);
+}
+function creditColValue(l,c){
+  const v=(l.cols||{})[c.key];
+  if(v==null||v==='')return '';
+  if(c.type==='money')return fmtIntFr(+v||0);
+  if(c.type==='number')return (''+v).replace('.',',');
+  if(c.type==='date')return fmtDateFR(loanParseDate(v));
+  if(c.type==='bool')return (v===true||v==='1'||v==='oui')?'Oui':'Non';
+  return ''+v;
+}
+
+/* ---------- accès aux données ---------- */
+function creditCloud(){return !!(supaReady&&session&&session.cloud);}
+function creditLocalLoad(){try{return JSON.parse(localStorage.getItem('mb_credit'))||null}catch(e){return null}}
+function creditLocalSave(){try{localStorage.setItem('mb_credit',JSON.stringify({clients:CDB.clients,lines:CDB.lines,sched:CDB.sched,reqs:CDB.reqs}))}catch(e){}}
+function cuid(){try{return crypto.randomUUID()}catch(e){return 'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}}
+/* chargement complet du périmètre visible (les règles RLS filtrent côté serveur) */
+async function creditSync(force){
+  if(!session||session.role==='guest')return;
+  if(CDB.loaded&&!force&&Date.now()-CDB.at<5000)return;
+  CDB.err='';
+  if(creditCloud()){
+    CDB.cloud=true;
+    try{
+      const q=async(t)=>{const r=await supa.from(t).select('*');if(r.error)throw r.error;return r.data||[];};
+      const [cl,li,sc,rq]=await Promise.all([q('credit_clients'),q('credit_lines'),q('credit_schedule'),q('credit_requests')]);
+      CDB.clients=cl;CDB.lines=li;CDB.sched=sc;CDB.reqs=rq;
+    }catch(e){
+      CDB.cloud=false;CDB.err=(e&&e.message)||'accès au serveur impossible';
+      const loc=creditLocalLoad();if(loc)Object.assign(CDB,loc);
+    }
+  }else{
+    CDB.cloud=false;
+    const loc=creditLocalLoad()||{clients:[],lines:[],sched:[],reqs:[]};
+    Object.assign(CDB,loc);
+    // en mode local, le filtrage de périmètre est appliqué à l'affichage
+  }
+  CDB.loaded=true;CDB.at=Date.now();
+}
+/* écriture d'une ou plusieurs lignes */
+async function creditPut(kind,rows){
+  rows=Array.isArray(rows)?rows:[rows];
+  const tbl={clients:'credit_clients',lines:'credit_lines',sched:'credit_schedule',reqs:'credit_requests'}[kind];
+  // la table des demandes (credit_requests) n'a pas de colonne updated_at :
+  // l'horodatage n'est ajouté que sur les tables qui la possèdent
+  rows.forEach(r=>{if(!r.id)r.id=cuid();if(kind!=='reqs')r.updated_at=new Date().toISOString();});
+  if(creditCloud()&&CDB.cloud){
+    const r=await supa.from(tbl).upsert(rows,{onConflict:'id'});
+    if(r.error){toast('Enregistrement refusé par le serveur : '+r.error.message);throw r.error;}
+  }
+  rows.forEach(row=>{
+    const arr=CDB[kind];const k=arr.findIndex(x=>x.id===row.id);
+    if(k<0)arr.push(row);else arr[k]=Object.assign(arr[k],row);
+  });
+  if(!CDB.cloud)creditLocalSave();
+  return rows;
+}
+async function creditDrop(kind,ids){
+  ids=Array.isArray(ids)?ids:[ids];
+  const tbl={clients:'credit_clients',lines:'credit_lines',sched:'credit_schedule',reqs:'credit_requests'}[kind];
+  if(creditCloud()&&CDB.cloud){
+    const r=await supa.from(tbl).delete().in('id',ids);
+    if(r.error){toast('Suppression refusée par le serveur : '+r.error.message);throw r.error;}
+  }
+  CDB[kind]=CDB[kind].filter(x=>!ids.includes(x.id));
+  if(!CDB.cloud)creditLocalSave();
+}
+/* vues filtrées par périmètre */
+function creditLines(all){return CDB.lines.filter(l=>creditCanSee(l)&&(all||l.statut!=='archive'));}
+function creditClients(){return CDB.clients.filter(c=>creditCanSee(c));}
+function creditSchedOf(lineId){return CDB.sched.filter(s=>s.line_id===lineId).sort((a,b)=>a.n-b.n);}
+function creditClientById(id){return CDB.clients.find(c=>c.id===id)||null;}
+function creditLinesOfClient(id){return creditLines(true).filter(l=>l.client_id===id);}
+/* libellé lisible d'une ligne de crédit, utilisé dans la piste d'audit */
+function creditLineLabel(l){
+  if(!l)return '';
+  const c=creditClientById(l.client_id);
+  return (l.ref||('n° '+(l.numero||'')))+' — '+creditClientName(c);
+}
+function creditClientName(c){return c?((c.nom||'')+' '+(c.prenom||'')).trim()||'(sans nom)':'—';}
+function creditNextNumero(ent){
+  const n=CDB.lines.filter(l=>l.ent===ent).map(l=>+l.numero||0);
+  return (n.length?Math.max(...n):0)+1;
+}
+
+/* ---------- échéancier ----------
+   Réutilise le moteur du simulateur de prêts : mêmes modes, même
+   périodicité, même règle de période brisée. La TAF est appliquée aux
+   intérêts comme une taxe unique (taux propre à la ligne de crédit). */
+function creditPseudoLoan(line){
+  return Object.assign(freshLoan('consenti'),{
+    montant:+line.montant||0,taux:+line.taux||0,duree:+line.duree||0,freq:String(line.freq||12),
+    mode:line.mode||'annuite',defer:+line.differe||0,dateDebut:line.date_octroi||'',
+    _params:{currency:creditCur(line),rate:+line.taux||0,taxOnInterest:true,
+      taxBrackets:[{upTo:null,rate:+line.taf||0}],fees:[],tegFormula:'teg_proportionnel'}});
+}
+function creditCur(line){
+  const e=entById(line&&line.ent?line.ent:creditEnt());
+  return (e&&e.loan&&e.loan.currency)||normLoanParams(entCfg.loanDefaults).currency||state.cur||'FCFA';
+}
+function creditMoney(v,line){return fmtIntFr(Math.round(+v||0))+' '+creditCur(line);}
+/* (re)génère les échéances d'une ligne, en conservant les règlements déjà saisis */
+function creditBuildSchedule(line,previous){
+  const t=loanTable(creditPseudoLoan(line));
+  const prev={};(previous||[]).forEach(s=>{prev[s.n]=s;});
+  return t.rows.map(r=>{
+    const old=prev[r.n]||{};
+    return {id:old.id||cuid(),line_id:line.id,ent:line.ent,gestionnaire:line.gestionnaire,n:r.n,
+      due_date:r.date?loanIso(r.date):null,capital:r.amort,interet:r.interest,taf:r.taxInt,montant:r.ech,crd:r.crdEnd,
+      paid:!!old.paid,paid_amount:+old.paid_amount||0,paid_date:old.paid_date||null,
+      paid_hist:Array.isArray(old.paid_hist)?old.paid_hist:[]};   // historique des versements partiels
+  });
+}
+/* statut d'une échéance : payée, partielle, impayée (échue), à échoir */
+function creditEchStatus(s,today){
+  today=today||loanToday();
+  const due=+s.montant||0,pay=+s.paid_amount||0;
+  if(s.paid||(pay>0&&pay>=due-1))return 'PA';
+  const d=loanParseDate(s.due_date);
+  const late=d&&d<today;
+  if(pay>0)return late?'PP':'E';
+  return late?'IM':'E';
+}
+function creditDaysLate(s,today){
+  const d=loanParseDate(s.due_date);if(!d)return 0;
+  return Math.max(0,Math.round(((today||loanToday())-d)/864e5));
+}
+function creditRestDue(s){return Math.max(0,Math.round((+s.montant||0)-(+s.paid_amount||0)));}
+/* historique des versements d'une échéance (règlements partiels successifs) */
+function creditPayHist(s){return Array.isArray(s.paid_hist)?s.paid_hist:[];}
+function creditPayHistTotal(s){return creditPayHist(s).reduce((a,x)=>a+(+x.amount||0),0);}
+/* recalcule l'état d'une échéance à partir de son historique de versements */
+function creditApplyPayments(s){
+  const h=creditPayHist(s);
+  if(h.length){
+    s.paid_amount=Math.round(creditPayHistTotal(s));
+    s.paid_date=h[h.length-1].date||null;
+  }
+  s.paid=(+s.paid_amount||0)>0&&(+s.paid_amount||0)>=(+s.montant||0)-1;
+  return s;
+}
+
+/* ---------- indicateurs ---------- */
+function creditKPI(lines,today){
+  today=today||loanToday();
+  const ids=new Set(lines.map(l=>l.id));
+  const sched=CDB.sched.filter(s=>ids.has(s.line_id));
+  const k={nLines:lines.length,nClients:new Set(lines.map(l=>l.client_id)).size,
+    octroye:0,crd:0,echu:0,regle:0,impaye:0,nIM:0,retardMax:0,
+    today:[],tomorrow:[],week:[],late:[],aging:CREDIT_AGING.map(a=>({lbl:a[2],n:0,mt:0})),
+    interets:0,taf:0,encaisse:0,attendu:0,moisEncaisse:0,moisAttendu:0,prod:0,nSolde:0};
+  const tom=new Date(today);tom.setDate(tom.getDate()+1);
+  const w=new Date(today);w.setDate(w.getDate()+7);
+  const m0=new Date(today.getFullYear(),today.getMonth(),1);
+  lines.forEach(l=>{
+    k.octroye+=+l.montant||0;
+    if(l.statut==='solde')k.nSolde++;
+    const d=loanParseDate(l.date_octroi);if(d&&d>=m0)k.prod+=+l.montant||0;
+  });
+  sched.forEach(s=>{
+    const st=creditEchStatus(s,today);const due=+s.montant||0,pay=+s.paid_amount||0;
+    k.interets+=+s.interet||0;k.taf+=+s.taf||0;k.attendu+=due;k.encaisse+=s.paid?due:pay;
+    const d=loanParseDate(s.due_date);
+    if(d&&d<=today){k.echu+=due;k.regle+=s.paid?due:pay;}
+    if(d&&d>=m0&&d<=today){k.moisAttendu+=due;k.moisEncaisse+=s.paid?due:pay;}
+    if(st==='PA')return;
+    k.crd+=0;
+    if(st==='IM'||st==='PP'){
+      const rest=creditRestDue(s);k.impaye+=rest;k.nIM++;
+      const days=creditDaysLate(s,today);k.retardMax=Math.max(k.retardMax,days);
+      const b=CREDIT_AGING.findIndex(a=>days>=a[0]&&days<=a[1]);
+      if(b>=0){k.aging[b].n++;k.aging[b].mt+=rest;}
+      k.late.push(s);
+    }
+    if(d){
+      if(+d===+today)k.today.push(s);
+      else if(+d===+tom)k.tomorrow.push(s);
+      else if(d>today&&d<=w)k.week.push(s);
+    }
+  });
+  // capital restant dû : dernier solde connu de chaque ligne non soldée
+  lines.forEach(l=>{
+    const rows=CDB.sched.filter(s=>s.line_id===l.id).sort((a,b)=>a.n-b.n);
+    const open=rows.find(s=>creditEchStatus(s,today)!=='PA');
+    k.crd+=open?(+open.crd||0)+(+open.capital||0):0;
+  });
+  k.tauxImpaye=k.echu>0?(k.echu-k.regle)/k.echu*100:0;
+  k.tauxRecouv=k.echu>0?k.regle/k.echu*100:0;
+  const par=(minD)=>{
+    let mt=0;
+    lines.forEach(l=>{
+      const rows=CDB.sched.filter(s=>s.line_id===l.id);
+      const worst=Math.max(0,...rows.map(s=>creditEchStatus(s,today)==='PA'?0:creditDaysLate(s,today)));
+      if(worst>minD){const open=rows.sort((a,b)=>a.n-b.n).find(s=>creditEchStatus(s,today)!=='PA');
+        mt+=open?(+open.crd||0)+(+open.capital||0):0;}
+    });
+    return k.crd>0?mt/k.crd*100:0;
+  };
+  k.par30=par(30);k.par90=par(90);
+  const sortLate=(a,b)=>creditDaysLate(b)-creditDaysLate(a);
+  k.late.sort(sortLate);
+  const byDate=(a,b)=>(a.due_date||'').localeCompare(b.due_date||'');
+  k.today.sort(byDate);k.tomorrow.sort(byDate);k.week.sort(byDate);
+  return k;
+}
+/* consolidation par gestionnaire (vue chef / admin) */
+function creditByGest(lines,today){
+  const map={};
+  lines.forEach(l=>{const g=normEmail(l.gestionnaire);(map[g]=map[g]||[]).push(l);});
+  return Object.entries(map).map(([g,ls])=>({gest:g,k:creditKPI(ls,today),n:ls.length}))
+    .sort((a,b)=>b.k.impaye-a.k.impaye||b.k.crd-a.k.crd);
+}
+
+/* ---------- lettre de relance depuis une ligne de crédit ---------- */
+function creditRelanceData(line){
+  const cl=creditClientById(line.client_id);
+  const p=normLoanParams((entById(line.ent)||{}).loan);
+  const C=creditCur(line);const F=v=>fmtIntFr(Math.round(v))+' '+C;
+  const today=loanToday();
+  const late=creditSchedOf(line.id).filter(s=>['IM','PP'].includes(creditEchStatus(s,today)));
+  const total=late.reduce((a,s)=>a+creditRestDue(s),0);
+  const n=late.length,pl=n>1;
+  const civ=(cl&&cl.civilite)||'Madame, Monsieur';
+  const lim=new Date(today);lim.setDate(lim.getDate()+(+p.letterDelay||15));
+  const client=creditClientName(cl);
+  const refTxt=line.ref?' (référence '+line.ref+')':'';
+  return {C,n,client,civ,adresse:(cl&&cl.adresse)||'',ref:line.ref||'',
+    lieuDate:(p.city?p.city+', ':'')+'le '+dateLongueFr(loanIso(today)),
+    objet:'Relance pour '+(pl?'échéances impayées':'échéance impayée')+' — crédit'+(line.ref?' n° '+line.ref:''),
+    paras:[civ+',',
+      "Sauf erreur ou omission de notre part, nous constatons qu'à ce jour "+(pl?n+' échéances':'une échéance')+' de remboursement du crédit de '+F(+line.montant||0)+' que nous vous avons consenti le '+dateLongueFr(line.date_octroi)+refTxt+(pl?' demeurent impayées.':' demeure impayée.')
+        +" Le montant total exigible s'élève à "+F(total)+' ('+capFirst(nombreEnLettres(total))+' '+C+'), selon le détail ci-dessous :',
+      'Nous vous prions de bien vouloir régulariser votre situation au plus tard le '+dateLongueFr(loanIso(lim))+', par versement du montant ci-dessus sur votre compte ou auprès de nos guichets.',
+      "À défaut de régularisation dans ce délai, nous nous verrons contraints de mettre en œuvre les dispositions prévues par la convention de crédit, y compris la réalisation des garanties, sans autre préavis.",
+      "Si ce règlement a été effectué entre-temps, nous vous prions de ne pas tenir compte de la présente. Nos services restent à votre disposition pour tout renseignement ou pour convenir des modalités de régularisation.",
+      "Nous vous prions d'agréer, "+civ+", l'expression de nos salutations distinguées."],
+    head:['Échéance',"Date d'échéance",'Montant dû ('+C+')','Jours de retard'],
+    rows:late.map(s=>[''+s.n,fmtDateFR(loanParseDate(s.due_date)),creditRestDue(s),creditDaysLate(s,today)]),
+    total,signatory:p.signatory||'La Direction',ent:entById(line.ent)||loanEntity(null),
+    fileBase:'Lettre_relance_'+(client.replace(/[^a-zA-Z0-9]/g,'_'))};
+}
+
+/* ---------- export Excel du portefeuille ---------- */
+async function creditExportXLSX(scopeLines,label){
+  if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
+  const lines=scopeLines||creditLines(true);
+  if(!lines.length){toast('Aucune ligne de crédit à exporter');return}
+  const today=loanToday();const k=creditKPI(lines,today);
+  const cols=creditCols();
+  const wb=new ExcelJS.Workbook();wb.creator='MonBudget';wb.created=new Date();
+  const INK='FF1F1F21',RED='FFA6192E',LINE='FF7F7F7F';
+  const border={top:{style:'thin',color:{argb:LINE}},left:{style:'thin',color:{argb:LINE}},bottom:{style:'thin',color:{argb:LINE}},right:{style:'thin',color:{argb:LINE}}};
+  const fnt=o=>Object.assign({name:'Arial',size:10,color:{argb:INK}},o||{});
+  const sheet=(name,head,rows,widths)=>{
+    const ws=wb.addWorksheet(name,{views:[{state:'frozen',ySplit:1}]});
+    ws.columns=head.map((h,i)=>({header:h,width:(widths&&widths[i])||18}));
+    ws.getRow(1).eachCell(c=>{c.font=fnt({bold:true,color:{argb:'FFFFFFFF'}});c.fill={type:'pattern',pattern:'solid',fgColor:{argb:RED}};c.border=border;c.alignment={horizontal:'center',wrapText:true};});
+    rows.forEach(r=>{const rr=ws.addRow(r);rr.eachCell(c=>{c.font=fnt();c.border=border;});});
+    ws.autoFilter={from:{row:1,column:1},to:{row:1,column:head.length}};
+    return ws;
+  };
+  // 1) lignes de crédit
+  const head1=['N°','Référence','Client','Prénom','Filiale','Gestionnaire','Date d\'octroi','Montant','Taux HT (%)','TAF (%)','Périodicité','Durée (mois)','Mode','Statut','Capital remboursé','Capital restant dû','Échéances payées','Impayées','Montant impayé','Retard max (j)'].concat(cols.map(c=>c.label));
+  const rows1=lines.map(l=>{
+    const cl=creditClientById(l.client_id);const sc=creditSchedOf(l.id);
+    const paid=sc.filter(s=>creditEchStatus(s,today)==='PA');
+    const late=sc.filter(s=>['IM','PP'].includes(creditEchStatus(s,today)));
+    const open=sc.find(s=>creditEchStatus(s,today)!=='PA');
+    const capRemb=sc.reduce((a,s)=>a+(creditEchStatus(s,today)==='PA'?+s.capital||0:0),0);
+    return [l.numero||'',l.ref||'',(cl&&cl.nom)||'',(cl&&cl.prenom)||'',(entById(l.ent)||{}).short||l.ent,l.gestionnaire,
+      l.date_octroi||'',+l.montant||0,+l.taux||0,+l.taf||0,LOAN_FREQ_LBL[+l.freq]||l.freq,+l.duree||0,LOAN_MODE_LBL[l.mode]||l.mode,
+      CREDIT_STATUS[l.statut]||l.statut,capRemb,open?(+open.crd||0)+(+open.capital||0):0,paid.length,late.length,
+      late.reduce((a,s)=>a+creditRestDue(s),0),Math.max(0,...late.map(s=>creditDaysLate(s,today)),0)]
+      .concat(cols.map(c=>(l.cols||{})[c.key]!=null?(l.cols||{})[c.key]:''));
+  });
+  sheet('Lignes de crédit',head1,rows1,[7,16,18,14,12,24,13,15,11,10,14,12,20,18,16,17,11,11,16,13].concat(cols.map(()=>16)));
+  // 2) échéances
+  const ids=new Set(lines.map(l=>l.id));
+  const head2=['Référence','Client','Gestionnaire','N° éch.','Date d\'échéance','Capital','Intérêts HT','TAF','Échéance due','Solde restant dû','Statut','Montant réglé','Date de règlement','Jours de retard'];
+  const rows2=[];
+  lines.forEach(l=>{const cl=creditClientById(l.client_id);
+    creditSchedOf(l.id).forEach(s=>{const st=creditEchStatus(s,today);
+      rows2.push([l.ref||l.numero||'',creditClientName(cl),l.gestionnaire,s.n,s.due_date||'',+s.capital||0,+s.interet||0,+s.taf||0,+s.montant||0,+s.crd||0,
+        CREDIT_ECH[st].lbl,s.paid?+s.montant||0:+s.paid_amount||0,s.paid_date||'',st==='IM'||st==='PP'?creditDaysLate(s,today):0]);});});
+  sheet('Échéances',head2,rows2,[16,22,24,9,14,14,13,12,14,16,12,14,15,13]);
+  // 3) clients
+  const cids=new Set(lines.map(l=>l.client_id));
+  const head3=['Code','Nom','Prénom','Civilité','Téléphone','Adresse','Filiale','Gestionnaire','Nombre de crédits','Encours'];
+  const rows3=creditClients().filter(c=>cids.has(c.id)).map(c=>{
+    const ls=creditLinesOfClient(c.id);
+    return [c.code||'',c.nom||'',c.prenom||'',c.civilite||'',c.tel||'',c.adresse||'',(entById(c.ent)||{}).short||c.ent,c.gestionnaire,ls.length,
+      ls.reduce((a,l)=>a+(+l.montant||0),0)];});
+  sheet('Clients',head3,rows3,[12,18,16,12,14,28,12,24,10,16]);
+  // 4) indicateurs
+  const head4=['Indicateur','Valeur'];
+  const rows4=[['Périmètre',label||creditScopeLabel()],['Date d\'extraction',new Date().toLocaleString('fr-FR')],
+    ['Nombre de lignes',k.nLines],['Nombre de clients',k.nClients],['Montant octroyé',k.octroye],['Capital restant dû',k.crd],
+    ['Échéances échues',k.echu],['Échéances réglées',k.regle],['Montant impayé',k.impaye],['Nombre d\'impayés',k.nIM],
+    ['Taux d\'impayés (%)',+k.tauxImpaye.toFixed(2)],['Taux de recouvrement (%)',+k.tauxRecouv.toFixed(2)],
+    ['Portefeuille à risque > 30 j (%)',+k.par30.toFixed(2)],['Portefeuille à risque > 90 j (%)',+k.par90.toFixed(2)],
+    ['Intérêts HT attendus',k.interets],['TAF attendue',k.taf],['Production du mois',k.prod]]
+    .concat(k.aging.map(a=>['Retard '+a.lbl+' — montant',a.mt]));
+  sheet('Indicateurs',head4,rows4,[36,22]);
+  const buf=await wb.xlsx.writeBuffer();
+  auditLog('credit.export',{type:'portefeuille',label:label||creditScopeLabel(),details:{lignes:lines.length}});
+  const nm='Portefeuille_credit_'+new Date().toISOString().slice(0,10)+'.xlsx';
+  loanDownloadBlob(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),nm,'Export Excel téléchargé');
+}
+/* ======================================================================
+   PORTEFEUILLE DE CRÉDIT — INTERFACE
+   Sous-onglets : Tableau de bord · Lignes de crédit · Clients · Validations
+   Le périmètre affiché dépend du rôle (gestionnaire, chef, admin, super-admin).
+   ====================================================================== */
+let CUI={sub:'dash',q:'',gest:'',statut:'',retard:'',line:null,client:null,form:null,busy:false};
+function creditNav(s){
+  CUI.sub=s;CUI.line=null;CUI.client=null;CUI.form=null;
+  document.querySelectorAll('#creditBody .subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.sub===s));
+  renderCredit();
+}
+/* Redessiner une vue remplace son HTML : le champ en cours de saisie perdrait
+   le focus. On mémorise donc le champ actif et la position du curseur, puis on
+   les rétablit après le rendu (les champs concernés portent un id stable). */
+function creditFocusSave(){
+  const a=document.activeElement;
+  if(!a||!a.id||!['INPUT','TEXTAREA'].includes(a.tagName))return null;
+  return {id:a.id,start:a.selectionStart,end:a.selectionEnd};
+}
+function creditFocusRestore(f){
+  if(!f)return;
+  const el=document.getElementById(f.id);if(!el)return;
+  el.focus();
+  try{if(f.start!=null&&el.setSelectionRange)el.setSelectionRange(f.start,f.end);}catch(e){}
+}
+async function renderCredit(force){
+  const wrap=document.getElementById('creditBody');if(!wrap||!can('credit'))return;
+  const host=document.getElementById('creditView');if(!host)return;
+  const foc=creditFocusSave();
+  if(!CDB.loaded||force){host.innerHTML='<div class="empty-soon">Chargement du portefeuille…</div>';await creditSync(force);}
+  const note=document.getElementById('creditMode');
+  if(note){
+    note.className='acc-note '+(CDB.cloud?'ok':'warn');
+    note.innerHTML=CDB.cloud
+      ?'<b>Connecté</b> — portefeuille partagé · périmètre : '+escapeHtml(creditScopeLabel())+(CDB.err?' · '+escapeHtml(CDB.err):'')
+      :'<b>Mode local</b> — les données restent sur cet appareil et ne sont pas partagées. Exécutez le script SQL (Admin › Crédit) et connectez-vous au serveur pour le partage.'+(CDB.err?' Détail : '+escapeHtml(CDB.err):'');
+  }
+  const vb=document.getElementById('creditValidTab');
+  if(vb)vb.style.display=creditCanValidate()?'':'none';
+  if(CUI.sub==='dash')host.innerHTML=creditDashHTML();
+  else if(CUI.sub==='lignes')host.innerHTML=CUI.form?creditFormHTML():(CUI.line?creditLineHTML(CUI.line):creditLinesHTML());
+  else if(CUI.sub==='clients')host.innerHTML=CUI.client?creditClientHTML(CUI.client):creditClientsHTML();
+  else host.innerHTML=creditReqHTML();
+  creditFocusRestore(foc);
+}
+function creditRefresh(){renderCredit(true);}
+
+/* ---------- filtres communs ---------- */
+/* Les listes déroulantes redessinent immédiatement ; la recherche attend
+   250 ms après la dernière frappe (et le focus est rétabli ensuite). */
+let _crFilterT=null;
+function creditFilter(field,val){
+  CUI[field]=val;CUI.line=null;
+  if(field==='q'){clearTimeout(_crFilterT);_crFilterT=setTimeout(()=>renderCredit(),250);return;}
+  renderCredit();
+}
+function creditFiltered(){
+  const today=loanToday();
+  let ls=creditLines(true);
+  if(CUI.gest)ls=ls.filter(l=>normEmail(l.gestionnaire)===CUI.gest);
+  if(CUI.statut)ls=ls.filter(l=>l.statut===CUI.statut);
+  const q=(CUI.q||'').toLowerCase().trim();
+  if(q)ls=ls.filter(l=>{const c=creditClientById(l.client_id);
+    return [(l.ref||''),(''+(l.numero||'')),creditClientName(c),(c&&c.code)||'',l.gestionnaire].join(' ').toLowerCase().includes(q);});
+  if(CUI.retard==='im')ls=ls.filter(l=>creditSchedOf(l.id).some(s=>['IM','PP'].includes(creditEchStatus(s,today))));
+  else if(CUI.retard==='ok')ls=ls.filter(l=>!creditSchedOf(l.id).some(s=>['IM','PP'].includes(creditEchStatus(s,today))));
+  else if(CUI.retard==='90')ls=ls.filter(l=>creditSchedOf(l.id).some(s=>['IM','PP'].includes(creditEchStatus(s,today))&&creditDaysLate(s,today)>90));
+  return ls.sort((a,b)=>(b.numero||0)-(a.numero||0));
+}
+function creditToolbarHTML(){
+  const gs=[...new Set(creditLines(true).map(l=>normEmail(l.gestionnaire)))].sort();
+  return `<div class="acc-tools cr-tools">
+    <input id="crSearch" type="search" placeholder="Rechercher (client, référence, n°)…" value="${escapeHtml(CUI.q)}" oninput="creditFilter('q',this.value)">
+    ${gs.length>1?`<select onchange="creditFilter('gest',this.value)"><option value="">Tous les gestionnaires</option>${gs.map(g=>`<option value="${g}" ${CUI.gest===g?'selected':''}>${escapeHtml(g)}</option>`).join('')}</select>`:''}
+    <select onchange="creditFilter('statut',this.value)"><option value="">Tous les statuts</option>${Object.entries(CREDIT_STATUS).map(([k,v])=>`<option value="${k}" ${CUI.statut===k?'selected':''}>${v}</option>`).join('')}</select>
+    <select onchange="creditFilter('retard',this.value)"><option value="">Retard : tous</option><option value="im" ${CUI.retard==='im'?'selected':''}>Avec impayés</option><option value="90" ${CUI.retard==='90'?'selected':''}>Retard &gt; 90 jours</option><option value="ok" ${CUI.retard==='ok'?'selected':''}>À jour</option></select>
+    <button class="ghost-btn" onclick="creditRefresh()">Actualiser</button>
+    ${creditCanExport()?`<button class="ghost-btn" onclick="creditExportXLSX(creditFiltered(),'Sélection courante')">Export Excel</button>`:''}
+    ${creditCanCreate()?`<button class="add-stock" onclick="creditNewLine()">+ Nouvelle ligne de crédit</button>`:''}
+  </div>`;
+}
+
+/* ---------- tableau de bord ---------- */
+function creditKpiCard(t,v,s,cls){return `<div class="kpi ${cls||'k1'}"><div class="strip"></div><div class="kt">${t}</div><div class="kv">${v}</div><div class="ks up">${s||''}</div></div>`;}
+function creditEchRow(s,today){
+  const l=CDB.lines.find(x=>x.id===s.line_id)||{};
+  const c=creditClientById(l.client_id);
+  const st=creditEchStatus(s,today);
+  return `<tr onclick="creditOpenLine('${l.id}')" style="cursor:pointer">
+    <td style="text-align:left">${escapeHtml(creditClientName(c))}</td>
+    <td style="text-align:left">${escapeHtml(l.ref||('n°'+(l.numero||'')))}</td>
+    <td>${s.n}</td><td>${fmtDateFR(loanParseDate(s.due_date))}</td>
+    <td>${fmtIntFr(creditRestDue(s))}</td>
+    <td><span class="st-badge ${CREDIT_ECH[st].cls}">${st}</span>${st==='IM'||st==='PP'?' <span class="cr-late">'+creditDaysLate(s,today)+' j</span>':''}</td>
+    <td style="text-align:left">${escapeHtml(l.gestionnaire||'')}</td></tr>`;
+}
+function creditListBlock(title,rows,today,empty){
+  return `<div class="infocard cr-block"><h3>${title} <span class="cr-count">${rows.length}</span></h3>
+    ${rows.length?`<div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Client</th><th style="text-align:left">Crédit</th><th>Éch.</th><th>Date</th><th>Montant dû</th><th>Statut</th><th style="text-align:left">Gestionnaire</th></tr></thead>
+    <tbody>${rows.map(s=>creditEchRow(s,today)).join('')}</tbody></table></div>`:`<p class="cr-empty">${empty||'Rien à signaler.'}</p>`}</div>`;
+}
+function creditDashHTML(){
+  const today=loanToday();
+  const lines=creditFiltered();
+  if(!CDB.lines.length)return creditToolbarHTML()+`<div class="empty-soon">Aucune ligne de crédit enregistrée. ${creditCanCreate()?'Créez la première avec « + Nouvelle ligne de crédit ».':'Votre administrateur doit vous habiliter à la création.'}</div>`;
+  const k=creditKPI(lines,today);
+  const C=creditCur(lines[0]);
+  const M=v=>fmtIntFr(Math.round(v))+' '+C;
+  let html=creditToolbarHTML();
+  html+=`<div class="admin-grid cr-kpis">
+    ${creditKpiCard('Capital restant dû',M(k.crd),k.nLines+' crédit(s) · '+k.nClients+' client(s)','k1')}
+    ${creditKpiCard('Montant impayé',M(k.impaye),k.nIM+' échéance(s) · retard max '+k.retardMax+' j','k2')}
+    ${creditKpiCard('Taux d\'impayés',k.tauxImpaye.toFixed(1)+' %','recouvrement '+k.tauxRecouv.toFixed(1)+' %','k3')}
+    ${creditKpiCard('Portefeuille à risque',k.par30.toFixed(1)+' %','> 30 j · '+k.par90.toFixed(1)+' % au-delà de 90 j','k4')}
+  </div>
+  <div class="admin-grid cr-kpis">
+    ${creditKpiCard('Échéances du jour',M(k.today.reduce((a,s)=>a+creditRestDue(s),0)),k.today.length+' échéance(s)','k3')}
+    ${creditKpiCard('Demain',M(k.tomorrow.reduce((a,s)=>a+creditRestDue(s),0)),k.tomorrow.length+' échéance(s)','k1')}
+    ${creditKpiCard('Encaissé ce mois',M(k.moisEncaisse),'attendu '+M(k.moisAttendu),'k4')}
+    ${creditKpiCard('Production du mois',M(k.prod),'intérêts attendus '+M(k.interets)+' · TAF '+M(k.taf),'k2')}
+  </div>`;
+  html+=creditListBlock('Remboursements du jour',k.today,today,'Aucune échéance aujourd\'hui.');
+  html+=creditListBlock('Remboursements de demain',k.tomorrow,today,'Aucune échéance demain.');
+  html+=creditListBlock('Impayés — clients n\'ayant pas réglé une échéance échue',k.late.slice(0,50),today,'Aucun impayé : portefeuille à jour.');
+  html+=creditListBlock('À venir sous 7 jours',k.week,today,'Aucune échéance dans les 7 prochains jours.');
+  // ancienneté des retards
+  html+=`<div class="infocard cr-block"><h3>Ancienneté des impayés</h3>
+    <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Tranche de retard</th><th>Échéances</th><th>Montant</th><th>Part</th></tr></thead><tbody>
+    ${k.aging.map(a=>`<tr><td style="text-align:left">${a.lbl}</td><td>${a.n}</td><td>${fmtIntFr(a.mt)}</td><td>${k.impaye?((a.mt/k.impaye)*100).toFixed(1):'0,0'} %</td></tr>`).join('')}
+    <tr class="tot"><td style="text-align:left">Total</td><td>${k.nIM}</td><td>${fmtIntFr(k.impaye)}</td><td>100 %</td></tr></tbody></table></div></div>`;
+  // vue consolidée par gestionnaire (chef, admin, super-admin)
+  if(['team','ent','all'].includes(creditScope())){
+    const rows=creditByGest(lines,today);
+    html+=`<div class="infocard cr-block"><h3>Portefeuilles par gestionnaire</h3>
+      <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Gestionnaire</th><th>Crédits</th><th>Clients</th><th>Capital restant dû</th><th>Impayé</th><th>Taux d'impayés</th><th>PAR &gt; 30 j</th><th>Retard max</th></tr></thead><tbody>
+      ${rows.map(r=>`<tr onclick="creditFilter('gest','${r.gest}')" style="cursor:pointer" title="Filtrer sur ce gestionnaire">
+        <td style="text-align:left">${escapeHtml(r.gest)}${creditRole(r.gest)==='chef'?' <span class="cr-tag">chef</span>':''}</td>
+        <td>${r.k.nLines}</td><td>${r.k.nClients}</td><td>${fmtIntFr(r.k.crd)}</td>
+        <td class="${r.k.impaye?'cr-bad':''}">${fmtIntFr(r.k.impaye)}</td><td>${r.k.tauxImpaye.toFixed(1)} %</td><td>${r.k.par30.toFixed(1)} %</td><td>${r.k.retardMax} j</td></tr>`).join('')}
+      </tbody></table></div></div>`;
+  }
+  return html;
+}
+
+/* ---------- liste des lignes de crédit ---------- */
+function creditLinesHTML(){
+  const today=loanToday();const ls=creditFiltered();const cols=creditCols();
+  let html=creditToolbarHTML();
+  if(!ls.length)return html+'<div class="empty-soon">Aucune ligne de crédit ne correspond à ces critères.</div>';
+  html+=`<div class="infocard"><div class="table-scroll"><table class="recap-table cr-tbl cr-lines"><thead><tr>
+    <th>N°</th><th style="text-align:left">Référence</th><th style="text-align:left">Client</th><th style="text-align:left">Gestionnaire</th>
+    <th>Octroi</th><th>Montant</th><th>Taux HT</th><th>TAF</th><th>Périodicité</th><th>Capital restant dû</th><th>Impayé</th><th>Statut</th>
+    ${cols.map(c=>`<th>${escapeHtml(c.label)}</th>`).join('')}</tr></thead><tbody>
+    ${ls.map(l=>{
+      const c=creditClientById(l.client_id);const sc=creditSchedOf(l.id);
+      const late=sc.filter(s=>['IM','PP'].includes(creditEchStatus(s,today)));
+      const open=sc.find(s=>creditEchStatus(s,today)!=='PA');
+      const imp=late.reduce((a,s)=>a+creditRestDue(s),0);
+      return `<tr onclick="creditOpenLine('${l.id}')" style="cursor:pointer">
+        <td>${l.numero||''}</td><td style="text-align:left">${escapeHtml(l.ref||'—')}</td>
+        <td style="text-align:left">${escapeHtml(creditClientName(c))}</td><td style="text-align:left">${escapeHtml(l.gestionnaire)}</td>
+        <td>${fmtDateFR(loanParseDate(l.date_octroi))}</td><td>${fmtIntFr(+l.montant||0)}</td><td>${loanPct(l.taux)}</td><td>${loanPct(l.taf)}</td>
+        <td>${LOAN_FREQ_LBL[+l.freq]||''}</td><td>${fmtIntFr(open?(+open.crd||0)+(+open.capital||0):0)}</td>
+        <td class="${imp?'cr-bad':''}">${imp?fmtIntFr(imp):'—'}</td>
+        <td><span class="cr-st cr-st-${l.statut}">${CREDIT_STATUS[l.statut]||l.statut}</span></td>
+        ${cols.map(cc=>`<td>${escapeHtml(creditColValue(l,cc))}</td>`).join('')}</tr>`;}).join('')}
+    </tbody></table></div>
+    <div class="cr-foot">${ls.length} ligne(s) · périmètre : ${escapeHtml(creditScopeLabel())}</div></div>`;
+  return html;
+}
+function creditOpenLine(id){CUI.line=id;CUI.sub='lignes';document.querySelectorAll('#creditBody .subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.sub==='lignes'));renderCredit();}
+
+/* ---------- fiche d'une ligne de crédit ---------- */
+function creditLineHTML(id){
+  const l=CDB.lines.find(x=>x.id===id);
+  if(!l)return '<div class="empty-soon">Ligne introuvable.</div>';
+  const today=loanToday();const c=creditClientById(l.client_id);const sc=creditSchedOf(l.id);
+  const C=creditCur(l);const M=v=>fmtIntFr(Math.round(v))+' '+C;
+  const paid=sc.filter(s=>creditEchStatus(s,today)==='PA');
+  const late=sc.filter(s=>['IM','PP'].includes(creditEchStatus(s,today)));
+  const open=sc.find(s=>creditEchStatus(s,today)!=='PA');
+  const next=sc.find(s=>creditEchStatus(s,today)==='E');
+  const imp=late.reduce((a,s)=>a+creditRestDue(s),0);
+  const editable=creditCanEdit(l)&&l.statut!=='archive';
+  const cols=creditCols();
+  const req=CDB.reqs.find(r=>r.line_id===l.id&&r.status==='pending');
+  return `<div class="cr-head"><button class="ghost-btn" onclick="CUI.line=null;renderCredit()">← Retour à la liste</button>
+    <h3>Crédit ${escapeHtml(l.ref||('n° '+(l.numero||'')))} — ${escapeHtml(creditClientName(c))}</h3>
+    <span class="cr-st cr-st-${l.statut}">${CREDIT_STATUS[l.statut]||l.statut}</span></div>
+  ${req?`<div class="acc-note warn">Suppression demandée par ${escapeHtml(req.requested_by)}${req.reason?' — motif : '+escapeHtml(req.reason):''}. ${creditCanValidate()?'À valider dans l\'onglet Validations.':'En attente de validation du chef ou de l\'administrateur.'}</div>`:''}
+  <div class="admin-grid cr-kpis">
+    ${creditKpiCard('Montant octroyé',M(+l.montant||0),fmtDateFR(loanParseDate(l.date_octroi))+' · '+(+l.duree||0)+' mois','k1')}
+    ${creditKpiCard('Capital restant dû',M(open?(+open.crd||0)+(+open.capital||0):0),paid.length+' / '+sc.length+' échéance(s) réglée(s)','k4')}
+    ${creditKpiCard('Impayé',M(imp),late.length?late.length+' échéance(s) · '+Math.max(...late.map(s=>creditDaysLate(s,today)))+' j de retard':'à jour','k2')}
+    ${creditKpiCard('Prochaine échéance',next?fmtDateFR(loanParseDate(next.due_date)):'—',next?M(+next.montant||0):'crédit soldé','k3')}
+  </div>
+  <div class="infocard cr-block"><h3>Caractéristiques</h3>
+    <div class="cr-grid">
+      ${[['Référence',l.ref||'—'],['Numéro',l.numero||'—'],['Client',creditClientName(c)],['Téléphone',(c&&c.tel)||'—'],
+         ['Gestionnaire',l.gestionnaire],['Filiale',(entById(l.ent)||{}).short||l.ent||'—'],
+         ['Date d\'octroi',fmtDateFR(loanParseDate(l.date_octroi))],['Montant',M(+l.montant||0)],
+         ['Taux d\'intérêt HT',loanPct(l.taux)+' par an'],['TAF',loanPct(l.taf)+' des intérêts'],
+         ['Périodicité',LOAN_FREQ_LBL[+l.freq]||''],['Durée',(+l.duree||0)+' mois'],
+         ['Mode de remboursement',LOAN_MODE_LBL[l.mode]||l.mode],['Différé',(+l.differe||0)+' période(s)']]
+        .concat(cols.map(cc=>[cc.label,creditColValue(l,cc)||'—']))
+        .map(([a,b])=>`<div class="cr-f"><label>${escapeHtml(a)}</label><span>${escapeHtml(''+b)}</span></div>`).join('')}
+    </div>
+    <div class="fil-actions">
+      ${editable?`<button class="ghost-btn" onclick="creditEditLine('${l.id}')">Modifier</button>`:''}
+      ${late.length?`<button class="ghost-btn" onclick="creditRelancePreview('${l.id}')">Aperçu de la relance</button>
+        <button class="ghost-btn" onclick="creditRelance('${l.id}','pdf')">Relance PDF</button>
+        <button class="ghost-btn" onclick="creditRelance('${l.id}','doc')">Relance Word</button>`:''}
+      ${creditCanExport()?`<button class="ghost-btn" onclick="creditExportXLSX([CDB.lines.find(x=>x.id==='${l.id}')],'Crédit ${escapeHtml(l.ref||'')}')">Export Excel</button>`:''}
+      ${editable&&!req?`<button class="del-btn" onclick="creditAskDelete('${l.id}')">Demander la suppression</button>`:''}
+    </div>
+    <div id="crPrevHost"></div>
+  </div>
+  <div class="infocard cr-block"><h3>Échéancier et règlements <span class="cr-count">${paid.length} / ${sc.length}</span></h3>
+    <p class="cr-hint">Cochez la case dès que l'échéance est réglée. Une échéance non réglée dont la date est passée est barrée et comptée comme impayé. Pour un règlement partiel, saisissez le montant reçu.</p>
+    <div class="table-scroll"><table class="recap-table cr-tbl cr-sched"><thead><tr>
+      <th>Payé</th><th>N°</th><th>Date</th><th>Capital</th><th>Intérêts HT</th><th>TAF</th><th>Échéance due</th><th>Montant réglé</th><th>Reste dû</th><th>Dernier règlement</th><th>Statut</th></tr></thead><tbody>
+      ${sc.map(s=>{const st=creditEchStatus(s,today);const barre=(st==='IM'||st==='PP');
+        return `<tr class="${st==='PA'?'cr-paid':(barre?'cr-unpaid':'')}">
+        <td><input type="checkbox" class="cr-check" ${st==='PA'?'checked':''} ${editable?'':'disabled'} onchange="creditTogglePaid('${s.id}',this.checked)" title="Cocher si l'échéance est réglée"></td>
+        <td>${s.n}</td><td class="${barre?'cr-strike':''}">${fmtDateFR(loanParseDate(s.due_date))}</td>
+        <td>${fmtIntFr(s.capital)}</td><td>${fmtIntFr(s.interet)}</td><td>${fmtIntFr(s.taf)}</td>
+        <td class="${barre?'cr-strike':''}"><b>${fmtIntFr(s.montant)}</b></td>
+        <td class="cr-paycell">
+          <input id="crPay-${s.id}" type="number" class="cr-pay" min="0" value="${(+s.paid_amount||0)||''}" placeholder="0" ${editable?'':'disabled'} onchange="creditSetPaid('${s.id}',this.value)" title="Cumul réglé sur cette échéance">
+          ${editable?`<button class="lp-mini" onclick="creditAddPayment('${s.id}')" title="Enregistrer un versement partiel">+</button>`:''}
+          ${creditPayHist(s).length>1?`<div class="cr-hist">${creditPayHist(s).map(h=>fmtIntFr(h.amount)+' le '+fmtDateFR(loanParseDate(h.date))).join(' · ')}</div>`:''}
+        </td>
+        <td class="${creditRestDue(s)&&st!=='PA'?'cr-bad':''}">${st==='PA'?'—':fmtIntFr(creditRestDue(s))}</td>
+        <td>${s.paid_date?fmtDateFR(loanParseDate(s.paid_date)):'—'}</td>
+        <td><span class="st-badge ${CREDIT_ECH[st].cls}">${st}</span>${barre?' <span class="cr-late">'+creditDaysLate(s,today)+' j</span>':''}</td></tr>`;}).join('')}
+      <tr class="tot"><td colspan="3" style="text-align:left">Totaux (${escapeHtml(C)})</td>
+        <td>${fmtIntFr(sc.reduce((a,s)=>a+(+s.capital||0),0))}</td><td>${fmtIntFr(sc.reduce((a,s)=>a+(+s.interet||0),0))}</td>
+        <td>${fmtIntFr(sc.reduce((a,s)=>a+(+s.taf||0),0))}</td><td>${fmtIntFr(sc.reduce((a,s)=>a+(+s.montant||0),0))}</td>
+        <td>${fmtIntFr(sc.reduce((a,s)=>a+(+s.paid_amount||0),0))}</td>
+        <td>${fmtIntFr(sc.reduce((a,s)=>a+(creditEchStatus(s,today)==='PA'?0:creditRestDue(s)),0))}</td><td colspan="2"></td></tr>
+    </tbody></table></div></div>`;
+}
+/* règlements */
+async function creditTogglePaid(schedId,checked){
+  const s=CDB.sched.find(x=>x.id===schedId);if(!s)return;
+  const l=CDB.lines.find(x=>x.id===s.line_id);
+  if(!creditCanEdit(l)){toast('Action non autorisée');return;}
+  const today=loanIso(loanToday());
+  if(checked){
+    // solde l'échéance : on enregistre le versement du reste dû
+    const rest=creditRestDue(s);
+    if(rest>0)s.paid_hist=creditPayHist(s).concat([{date:today,amount:rest,by:normEmail(session.user)}]);
+    creditApplyPayments(s);s.paid=true;s.paid_amount=Math.round(+s.montant||0);s.paid_date=today;
+  }else{
+    s.paid_hist=[];s.paid_amount=0;s.paid_date=null;s.paid=false;   // remise à zéro des règlements
+  }
+  await creditPut('sched',s);
+  auditLog(checked?'credit.paiement':'credit.paiement_annule',{type:'echeance',id:s.id,
+    label:creditLineLabel(l)+' — échéance '+s.n,details:{montant:s.paid_amount}});
+  await creditMaybeSolde(l);
+  renderCredit();
+  toast(checked?'Échéance '+s.n+' marquée réglée':'Échéance '+s.n+' remise en attente');
+}
+async function creditSetPaid(schedId,val){
+  const s=CDB.sched.find(x=>x.id===schedId);if(!s)return;
+  const l=CDB.lines.find(x=>x.id===s.line_id);
+  if(!creditCanEdit(l)){toast('Action non autorisée');return;}
+  // saisie directe du cumul réglé : remplace l'historique par un versement unique
+  const v=Math.max(0,Math.round(+val||0));
+  s.paid_hist=v>0?[{date:s.paid_date||loanIso(loanToday()),amount:v,by:normEmail(session.user)}]:[];
+  s.paid_amount=v;
+  creditApplyPayments(s);
+  if(!v){s.paid=false;s.paid_date=null;}
+  await creditPut('sched',s);
+  auditLog('credit.reglement',{type:'echeance',id:s.id,label:creditLineLabel(l)+' — échéance '+s.n,details:{cumul:v,du:+s.montant||0}});
+  await creditMaybeSolde(l);
+  renderCredit();
+}
+/* enregistre un versement partiel supplémentaire sur une échéance */
+function creditAddPayment(schedId){
+  const s=CDB.sched.find(x=>x.id===schedId);if(!s)return;
+  const l=CDB.lines.find(x=>x.id===s.line_id);
+  if(!creditCanEdit(l)){toast('Action non autorisée');return;}
+  const rest=creditRestDue(s);
+  promptAction('Versement partiel — échéance '+s.n+' du '+fmtDateFR(loanParseDate(s.due_date))
+    +'\nMontant dû : '+fmtIntFr(s.montant)+' · déjà réglé : '+fmtIntFr(s.paid_amount||0)+' · reste dû : '+fmtIntFr(rest),
+    'Montant du versement',async(amount,date)=>{
+      const v=Math.max(0,Math.round(+(''+amount).replace(/[^0-9.,-]/g,'').replace(',','.')||0));
+      if(!v){toast('Saisissez un montant');return;}
+      s.paid_hist=creditPayHist(s).concat([{date:date||loanIso(loanToday()),amount:v,by:normEmail(session.user)}]);
+      creditApplyPayments(s);
+      await creditPut('sched',s);
+      await creditMaybeSolde(l);
+      auditLog('credit.reglement',{type:'echeance',id:s.id,label:creditLineLabel(l)+' — échéance '+s.n,
+        details:{versement:v,cumul:s.paid_amount,du:+s.montant||0}});
+      renderCredit();
+      toast('Versement de '+fmtIntFr(v)+' enregistré'+(s.paid?' — échéance soldée':' — reste dû '+fmtIntFr(creditRestDue(s))));
+    },{extra:{label:'Date du versement',type:'date',value:loanIso(loanToday())},onExtra:null});
+}
+/* passe la ligne en « soldé » lorsque toutes les échéances sont réglées */
+async function creditMaybeSolde(l){
+  if(!l)return;
+  const sc=creditSchedOf(l.id);
+  const allPaid=sc.length&&sc.every(s=>creditEchStatus(s)==='PA');
+  const target=allPaid?'solde':(l.statut==='solde'?'actif':l.statut);
+  if(target!==l.statut&&l.statut!=='archive'&&l.statut!=='suppression_demandee'){
+    l.statut=target;await creditPut('lines',l);
+  }
+}
+
+/* ---------- création / modification d'une ligne ---------- */
+function creditNewLine(){
+  if(!creditCanCreate()){toast('Vous n\'êtes pas habilité à créer une ligne de crédit');return;}
+  const p=normLoanParams((entById(creditEnt())||{}).loan);
+  const tx=loanTaxInfo(p,12);
+  CUI.form={id:null,client_id:'',newClient:{nom:'',prenom:'',civilite:'Monsieur',tel:'',adresse:'',code:''},
+    ref:'',montant:0,taux:+p.rate||0,taf:tx.rate,freq:'12',duree:12,mode:'annuite',differe:0,
+    date_octroi:loanIso(loanToday()),gestionnaire:normEmail(session.user),mine:true,cols:{}};
+  CUI.line=null;renderCredit();
+}
+function creditEditLine(id){
+  const l=CDB.lines.find(x=>x.id===id);if(!l)return;
+  CUI.form=Object.assign({},l,{newClient:{nom:'',prenom:'',civilite:'Monsieur',tel:'',adresse:'',code:''},mine:normEmail(l.gestionnaire)===normEmail(session.user),cols:Object.assign({},l.cols||{})});
+  CUI.line=null;renderCredit();
+}
+/* Saisie du formulaire : on met à jour l'objet en mémoire SANS redessiner le
+   formulaire (sinon le champ perdrait le focus à chaque caractère). Seuls les
+   éléments dépendants sont rafraîchis : l'aperçu de l'échéancier, la TAF
+   calculée d'après la durée, et le bloc client lorsqu'on change de client. */
+function creditFormSet(field,val){
+  const f=CUI.form;if(!f)return;
+  if(field.startsWith('nc.'))f.newClient[field.slice(3)]=val;
+  else if(field.startsWith('col.'))f.cols[field.slice(4)]=val;
+  else if(['montant','taux','taf','duree','differe'].includes(field))f[field]=val===''?0:+val;
+  else if(field==='mine'){f.mine=!!val;if(val)f.gestionnaire=normEmail(session.user);}
+  else f[field]=val;
+  if((field==='duree'||field==='freq')&&!f.id){
+    // la TAF dépend de la durée (tranches paramétrées par filiale)
+    const p=normLoanParams((entById(creditEnt())||{}).loan);
+    f.taf=loanTaxInfo(p,Math.max(1,+f.duree||12)).rate;
+    const tafInp=document.getElementById('crfTaf');if(tafInp)tafInp.value=f.taf;
+  }
+  if(field==='client_id'||field==='mine'||field==='freq'||field==='mode'){renderCredit();return;}
+  creditFormPreview();   // rafraîchit seulement l'aperçu de l'échéancier
+}
+/* recalcule l'encadré d'aperçu sous le formulaire */
+function creditFormPreview(){
+  const f=CUI.form;const box=document.getElementById('crFormPrev');if(!f||!box)return;
+  if(!(+f.montant>0&&+f.duree>0)){box.style.display='none';return;}
+  const t=loanTable(creditPseudoLoan(Object.assign({ent:creditEnt()},f)));
+  const C=creditCur({ent:creditEnt()});
+  box.style.display='';
+  box.innerHTML=t.rows.length+' échéance(s) · première le '+fmtDateFR(t.rows[0].date)+' · échéance '+fmtIntFr(t.rows[0].ech)+' '+escapeHtml(C)
+    +' · total intérêts '+fmtIntFr(t.rows.reduce((a,r)=>a+r.interest,0))+' · TAF '+fmtIntFr(t.rows.reduce((a,r)=>a+r.taxInt,0));
+}
+function creditFormHTML(){
+  const f=CUI.form;const cols=creditCols();
+  const clients=creditClients().sort((a,b)=>creditClientName(a).localeCompare(creditClientName(b)));
+  const p=normLoanParams((entById(creditEnt())||{}).loan);
+  const C=(p.currency||state.cur);
+  const preview=(+f.montant>0&&+f.duree>0)?loanTable(creditPseudoLoan(Object.assign({ent:creditEnt()},f))):null;
+  const gests=creditGestOptions();
+  return `<div class="cr-head"><button class="ghost-btn" onclick="CUI.form=null;renderCredit()">← Annuler</button>
+    <h3>${f.id?'Modifier la ligne de crédit':'Nouvelle ligne de crédit'}</h3></div>
+  <div class="infocard cr-block">
+    <div class="sub-label">Client</div>
+    <div class="fgrid">
+      <div class="fg" style="grid-column:span 2"><label>Client existant</label>
+        <select onchange="creditFormSet('client_id',this.value)">
+          <option value="">— Nouveau client —</option>
+          ${clients.map(c=>`<option value="${c.id}" ${f.client_id===c.id?'selected':''}>${escapeHtml(creditClientName(c))}${c.code?' ('+escapeHtml(c.code)+')':''}</option>`).join('')}
+        </select></div>
+      ${f.client_id?'':`
+      <div class="fg"><label>Nom</label><input id="crfNom" type="text" value="${escapeHtml(f.newClient.nom)}" oninput="creditFormSet('nc.nom',this.value)"></div>
+      <div class="fg"><label>Prénom</label><input id="crfPrenom" type="text" value="${escapeHtml(f.newClient.prenom)}" oninput="creditFormSet('nc.prenom',this.value)"></div>
+      <div class="fg"><label>Civilité</label><select onchange="creditFormSet('nc.civilite',this.value)">${['Monsieur','Madame','Madame, Monsieur'].map(x=>`<option ${f.newClient.civilite===x?'selected':''}>${x}</option>`).join('')}</select></div>
+      <div class="fg"><label>Code client</label><input id="crfCode" type="text" value="${escapeHtml(f.newClient.code)}" oninput="creditFormSet('nc.code',this.value)"></div>
+      <div class="fg"><label>Téléphone</label><input id="crfTel" type="text" value="${escapeHtml(f.newClient.tel)}" oninput="creditFormSet('nc.tel',this.value)"></div>
+      <div class="fg" style="grid-column:span 2"><label>Adresse</label><input id="crfAdr" type="text" value="${escapeHtml(f.newClient.adresse)}" oninput="creditFormSet('nc.adresse',this.value)"></div>`}
+    </div>
+    <div class="sub-label">Caractéristiques du crédit</div>
+    <div class="fgrid">
+      <div class="fg"><label>Référence du crédit</label><input id="crfRef" type="text" value="${escapeHtml(f.ref||'')}" placeholder="Ex. CRD-2026-0142" oninput="creditFormSet('ref',this.value)"></div>
+      <div class="fg mono"><label>Montant (${escapeHtml(C)})</label><input id="crfMontant" type="number" min="0" value="${f.montant||''}" oninput="creditFormSet('montant',this.value)"></div>
+      <div class="fg"><label>Date d'octroi</label><input id="crfDate" type="date" value="${f.date_octroi||''}" oninput="creditFormSet('date_octroi',this.value)"></div>
+      <div class="fg mono"><label>Taux d'intérêt HT (% annuel)</label><input id="crfTaux" type="number" step="0.01" min="0" value="${f.taux||''}" oninput="creditFormSet('taux',this.value)"></div>
+      <div class="fg mono"><label>TAF (% des intérêts)</label><input id="crfTaf" type="number" step="0.01" min="0" value="${f.taf||''}" oninput="creditFormSet('taf',this.value)" title="Taxe sur les activités financières, appliquée aux intérêts"></div>
+      <div class="fg"><label>Périodicité</label><select onchange="creditFormSet('freq',this.value)">${[[12,'Mensuelle'],[4,'Trimestrielle'],[2,'Semestrielle'],[1,'Annuelle']].map(([v,t])=>`<option value="${v}" ${String(f.freq)===String(v)?'selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="fg mono"><label>Durée (mois)</label><input id="crfDuree" type="number" min="1" step="1" value="${f.duree||''}" oninput="creditFormSet('duree',this.value)"></div>
+      <div class="fg"><label>Mode de remboursement</label><select onchange="creditFormSet('mode',this.value)">${Object.entries(LOAN_MODE_LBL).filter(([k])=>k!=='custom').map(([k,v])=>`<option value="${k}" ${f.mode===k?'selected':''}>${v}</option>`).join('')}</select></div>
+      <div class="fg mono"><label>Différé (périodes)</label><input id="crfDiff" type="number" min="0" step="1" value="${f.differe||0}" oninput="creditFormSet('differe',this.value)"></div>
+      <div class="fg"><label>Gestionnaire</label>
+        ${gests.length>1?`<select ${f.mine?'disabled':''} onchange="creditFormSet('gestionnaire',this.value)">${gests.map(g=>`<option value="${g}" ${normEmail(f.gestionnaire)===g?'selected':''}>${escapeHtml(g)}</option>`).join('')}</select>`:`<input class="ro" readonly value="${escapeHtml(f.gestionnaire)}">`}</div>
+      <div class="fg"><label>Rattachement</label><label class="lp-chk"><input type="checkbox" ${f.mine?'checked':''} onchange="creditFormSet('mine',this.checked)"><span>Ajouter à mon portefeuille</span></label></div>
+    </div>
+    ${cols.length?`<div class="sub-label">Informations complémentaires</div><div class="fgrid">
+      ${cols.map(c=>{const v=f.cols[c.key]==null?'':f.cols[c.key];
+        if(c.type==='select')return `<div class="fg"><label>${escapeHtml(c.label)}</label><select onchange="creditFormSet('col.${c.key}',this.value)"><option value="">—</option>${(c.options||[]).map(o=>`<option ${v===o?'selected':''}>${escapeHtml(o)}</option>`).join('')}</select></div>`;
+        if(c.type==='bool')return `<div class="fg"><label>${escapeHtml(c.label)}</label><label class="lp-chk"><input type="checkbox" ${v===true||v==='1'?'checked':''} onchange="creditFormSet('col.${c.key}',this.checked?'1':'')"><span>Oui</span></label></div>`;
+        const t=c.type==='date'?'date':(c.type==='money'||c.type==='number'?'number':'text');
+        return `<div class="fg${c.type==='money'?' mono':''}"><label>${escapeHtml(c.label)}</label><input id="crfCol-${c.key}" type="${t}" value="${escapeHtml(''+v)}" oninput="creditFormSet('col.${c.key}',this.value)"></div>`;}).join('')}
+    </div>`:''}
+    <div class="sub-label">Aperçu de l'échéancier</div>
+    <div class="cr-prevbox" id="crFormPrev" style="${preview?'':'display:none'}">${preview?`${preview.rows.length} échéance(s) · première le ${fmtDateFR(preview.rows[0].date)} · échéance ${fmtIntFr(preview.rows[0].ech)} ${escapeHtml(C)} · total intérêts ${fmtIntFr(preview.rows.reduce((a,r)=>a+r.interest,0))} · TAF ${fmtIntFr(preview.rows.reduce((a,r)=>a+r.taxInt,0))}`:''}</div>
+    <div class="fil-actions">
+      <button class="ghost-btn" onclick="CUI.form=null;renderCredit()">Annuler</button>
+      <button class="save-btn" onclick="creditSaveLine()">${f.id?'Enregistrer les modifications':'Créer la ligne de crédit'}</button>
+    </div>
+  </div>`;
+}
+async function creditSaveLine(){
+  const f=CUI.form;if(!f||CUI.busy)return;
+  if(!(+f.montant>0))return toast('Saisissez le montant du crédit');
+  if(!(+f.duree>=1))return toast('Saisissez la durée en mois');
+  if(!f.date_octroi)return toast("Saisissez la date d'octroi");
+  if(!f.client_id&&!(f.newClient.nom||'').trim())return toast('Saisissez le nom du client');
+  const ent=creditEnt();
+  if(!ent&&!isSuperAdmin())return toast("Votre compte n'est rattaché à aucune filiale : contactez votre administrateur");
+  CUI.busy=true;
+  try{
+    let clientId=f.client_id;
+    if(!clientId){
+      const c={id:cuid(),ent,code:f.newClient.code||'',nom:f.newClient.nom,prenom:f.newClient.prenom,civilite:f.newClient.civilite,
+        tel:f.newClient.tel,adresse:f.newClient.adresse,gestionnaire:normEmail(f.gestionnaire),created_by:normEmail(session.user),created_at:new Date().toISOString()};
+      await creditPut('clients',c);clientId=c.id;
+    }
+    const line=Object.assign(CDB.lines.find(x=>x.id===f.id)||{id:cuid(),ent,created_by:normEmail(session.user),created_at:new Date().toISOString(),statut:'actif'},{
+      client_id:clientId,numero:f.numero||creditNextNumero(ent),ref:f.ref||'',montant:Math.round(+f.montant||0),
+      taux:+f.taux||0,taf:+f.taf||0,freq:+f.freq||12,duree:Math.round(+f.duree||0),mode:f.mode||'annuite',
+      differe:Math.round(+f.differe||0),date_octroi:f.date_octroi,gestionnaire:normEmail(f.gestionnaire),cols:f.cols||{}});
+    await creditPut('lines',line);
+    const rows=creditBuildSchedule(line,creditSchedOf(line.id));
+    await creditPut('sched',rows);
+    auditLog(f.id?'credit.modification':'credit.creation',{type:'credit',id:line.id,label:creditLineLabel(line),
+      details:{montant:line.montant,duree:line.duree,taux:line.taux,taf:line.taf,gestionnaire:line.gestionnaire}});
+    CUI.form=null;CUI.line=line.id;
+    toast(f.id?'Ligne de crédit mise à jour':'Ligne de crédit créée — échéancier généré');
+  }catch(e){toast('Enregistrement impossible : '+(e.message||e));}
+  CUI.busy=false;renderCredit();
+}
+/* demande de suppression (validation du chef ou de l'admin de filiale) */
+function creditAskDelete(id){
+  const l=CDB.lines.find(x=>x.id===id);if(!l)return;
+  const c=creditClientById(l.client_id);
+  promptAction('Demander la suppression du crédit « '+(l.ref||('n° '+l.numero))+' » de '+creditClientName(c)+' ?\nLa ligne sera conservée jusqu\'à la décision de votre chef ou de l\'administrateur de la filiale.','Motif de la demande',async(reason)=>{
+    if(!reason){toast('Indiquez le motif de la demande');return;}
+    await creditPut('reqs',{id:cuid(),ent:l.ent,line_id:l.id,line_label:(l.ref||('n° '+l.numero))+' — '+creditClientName(c),
+      type:'delete',reason,requested_by:normEmail(session.user),status:'pending',created_at:new Date().toISOString()});
+    l.statut='suppression_demandee';await creditPut('lines',l);
+    auditLog('credit.demande_suppression',{type:'credit',id:l.id,label:creditLineLabel(l),details:{motif:reason}});
+    renderCredit();toast('Demande transmise pour validation');
+  });
+}
+
+/* ---------- validations ---------- */
+function creditReqHTML(){
+  const pend=CDB.reqs.filter(r=>r.status==='pending'&&(isSuperAdmin()||r.ent===creditEnt()));
+  const done=CDB.reqs.filter(r=>r.status!=='pending'&&(isSuperAdmin()||r.ent===creditEnt())).slice(-20).reverse();
+  return `<div class="infocard cr-block"><h3>Demandes de suppression en attente <span class="cr-count">${pend.length}</span></h3>
+    ${pend.length?pend.map(r=>`<div class="acc-user"><div class="acc-row">
+      <div class="acc-id"><div class="acc-em">${escapeHtml(r.line_label||r.line_id)}</div>
+        <div class="acc-sum">Demandée par ${escapeHtml(r.requested_by)} le ${fmtDateFR(new Date(r.created_at))}${r.reason?' — motif : '+escapeHtml(r.reason):''}</div></div>
+      <div class="acc-ctl">
+        <button class="ghost-btn" onclick="creditOpenLine('${r.line_id}')">Voir le crédit</button>
+        ${creditCanValidate()?`<button class="save-btn" onclick="creditDecide('${r.id}','approved')">Valider la suppression</button>
+        <button class="del-btn" onclick="creditDecide('${r.id}','rejected')">Refuser</button>`:'<span class="lf-hint">En attente du chef ou de l\'administrateur</span>'}
+      </div></div></div>`).join(''):'<p class="cr-empty">Aucune demande en attente.</p>'}
+  </div>
+  <div class="infocard cr-block"><h3>Historique des décisions</h3>
+    ${done.length?`<div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Crédit</th><th style="text-align:left">Demandeur</th><th style="text-align:left">Motif</th><th>Décision</th><th style="text-align:left">Décidée par</th><th>Date</th></tr></thead><tbody>
+      ${done.map(r=>`<tr><td style="text-align:left">${escapeHtml(r.line_label||'')}</td><td style="text-align:left">${escapeHtml(r.requested_by)}</td>
+      <td style="text-align:left">${escapeHtml(r.reason||'—')}</td><td><span class="cr-st ${r.status==='approved'?'cr-st-archive':'cr-st-actif'}">${r.status==='approved'?'Validée':'Refusée'}</span></td>
+      <td style="text-align:left">${escapeHtml(r.decided_by||'')}</td><td>${r.decided_at?fmtDateFR(new Date(r.decided_at)):''}</td></tr>`).join('')}
+    </tbody></table></div>`:'<p class="cr-empty">Aucune décision enregistrée.</p>'}
+  </div>`;
+}
+async function creditDecide(reqId,decision){
+  if(!creditCanValidate()){toast('Action réservée au chef ou à l\'administrateur de la filiale');return;}
+  const r=CDB.reqs.find(x=>x.id===reqId);if(!r)return;
+  const l=CDB.lines.find(x=>x.id===r.line_id);
+  const txt=decision==='approved'
+    ?'Valider la suppression de « '+(r.line_label||'')+' » ? La ligne sera archivée (conservée pour la piste d\'audit) et sortira du portefeuille.'
+    :'Refuser la demande de suppression de « '+(r.line_label||'')+' » ?';
+  confirmAction(txt,async()=>{
+    r.status=decision;r.decided_by=normEmail(session.user);r.decided_at=new Date().toISOString();
+    await creditPut('reqs',r);
+    if(l){l.statut=decision==='approved'?'archive':'actif';await creditPut('lines',l);}
+    auditLog(decision==='approved'?'credit.suppression_validee':'credit.suppression_refusee',
+      {type:'credit',id:r.line_id,label:r.line_label||'',details:{demandeur:r.requested_by,motif:r.reason||''}});
+    renderCredit();toast(decision==='approved'?'Suppression validée : ligne archivée':'Demande refusée');
+  },decision==='approved'?'Valider':'Refuser');
+}
+
+/* ---------- clients ---------- */
+function creditClientsHTML(){
+  const today=loanToday();
+  const q=(CUI.q||'').toLowerCase().trim();
+  let cs=creditClients();
+  if(q)cs=cs.filter(c=>[creditClientName(c),c.code||'',c.tel||'',c.gestionnaire].join(' ').toLowerCase().includes(q));
+  return `<div class="acc-tools cr-tools">
+      <input id="crSearchCli" type="search" placeholder="Rechercher un client…" value="${escapeHtml(CUI.q)}" oninput="creditFilter('q',this.value)">
+      <button class="ghost-btn" onclick="creditRefresh()">Actualiser</button>
+    </div>
+    <div class="infocard">${cs.length?`<div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr>
+      <th style="text-align:left">Client</th><th style="text-align:left">Code</th><th style="text-align:left">Téléphone</th><th style="text-align:left">Gestionnaire</th>
+      <th>Crédits</th><th>Encours</th><th>Capital restant dû</th><th>Impayé</th></tr></thead><tbody>
+      ${cs.map(c=>{const ls=creditLinesOfClient(c.id);const k=creditKPI(ls,today);
+        return `<tr onclick="CUI.client='${c.id}';renderCredit()" style="cursor:pointer">
+        <td style="text-align:left"><b>${escapeHtml(creditClientName(c))}</b></td><td style="text-align:left">${escapeHtml(c.code||'—')}</td>
+        <td style="text-align:left">${escapeHtml(c.tel||'—')}</td><td style="text-align:left">${escapeHtml(c.gestionnaire)}</td>
+        <td>${ls.length}</td><td>${fmtIntFr(k.octroye)}</td><td>${fmtIntFr(k.crd)}</td>
+        <td class="${k.impaye?'cr-bad':''}">${k.impaye?fmtIntFr(k.impaye):'—'}</td></tr>`;}).join('')}
+    </tbody></table></div>`:'<div class="empty-soon">Aucun client dans votre périmètre.</div>'}</div>`;
+}
+function creditClientHTML(id){
+  const c=creditClientById(id);if(!c)return '<div class="empty-soon">Client introuvable.</div>';
+  const today=loanToday();const ls=creditLinesOfClient(id);const k=creditKPI(ls,today);
+  const C=creditCur(ls[0]||{ent:c.ent});const M=v=>fmtIntFr(Math.round(v))+' '+C;
+  const pay=[];ls.forEach(l=>creditSchedOf(l.id).forEach(s=>pay.push({l,s})));
+  pay.sort((a,b)=>(b.s.due_date||'').localeCompare(a.s.due_date||''));
+  return `<div class="cr-head"><button class="ghost-btn" onclick="CUI.client=null;renderCredit()">← Retour aux clients</button>
+    <h3>${escapeHtml(creditClientName(c))}</h3><span class="cr-tag">${escapeHtml(c.code||'sans code')}</span></div>
+  <div class="admin-grid cr-kpis">
+    ${creditKpiCard('Crédits',ls.length,'dont '+ls.filter(l=>l.statut==='actif').length+' actif(s)','k1')}
+    ${creditKpiCard('Encours octroyé',M(k.octroye),'capital restant dû '+M(k.crd),'k4')}
+    ${creditKpiCard('Impayé',M(k.impaye),k.nIM+' échéance(s)','k2')}
+    ${creditKpiCard('Taux de recouvrement',k.tauxRecouv.toFixed(1)+' %','sur échéances échues','k3')}
+  </div>
+  <div class="infocard cr-block"><h3>Informations</h3><div class="cr-grid">
+    ${[['Nom',c.nom||'—'],['Prénom',c.prenom||'—'],['Civilité',c.civilite||'—'],['Code client',c.code||'—'],
+       ['Téléphone',c.tel||'—'],['Adresse',c.adresse||'—'],['Gestionnaire',c.gestionnaire],['Filiale',(entById(c.ent)||{}).short||c.ent||'—']]
+      .map(([a,b])=>`<div class="cr-f"><label>${escapeHtml(a)}</label><span>${escapeHtml(''+b)}</span></div>`).join('')}
+  </div></div>
+  <div class="infocard cr-block"><h3>Crédits</h3><div class="table-scroll"><table class="recap-table cr-tbl">
+    <thead><tr><th>N°</th><th style="text-align:left">Référence</th><th>Octroi</th><th>Montant</th><th>Durée</th><th>Statut</th><th>Impayé</th></tr></thead><tbody>
+    ${ls.map(l=>{const late=creditSchedOf(l.id).filter(s=>['IM','PP'].includes(creditEchStatus(s,today)));
+      return `<tr onclick="creditOpenLine('${l.id}')" style="cursor:pointer"><td>${l.numero||''}</td><td style="text-align:left">${escapeHtml(l.ref||'—')}</td>
+      <td>${fmtDateFR(loanParseDate(l.date_octroi))}</td><td>${fmtIntFr(l.montant)}</td><td>${l.duree} mois</td>
+      <td><span class="cr-st cr-st-${l.statut}">${CREDIT_STATUS[l.statut]||l.statut}</span></td>
+      <td class="${late.length?'cr-bad':''}">${late.length?fmtIntFr(late.reduce((a,s)=>a+creditRestDue(s),0)):'—'}</td></tr>`;}).join('')}
+  </tbody></table></div></div>
+  <div class="infocard cr-block"><h3>Historique de paiement <span class="cr-count">${pay.length}</span></h3>
+    <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Crédit</th><th>Éch.</th><th>Date d'échéance</th><th>Montant dû</th><th>Réglé</th><th>Date de règlement</th><th>Statut</th></tr></thead><tbody>
+    ${pay.map(({l,s})=>{const st=creditEchStatus(s,today);return `<tr class="${st==='PA'?'cr-paid':(st==='IM'||st==='PP'?'cr-unpaid':'')}">
+      <td style="text-align:left">${escapeHtml(l.ref||('n° '+l.numero))}</td><td>${s.n}</td>
+      <td class="${st==='IM'||st==='PP'?'cr-strike':''}">${fmtDateFR(loanParseDate(s.due_date))}</td>
+      <td>${fmtIntFr(s.montant)}</td><td>${fmtIntFr(s.paid?+s.montant||0:+s.paid_amount||0)}</td>
+      <td>${s.paid_date?fmtDateFR(loanParseDate(s.paid_date)):'—'}</td>
+      <td><span class="st-badge ${CREDIT_ECH[st].cls}">${st}</span>${st==='IM'||st==='PP'?' <span class="cr-late">'+creditDaysLate(s,today)+' j</span>':''}</td></tr>`;}).join('')}
+    </tbody></table></div></div>`;
+}
+
+/* ---------- lettres de relance ---------- */
+function creditRelance(id,fmt){
+  const l=CDB.lines.find(x=>x.id===id);if(!l)return;
+  const r=creditRelanceData(l);
+  if(!r.rows.length){toast('Aucune échéance impayée sur ce crédit');return;}
+  auditLog('doc.relance',{type:'credit',id:l.id,label:creditLineLabel(l),details:{format:fmt==='pdf'?'PDF':'Word',impayés:r.rows.length,montant:r.total}});
+  if(fmt==='pdf'){const doc=buildRelancePDF(r);if(doc){doc.save(r.fileBase+'.pdf');toast('Lettre de relance PDF téléchargée');}}
+  else buildRelanceDocx(r).then(d=>d&&window.docx.Packer.toBlob(d).then(b=>loanDownloadBlob(b,r.fileBase+'.docx','Lettre de relance Word téléchargée')))
+    .catch(e=>{console.error(e);toast('Erreur lors de la génération du Word');});
+}
+function creditRelancePreview(id){
+  const l=CDB.lines.find(x=>x.id===id);if(!l)return;
+  const r=creditRelanceData(l);
+  if(!r.rows.length){toast('Aucune échéance impayée sur ce crédit');return;}
+  const host=document.getElementById('crPrevHost');if(!host)return;
+  host.innerHTML=`<div class="loan-preview"><div class="lp-head"><h3 class="lp-title">Aperçu de la lettre de relance</h3>
+    <div class="lp-act"><button class="icon-btn" onclick="creditRelance('${id}','pdf')">Télécharger le PDF</button><button class="icon-btn" onclick="document.getElementById('crPrevHost').innerHTML=''">Fermer l'aperçu</button></div></div>
+    <div class="lp-body"><iframe title="Aperçu"></iframe></div>
+    <div class="lp-note">Modèle proposé, à remplacer par la lettre type de la filiale dès réception.</div></div>`;
+  host.querySelector('iframe').srcdoc=relanceWordHTML(r);
+  host.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+/* ======================================================================
+   PISTE D'AUDIT — qui a fait quoi, quand
+   ----------------------------------------------------------------------
+   Chaque action sensible écrit une ligne dans la table Supabase audit_log
+   (ou, faute de serveur, dans le stockage local « mb_audit », plafonné à
+   2 000 lignes). Une ligne d'audit n'est jamais modifiée ni supprimée :
+   les règles RLS n'autorisent que l'insertion et la lecture.
+
+   Lecture : le super-admin voit tout, l'admin de filiale voit sa filiale,
+   et chacun peut retrouver ses propres actions.
+
+   Écriture : auditLog('action', {type, id, label, details}) — l'appel
+   n'attend pas la réponse du serveur pour ne jamais ralentir l'interface.
+   ====================================================================== */
+const AUDIT_CATS={credit:'Portefeuille de crédit',droits:'Droits et rôles',compte:'Comptes',config:'Configuration',doc:'Documents',session:'Connexions'};
+const AUDIT_ACTIONS={
+  'credit.creation':            {cat:'credit',lbl:'Création d\'une ligne de crédit'},
+  'credit.modification':        {cat:'credit',lbl:'Modification d\'une ligne de crédit'},
+  'credit.reglement':           {cat:'credit',lbl:'Règlement saisi'},
+  'credit.paiement':            {cat:'credit',lbl:'Échéance soldée'},
+  'credit.paiement_annule':     {cat:'credit',lbl:'Règlement annulé'},
+  'credit.demande_suppression': {cat:'credit',lbl:'Demande de suppression'},
+  'credit.suppression_validee': {cat:'credit',lbl:'Suppression validée (archivage)'},
+  'credit.suppression_refusee': {cat:'credit',lbl:'Demande de suppression refusée'},
+  'credit.export':              {cat:'doc',   lbl:'Export Excel du portefeuille'},
+  'doc.relance':                {cat:'doc',   lbl:'Lettre de relance éditée'},
+  'droits.droit':               {cat:'droits',lbl:'Droit modifié'},
+  'droits.role':                {cat:'droits',lbl:'Rôle modifié'},
+  'droits.filiale':             {cat:'droits',lbl:'Rattachement de filiale modifié'},
+  'droits.credit':              {cat:'droits',lbl:'Rôle crédit / chef modifié'},
+  'droits.reset':               {cat:'droits',lbl:'Droits réalignés sur la filiale'},
+  'droits.ajout':               {cat:'droits',lbl:'Utilisateur ajouté à la configuration'},
+  'droits.retrait':             {cat:'droits',lbl:'Utilisateur retiré de la configuration'},
+  'compte.suspension':          {cat:'compte',lbl:'Accès suspendu'},
+  'compte.bannissement':        {cat:'compte',lbl:'Accès retiré (banni)'},
+  'compte.reactivation':        {cat:'compte',lbl:'Accès rétabli'},
+  'config.filiale':             {cat:'config',lbl:'Filiale créée ou modifiée'},
+  'config.filiale_suppression': {cat:'config',lbl:'Filiale supprimée'},
+  'config.pret':                {cat:'config',lbl:'Paramètres de prêt modifiés'},
+  'config.colonnes':            {cat:'config',lbl:'Colonnes personnalisées modifiées'},
+  'session.connexion':          {cat:'session',lbl:'Connexion'},
+  'session.deconnexion':        {cat:'session',lbl:'Déconnexion'}
+};
+let AUDIT={rows:[],loaded:false,cloud:false,err:''};
+let AUI={cat:'',actor:'',from:'',to:'',q:''};
+
+/* ---------- écriture ---------- */
+function auditLocalLoad(){try{return JSON.parse(localStorage.getItem('mb_audit'))||[]}catch(e){return[]}}
+function auditLocalSave(rows){try{localStorage.setItem('mb_audit',JSON.stringify(rows.slice(-2000)))}catch(e){}}
+function auditRole(){
+  if(!session)return '';
+  if(isSuperAdmin())return 'Super-admin';
+  if(entAdminOf())return 'Admin filiale';
+  return creditRole()==='chef'?'Chef':'Membre';
+}
+function auditLog(action,o){
+  try{
+    if(!session||session.role==='guest')return;
+    // en mode local, on recharge le journal existant avant d'y ajouter une ligne
+    // (sinon la sauvegarde écraserait les lignes des sessions précédentes)
+    if(!AUDIT.loaded&&!(supaReady&&session.cloud)){AUDIT.rows=auditLocalLoad();AUDIT.loaded=true;}
+    o=o||{};
+    const row={id:cuid(),at:new Date().toISOString(),ent:o.ent||userEntId(session.user)||'',
+      actor:normEmail(session.user),actor_role:auditRole(),action,
+      obj_type:o.type||'',obj_id:o.id||'',label:o.label||'',details:o.details||{}};
+    AUDIT.rows.push(row);
+    if(supaReady&&session.cloud){
+      // insertion en arrière-plan : une erreur ne bloque jamais l'utilisateur
+      supa.from('audit_log').insert(row).then(r=>{if(r.error)console.warn('audit',r.error.message);});
+    }else auditLocalSave(AUDIT.rows);
+  }catch(e){console.warn('audit',e);}
+}
+
+/* ---------- lecture ---------- */
+async function auditSync(force){
+  if(AUDIT.loaded&&!force)return;
+  if(supaReady&&session&&session.cloud){
+    try{
+      const r=await supa.from('audit_log').select('*').order('at',{ascending:false}).limit(2000);
+      if(r.error)throw r.error;
+      AUDIT.rows=(r.data||[]).slice().reverse();AUDIT.cloud=true;AUDIT.err='';
+    }catch(e){AUDIT.cloud=false;AUDIT.err=(e&&e.message)||'lecture impossible';AUDIT.rows=auditLocalLoad();}
+  }else{AUDIT.cloud=false;AUDIT.rows=auditLocalLoad();}
+  AUDIT.loaded=true;
+}
+/* périmètre de lecture : super-admin partout, admin de filiale sur sa filiale,
+   chacun sur ses propres actions */
+function auditVisible(){
+  const me=normEmail(session.user);
+  return AUDIT.rows.filter(r=>isSuperAdmin()||r.ent===userEntId(me)||r.actor===me);
+}
+function auditFiltered(){
+  let rows=auditVisible();
+  if(AUI.cat)rows=rows.filter(r=>(AUDIT_ACTIONS[r.action]||{}).cat===AUI.cat);
+  if(AUI.actor)rows=rows.filter(r=>r.actor===AUI.actor);
+  if(AUI.from)rows=rows.filter(r=>r.at>=AUI.from);
+  if(AUI.to)rows=rows.filter(r=>r.at<=AUI.to+'T23:59:59');
+  const q=(AUI.q||'').toLowerCase().trim();
+  if(q)rows=rows.filter(r=>[r.actor,r.label,(AUDIT_ACTIONS[r.action]||{}).lbl||r.action,JSON.stringify(r.details||{})].join(' ').toLowerCase().includes(q));
+  return rows.slice().sort((a,b)=>(b.at||'').localeCompare(a.at||''));
+}
+function auditDetailTxt(r){
+  const d=r.details||{};
+  const ks=Object.keys(d);
+  if(!ks.length)return '';
+  return ks.map(k=>k+' : '+(typeof d[k]==='object'?JSON.stringify(d[k]):d[k])).join(' · ');
+}
+function auditFilter(field,val){
+  AUI[field]=val;
+  if(field==='q'){clearTimeout(auditFilter._t);auditFilter._t=setTimeout(renderAuditTable,250);return;}
+  renderAuditTable();
+}
+async function renderAuditAdmin(force){
+  const box=document.getElementById('admAuditBody');if(!box||!isAnyAdmin())return;
+  if(!AUDIT.loaded||force){box.innerHTML='<div class="empty-soon">Chargement de la piste d\'audit…</div>';await auditSync(force);}
+  const actors=[...new Set(auditVisible().map(r=>r.actor))].sort();
+  box.innerHTML=`<p class="lp-muted">Journal des actions sensibles : crédits, règlements, droits, statuts de compte, configuration et connexions. Les lignes ne peuvent être ni modifiées ni supprimées.</p>
+    <div class="acc-note ${AUDIT.cloud?'ok':'warn'}">${AUDIT.cloud?'<b>Journal serveur</b> — partagé et conservé dans Supabase.':'<b>Mode local</b> — le journal est conservé sur cet appareil (2 000 dernières lignes). Exécutez le script SQL pour le centraliser.'}${AUDIT.err?' · '+escapeHtml(AUDIT.err):''}</div>
+    <div class="acc-tools">
+      <input id="auQ" type="search" placeholder="Rechercher (utilisateur, objet, détail)…" value="${escapeHtml(AUI.q)}" oninput="auditFilter('q',this.value)">
+      <select onchange="auditFilter('cat',this.value)"><option value="">Toutes les catégories</option>${Object.entries(AUDIT_CATS).map(([k,v])=>`<option value="${k}" ${AUI.cat===k?'selected':''}>${v}</option>`).join('')}</select>
+      <select onchange="auditFilter('actor',this.value)"><option value="">Tous les utilisateurs</option>${actors.map(a=>`<option value="${a}" ${AUI.actor===a?'selected':''}>${escapeHtml(a)}</option>`).join('')}</select>
+      <label class="au-date">Du <input type="date" value="${AUI.from}" onchange="auditFilter('from',this.value)"></label>
+      <label class="au-date">au <input type="date" value="${AUI.to}" onchange="auditFilter('to',this.value)"></label>
+      <button class="ghost-btn" onclick="renderAuditAdmin(true)">Actualiser</button>
+      <button class="ghost-btn" onclick="auditExportXLSX()">Export Excel</button>
+    </div>
+    <div id="auTable"></div>`;
+  renderAuditTable();
+}
+function renderAuditTable(){
+  const host=document.getElementById('auTable');if(!host)return;
+  const foc=document.activeElement&&document.activeElement.id;
+  const rows=auditFiltered().slice(0,500);
+  host.innerHTML=rows.length?`<div class="table-scroll"><table class="recap-table cr-tbl au-tbl"><thead><tr>
+    <th>Date et heure</th><th style="text-align:left">Utilisateur</th><th>Rôle</th><th>Filiale</th><th style="text-align:left">Action</th><th style="text-align:left">Objet</th><th style="text-align:left">Détail</th></tr></thead><tbody>
+    ${rows.map(r=>{const a=AUDIT_ACTIONS[r.action]||{lbl:r.action,cat:'config'};
+      return `<tr><td class="nw">${new Date(r.at).toLocaleString('fr-FR')}</td>
+      <td style="text-align:left">${escapeHtml(r.actor)}</td><td>${escapeHtml(r.actor_role||'')}</td>
+      <td>${escapeHtml((entById(r.ent)||{}).short||r.ent||'—')}</td>
+      <td style="text-align:left"><span class="au-cat au-${a.cat}">${AUDIT_CATS[a.cat]||''}</span> ${escapeHtml(a.lbl)}</td>
+      <td style="text-align:left">${escapeHtml(r.label||r.obj_id||'—')}</td>
+      <td style="text-align:left" class="au-det">${escapeHtml(auditDetailTxt(r))}</td></tr>`;}).join('')}
+    </tbody></table></div><div class="cr-foot">${rows.length} ligne(s) affichée(s)${auditFiltered().length>500?' sur '+auditFiltered().length:''}</div>`
+    :'<div class="empty-soon">Aucune action ne correspond à ces critères.</div>';
+  if(foc){const el=document.getElementById(foc);if(el&&el.focus)el.focus();}
+}
+async function auditExportXLSX(){
+  if(typeof ExcelJS==='undefined'){toast('Module Excel en chargement, réessayez');return}
+  const rows=auditFiltered();
+  if(!rows.length){toast('Aucune ligne à exporter');return}
+  const wb=new ExcelJS.Workbook();wb.creator='MonBudget';
+  const ws=wb.addWorksheet('Piste d\'audit',{views:[{state:'frozen',ySplit:1}]});
+  ws.columns=[{header:'Date et heure',width:20},{header:'Utilisateur',width:26},{header:'Rôle',width:14},{header:'Filiale',width:14},
+    {header:'Catégorie',width:20},{header:'Action',width:32},{header:'Objet',width:34},{header:'Détail',width:50}];
+  ws.getRow(1).eachCell(c=>{c.font={bold:true,color:{argb:'FFFFFFFF'},name:'Arial',size:10};
+    c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFA6192E'}};c.alignment={horizontal:'center'};});
+  rows.forEach(r=>{const a=AUDIT_ACTIONS[r.action]||{lbl:r.action,cat:''};
+    ws.addRow([new Date(r.at).toLocaleString('fr-FR'),r.actor,r.actor_role||'',(entById(r.ent)||{}).short||r.ent||'',
+      AUDIT_CATS[a.cat]||'',a.lbl,r.label||r.obj_id||'',auditDetailTxt(r)]);});
+  ws.autoFilter={from:{row:1,column:1},to:{row:1,column:8}};
+  const buf=await wb.xlsx.writeBuffer();
+  loanDownloadBlob(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),
+    'Piste_audit_'+new Date().toISOString().slice(0,10)+'.xlsx','Piste d\'audit exportée');
+}
 // indicateurs consolidés (rendements + durées + durations)
 function consolidate(metricsList){
   const n=metricsList.length;
@@ -8248,6 +9949,7 @@ function nav(v){
   document.querySelectorAll('#tabNav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
   if(v==='dash')renderDash();
   if(v==='admin')renderAdmin();
+  if(v==='credit')renderCredit();
   if(v==='classif')renderClassif();
   if(v==='epargne'){renderOcc();runSim();}
   if(v==='portef'){portSub(curSub);}
