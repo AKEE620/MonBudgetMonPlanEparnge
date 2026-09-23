@@ -757,6 +757,39 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .fc-intro{font-size:13.5px;color:var(--ink-soft);line-height:1.5;margin:4px 0 12px}
 .fc-rule{font-size:12px;color:var(--muted);margin:-4px 0 12px}
 .signup-note{font-size:13px;color:var(--ink-soft);background:#faf8f2;border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;margin:10px 0}
+/* ---- Lot 7 : suivi des résolutions ---- */
+.rs-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#resolDirSel{border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;font-family:'Outfit';font-size:13.5px;font-weight:600;background:#fff;color:var(--ink)}
+.rs-bar{position:relative;height:20px;border-radius:10px;background:#eceadf;overflow:hidden;display:inline-block;vertical-align:middle}
+.rs-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:10px;display:block}
+.rs-bar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink)}
+.rs-red{background:linear-gradient(90deg,#e05a4a,#c0392b)}
+.rs-amber{background:linear-gradient(90deg,#f0c14b,#d9a406)}
+.rs-green{background:linear-gradient(90deg,#3fbf8a,#1b8a5a)}
+.rs-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.rs-dot.rs-red{background:#c0392b}.rs-dot.rs-amber{background:#d9a406}.rs-dot.rs-green{background:#1b8a5a}
+.rs-st{font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.rs-st-ouverte{background:#eef0f2;color:#5a646e}
+.rs-st-en_cours{background:#fff4dc;color:#8a6d2f}
+.rs-st-cloturee{background:#e9f6ef;color:#1b6b47}
+.rs-st-abandonnee{background:#fbeaec;color:#a6192e}
+.rs-list{min-width:1150px}
+.rs-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.rs-obs{font-size:11.5px;color:var(--ink-soft);max-width:260px;white-space:normal}
+.rs-text{font-size:13.5px;color:var(--ink-soft);line-height:1.55;white-space:pre-line;margin:4px 0 0}
+.rs-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.rs-hist{display:flex;flex-direction:column;gap:10px}
+.rs-hi{display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line-2);padding-bottom:9px}
+.rs-hi-a{flex:none;padding-top:2px}
+.rs-hi-t{font-size:11.5px;color:var(--muted);font-weight:600}
+.rs-hi-n{font-size:13px;color:var(--ink);margin-top:2px;white-space:pre-line}
+.rs-sum{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.rs-sum div{background:#faf8f2;border:1px solid var(--line-2);border-radius:10px;padding:8px 14px;min-width:130px}
+.rs-sum span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700}
+.rs-sum b{font-size:17px;color:var(--ink)}
+.dir-tbl{min-width:900px}
+.dir-tbl td.dir-fil{white-space:normal;min-width:220px}
+.dir-tbl td.dir-fil label{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;margin:2px 8px 2px 0;color:var(--ink-soft)}
 
 
 .stock-foot .ghost-btn{padding:9px 14px;font-size:13px}
@@ -891,7 +924,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 <!-- ============ AUTH GATE ============ -->
 <div id="authGate">
   <div class="auth-card">
-    <div class="auth-org">AFRILAND GROUP</div>
+    <div class="auth-org">AFRILAND FIRST HOLDING</div>
     <div class="auth-logo">
       <div class="auth-mark">MB</div>
       <div><b>MonBudget</b><span style="display:block;font-size:11px;color:var(--muted);letter-spacing:.5px">Gestion &amp; Investissement</span></div>
@@ -929,7 +962,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <div class="auth-sep">ou</div>
     <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
     <p class="guest-note">En mode visiteur, certaines fonctions sont limitées.</p>
-    <div class="auth-foot">THE PACT WITH SUCCESS.</div>
+    <div class="auth-foot">THE PACT WITH SUCCESS</div>
   </div>
 </div>
 
@@ -939,7 +972,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <div class="topbar-in">
       <div class="brand">
         <div class="brand-mark">MB</div>
-        <div><b>MonBudget</b><span>Contrôler vos dépenses </span></div>
+        <div><b>MonBudget</b><span>Optimiser vos pratiques quotidiennes.</span></div>
       </div>
       <div class="topbar-spacer"></div>
       <div class="who">
@@ -965,6 +998,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
       <button data-v="glossaire" onclick="nav('glossaire')">Glossaire</button>
       <button data-v="portef" id="portefTab" onclick="nav('portef')">Mon portefeuille</button>
       <button data-v="credit" id="creditTab" style="display:none" onclick="nav('credit')">Portefeuille de crédit</button>
+      <button data-v="resol" id="resolTab" style="display:none" onclick="nav('resol')">Suivi des résolutions</button>
       <button data-v="apropos" onclick="nav('apropos')">À propos</button>
       <button data-v="interne" id="interneTab" style="display:none" onclick="nav('interne')">Outils Internes</button>
       <button data-v="admin" id="adminTab" style="display:none" onclick="nav('admin')">Admin</button>
@@ -1404,6 +1438,27 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     </section>
 
     <!-- ADMIN -->
+    <!-- SUIVI DES RÉSOLUTIONS (missions d'audit et autres directions) -->
+    <section class="view" id="v-resol">
+      <div class="page-head">
+        <div class="kicker">Gouvernance</div>
+        <h2>Suivi des résolutions</h2>
+        <p>Résolutions prises à l'issue des missions, suivies par entité — filiales et holding — avec leur avancement, leurs responsables et leurs échéances.</p>
+      </div>
+      <div id="resolBody">
+        <div class="acc-note" id="resolMode"></div>
+        <div class="rs-top">
+          <select id="resolDirSel" onchange="resolSetDir(this.value)" style="display:none"></select>
+          <div class="subtabs" style="flex:1">
+            <button class="on" data-sub="dash" onclick="resolNav('dash')">Tableau de bord</button>
+            <button data-sub="liste" onclick="resolNav('liste')">Résolutions</button>
+            <button data-sub="report" onclick="resolNav('report')">Rapports</button>
+          </div>
+        </div>
+        <div id="resolView"></div>
+      </div>
+    </section>
+
     <!-- PORTEFEUILLE DE CRÉDIT -->
     <section class="view" id="v-credit">
       <div class="page-head">
@@ -1486,6 +1541,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
         <button data-sub="activite" onclick="admNav('activite')">Activité</button>
         <button data-sub="filiales" onclick="admNav('filiales')">Filiales</button>
         <button data-sub="users" onclick="admNav('users')">Utilisateurs &amp; droits</button>
+        <button data-sub="directions" onclick="admNav('directions')">Directions</button>
         <button data-sub="credit" onclick="admNav('credit')">Crédit</button>
         <button data-sub="audit" onclick="admNav('audit')">Piste d'audit</button>
         <button data-sub="outils" onclick="admNav('outils')">Outils (versions)</button>
@@ -1538,6 +1594,14 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
           </div>
           <div id="accCloudNote" class="acc-note"></div>
           <div id="accUsersList"></div>
+        </div>
+      </div>
+
+      <!-- DIRECTIONS : suivi des résolutions -->
+      <div class="adm-view" id="adm-directions">
+        <div class="infocard">
+          <h3 style="margin:0 0 10px">Directions et membres</h3>
+          <div id="admDirBody"></div>
         </div>
       </div>
 
@@ -2286,7 +2350,7 @@ function applyLang(){
 }
 
 /* ============ PRÉFÉRENCES D'ONGLETS ============ */
-const TAB_OPT_KEYS=['budget','dash','classif','epargne','placement','titres','glossaire','portef','apropos'];
+const TAB_OPT_KEYS=['budget','dash','classif','epargne','placement','titres','glossaire','portef','credit','resol','interne','apropos'];
 function tabPrefs(){
   if(!state.tabPrefs)state.tabPrefs={};
   TAB_OPT_KEYS.forEach(k=>{if(state.tabPrefs[k]==null)state.tabPrefs[k]=true;});
@@ -2309,7 +2373,7 @@ function initTabPrefsUI(){
   const box=document.getElementById('tabPrefList');
   if(!box||!state)return;
   const p=tabPrefs();
-  box.innerHTML=TAB_OPT_KEYS.map(k=>{
+  box.innerHTML=TAB_OPT_KEYS.filter(k=>tabAccessOk(k)).map(k=>{
     const b=document.querySelector('#tabNav button[data-v="'+k+'"]');
     const lbl=b?b.textContent:k;
     return '<label class="eo-check"><input type="checkbox" '+(p[k]?'checked':'')+' onchange="toggleTabPref(\''+k+'\',this)"><span>'+escapeHtml(lbl)+'</span></label>';
@@ -2375,6 +2439,16 @@ function toggleTabPref(k,el){
    label   : libellé affiché
    hint    : précision (infobulle)                                      */
 const RIGHTS_CATALOG=[
+  {key:'tab_dash',     group:'tabs',  label:'Tableau de bord'},
+  {key:'tab_classif',  group:'tabs',  label:'Classer mes dépenses'},
+  {key:'tab_epargne',  group:'tabs',  label:"Simulateur d'épargne"},
+  {key:'tab_placement',group:'tabs',  label:'Guide placement'},
+  {key:'tab_titres',   group:'tabs',  label:'Titres publics'},
+  {key:'tab_glossaire',group:'tabs',  label:'Glossaire'},
+  {key:'tab_apropos',  group:'tabs',  label:'À propos'},
+  {key:'btn_export_budget',group:'tabs',label:'Bouton « Export Budget »', sub:true},
+  {key:'btn_rapport',  group:'tabs',  label:'Bouton « Rapport mensuel »', sub:true},
+  {key:'resol',        group:'resol', label:'Onglet « Suivi des résolutions »', hint:"Accordé d'office aux membres d'une direction ; ce droit ouvre la consultation à un utilisateur non membre."},
   {key:'port_actions', group:'port',  label:'Compartiment Actions'},
   {key:'port_prets',   group:'port',  label:'Simulateur de prêts'},
   {key:'port_oblig',   group:'port',  label:'Emprunts obligataires'},
@@ -2393,15 +2467,21 @@ const RIGHTS_CATALOG=[
   {key:'credit_validate',group:'credit',label:'Valider les demandes de suppression', sub:true, hint:'Accordé d\'office aux chefs et aux administrateurs de filiale.'},
   {key:'letterhead',   group:'docs',  label:'Papier à en-tête de la filiale', hint:"Les échéanciers et tableaux d'amortissement sont exportés avec le logo et le pied de page de la filiale."}
 ];
-const RIGHTS_GROUPS={port:'Mon portefeuille',tools:'Outils',docs:'Documents',credit:'Portefeuille de crédit'};
+const RIGHTS_GROUPS={tabs:'Onglets et boutons',port:'Mon portefeuille',tools:'Outils',docs:'Documents',credit:'Portefeuille de crédit',resol:'Suivi des résolutions'};
 /* droits par défaut (comportement historique : portefeuille et outils de la
    barre du haut ouverts ; outils internes et papier à en-tête fermés) */
-const RIGHTS_DEFAULT={port_actions:true,port_prets:true,port_oblig:true,port_monet:true,port_synth:true,
+const RIGHTS_DEFAULT={
+  tab_dash:false,tab_classif:false,tab_epargne:false,tab_placement:false,tab_titres:false,tab_glossaire:false,tab_apropos:false,
+  btn_export_budget:false,btn_rapport:false,
+  port_actions:false,port_prets:false,port_oblig:false,port_monet:false,port_synth:false,
   interne:false,tool_ordre:false,tool_simulateur:false,tool_avis:false,tool_releves:false,
-  tool_risk:true,tool_frais:true,letterhead:false,
-  credit:false,credit_create:false,credit_export:false,credit_validate:false};
+  tool_risk:false,tool_frais:false,letterhead:false,
+  credit:false,credit_create:false,credit_export:false,credit_validate:false,resol:false};
 /* visiteurs : identiques à l'existant (le portefeuille reste verrouillé par sa propre logique) */
-const GUEST_RIGHTS=Object.assign({},RIGHTS_DEFAULT);
+const GUEST_RIGHTS=Object.assign({},RIGHTS_DEFAULT,{
+  tab_dash:true,tab_classif:true,tab_epargne:true,tab_placement:true,tab_titres:true,tab_glossaire:true,tab_apropos:true,
+  btn_export_budget:true,btn_rapport:true,
+  port_actions:true,port_prets:true,port_oblig:true,port_monet:true,port_synth:true,tool_risk:true,tool_frais:true});
 /* sous-onglet du portefeuille -> droit */
 const PORT_SUB_RIGHT={actions:'port_actions',prets:'port_prets',oblig:'port_oblig',monet:'port_monet',synth:'port_synth'};
 /* outil interne -> identifiant de la carte dans l'onglet Outils Internes */
@@ -2582,14 +2662,29 @@ function applyAccess(){
   });
   const none=document.getElementById('itc-none');if(none)none.style.display=(intOk&&!anyTool)?'':'none';
   if(!intOk){const sec=document.getElementById('v-interne');if(sec&&sec.classList.contains('on'))nav('budget');}
-  // 6) onglet Portefeuille de crédit
+  // 6) boutons de la barre du haut soumis à droits
+  const eb=document.getElementById('exportBtn');if(eb)eb.style.display=can('btn_export_budget')?'':'none';
+  const rb=document.getElementById('reportBtn');if(rb)rb.style.display=can('btn_rapport')?'':'none';
+  // onglet Suivi des résolutions (membres d'une direction, ou droit de consultation)
+  const rt=document.getElementById('resolTab');
+  if(rt)rt.style.display=resolAccess()?'flex':'none';
+  if(!resolAccess()){const sec=document.getElementById('v-resol');if(sec&&sec.classList.contains('on'))nav('budget');}
+  // onglet Portefeuille de crédit
   const ct=document.getElementById('creditTab');
   if(ct)ct.style.display=can('credit')?'flex':'none';
   if(!can('credit')){const sec=document.getElementById('v-credit');if(sec&&sec.classList.contains('on'))nav('budget');}
   // 7) onglets visibles (préférences utilisateur + droits)
   if(typeof applyTabPrefs==='function')applyTabPrefs();
   initEntityOption();
+  // à la première connexion de la session, un membre de direction arrive sur son onglet
+  if(!_landedOnce&&resolAccess()&&myDirections().some(d=>d.members&&d.members[normEmail(session.user)])){
+    _landedOnce=true;
+    // après l'ouverture complète de l'application, qui affiche « Mon budget » par défaut
+    setTimeout(()=>{const cur=document.querySelector('#tabNav button.on');
+      if(!cur||cur.dataset.v==='budget')nav('resol');},300);
+  }
 }
+let _landedOnce=false;   // onglet d'accueil déjà choisi pour cette session
 /* badge de rôle (barre du haut) : Super-admin / Admin <filiale> / Membre · <filiale> */
 function applyRoleBadge(){
   const rb=document.getElementById('roleBadge');
@@ -2600,8 +2695,12 @@ function applyRoleBadge(){
 }
 /* un onglet principal est-il autorisé ? (« Mon portefeuille » exige au moins un compartiment) */
 function tabAccessOk(k){
+  if(k==='budget')return true;                       // Mon budget : toujours accessible
   if(k==='portef')return Object.values(PORT_SUB_RIGHT).some(r=>can(r));
-  return true;
+  if(k==='credit')return can('credit');
+  if(k==='interne')return can('interne');
+  if(k==='resol')return resolAccess();
+  return can('tab_'+k);
 }
 /* ancien nom conservé pour les appels existants */
 function applyInterneTab(){applyAccess();}
@@ -2721,6 +2820,7 @@ function admNav(s){
   if(s==='filiales')renderFilialesAdmin();
   if(s==='users')renderUsersAdmin();
   if(s==='credit')renderCreditAdmin();
+  if(s==='directions')renderDirAdmin();
   if(s==='audit')renderAuditAdmin();
   if(s==='deploy')renderDeployAdmin();
 }
@@ -3370,6 +3470,111 @@ function renderCreditAdmin(){
     <pre>${escapeHtml(CREDIT_SQL)}</pre>
     <button class="icon-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText(CREDIT_SQL).then(()=>toast('Script SQL copié'))">Copier le script</button>
   </details>`;
+}
+
+/* ---------- Admin › Directions (suivi des résolutions) ----------
+   Seul le super-administrateur crée les directions, y affecte les membres
+   avec leur titre, leur rôle et, le cas échéant, les filiales qui leur sont
+   confiées. Ces informations pilotent aussi les règles d'accès du serveur. */
+function dirAdd(){
+  if(!isSuperAdmin())return;
+  const id='dir_'+Date.now().toString(36);
+  directions()[id]={name:'',short:'',members:{}};
+  saveEntConfig();renderDirAdmin();
+  toast('Direction ajoutée : complétez son nom, puis affectez ses membres');
+}
+function dirSet(id,field,val){
+  if(!isSuperAdmin())return;
+  const d=dirById(id);if(!d)return;
+  d[field]=val;
+  auditLog('config.direction',{type:'direction',id,label:d.name||id,details:{champ:field}});
+  saveEntConfig();renderDirAdmin();
+}
+function dirDel(id){
+  if(!isSuperAdmin())return;
+  const d=dirById(id);if(!d)return;
+  const n=RDB.rows.filter(r=>r.direction_id===id).length;
+  confirmAction('Supprimer la direction « '+(d.name||id)+' » ?'+(n?' Ses '+n+' résolution(s) ne seront plus accessibles depuis l\'application.':''),()=>{
+    delete directions()[id];
+    auditLog('config.direction_suppression',{type:'direction',id,label:d.name||id});
+    saveEntConfig();renderDirAdmin();toast('Direction supprimée');
+  },'Supprimer');
+}
+function dirMemberAdd(id){
+  if(!isSuperAdmin())return;
+  const inp=document.getElementById('dirAddEmail-'+id);
+  const em=normEmail(inp&&inp.value);
+  if(!isEmail(em)){toast('Adresse email invalide');return;}
+  const d=dirById(id);if(!d)return;
+  d.members=d.members||{};
+  if(d.members[em]){toast('Ce membre fait déjà partie de la direction');return;}
+  d.members[em]={title:'',role:'membre',seeAll:false,filiales:[]};
+  if(!entCfg.users[em])accEnsure(em);              // l'utilisateur entre dans la configuration
+  auditLog('config.direction',{type:'direction',id,label:d.name||id,details:{membre:em,action:'ajout'}});
+  saveEntConfig();renderDirAdmin();
+  toast('Membre ajouté : '+em);
+}
+function dirMemberSet(id,em,field,val){
+  if(!isSuperAdmin())return;
+  const d=dirById(id);const m=d&&d.members&&d.members[em];if(!m)return;
+  if(field==='seeAll')m.seeAll=!!val;
+  else if(field==='filiale'){
+    m.filiales=Array.isArray(m.filiales)?m.filiales:[];
+    const k=m.filiales.indexOf(val.id);
+    if(val.on&&k<0)m.filiales.push(val.id);
+    if(!val.on&&k>=0)m.filiales.splice(k,1);
+  }else m[field]=val;
+  auditLog('config.direction',{type:'direction',id,label:d.name||id,details:{membre:em,champ:field}});
+  saveEntConfig();renderDirAdmin();
+}
+function dirMemberDel(id,em){
+  if(!isSuperAdmin())return;
+  const d=dirById(id);if(!d||!d.members)return;
+  confirmAction('Retirer '+em+' de la direction « '+(d.name||id)+' » ? Ses résolutions restent enregistrées.',()=>{
+    delete d.members[em];
+    auditLog('config.direction',{type:'direction',id,label:d.name||id,details:{membre:em,action:'retrait'}});
+    saveEntConfig();renderDirAdmin();toast('Membre retiré');
+  },'Retirer');
+}
+function renderDirAdmin(){
+  const box=document.getElementById('admDirBody');if(!box||!isSuperAdmin())return;
+  const list=directionsList();
+  const ents=resolEnts();
+  const known=[...new Set(Object.keys(entCfg.users).concat(accUI.known||[]))].sort();
+  box.innerHTML=`<p class="lp-muted">Les directions (Audit, puis d'autres) suivent leurs résolutions dans l'onglet « Suivi des résolutions ». Le chef voit toute sa direction ; un membre ne voit que ses résolutions, sauf si vous lui ouvrez la vue complète ou si vous lui confiez des filiales.</p>
+  <div class="acc-tools"><input id="dirHoldName" type="text" value="${escapeHtml(entCfg.holdingName||'Afriland First Holding')}" placeholder="Nom de la holding" onchange="entCfg.holdingName=this.value;saveEntConfig();renderDirAdmin()" style="flex:1;min-width:220px">
+    <button class="add-stock" onclick="dirAdd()">+ Nouvelle direction</button></div>
+  ${list.length?list.map(d=>{
+    const members=resolMembers(d.id);
+    return `<div class="fil-card"><div class="fil-head">
+      <div class="fil-id"><div class="fil-name">${escapeHtml(d.name||'Direction sans nom')}</div>
+        <div class="fil-meta">${escapeHtml(d.short||'—')} · ${members.length} membre(s) · ${RDB.rows.filter(r=>r.direction_id===d.id).length} résolution(s)</div></div>
+      <button class="del-btn" onclick="dirDel('${d.id}')">Supprimer</button></div>
+      <div class="fil-body">
+        <div class="fgrid">
+          <div class="fg"><label>Nom de la direction</label><input type="text" value="${escapeHtml(d.name||'')}" placeholder="Ex. Direction de l'audit" onchange="dirSet('${d.id}','name',this.value)"></div>
+          <div class="fg"><label>Sigle</label><input type="text" value="${escapeHtml(d.short||'')}" placeholder="Ex. DA" onchange="dirSet('${d.id}','short',this.value)"></div>
+          <div class="fg" style="grid-column:span 2"><label>Identifiant technique</label><input class="ro" readonly value="${d.id}" title="Utilisé par les règles d'accès du serveur"></div>
+        </div>
+        <div class="sub-label">Membres et périmètres</div>
+        <div class="table-scroll"><table class="lp-tbl dir-tbl"><thead><tr>
+          <th>Membre</th><th>Titre</th><th>Rôle</th><th>Voit toutes les résolutions</th><th>Filiales confiées</th><th></th></tr></thead><tbody>
+          ${members.length?members.map(m=>`<tr>
+            <td><b>${escapeHtml(m.email)}</b></td>
+            <td><input type="text" value="${escapeHtml(m.title||'')}" placeholder="Ex. Auditeur junior" onchange="dirMemberSet('${d.id}','${m.email}','title',this.value)"></td>
+            <td><select onchange="dirMemberSet('${d.id}','${m.email}','role',this.value)">${Object.entries(RESOL_ROLES).map(([k,v])=>`<option value="${k}" ${m.role===k?'selected':''}>${k==='chef'?'Directeur':'Membre'}</option>`).join('')}</select></td>
+            <td class="c"><input type="checkbox" ${m.role==='chef'?'checked disabled':(m.seeAll?'checked':'')} onchange="dirMemberSet('${d.id}','${m.email}','seeAll',this.checked)" title="Ouvre la vue complète de la direction à ce membre"></td>
+            <td class="dir-fil">${ents.map(e=>`<label><input type="checkbox" ${(m.filiales||[]).includes(e.id)?'checked':''} onchange="dirMemberSet('${d.id}','${m.email}','filiale',{id:'${e.id}',on:this.checked})"> ${escapeHtml(e.short||e.name)}</label>`).join('')}</td>
+            <td class="nw"><button class="lp-mini del" onclick="dirMemberDel('${d.id}','${m.email}')">✕</button></td></tr>`).join('')
+          :'<tr><td colspan="6" class="lp-muted">Aucun membre : ajoutez-en un ci-dessous.</td></tr>'}
+        </tbody></table></div>
+        <div class="acc-add">
+          <input id="dirAddEmail-${d.id}" list="dirKnown" type="email" placeholder="Email du membre à ajouter" onkeydown="if(event.key==='Enter')dirMemberAdd('${d.id}')">
+          <button class="add-stock" onclick="dirMemberAdd('${d.id}')">Ajouter le membre</button>
+        </div>
+      </div></div>`;}).join('')
+  :'<div class="empty-soon">Aucune direction. Créez la première avec « + Nouvelle direction ».</div>'}
+  <datalist id="dirKnown">${known.map(e=>`<option value="${escapeHtml(e)}">`).join('')}</datalist>`;
 }
 
 /* ---------- Déploiement ---------- */
@@ -6859,6 +7064,75 @@ create policy mb_audit_ins on public.audit_log for insert to authenticated
   with check (actor = public.mb_email());
 
 -- aucune politique de update / delete : le journal est inaltérable
+
+-- ---------- 5. Suivi des résolutions (lot 7) --------------------------
+-- Résolutions issues des missions d'audit (et, plus tard, d'autres directions).
+-- Les directions, leurs membres et leurs droits sont décrits dans app_config
+-- (clé 'entities', objet « directions »).
+create table if not exists public.resolutions (
+  id             text primary key,
+  direction_id   text not null,          -- direction propriétaire (ex. audit)
+  ent            text not null,          -- filiale concernée, ou '__holding' pour AFH
+  ref            text,                   -- référence interne
+  mission        text,                   -- mission ou rapport d'origine
+  objet          text,                   -- intitulé de la résolution
+  detail         text,                   -- description détaillée
+  date_resolution date,
+  echeance       date,
+  responsable    text,                   -- email du membre en charge
+  priorite       text default 'moyenne', -- haute | moyenne | basse
+  avancement     integer default 0,      -- 0 à 100
+  statut         text default 'ouverte', -- ouverte | en_cours | cloturee | abandonnee
+  observations   text,
+  updates        jsonb default '[]'::jsonb,  -- historique des mises à jour
+  created_by     text, created_at timestamptz default now(), updated_at timestamptz default now()
+);
+create index if not exists resolutions_dir_idx  on public.resolutions(direction_id, ent);
+create index if not exists resolutions_resp_idx on public.resolutions(responsable);
+
+-- l'utilisateur voit-il TOUTE la direction ? (chef, ou droit « voir tout »)
+create or replace function public.mb_dir_see(p_dir text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select public.mb_is_super()
+      or coalesce((public.mb_cfg()->'directions'->p_dir->'members'->public.mb_email()->>'seeAll')::boolean, false)
+      or (public.mb_cfg()->'directions'->p_dir->'members'->public.mb_email()->>'role') = 'chef';
+$$;
+-- l'utilisateur est-il membre de la direction ?
+create or replace function public.mb_dir_in(p_dir text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select (public.mb_cfg()->'directions'->p_dir->'members') ? public.mb_email();
+$$;
+-- la filiale fait-elle partie de celles qui lui sont affectées ?
+create or replace function public.mb_dir_ent(p_dir text, p_ent text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select coalesce((public.mb_cfg()->'directions'->p_dir->'members'->public.mb_email()->'filiales') ? p_ent, false);
+$$;
+
+alter table public.resolutions enable row level security;
+
+drop policy if exists mb_resol_sel on public.resolutions;
+create policy mb_resol_sel on public.resolutions for select to authenticated
+  using (public.mb_active() and (
+        public.mb_dir_see(direction_id)
+     or (public.mb_dir_in(direction_id) and (responsable = public.mb_email()
+                                         or created_by = public.mb_email()
+                                         or public.mb_dir_ent(direction_id, ent)))));
+
+drop policy if exists mb_resol_ins on public.resolutions;
+create policy mb_resol_ins on public.resolutions for insert to authenticated
+  with check (public.mb_active() and public.mb_dir_in(direction_id)
+              and (public.mb_dir_see(direction_id) or created_by = public.mb_email()));
+
+drop policy if exists mb_resol_upd on public.resolutions;
+create policy mb_resol_upd on public.resolutions for update to authenticated
+  using (public.mb_active() and (public.mb_dir_see(direction_id)
+        or (public.mb_dir_in(direction_id) and responsable = public.mb_email())))
+  with check (true);
+
+-- suppression réservée au chef de la direction et au super-admin
+drop policy if exists mb_resol_del on public.resolutions;
+create policy mb_resol_del on public.resolutions for delete to authenticated
+  using (public.mb_active() and public.mb_dir_see(direction_id));
 `;
 /* ======================================================================
    PORTEFEUILLE DE CRÉDIT — NOYAU (données, échéanciers, indicateurs)
@@ -7816,6 +8090,666 @@ function creditRelancePreview(id){
   host.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 /* ======================================================================
+   SUIVI DES RÉSOLUTIONS (missions d'audit et autres directions)
+   ----------------------------------------------------------------------
+   Une DIRECTION (l'Audit, puis d'autres) suit les résolutions prises à
+   l'issue de ses missions, filiale par filiale — la holding comprise.
+
+   Les directions, leurs membres, leurs titres et leurs droits sont décrits
+   dans la configuration (entCfg.directions), gérée par l'administrateur :
+     directions[id] = { name, short, members: { email: {
+         title,                 // ex. « Auditeur junior »
+         role: 'chef'|'membre', // le chef voit toute la direction
+         seeAll: bool,          // ouvre la vue complète à un membre
+         filiales: [id, ...] }}}// filiales affectées (vide = aucune en propre)
+
+   Les résolutions vivent dans la table Supabase « resolutions », dont les
+   règles RLS reprennent exactement ces périmètres. Sans serveur, le module
+   fonctionne en local (stockage de l'appareil), pour la démonstration.
+   ====================================================================== */
+const RESOL_HOLDING='__holding';
+const RESOL_STATUTS={ouverte:'Ouverte',en_cours:'En cours',cloturee:'Clôturée',abandonnee:'Abandonnée'};
+const RESOL_PRIO={haute:'Haute',moyenne:'Moyenne',basse:'Basse'};
+const RESOL_ROLES={chef:'Directeur (voit toute la direction)',membre:'Membre'};
+/* code couleur de l'avancement : rouge < 60 %, jaune de 60 à 80 %, vert au-delà */
+function resolColor(p){p=+p||0;return p<60?'red':(p<=80?'amber':'green');}
+function resolColorHex(p){return {red:'C0392B',amber:'D9A406',green:'1B8A5A'}[resolColor(p)];}
+
+let RDB={rows:[],loaded:false,cloud:false,err:''};
+let RUI={sub:'dash',dir:'',q:'',ent:'',resp:'',statut:'',retard:'',row:null,form:null,scope:'all',busy:false};
+
+/* ---------- directions, membres et périmètres ---------- */
+function directions(){if(!entCfg.directions||typeof entCfg.directions!=='object')entCfg.directions={};return entCfg.directions;}
+function directionsList(){return Object.entries(directions()).map(([id,d])=>Object.assign({id},d));}
+function dirById(id){return directions()[id]||null;}
+function dirMember(dirId,em){const d=dirById(dirId);return (d&&d.members&&d.members[normEmail(em||(session&&session.user))])||null;}
+/* directions visibles par l'utilisateur : celles dont il est membre (ou toutes pour un admin) */
+function myDirections(){
+  if(isSuperAdmin())return directionsList();
+  const me=normEmail(session&&session.user);
+  const mine=directionsList().filter(d=>d.members&&d.members[me]);
+  if(mine.length)return mine;
+  return can('resol')?directionsList():[];   // droit de consultation accordé sans appartenance
+}
+function resolAccess(){return myDirections().length>0;}
+function curDir(){
+  const list=myDirections();
+  if(!list.length)return null;
+  const found=list.find(d=>d.id===RUI.dir);
+  if(found)return found;
+  RUI.dir=list[0].id;return list[0];
+}
+/* l'utilisateur voit-il toute la direction ? */
+function dirSeeAll(dirId){
+  if(isSuperAdmin())return true;
+  const m=dirMember(dirId);
+  return !!(m&&(m.role==='chef'||m.seeAll))||(!m&&can('resol'));
+}
+function dirCanEdit(r){
+  if(!r)return false;
+  if(isSuperAdmin()||dirSeeAll(r.direction_id))return true;
+  const m=dirMember(r.direction_id);
+  return !!m&&(normEmail(r.responsable)===normEmail(session.user)||normEmail(r.created_by)===normEmail(session.user));
+}
+function dirCanCreate(dirId){return isSuperAdmin()||!!dirMember(dirId);}
+function resolCanSee(r){
+  if(!r)return false;
+  if(dirSeeAll(r.direction_id))return true;
+  const m=dirMember(r.direction_id);if(!m)return false;
+  return normEmail(r.responsable)===normEmail(session.user)
+      || normEmail(r.created_by)===normEmail(session.user)
+      || (Array.isArray(m.filiales)&&m.filiales.includes(r.ent));
+}
+/* liste des entités suivies : filiales + holding */
+function resolEnts(){
+  return [{id:RESOL_HOLDING,name:(entCfg.holdingName||'Afriland First Holding'),short:'Holding (AFH)'}]
+    .concat((entCfg.entities||[]).map(e=>({id:e.id,name:e.name||e.short||e.id,short:e.short||e.name||e.id})));
+}
+function resolEntName(id){const e=resolEnts().find(x=>x.id===id);return e?(e.short||e.name):(id||'—');}
+function resolMembers(dirId){
+  const d=dirById(dirId);
+  return d&&d.members?Object.entries(d.members).map(([em,m])=>Object.assign({email:em},m)):[];
+}
+function resolMemberLabel(em){
+  const d=curDir();const m=d&&dirMember(d.id,em);
+  return m&&m.title?em+' · '+m.title:em;
+}
+
+/* ---------- accès aux données ---------- */
+function resolLocalLoad(){try{return JSON.parse(localStorage.getItem('mb_resolutions'))||[]}catch(e){return[]}}
+function resolLocalSave(){try{localStorage.setItem('mb_resolutions',JSON.stringify(RDB.rows))}catch(e){}}
+async function resolSync(force){
+  if(RDB.loaded&&!force)return;
+  if(supaReady&&session&&session.cloud){
+    try{
+      const r=await supa.from('resolutions').select('*');
+      if(r.error)throw r.error;
+      RDB.rows=r.data||[];RDB.cloud=true;RDB.err='';
+    }catch(e){RDB.cloud=false;RDB.err=(e&&e.message)||'lecture impossible';RDB.rows=resolLocalLoad();}
+  }else{RDB.cloud=false;RDB.rows=resolLocalLoad();}
+  RDB.loaded=true;
+}
+async function resolPut(row){
+  row.updated_at=new Date().toISOString();
+  if(!row.id)row.id=cuid();
+  if(RDB.cloud){
+    const r=await supa.from('resolutions').upsert(row,{onConflict:'id'});
+    if(r.error){toast('Enregistrement refusé par le serveur : '+r.error.message);throw r.error;}
+  }
+  const k=RDB.rows.findIndex(x=>x.id===row.id);
+  if(k<0)RDB.rows.push(row);else RDB.rows[k]=Object.assign(RDB.rows[k],row);
+  if(!RDB.cloud)resolLocalSave();
+  return row;
+}
+async function resolDrop(id){
+  if(RDB.cloud){const r=await supa.from('resolutions').delete().eq('id',id);
+    if(r.error){toast('Suppression refusée par le serveur : '+r.error.message);throw r.error;}}
+  RDB.rows=RDB.rows.filter(x=>x.id!==id);
+  if(!RDB.cloud)resolLocalSave();
+}
+/* résolutions visibles, pour la direction courante */
+function resolAll(dirId){
+  const d=dirId||(curDir()||{}).id;
+  return RDB.rows.filter(r=>r.direction_id===d&&resolCanSee(r));
+}
+/* statut déduit de l'avancement (sauf « abandonnée », qui se choisit) */
+function resolStatut(r){
+  if(r.statut==='abandonnee')return 'abandonnee';
+  const a=+r.avancement||0;
+  return a>=100?'cloturee':(a>0?'en_cours':'ouverte');
+}
+function resolLate(r,today){
+  today=today||loanToday();
+  const e=loanParseDate(r.echeance);
+  return !!(e&&e<today&&resolStatut(r)!=='cloturee'&&resolStatut(r)!=='abandonnee');
+}
+function resolDaysLate(r,today){
+  const e=loanParseDate(r.echeance);if(!e)return 0;
+  return Math.max(0,Math.round(((today||loanToday())-e)/864e5));
+}
+
+/* ---------- indicateurs ---------- */
+function resolKPI(rows,today){
+  today=today||loanToday();
+  const n=rows.length;
+  const k={n,avg:0,clos:0,late:0,soon:0,ouvertes:0,encours:0,abandon:0,
+    tranches:[{lbl:'0 à 59 %',n:0,cls:'red'},{lbl:'60 à 80 %',n:0,cls:'amber'},{lbl:'81 à 99 %',n:0,cls:'green'},{lbl:'100 % (clôturées)',n:0,cls:'green'}]};
+  const in30=new Date(today);in30.setDate(in30.getDate()+30);
+  rows.forEach(r=>{
+    const a=Math.max(0,Math.min(100,+r.avancement||0));const st=resolStatut(r);
+    k.avg+=a;
+    if(st==='cloturee')k.clos++;else if(st==='abandonnee')k.abandon++;
+    else if(st==='en_cours')k.encours++;else k.ouvertes++;
+    if(resolLate(r,today))k.late++;
+    const e=loanParseDate(r.echeance);
+    if(e&&e>=today&&e<=in30&&st!=='cloturee'&&st!=='abandonnee')k.soon++;
+    if(a>=100)k.tranches[3].n++;else if(a>80)k.tranches[2].n++;else if(a>=60)k.tranches[1].n++;else k.tranches[0].n++;
+  });
+  k.avg=n?Math.round(k.avg/n):0;
+  k.tauxClot=n?Math.round(k.clos/n*100):0;
+  return k;
+}
+/* consolidation par filiale, puis par responsable */
+function resolByEnt(rows,today){
+  const map={};
+  rows.forEach(r=>{(map[r.ent]=map[r.ent]||[]).push(r);});
+  return Object.entries(map).map(([ent,rs])=>({ent,label:resolEntName(ent),k:resolKPI(rs,today),rows:rs}))
+    .sort((a,b)=>a.k.avg-b.k.avg||b.k.n-a.k.n);
+}
+function resolByResp(rows,today){
+  const map={};
+  rows.forEach(r=>{const e=normEmail(r.responsable)||'(non affectée)';(map[e]=map[e]||[]).push(r);});
+  return Object.entries(map).map(([resp,rs])=>({resp,k:resolKPI(rs,today),rows:rs}))
+    .sort((a,b)=>a.k.avg-b.k.avg);
+}
+
+/* ======================= ÉCRAN ======================= */
+function resolNav(s){RUI.sub=s;RUI.row=null;RUI.form=null;
+  document.querySelectorAll('#resolBody .subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.sub===s));
+  renderResol();}
+function resolFocusSave(){const a=document.activeElement;
+  return (a&&a.id&&['INPUT','TEXTAREA','SELECT'].includes(a.tagName))?{id:a.id,start:a.selectionStart,end:a.selectionEnd}:null;}
+function resolFocusRestore(f){if(!f)return;const el=document.getElementById(f.id);if(!el)return;
+  el.focus();try{if(f.start!=null&&el.setSelectionRange)el.setSelectionRange(f.start,f.end);}catch(e){}}
+let _rFilterT=null;
+function resolFilter(field,val){
+  RUI[field]=val;if(field!=='scope')RUI.row=null;
+  if(field==='q'){clearTimeout(_rFilterT);_rFilterT=setTimeout(()=>renderResol(),250);return;}
+  renderResol();
+}
+async function renderResol(force){
+  const host=document.getElementById('resolView');if(!host||!resolAccess())return;
+  const foc=resolFocusSave();
+  if(!RDB.loaded||force){host.innerHTML='<div class="empty-soon">Chargement des résolutions…</div>';await resolSync(force);}
+  const d=curDir();
+  const note=document.getElementById('resolMode');
+  if(note){
+    note.className='acc-note '+(RDB.cloud?'ok':'warn');
+    note.innerHTML=(RDB.cloud?'<b>Connecté</b> — suivi partagé':'<b>Mode local</b> — données conservées sur cet appareil')
+      +(d?' · direction : '+escapeHtml(d.name||d.id):'')
+      +' · périmètre : '+(dirSeeAll(d&&d.id)?'toutes les résolutions de la direction':'mes résolutions')
+      +(RDB.err?' · '+escapeHtml(RDB.err):'');
+  }
+  const sel=document.getElementById('resolDirSel');
+  if(sel){
+    const list=myDirections();
+    sel.style.display=list.length>1?'':'none';
+    sel.innerHTML=list.map(x=>`<option value="${x.id}" ${x.id===(d&&d.id)?'selected':''}>${escapeHtml(x.name||x.id)}</option>`).join('');
+  }
+  if(!d){host.innerHTML='<div class="empty-soon">Aucune direction ne vous est attribuée. L\'administrateur peut vous rattacher à une direction dans Admin › Directions.</div>';return;}
+  if(RUI.sub==='dash')host.innerHTML=resolDashHTML(d);
+  else if(RUI.sub==='liste')host.innerHTML=RUI.form?resolFormHTML(d):(RUI.row?resolDetailHTML(RUI.row):resolListHTML(d));
+  else host.innerHTML=resolReportHTML(d);
+  resolFocusRestore(foc);
+}
+function resolSetDir(id){RUI.dir=id;RUI.row=null;RUI.form=null;renderResol();}
+
+/* barre de progression colorée */
+function resolBar(p,w){
+  p=Math.max(0,Math.min(100,+p||0));
+  return `<div class="rs-bar" style="width:${w||120}px" title="${p} %"><i class="rs-${resolColor(p)}" style="width:${p}%"></i><span>${p} %</span></div>`;
+}
+function resolFiltered(d){
+  const today=loanToday();
+  let rows=resolAll(d.id);
+  if(RUI.ent)rows=rows.filter(r=>r.ent===RUI.ent);
+  if(RUI.resp)rows=rows.filter(r=>normEmail(r.responsable)===RUI.resp);
+  if(RUI.statut)rows=rows.filter(r=>resolStatut(r)===RUI.statut);
+  if(RUI.retard==='late')rows=rows.filter(r=>resolLate(r,today));
+  else if(RUI.retard==='soon'){const in30=new Date(today);in30.setDate(in30.getDate()+30);
+    rows=rows.filter(r=>{const e=loanParseDate(r.echeance);return e&&e>=today&&e<=in30&&!['cloturee','abandonnee'].includes(resolStatut(r));});}
+  const q=(RUI.q||'').toLowerCase().trim();
+  if(q)rows=rows.filter(r=>[r.ref,r.objet,r.detail,r.mission,r.observations,r.responsable].join(' ').toLowerCase().includes(q));
+  return rows.sort((a,b)=>(b.date_resolution||'').localeCompare(a.date_resolution||''));
+}
+function resolToolbar(d){
+  const resp=[...new Set(resolAll(d.id).map(r=>normEmail(r.responsable)).filter(Boolean))].sort();
+  return `<div class="acc-tools cr-tools">
+    <input id="rsSearch" type="search" placeholder="Rechercher (objet, référence, mission)…" value="${escapeHtml(RUI.q)}" oninput="resolFilter('q',this.value)">
+    <select onchange="resolFilter('ent',this.value)"><option value="">Toutes les entités</option>${resolEnts().map(e=>`<option value="${e.id}" ${RUI.ent===e.id?'selected':''}>${escapeHtml(e.short||e.name)}</option>`).join('')}</select>
+    ${resp.length>1&&dirSeeAll(d.id)?`<select onchange="resolFilter('resp',this.value)"><option value="">Tous les responsables</option>${resp.map(e=>`<option value="${e}" ${RUI.resp===e?'selected':''}>${escapeHtml(e)}</option>`).join('')}</select>`:''}
+    <select onchange="resolFilter('statut',this.value)"><option value="">Tous les statuts</option>${Object.entries(RESOL_STATUTS).map(([k,v])=>`<option value="${k}" ${RUI.statut===k?'selected':''}>${v}</option>`).join('')}</select>
+    <select onchange="resolFilter('retard',this.value)"><option value="">Échéance : toutes</option><option value="late" ${RUI.retard==='late'?'selected':''}>En retard</option><option value="soon" ${RUI.retard==='soon'?'selected':''}>À échoir sous 30 j</option></select>
+    <button class="ghost-btn" onclick="renderResol(true)">Actualiser</button>
+    ${dirCanCreate(d.id)?`<button class="add-stock" onclick="resolNew()">+ Nouvelle résolution</button>`:''}
+  </div>`;
+}
+
+/* ---------- tableau de bord ---------- */
+function resolDashHTML(d){
+  const today=loanToday();
+  const rows=resolFiltered(d);
+  let html=resolToolbar(d);
+  if(!resolAll(d.id).length)
+    return html+`<div class="empty-soon">Aucune résolution enregistrée pour ${escapeHtml(d.name||d.id)}. ${dirCanCreate(d.id)?'Créez la première avec « + Nouvelle résolution ».':''}</div>`;
+  const k=resolKPI(rows,today);
+  html+=`<div class="admin-grid cr-kpis">
+    ${creditKpiCard('Taux d\'achèvement',k.avg+' %',k.n+' résolution(s) suivie(s)','k1')}
+    ${creditKpiCard('Résolutions clôturées',k.clos+' / '+k.n,k.tauxClot+' % du total','k4')}
+    ${creditKpiCard('En retard',String(k.late),k.soon+' échéance(s) sous 30 jours','k2')}
+    ${creditKpiCard('En cours',String(k.encours),k.ouvertes+' non démarrée(s)'+(k.abandon?' · '+k.abandon+' abandonnée(s)':''),'k3')}
+  </div>`;
+  // avancement par entité
+  const byEnt=resolByEnt(rows,today);
+  html+=`<div class="infocard cr-block"><h3>Avancement par entité</h3>
+    <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr>
+      <th style="text-align:left">Entité</th><th>Résolutions</th><th>Clôturées</th><th>En retard</th><th style="text-align:left">Taux d'achèvement</th></tr></thead><tbody>
+      ${byEnt.map(x=>`<tr onclick="resolFilter('ent','${x.ent}')" style="cursor:pointer" title="Filtrer sur cette entité">
+        <td style="text-align:left"><b>${escapeHtml(x.label)}</b></td><td>${x.k.n}</td><td>${x.k.clos}</td>
+        <td class="${x.k.late?'cr-bad':''}">${x.k.late||'—'}</td><td style="text-align:left">${resolBar(x.k.avg,180)}</td></tr>`).join('')}
+      <tr class="tot"><td style="text-align:left">Consolidé</td><td>${k.n}</td><td>${k.clos}</td><td>${k.late}</td><td style="text-align:left">${resolBar(k.avg,180)}</td></tr>
+    </tbody></table></div></div>`;
+  // avancement par responsable (chef, directeur, administrateur)
+  if(dirSeeAll(d.id)){
+    const byResp=resolByResp(rows,today);
+    html+=`<div class="infocard cr-block"><h3>Avancement par responsable</h3>
+      <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr>
+        <th style="text-align:left">Responsable</th><th style="text-align:left">Titre</th><th>Résolutions</th><th>Clôturées</th><th>En retard</th><th style="text-align:left">Taux d'achèvement</th></tr></thead><tbody>
+        ${byResp.map(x=>{const m=dirMember(d.id,x.resp);
+          return `<tr onclick="resolFilter('resp','${x.resp}')" style="cursor:pointer"><td style="text-align:left">${escapeHtml(x.resp)}</td>
+          <td style="text-align:left">${escapeHtml((m&&m.title)||'—')}</td><td>${x.k.n}</td><td>${x.k.clos}</td>
+          <td class="${x.k.late?'cr-bad':''}">${x.k.late||'—'}</td><td style="text-align:left">${resolBar(x.k.avg,180)}</td></tr>`;}).join('')}
+      </tbody></table></div></div>`;
+  }
+  // répartition et retards
+  html+=`<div class="rs-two">
+    <div class="infocard cr-block"><h3>Répartition par avancement</h3>
+      <div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Tranche</th><th>Résolutions</th><th>Part</th></tr></thead><tbody>
+      ${k.tranches.map(t=>`<tr><td style="text-align:left"><span class="rs-dot rs-${t.cls}"></span> ${t.lbl}</td><td>${t.n}</td><td>${k.n?Math.round(t.n/k.n*100):0} %</td></tr>`).join('')}
+      </tbody></table></div></div>
+    <div class="infocard cr-block"><h3>Résolutions en retard <span class="cr-count">${k.late}</span></h3>
+      ${k.late?`<div class="table-scroll"><table class="recap-table cr-tbl"><thead><tr><th style="text-align:left">Objet</th><th style="text-align:left">Entité</th><th>Échéance</th><th>Retard</th><th>Avanc.</th></tr></thead><tbody>
+      ${rows.filter(r=>resolLate(r,today)).sort((a,b)=>resolDaysLate(b)-resolDaysLate(a)).slice(0,12).map(r=>`<tr onclick="resolOpen('${r.id}')" style="cursor:pointer">
+        <td style="text-align:left">${escapeHtml(r.objet||'—')}</td><td style="text-align:left">${escapeHtml(resolEntName(r.ent))}</td>
+        <td>${fmtDateFR(loanParseDate(r.echeance))}</td><td class="cr-bad">${resolDaysLate(r,today)} j</td><td>${(+r.avancement||0)} %</td></tr>`).join('')}
+      </tbody></table></div>`:'<p class="cr-empty">Aucun retard : toutes les échéances sont tenues.</p>'}</div>
+  </div>`;
+  return html;
+}
+
+/* ---------- liste ---------- */
+function resolListHTML(d){
+  const today=loanToday();const rows=resolFiltered(d);
+  let html=resolToolbar(d);
+  if(!rows.length)return html+'<div class="empty-soon">Aucune résolution ne correspond à ces critères.</div>';
+  html+=`<div class="infocard"><div class="table-scroll"><table class="recap-table cr-tbl rs-list"><thead><tr>
+    <th style="text-align:left">Réf.</th><th>Date</th><th style="text-align:left">Entité</th><th style="text-align:left">Objet</th>
+    <th style="text-align:left">Responsable</th><th>Échéance</th><th style="text-align:left">Avancement</th><th>Statut</th><th style="text-align:left">Observations</th></tr></thead><tbody>
+    ${rows.map(r=>{const st=resolStatut(r);const late=resolLate(r,today);
+      return `<tr onclick="resolOpen('${r.id}')" style="cursor:pointer">
+      <td style="text-align:left">${escapeHtml(r.ref||'—')}</td><td>${fmtDateFR(loanParseDate(r.date_resolution))}</td>
+      <td style="text-align:left">${escapeHtml(resolEntName(r.ent))}</td>
+      <td style="text-align:left"><b>${escapeHtml(r.objet||'—')}</b>${r.mission?'<div class="rs-sub">'+escapeHtml(r.mission)+'</div>':''}</td>
+      <td style="text-align:left">${escapeHtml(r.responsable||'—')}</td>
+      <td class="${late?'cr-bad':''}">${fmtDateFR(loanParseDate(r.echeance))}${late?'<div class="rs-sub cr-bad">'+resolDaysLate(r,today)+' j de retard</div>':''}</td>
+      <td style="text-align:left">${resolBar(r.avancement,130)}</td>
+      <td><span class="rs-st rs-st-${st}">${RESOL_STATUTS[st]}</span></td>
+      <td style="text-align:left" class="rs-obs">${escapeHtml((r.observations||'').slice(0,90))}${(r.observations||'').length>90?'…':''}</td></tr>`;}).join('')}
+  </tbody></table></div><div class="cr-foot">${rows.length} résolution(s)</div></div>`;
+  return html;
+}
+function resolOpen(id){RUI.row=id;RUI.sub='liste';
+  document.querySelectorAll('#resolBody .subtabs button').forEach(b=>b.classList.toggle('on',b.dataset.sub==='liste'));
+  renderResol();}
+
+/* ---------- fiche d'une résolution ---------- */
+function resolDetailHTML(id){
+  const r=RDB.rows.find(x=>x.id===id);
+  if(!r)return '<div class="empty-soon">Résolution introuvable.</div>';
+  const today=loanToday();const st=resolStatut(r);const editable=dirCanEdit(r);
+  const hist=Array.isArray(r.updates)?r.updates.slice().reverse():[];
+  return `<div class="cr-head"><button class="ghost-btn" onclick="RUI.row=null;renderResol()">← Retour à la liste</button>
+    <h3>${escapeHtml(r.ref?r.ref+' — ':'')}${escapeHtml(r.objet||'Résolution')}</h3>
+    <span class="rs-st rs-st-${st}">${RESOL_STATUTS[st]}</span></div>
+  <div class="admin-grid cr-kpis">
+    ${creditKpiCard('Avancement',(+r.avancement||0)+' %',RESOL_STATUTS[st],'k1')}
+    ${creditKpiCard('Entité',resolEntName(r.ent),r.mission||'—','k4')}
+    ${creditKpiCard('Échéance',r.echeance?fmtDateFR(loanParseDate(r.echeance)):'—',resolLate(r,today)?resolDaysLate(r,today)+' jour(s) de retard':'dans les délais','k2')}
+    ${creditKpiCard('Responsable',(r.responsable||'—').split('@')[0],(dirMember(r.direction_id,r.responsable)||{}).title||'—','k3')}
+  </div>
+  <div class="infocard cr-block"><h3>Caractéristiques</h3>
+    <div class="cr-grid">
+      ${[['Référence',r.ref||'—'],['Date de la résolution',fmtDateFR(loanParseDate(r.date_resolution))],
+         ['Entité concernée',resolEntName(r.ent)],['Mission d\'origine',r.mission||'—'],
+         ['Responsable',r.responsable||'—'],['Priorité',RESOL_PRIO[r.priorite]||'—'],
+         ['Échéance',r.echeance?fmtDateFR(loanParseDate(r.echeance)):'—'],['Dernière mise à jour',r.updated_at?new Date(r.updated_at).toLocaleDateString('fr-FR'):'—']]
+        .map(([a,b])=>`<div class="cr-f"><label>${escapeHtml(a)}</label><span>${escapeHtml(''+b)}</span></div>`).join('')}
+    </div>
+    ${r.detail?`<div class="sub-label">Détail</div><p class="rs-text">${escapeHtml(r.detail)}</p>`:''}
+    ${r.observations?`<div class="sub-label">Observations</div><p class="rs-text">${escapeHtml(r.observations)}</p>`:''}
+    <div class="fil-actions">
+      ${editable?`<button class="ghost-btn" onclick="resolEdit('${r.id}')">Modifier</button>
+      <button class="save-btn" onclick="resolProgress('${r.id}')">Mettre à jour l'avancement</button>`:''}
+      ${dirSeeAll(r.direction_id)?`<button class="del-btn" onclick="resolDel('${r.id}')">Supprimer</button>`:''}
+    </div>
+  </div>
+  <div class="infocard cr-block"><h3>Historique des mises à jour <span class="cr-count">${hist.length}</span></h3>
+    ${hist.length?`<div class="rs-hist">${hist.map(h=>`<div class="rs-hi">
+      <div class="rs-hi-a">${resolBar(h.avancement,90)}</div>
+      <div class="rs-hi-b"><div class="rs-hi-t">${new Date(h.at).toLocaleString('fr-FR')} · ${escapeHtml(h.by||'')}</div>
+        <div class="rs-hi-n">${escapeHtml(h.note||'(sans commentaire)')}</div></div></div>`).join('')}</div>`
+      :'<p class="cr-empty">Aucune mise à jour enregistrée.</p>'}
+  </div>`;
+}
+/* mise à jour de l'avancement, avec commentaire horodaté */
+function resolProgress(id){
+  const r=RDB.rows.find(x=>x.id===id);if(!r||!dirCanEdit(r))return;
+  promptAction('Mise à jour de l\'avancement — '+(r.objet||'')+'\nAvancement actuel : '+(+r.avancement||0)+' %',
+    'Commentaire (action menée, point de blocage…)',async(note,pct)=>{
+      const p=Math.max(0,Math.min(100,Math.round(+pct||0)));
+      r.avancement=p;
+      if(r.statut!=='abandonnee')r.statut=resolStatut(r);
+      if(note)r.observations=note;
+      r.updates=(Array.isArray(r.updates)?r.updates:[]).concat([{at:new Date().toISOString(),by:normEmail(session.user),avancement:p,note:note||''}]);
+      await resolPut(r);
+      auditLog('resol.avancement',{type:'resolution',id:r.id,label:(r.ref?r.ref+' — ':'')+(r.objet||''),details:{avancement:p+' %',entité:resolEntName(r.ent)}});
+      renderResol();toast('Avancement mis à jour : '+p+' %');
+    },{extra:{label:'Nouvel avancement (%)',type:'number',value:String(+r.avancement||0)},onExtra:null});
+}
+function resolDel(id){
+  const r=RDB.rows.find(x=>x.id===id);if(!r||!dirSeeAll(r.direction_id))return;
+  confirmAction('Supprimer définitivement la résolution « '+(r.objet||'')+' » ? L\'historique de ses mises à jour sera perdu.',async()=>{
+    await resolDrop(id);
+    auditLog('resol.suppression',{type:'resolution',id,label:(r.ref?r.ref+' — ':'')+(r.objet||'')});
+    RUI.row=null;renderResol();toast('Résolution supprimée');
+  },'Supprimer');
+}
+
+/* ---------- création et modification ---------- */
+function resolNew(){
+  const d=curDir();if(!d||!dirCanCreate(d.id)){toast('Création non autorisée');return;}
+  const m=dirMember(d.id);
+  const mine=(m&&Array.isArray(m.filiales)&&m.filiales[0])||RESOL_HOLDING;
+  RUI.form={id:null,direction_id:d.id,ent:mine,ref:'',mission:'',objet:'',detail:'',
+    date_resolution:loanIso(loanToday()),echeance:'',responsable:normEmail(session.user),
+    priorite:'moyenne',avancement:0,statut:'ouverte',observations:''};
+  RUI.row=null;RUI.sub='liste';renderResol();
+}
+function resolEdit(id){
+  const r=RDB.rows.find(x=>x.id===id);if(!r||!dirCanEdit(r))return;
+  RUI.form=Object.assign({},r);RUI.row=null;renderResol();
+}
+function resolFormSet(f,v){
+  if(!RUI.form)return;
+  RUI.form[f]=(f==='avancement')?Math.max(0,Math.min(100,Math.round(+v||0))):v;
+  if(f==='avancement'){const b=document.getElementById('rsFormBar');if(b)b.outerHTML=resolBar(RUI.form.avancement,200).replace('class="rs-bar"','id="rsFormBar" class="rs-bar"');}
+}
+function resolFormHTML(d){
+  const f=RUI.form;const membres=resolMembers(d.id);
+  const canAssign=dirSeeAll(d.id);
+  return `<div class="cr-head"><button class="ghost-btn" onclick="RUI.form=null;renderResol()">← Annuler</button>
+    <h3>${f.id?'Modifier la résolution':'Nouvelle résolution'}</h3></div>
+  <div class="infocard cr-block">
+    <div class="fgrid">
+      <div class="fg"><label>Référence</label><input id="rsfRef" type="text" value="${escapeHtml(f.ref||'')}" placeholder="Ex. AUD-2026-014" oninput="resolFormSet('ref',this.value)"></div>
+      <div class="fg"><label>Date de la résolution</label><input id="rsfDate" type="date" value="${f.date_resolution||''}" oninput="resolFormSet('date_resolution',this.value)"></div>
+      <div class="fg"><label>Entité concernée</label>
+        <select onchange="resolFormSet('ent',this.value)">${resolEnts().map(e=>`<option value="${e.id}" ${f.ent===e.id?'selected':''}>${escapeHtml(e.name)}</option>`).join('')}</select></div>
+      <div class="fg"><label>Mission d'origine</label><input id="rsfMission" type="text" value="${escapeHtml(f.mission||'')}" placeholder="Ex. Mission d'audit mars 2026" oninput="resolFormSet('mission',this.value)"></div>
+    </div>
+    <div class="fgrid" style="margin-top:13px">
+      <div class="fg" style="grid-column:span 2"><label>Objet de la résolution</label><input id="rsfObjet" type="text" value="${escapeHtml(f.objet||'')}" placeholder="Intitulé court et explicite" oninput="resolFormSet('objet',this.value)"></div>
+      <div class="fg"><label>Responsable</label>
+        <select ${canAssign?'':'disabled'} onchange="resolFormSet('responsable',this.value)">
+          ${membres.map(m=>`<option value="${m.email}" ${normEmail(f.responsable)===m.email?'selected':''}>${escapeHtml(m.email+(m.title?' · '+m.title:''))}</option>`).join('')}
+        </select></div>
+      <div class="fg"><label>Priorité</label>
+        <select onchange="resolFormSet('priorite',this.value)">${Object.entries(RESOL_PRIO).map(([k,v])=>`<option value="${k}" ${f.priorite===k?'selected':''}>${v}</option>`).join('')}</select></div>
+    </div>
+    <div class="fgrid" style="margin-top:13px">
+      <div class="fg"><label>Échéance</label><input id="rsfEch" type="date" value="${f.echeance||''}" oninput="resolFormSet('echeance',this.value)"></div>
+      <div class="fg mono"><label>Avancement (%)</label><input id="rsfPct" type="number" min="0" max="100" step="5" value="${+f.avancement||0}" oninput="resolFormSet('avancement',this.value)"></div>
+      <div class="fg"><label>Aperçu</label><div style="padding-top:8px">${resolBar(f.avancement,200).replace('class="rs-bar"','id="rsFormBar" class="rs-bar"')}</div></div>
+      <div class="fg"><label>Statut</label>
+        <select onchange="resolFormSet('statut',this.value)">
+          <option value="auto" ${f.statut!=='abandonnee'?'selected':''}>Déduit de l'avancement</option>
+          <option value="abandonnee" ${f.statut==='abandonnee'?'selected':''}>Abandonnée</option>
+        </select></div>
+    </div>
+    <div class="fg" style="margin-top:13px"><label>Détail de la résolution</label>
+      <textarea id="rsfDetail" class="fil-foot" placeholder="Recommandation de l'audit, action attendue, périmètre…" oninput="resolFormSet('detail',this.value)">${escapeHtml(f.detail||'')}</textarea></div>
+    <div class="fg" style="margin-top:13px"><label>Observations</label>
+      <textarea id="rsfObs" class="fil-foot" placeholder="Point d'étape, difficultés rencontrées, décisions prises…" oninput="resolFormSet('observations',this.value)">${escapeHtml(f.observations||'')}</textarea></div>
+    <div class="fil-actions">
+      <button class="ghost-btn" onclick="RUI.form=null;renderResol()">Annuler</button>
+      <button class="save-btn" onclick="resolSave()">${f.id?'Enregistrer les modifications':'Créer la résolution'}</button>
+    </div>
+  </div>`;
+}
+async function resolSave(){
+  const f=RUI.form;if(!f||RUI.busy)return;
+  if(!(f.objet||'').trim())return toast('Saisissez l\'objet de la résolution');
+  if(!f.date_resolution)return toast('Saisissez la date de la résolution');
+  if(!f.responsable)return toast('Désignez un responsable');
+  RUI.busy=true;
+  try{
+    const row=Object.assign(RDB.rows.find(x=>x.id===f.id)||{id:cuid(),created_by:normEmail(session.user),created_at:new Date().toISOString(),updates:[]},{
+      direction_id:f.direction_id,ent:f.ent,ref:f.ref||'',mission:f.mission||'',objet:f.objet.trim(),detail:f.detail||'',
+      date_resolution:f.date_resolution,echeance:f.echeance||null,responsable:normEmail(f.responsable),
+      priorite:f.priorite||'moyenne',avancement:Math.max(0,Math.min(100,+f.avancement||0)),
+      statut:f.statut==='abandonnee'?'abandonnee':'ouverte',observations:f.observations||''});
+    row.statut=resolStatut(row);
+    await resolPut(row);
+    auditLog(f.id?'resol.modification':'resol.creation',{type:'resolution',id:row.id,
+      label:(row.ref?row.ref+' — ':'')+row.objet,details:{entité:resolEntName(row.ent),responsable:row.responsable,avancement:row.avancement+' %'}});
+    RUI.form=null;RUI.row=row.id;
+    toast(f.id?'Résolution mise à jour':'Résolution créée');
+  }catch(e){toast('Enregistrement impossible : '+(e.message||e));}
+  RUI.busy=false;renderResol();
+}
+
+/* ======================= REPORTING ======================= */
+function resolReportRows(d){
+  const scope=RUI.scope||'all';
+  let rows=resolAll(d.id);
+  if(scope==='current')rows=resolFiltered(d);
+  else if(scope!=='all')rows=rows.filter(r=>r.ent===scope);
+  return rows.sort((a,b)=>(a.ent||'').localeCompare(b.ent||'')||(a.date_resolution||'').localeCompare(b.date_resolution||''));
+}
+function resolScopeLabel(){
+  const s=RUI.scope||'all';
+  if(s==='all')return 'Consolidé — toutes les entités';
+  if(s==='current')return 'Sélection courante';
+  return resolEntName(s);
+}
+function resolReportHTML(d){
+  const rows=resolReportRows(d);const k=resolKPI(rows);
+  return `<div class="infocard cr-block"><h3>Rapport de suivi des résolutions</h3>
+    <p class="cr-hint">Choisissez le périmètre, puis éditez le rapport. Il reprend la synthèse, l'avancement par entité et le détail de chaque résolution avec ses observations.</p>
+    <div class="acc-tools">
+      <select onchange="resolFilter('scope',this.value)">
+        <option value="all" ${RUI.scope==='all'?'selected':''}>Consolidé — toutes les entités</option>
+        ${resolEnts().map(e=>`<option value="${e.id}" ${RUI.scope===e.id?'selected':''}>${escapeHtml(e.name)}</option>`).join('')}
+        <option value="current" ${RUI.scope==='current'?'selected':''}>Sélection courante (filtres de la liste)</option>
+      </select>
+      <button class="icon-btn" onclick="resolReportPreview()">Aperçu</button>
+      <button class="icon-btn" onclick="resolReportPDF()">Rapport PDF</button>
+      <button class="icon-btn" onclick="resolReportDOCX()">Rapport Word</button>
+    </div>
+    <div class="rs-sum">
+      <div><span>Périmètre</span><b>${escapeHtml(resolScopeLabel())}</b></div>
+      <div><span>Résolutions</span><b>${k.n}</b></div>
+      <div><span>Taux d'achèvement</span><b>${k.avg} %</b></div>
+      <div><span>Clôturées</span><b>${k.clos}</b></div>
+      <div><span>En retard</span><b>${k.late}</b></div>
+    </div>
+    <div id="rsPrevHost"></div>
+  </div>`;
+}
+/* données communes aux trois sorties (aperçu, PDF, Word) */
+function resolReportData(){
+  const d=curDir();const rows=resolReportRows(d);const today=loanToday();
+  const k=resolKPI(rows,today);
+  const byEnt=resolByEnt(rows,today);
+  return {d,rows,k,byEnt,today,
+    title:'SUIVI DES RÉSOLUTIONS',
+    sub:(d.name||d.id)+' — '+resolScopeLabel(),
+    ent:currentEntity(),
+    head:['Réf.','Date','Entité','Objet','Responsable','Échéance','Avanc.','Statut','Observations'],
+    body:rows.map(r=>({ref:r.ref||'—',date:fmtDateFR(loanParseDate(r.date_resolution)),ent:resolEntName(r.ent),
+      objet:(r.objet||'')+(r.mission?' ('+r.mission+')':''),resp:r.responsable||'—',
+      ech:r.echeance?fmtDateFR(loanParseDate(r.echeance)):'—',pct:(+r.avancement||0),
+      statut:RESOL_STATUTS[resolStatut(r)],obs:r.observations||'',late:resolLate(r,today)})),
+    fileBase:'Suivi_resolutions_'+((d.short||d.name||'direction').replace(/[^a-zA-Z0-9]/g,'_'))+'_'+new Date().toISOString().slice(0,10)};
+}
+function resolReportPDF(){
+  const R=resolReportData();
+  if(!R.rows.length){toast('Aucune résolution dans ce périmètre');return;}
+  const doc=newPdfDoc();if(!doc)return;
+  const W=doc.internal.pageSize.getWidth();const pf=pdfPrefs();const F=pf.font;
+  const ent=R.ent;const bot=ent?72:40;const fs=Math.max(7.5,pf.fontSize-2.5);
+  setPdfFooter('MonBudget · Suivi des résolutions · '+R.sub);
+  let y=loanPdfTop(doc,ent);
+  doc.setFillColor(166,25,46);doc.setDrawColor(20,28,38);doc.setLineWidth(0.8);
+  doc.rect(40,y,W-80,32,'FD');
+  doc.setFont(F,'bold');doc.setFontSize(16);doc.setTextColor(255,255,255);
+  doc.text(pdfSafe(R.title),W/2,y+21,{align:'center'});
+  y+=32;
+  doc.setFont(F,'bold');doc.setFontSize(11);doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe(R.sub),40,y+18);
+  doc.setFont(F,'normal');doc.setFontSize(8.5);doc.setTextColor(110,120,130);
+  doc.text(pdfSafe('Édité le '+new Date().toLocaleDateString('fr-FR')),W-40,y+18,{align:'right'});
+  y+=32;
+  // synthèse
+  runAutoTable(doc,{startY:y,theme:'grid',margin:{left:40,right:40,bottom:bot},
+    head:[['Résolutions','Taux d\'achèvement','Clôturées','En cours','En retard','À échoir sous 30 j']],
+    body:[[R.k.n,R.k.avg+' %',R.k.clos,R.k.encours,R.k.late,R.k.soon]],
+    styles:tableStyle({fontSize:fs+1,cellPadding:6}),headStyles:Object.assign(headStyle([60,60,64]),{fontSize:fs})});
+  y=doc.lastAutoTable.finalY+18;
+  // avancement par entité
+  doc.setFont(F,'bold');doc.setFontSize(11);doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe('Avancement par entité'),40,y);y+=6;
+  runAutoTable(doc,{startY:y,theme:'grid',margin:{left:40,right:40,bottom:bot},
+    head:[['Entité','Résolutions','Clôturées','En retard','Taux d\'achèvement']],
+    body:R.byEnt.map(x=>[x.label,x.k.n,x.k.clos,x.k.late,x.k.avg+' %'])
+      .concat([[{content:'Consolidé',styles:{fontStyle:'bold'}},{content:R.k.n,styles:{fontStyle:'bold'}},
+        {content:R.k.clos,styles:{fontStyle:'bold'}},{content:R.k.late,styles:{fontStyle:'bold'}},{content:R.k.avg+' %',styles:{fontStyle:'bold'}}]]),
+    styles:tableStyle({fontSize:fs,cellPadding:4}),headStyles:Object.assign(headStyle([166,25,46]),{fontSize:fs}),
+    columnStyles:{0:{halign:'left'}}});
+  y=doc.lastAutoTable.finalY+18;
+  // détail des résolutions
+  doc.setFont(F,'bold');doc.setFontSize(11);doc.text(pdfSafe('Détail des résolutions'),40,y);y+=6;
+  runAutoTable(doc,{startY:y,head:[R.head],theme:'grid',margin:{left:40,right:40,bottom:bot},
+    body:R.body.map(b=>[b.ref,b.date,b.ent,b.objet,b.resp,b.ech,b.pct+' %',b.statut,b.obs]),
+    styles:tableStyle({fontSize:fs,cellPadding:3.4,halign:'left',valign:'top'}),
+    headStyles:Object.assign(headStyle([166,25,46]),{fontSize:fs,halign:'center'}),
+    columnStyles:{0:{cellWidth:40},1:{cellWidth:40,halign:'center'},2:{cellWidth:52},3:{cellWidth:100},
+      4:{cellWidth:62},5:{cellWidth:40,halign:'center'},6:{cellWidth:28,halign:'center',fontStyle:'bold'},7:{cellWidth:38,halign:'center'}},
+    didParseCell:data=>{
+      if(data.section!=='body')return;
+      const b=R.body[data.row.index];if(!b)return;
+      if(data.column.index===6){const c=resolColorHex(b.pct);
+        data.cell.styles.textColor=[parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16)];}
+      if(data.column.index===5&&b.late)data.cell.styles.textColor=[166,25,46];
+    }});
+  if(ent)stampEntityFooters(doc,ent);else stampFooters(doc);
+  doc.save(R.fileBase+'.pdf');
+  auditLog('resol.rapport',{type:'direction',id:R.d.id,label:R.sub,details:{format:'PDF',résolutions:R.rows.length}});
+  toast('Rapport PDF téléchargé');
+}
+async function resolReportDOCX(){
+  const R=resolReportData();
+  if(!R.rows.length){toast('Aucune résolution dans ce périmètre');return;}
+  if(!window.docx){toast('Module Word en chargement, réessayez');return;}
+  const K=loanDocxKit(9);const {D,TW,run,P,cell,table,sz}=K;
+  const C=D.AlignmentType.CENTER,L=D.AlignmentType.LEFT;
+  const kids=[];
+  kids.push(table([TW],[new D.TableRow({children:[cell(R.title,{w:TW,bold:true,color:'FFFFFF',size:30,fill:'A6192E',align:C})]})]));
+  kids.push(P([run(R.sub,{bold:true,size:sz+6})],{spacing:{before:160,after:40}}));
+  kids.push(P([run('Édité le '+new Date().toLocaleDateString('fr-FR'),{italics:true,size:16,color:'6E7882'})],{spacing:{after:220}}));
+  // synthèse
+  const sw=[Math.round(TW/6)];while(sw.length<6)sw.push(Math.round(TW/6));
+  sw[5]=TW-sw.slice(0,5).reduce((a,b)=>a+b,0);
+  const sh=['Résolutions','Taux d\'achèvement','Clôturées','En cours','En retard','À échoir sous 30 j'];
+  const sv=[R.k.n,R.k.avg+' %',R.k.clos,R.k.encours,R.k.late,R.k.soon];
+  kids.push(table(sw,[
+    new D.TableRow({children:sh.map((h,i)=>cell(h,{w:sw[i],bold:true,color:'FFFFFF',fill:'3C3C40',align:C}))}),
+    new D.TableRow({children:sv.map((v,i)=>cell(String(v),{w:sw[i],bold:true,align:C,size:sz+4}))})]));
+  // par entité
+  kids.push(P([run('Avancement par entité',{bold:true,size:sz+4})],{spacing:{before:280,after:80}}));
+  const ew=[Math.round(TW*0.34),Math.round(TW*0.14),Math.round(TW*0.14),Math.round(TW*0.14)];
+  ew.push(TW-ew.reduce((a,b)=>a+b,0));
+  const eRows=[new D.TableRow({tableHeader:true,children:['Entité','Résolutions','Clôturées','En retard','Taux d\'achèvement']
+    .map((h,i)=>cell(h,{w:ew[i],bold:true,color:'FFFFFF',fill:'A6192E',align:C}))})];
+  R.byEnt.forEach(x=>eRows.push(new D.TableRow({children:[cell(x.label,{w:ew[0]}),cell(String(x.k.n),{w:ew[1],align:C}),
+    cell(String(x.k.clos),{w:ew[2],align:C}),cell(String(x.k.late),{w:ew[3],align:C}),
+    cell(x.k.avg+' %',{w:ew[4],align:C,bold:true,color:resolColorHex(x.k.avg)})]})));
+  eRows.push(new D.TableRow({children:[cell('Consolidé',{w:ew[0],bold:true,fill:'F2F2F2'}),cell(String(R.k.n),{w:ew[1],align:C,bold:true,fill:'F2F2F2'}),
+    cell(String(R.k.clos),{w:ew[2],align:C,bold:true,fill:'F2F2F2'}),cell(String(R.k.late),{w:ew[3],align:C,bold:true,fill:'F2F2F2'}),
+    cell(R.k.avg+' %',{w:ew[4],align:C,bold:true,fill:'F2F2F2',color:resolColorHex(R.k.avg)})]}));
+  kids.push(table(ew,eRows));
+  // détail
+  kids.push(P([run('Détail des résolutions',{bold:true,size:sz+4})],{spacing:{before:280,after:80}}));
+  // largeurs exprimées en fractions de la largeur utile, pour ne jamais la dépasser
+  const dw=[0.08,0.08,0.11,0.24,0.15,0.08,0.06,0.08].map(x=>Math.round(TW*x));
+  dw.push(TW-dw.reduce((a,b)=>a+b,0));
+  const dRows=[new D.TableRow({tableHeader:true,children:R.head.map((h,i)=>cell(h,{w:dw[i],bold:true,color:'FFFFFF',fill:'A6192E',align:C,size:sz-2}))})];
+  R.body.forEach(b=>dRows.push(new D.TableRow({cantSplit:false,children:[
+    cell(b.ref,{w:dw[0],size:sz-2}),cell(b.date,{w:dw[1],align:C,size:sz-2}),cell(b.ent,{w:dw[2],size:sz-2}),
+    cell(b.objet,{w:dw[3],size:sz-2}),cell(b.resp,{w:dw[4],size:sz-2}),
+    cell(b.ech,{w:dw[5],align:C,size:sz-2,color:b.late?'A6192E':undefined}),
+    cell(b.pct+' %',{w:dw[6],align:C,bold:true,size:sz-2,color:resolColorHex(b.pct)}),
+    cell(b.statut,{w:dw[7],align:C,size:sz-2}),cell(b.obs,{w:dw[8],size:sz-2})]})));
+  kids.push(table(dw,dRows));
+  const doc=await K.section(R.ent,'MonBudget · Suivi des résolutions — '+R.sub,kids);
+  const blob=await window.docx.Packer.toBlob(doc);
+  loanDownloadBlob(blob,R.fileBase+'.docx','Rapport Word téléchargé');
+  auditLog('resol.rapport',{type:'direction',id:R.d.id,label:R.sub,details:{format:'Word',résolutions:R.rows.length}});
+}
+/* aperçu du rapport (rendu HTML identique à la version Word) */
+function resolReportPreview(){
+  const R=resolReportData();
+  const host=document.getElementById('rsPrevHost');if(!host)return;
+  if(!R.rows.length){toast('Aucune résolution dans ce périmètre');return;}
+  const E=escapeHtml;
+  const inner=`<table class="title"><tr><td>${E(R.title)}</td></tr></table>
+    <h4 class="sub">${E(R.sub)}</h4><div class="ed">Édité le ${new Date().toLocaleDateString('fr-FR')}</div>
+    <table class="syn"><thead><tr><th>Résolutions</th><th>Taux d'achèvement</th><th>Clôturées</th><th>En cours</th><th>En retard</th><th>À échoir sous 30 j</th></tr></thead>
+    <tbody><tr><td>${R.k.n}</td><td>${R.k.avg} %</td><td>${R.k.clos}</td><td>${R.k.encours}</td><td>${R.k.late}</td><td>${R.k.soon}</td></tr></tbody></table>
+    <h4>Avancement par entité</h4>
+    <table class="amo"><thead><tr><th>Entité</th><th>Résolutions</th><th>Clôturées</th><th>En retard</th><th>Taux d'achèvement</th></tr></thead><tbody>
+    ${R.byEnt.map(x=>`<tr><td>${E(x.label)}</td><td class="c">${x.k.n}</td><td class="c">${x.k.clos}</td><td class="c">${x.k.late}</td><td class="c" style="color:#${resolColorHex(x.k.avg)};font-weight:bold">${x.k.avg} %</td></tr>`).join('')}
+    <tr class="tot"><td>Consolidé</td><td class="c">${R.k.n}</td><td class="c">${R.k.clos}</td><td class="c">${R.k.late}</td><td class="c">${R.k.avg} %</td></tr></tbody></table>
+    <h4>Détail des résolutions</h4>
+    <table class="amo det"><thead><tr>${R.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>
+    ${R.body.map(b=>`<tr><td>${E(b.ref)}</td><td class="c">${E(b.date)}</td><td>${E(b.ent)}</td><td>${E(b.objet)}</td><td>${E(b.resp)}</td>
+      <td class="c" ${b.late?'style="color:#a6192e"':''}>${E(b.ech)}</td><td class="c" style="color:#${resolColorHex(b.pct)};font-weight:bold">${b.pct} %</td>
+      <td class="c">${E(b.statut)}</td><td>${E(b.obs)}</td></tr>`).join('')}
+    </tbody></table>`;
+  host.innerHTML=`<div class="loan-preview"><div class="lp-head"><h3 class="lp-title">Aperçu du rapport — ${E(resolScopeLabel())}</h3>
+    <div class="lp-act"><button class="icon-btn" onclick="resolReportPDF()">Télécharger le PDF</button><button class="icon-btn" onclick="document.getElementById('rsPrevHost').innerHTML=''">Fermer l'aperçu</button></div></div>
+    <div class="lp-body"><iframe title="Aperçu"></iframe></div>
+    <div class="lp-note">Aperçu de la mise en page du rapport Word et PDF.</div></div>`;
+  host.querySelector('iframe').srcdoc=loanPageHTML(R.ent,'MonBudget · Suivi des résolutions',inner,`
+    .title td{background:#a6192e;color:#fff;font-weight:bold;font-size:15pt;text-align:center;padding:6pt}
+    h4{margin:14pt 0 5pt;font-size:11pt}h4.sub{margin:10pt 0 2pt;font-size:12pt}
+    .ed{font-size:8pt;font-style:italic;color:#6e7882;margin-bottom:10pt}
+    .syn th{background:#3c3c40;color:#fff;text-align:center}.syn td{text-align:center;font-weight:bold;font-size:12pt}
+    .amo th{background:#a6192e;color:#fff}.det td{font-size:7.5pt;vertical-align:top}
+    .c{text-align:center}`);
+  host.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+/* ======================================================================
    PISTE D'AUDIT — qui a fait quoi, quand
    ----------------------------------------------------------------------
    Chaque action sensible écrit une ligne dans la table Supabase audit_log
@@ -7829,7 +8763,7 @@ function creditRelancePreview(id){
    Écriture : auditLog('action', {type, id, label, details}) — l'appel
    n'attend pas la réponse du serveur pour ne jamais ralentir l'interface.
    ====================================================================== */
-const AUDIT_CATS={credit:'Portefeuille de crédit',droits:'Droits et rôles',compte:'Comptes',config:'Configuration',doc:'Documents',session:'Connexions'};
+const AUDIT_CATS={credit:'Portefeuille de crédit',resol:'Suivi des résolutions',droits:'Droits et rôles',compte:'Comptes',config:'Configuration',doc:'Documents',session:'Connexions'};
 const AUDIT_ACTIONS={
   'credit.creation':            {cat:'credit',lbl:'Création d\'une ligne de crédit'},
   'credit.modification':        {cat:'credit',lbl:'Modification d\'une ligne de crédit'},
@@ -7854,6 +8788,13 @@ const AUDIT_ACTIONS={
   'compte.suspension':          {cat:'compte',lbl:'Accès suspendu'},
   'compte.bannissement':        {cat:'compte',lbl:'Accès retiré (banni)'},
   'compte.reactivation':        {cat:'compte',lbl:'Accès rétabli'},
+  'resol.creation':             {cat:'resol', lbl:'Résolution créée'},
+  'resol.modification':         {cat:'resol', lbl:'Résolution modifiée'},
+  'resol.avancement':           {cat:'resol', lbl:'Avancement mis à jour'},
+  'resol.suppression':          {cat:'resol', lbl:'Résolution supprimée'},
+  'resol.rapport':              {cat:'resol', lbl:'Rapport de suivi édité'},
+  'config.direction':           {cat:'config',lbl:'Direction créée ou modifiée'},
+  'config.direction_suppression':{cat:'config',lbl:'Direction supprimée'},
   'config.filiale':             {cat:'config',lbl:'Filiale créée ou modifiée'},
   'config.filiale_suppression': {cat:'config',lbl:'Filiale supprimée'},
   'config.pret':                {cat:'config',lbl:'Paramètres de prêt modifiés'},
@@ -10290,6 +11231,7 @@ function nav(v){
   if(v==='dash')renderDash();
   if(v==='admin')renderAdmin();
   if(v==='credit')renderCredit();
+  if(v==='resol')renderResol();
   if(v==='classif')renderClassif();
   if(v==='epargne'){renderOcc();runSim();}
   if(v==='portef'){portSub(curSub);}
