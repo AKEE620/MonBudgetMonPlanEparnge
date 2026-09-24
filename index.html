@@ -5036,7 +5036,7 @@ function drawStocksCharts(ms,totMontant,glob){
 }
 
 /* ============ PORTEFEUILLE — OBLIGATIONS ============ */
-function freshBond(){return {id:rid(),issuer:'',montant:0,tauxFacial:0,years:5,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],decote:0,decoteOn:false,risk:'',_hidden:false,_open:false,_dirty:true};}
+function freshBond(){return {id:rid(),issuer:'',souscripteur:'',montant:0,tauxFacial:0,years:5,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],decote:0,decoteOn:false,risk:'',_hidden:false,_open:false,_dirty:true};}
 
 /* helpers dates */
 function addMonths(d,n){const x=new Date(d);const day=x.getDate();x.setMonth(x.getMonth()+n);if(x.getDate()<day)x.setDate(0);return x;}
@@ -5179,6 +5179,9 @@ function renderBonds(){
       </div>
       <div class="stock-body">
         <div class="fgrid">
+          <div class="fg" style="grid-column:span 2"><label>Nom et prénoms du souscripteur</label><input type="text" value="${escapeHtml(b.souscripteur||'')}" placeholder="Ex. KOLOU Komi Akée" oninput="editBond(${i},'souscripteur',null,this.value)" title="Repris en tête de l'échéancier PDF"></div>
+        </div>
+        <div class="fgrid" style="margin-top:13px">
           <div class="fg mono"><label>Montant investi</label><input type="number" min="0" value="${b.montant||''}" placeholder="0" oninput="editBond(${i},'montant',null,this.value)"></div>
           <div class="fg mono"><label>Taux facial (% annuel)</label><input type="number" step="0.01" min="0" value="${b.tauxFacial||''}" placeholder="0" oninput="editBond(${i},'tauxFacial',null,this.value)"></div>
           <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${b.years||''}" placeholder="5" oninput="editBond(${i},'years',null,this.value)"></div>
@@ -5292,6 +5295,7 @@ function refreshBondCard(i,rebuiltField){
 function editBond(i,field,key,val){
   const b=state.portfolio.bonds[i];if(!b)return;
   if(field==='issuer')b.issuer=val;
+  else if(field==='souscripteur')b.souscripteur=val;   // nom et prénoms du souscripteur
   else if(field==='risk')b.risk=val;
   else if(field==='decoteOn')b.decoteOn=!!+val;
   else if(field==='decote')b.decote=Math.min(100,Math.max(0,+val||0));
@@ -9280,7 +9284,7 @@ function drawBondsCharts(ms,totM){
 }
 
 /* ============ PORTEFEUILLE — MONÉTAIRE (OAT / BAT) ============ */
-function freshMoney(){return {id:rid(),kind:'OAT',issuer:'',montant:0,tauxFacial:0,years:3,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],
+function freshMoney(){return {id:rid(),kind:'OAT',issuer:'',souscripteur:'',montant:0,tauxFacial:0,years:3,freq:'1',defer:0,mode:'infine',dateVal:'',dateEch:'',custom:[],
   batDays:364,lastCoupon:'',base:'360',decote:0,decoteOn:false,risk:'',_hidden:false,_open:false,_dirty:true};}
 function addMoney(){if(session.role==='guest'){toast('Réservé aux comptes');return}state.portfolio.money.push(freshMoney());saveData();renderMoney();toast('Titre ajouté');}
 function accruedCoupon(t){
@@ -9418,7 +9422,10 @@ function renderMoney(){
         <button class="hide-title-btn" onclick="toggleMoneyHide(${i})">Masquer</button>
       </div>
       <div class="stock-body">
-        ${charBlock}
+        <div class="fgrid">
+          <div class="fg" style="grid-column:span 2"><label>Nom et prénoms du souscripteur</label><input type="text" value="${escapeHtml(t.souscripteur||'')}" placeholder="Ex. KOLOU Komi Akée" oninput="editMoney(${i},'souscripteur',null,this.value)" title="Repris en tête de l'échéancier PDF"></div>
+        </div>
+        <div style="margin-top:13px">${charBlock}</div>
         ${ccBlock}
         <div class="tri-row">
           <div class="tri-box tri"><div class="tl">Rendement global (période)</div><div class="tv">${m.rendGlobal.toFixed(2)}%</div></div>
@@ -9483,7 +9490,7 @@ function refreshMoneyCard(i,rebuiltField){
 }
 function editMoney(i,field,key,val){
   const t=state.portfolio.money[i];if(!t)return;
-  if(['issuer','kind','freq','mode','dateVal','dateEch','lastCoupon','base','risk'].includes(field))t[field]=val;
+  if(['issuer','souscripteur','kind','freq','mode','dateVal','dateEch','lastCoupon','base','risk'].includes(field))t[field]=val;
   else if(field==='decoteOn')t.decoteOn=!!+val;
   else if(field==='decote')t.decote=Math.min(100,Math.max(0,+val||0));
   else if(field==='custom'){t.custom[key]=(val===''?0:+val);t._customValid=false;}
@@ -10684,6 +10691,48 @@ function pdfHeader(doc,title,subtitle){
 // Bandeau « Opportunité d'investissement » des échéanciers : cadre à remplissage clair,
 // bordure noire, texte en gras noir foncé (modèle du papier type). Si une entité est
 // choisie par un utilisateur habilité, son logo est centré au-dessus du bandeau.
+/* Cartouche « Nom et prénoms du souscripteur », placé avant le tableau des
+   caractéristiques, sur le modèle du tableau d'amortissement de prêt.
+   Renvoie l'ordonnée sous le cartouche (ou l'ordonnée reçue si aucun nom). */
+function pdfSouscripteur(doc,y,nom){
+  nom=(nom||'').trim();
+  if(!nom)return y;
+  const W=doc.internal.pageSize.getWidth();const pf=pdfPrefs();
+  runAutoTable(doc,{startY:y,theme:'grid',margin:{left:40,right:40},
+    body:[[{content:'Nom et prénoms du souscripteur :',styles:{fontStyle:'bold',fontSize:pf.fontSize+1}},
+           {content:nom,styles:{fontStyle:'bolditalic'}}]],
+    styles:tableStyle({cellPadding:8}),columnStyles:{0:{cellWidth:(W-80)*0.56}}});
+  return doc.lastAutoTable.finalY;
+}
+/* Bloc de signature en fin de document : « Pour <filiale de l'utilisateur> »,
+   puis un espace et un trait réservés à la signature et au cachet.
+   Le libellé suit la filiale de rattachement ; sans filiale, seul l'espace
+   de signature est tracé. */
+function pdfSignatureBlock(doc,y,ent,botMargin){
+  const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();
+  const pf=pdfPrefs();const F=pf.font;
+  const need=104;                                  // hauteur réservée au bloc
+  if(y+need>Hp-(botMargin||40)){doc.addPage();y=60;}
+  const x=W-40;                                    // bloc aligné à droite
+  // lieu et date, d'après la ville paramétrée pour la filiale
+  let ville='';
+  try{ville=(normLoanParams((ent&&entById(ent.id))?entById(ent.id).loan:null).city)||'';}catch(e){}
+  doc.setFont(F,'normal');doc.setFontSize(pf.fontSize);doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe((ville?'Fait à '+ville+', le ':'Le ')+new Date().toLocaleDateString('fr-FR')),x,y,{align:'right'});
+  y+=22;
+  if(ent){
+    doc.setFont(F,'bold');doc.setFontSize(pf.fontSize+1);
+    doc.text(pdfSafe('Pour '+(ent.name||ent.short||'')),x,y,{align:'right'});
+    y+=12;
+  }
+  y+=44;                                           // espace laissé à la signature
+  doc.setDrawColor(...PDF_LINE);doc.setLineWidth(0.6);
+  doc.line(x-190,y,x,y);
+  y+=13;
+  doc.setFont(F,'italic');doc.setFontSize(Math.max(7.5,pf.fontSize-2));doc.setTextColor(110,120,130);
+  doc.text(pdfSafe('Signature et cachet'),x,y,{align:'right'});
+  return y;
+}
 function pdfOppHeader(doc,nature,ent){
   const W=doc.internal.pageSize.getWidth();
   const pf=pdfPrefs();const F=pf.font;
@@ -10776,6 +10825,7 @@ function exportAmortPDF(type,i){
 
   // 1) Tableau des CARACTÉRISTIQUES (nature par défaut ; durations + rdt annuel optionnels)
   let ty=headEnd+24;
+  ty=pdfSouscripteur(doc,ty,b.souscripteur)+ (b.souscripteur?14:0);   // cartouche du souscripteur
   ty=pdfCurrencyNote(doc,ty);   // note devise en haut
   ty+=18;
   doc.setFont(pf.font,'bold');doc.setFontSize(12);doc.setTextColor(...PDF_INK);
@@ -10835,6 +10885,7 @@ function exportAmortPDF(type,i){
     headStyles:headStyle([114,22,46]),   // rouge bordeaux
     columnStyles:{0:{cellWidth:42},1:{cellWidth:70}},
     margin:{left:40,right:40,bottom:botMargin}});
+  let lastY=doc.lastAutoTable.finalY;
   // 4) Analyse des risques associés à l'opportunité (optionnelle, saisie sous le tableau d'amortissement)
   const riskTxt=(b.risk||'').trim();
   if(riskTxt){
@@ -10849,7 +10900,10 @@ function exportAmortPDF(type,i){
       if(ry>Hp-(botMargin+24)){doc.addPage();ry=60;doc.setFont(pf.font,'normal');doc.setFontSize(pf.fontSize);}
       doc.text(ln,40,ry);ry+=lh;
     });
+    lastY=ry;
   }
+  // 5) Espace de signature, après le tableau (et après l'analyse des risques)
+  pdfSignatureBlock(doc,lastY+30,ent,botMargin);
   if(ent)stampEntityFooters(doc,ent);else stampFooters(doc);
   doc.save('Echeancier_'+((b.issuer||'titre').replace(/[^a-zA-Z0-9]/g,'_'))+'.pdf');
   toast('Échéancier PDF téléchargé');
@@ -11067,7 +11121,7 @@ function exportAmort(type,i){
   tc.font={name:'Arial',bold:true,size:16,color:{argb:'FFFFFFFF'}};tc.fill={type:'pattern',pattern:'solid',fgColor:{argb:INK}};tc.alignment={vertical:'middle',indent:1};ws.getRow(1).height=30;
   ws.mergeCells('A2:G2');const sc=ws.getCell('A2');
   const modeLabel={infine:'In fine',constant:'Amortissement constant',annuite:'Annuités constantes',custom:'Personnalisé'};
-  sc.value='Montant : '+(+b.montant||0).toLocaleString('fr-FR')+' '+cur+'  ·  Taux facial : '+(+b.tauxFacial||0)+'%  ·  Durée : '+(b.years||'—')+' ans  ·  Mode : '+(modeLabel[b.mode]||b.mode)+'  ·  Devise : '+cur;
+  sc.value=(b.souscripteur?'Souscripteur : '+b.souscripteur+'  ·  ':'')+'Montant : '+(+b.montant||0).toLocaleString('fr-FR')+' '+cur+'  ·  Taux facial : '+(+b.tauxFacial||0)+'%  ·  Durée : '+(b.years||'—')+' ans  ·  Mode : '+(modeLabel[b.mode]||b.mode)+'  ·  Devise : '+cur;
   sc.font={name:'Arial',size:10,italic:true,color:{argb:'FFFFFFFF'}};sc.fill={type:'pattern',pattern:'solid',fgColor:{argb:VIOLET}};sc.alignment={vertical:'middle',indent:1};ws.getRow(2).height=20;
   const head=['N°','Échéance','Capital dû (début)','Intérêt','Amortissement','Annuité','Capital dû (fin)'];
   const hr=ws.getRow(4);head.forEach((h,c)=>{const cell=hr.getCell(c+1);cell.value=h;cell.font={name:'Arial',bold:true,size:10,color:{argb:INK}};cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:PAPER}};cell.border=border;cell.alignment={horizontal:c<2?'left':'right'}});
