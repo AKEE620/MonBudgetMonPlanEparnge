@@ -532,6 +532,14 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .loan-exports{margin-top:10px;display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap}
 /* ---- Lot 2 : aperçus des tableaux de prêt ---- */
 .le-grp{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.opp-set{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#faf8f2;border:1px solid var(--line-2);border-radius:10px;padding:9px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink-soft)}
+.opp-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.opp-set label{display:flex;align-items:center;gap:6px}
+.opp-set input[type=number]{width:70px;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-family:'Outfit';font-size:12.5px}
+.opp-set select{border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;font-family:'Outfit';font-size:12.5px;background:#fff}
+.opp-set .opp-chk{cursor:pointer}
+.opp-set .opp-chk input{width:16px;height:16px;accent-color:#1f9d6b}
+.opp-prev-host:empty{display:none}
 .le-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-right:2px}
 .loan-preview{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}
 .lp-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
@@ -962,7 +970,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <div class="auth-sep">ou</div>
     <button class="btn-ghost" onclick="enterGuest()">Continuer en visiteur (fonctions limitées)</button>
     <p class="guest-note">En mode visiteur, certaines fonctions sont limitées.</p>
-    <div class="auth-foot">THE PACT WITH SUCCESS</div>
+    <div class="auth-foot"><b>THE PACT WITH SUCCESS</b></div>
   </div>
 </div>
 
@@ -1251,7 +1259,7 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     <section class="view" id="v-portef">
 <div class="page-head">
   <div class="kicker" style="color:red;font-weight:bold;">
-    Investir · Suivi de portefeuille
+    Investir - Suivi de portefeuille
   </div>
 
   <h2 style="color:white;font-weight:bold;">
@@ -1640,10 +1648,11 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
     </section>
   </main>
 
-  <div style="color:white;font-weight:bold;font-size:22px;"class="foot">
-    <b>akeekolou@gmail.com</b>
-    <p class="disclaimer">Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.</p>
-  </div>
+<div style="font-weight:bold;font-size:22px;" class="foot">
+    <b style="color:#ca1736;">THE PACT WITH SUCCESS</b>
+    <p class="disclaimer">
+        Cet outil fournit des informations pédagogiques et ne remplace pas un conseiller financier agréé.
+    </p>
 </div>
 
 <div id="promptModal" class="modal">
@@ -5149,7 +5158,7 @@ function renderBonds(){
       <div class="stock-head">
         <span class="grip" title="Glisser pour réorganiser">⠿</span>
         <span class="sname-static">${escapeHtml(b.issuer)||'Obligation sans émetteur'}</span>
-        <span class="sbadge">${money(+b.montant||0)}</span>
+        <span class="sbadge">${moneyT(+b.montant||0)}</span>
         <button class="hide-title-btn" onclick="toggleBondHide(${i})">Démasquer</button>
       </div>
     </div>`;}
@@ -5174,7 +5183,7 @@ function renderBonds(){
       <div class="stock-head">
         <span class="grip" title="Glisser pour réorganiser">⠿</span>
         <input class="sname" value="${escapeHtml(b.issuer)}" placeholder="Émetteur (ex. État du Sénégal — OAT 5 ans)" oninput="editBond(${i},'issuer',null,this.value)">
-        <span class="sbadge">${money(m.montant)}</span>
+        <span class="sbadge">${moneyT(m.montant)}</span>
         <button class="hide-title-btn" onclick="toggleBondHide(${i})">Masquer</button>
       </div>
       <div class="stock-body">
@@ -5182,7 +5191,7 @@ function renderBonds(){
           <div class="fg" style="grid-column:span 2"><label>Nom et prénoms du souscripteur</label><input type="text" value="${escapeHtml(b.souscripteur||'')}" placeholder="Ex. KOLOU Komi Akée" oninput="editBond(${i},'souscripteur',null,this.value)" title="Repris en tête de l'échéancier PDF"></div>
         </div>
         <div class="fgrid" style="margin-top:13px">
-          <div class="fg mono"><label>Montant investi</label><input type="number" min="0" value="${b.montant||''}" placeholder="0" oninput="editBond(${i},'montant',null,this.value)"></div>
+          <div class="fg mono"><label>Montant investi</label><input type="text" inputmode="numeric" value="${moneyInputFmt(b.montant||'')}" placeholder="0" oninput="oppMoneyInput(this,'bond',${i},'montant')"></div>
           <div class="fg mono"><label>Taux facial (% annuel)</label><input type="number" step="0.01" min="0" value="${b.tauxFacial||''}" placeholder="0" oninput="editBond(${i},'tauxFacial',null,this.value)"></div>
           <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${b.years||''}" placeholder="5" oninput="editBond(${i},'years',null,this.value)"></div>
           <div class="fg"><label>Périodicité coupon</label>
@@ -5197,7 +5206,7 @@ function renderBonds(){
         <div class="fgrid" style="margin-top:13px">
           <div class="fg"><label>Date de valeur</label><input type="date" value="${b.dateVal||''}" oninput="editBond(${i},'dateVal',null,this.value)"></div>
           <div class="fg"><label>Date d'échéance</label><input type="date" value="${b.dateEch||''}" oninput="editBond(${i},'dateEch',null,this.value)"></div>
-          <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(b.years,b.defer,+b.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${b.defer||0}" oninput="editBond(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés). Borné pour laisser au moins 1 échéance d'amortissement."></div>
+          <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(b.years,b.defer,+b.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${b.defer||0}" oninput="editBond(${i},'defer',null,this.value)" onchange="clampDefer('bond',${i},this)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés). Borné pour laisser au moins 1 échéance d'amortissement."></div>
           <div class="fg"><label>Mode de remboursement</label>
             <select onchange="editBond(${i},'mode',null,this.value)">
               <option value="infine" ${b.mode==='infine'?'selected':''}>In fine</option>
@@ -5210,7 +5219,7 @@ function renderBonds(){
         <div class="fgrid" style="margin-top:13px">
           <div class="fg mono"><label>Décote (%)</label><input type="number" step="0.01" min="0" max="100" value="${b.decote||''}" placeholder="0" oninput="editBond(${i},'decote',null,this.value)"></div>
           <div class="fg"><label>Décote dans l'échéancier</label><label style="display:flex;align-items:center;gap:8px;min-height:36px;cursor:pointer;font-size:13px"><input type="checkbox" ${b.decoteOn?'checked':''} onchange="editBond(${i},'decoteOn',null,this.checked?1:0)"><span>Inclure dans les caractéristiques (PDF)</span></label></div>
-          <div class="fg mono"><label>Montant à payer</label><input class="ro" readonly title="Montant nominal × (1 − taux de décote). Sans impact sur le tableau d'amortissement." value="${money((+b.montant||0)*(1-Math.min(100,Math.max(0,+b.decote||0))/100))}"></div>
+          <div class="fg mono"><label>Montant à payer</label><input class="ro" readonly title="Montant nominal × (1 − taux de décote). Sans impact sur le tableau d'amortissement." value="${moneyT((+b.montant||0)*(1-Math.min(100,Math.max(0,+b.decote||0))/100))}"></div>
         </div>
         ${customBlock}
         <div class="tri-row">
@@ -5219,14 +5228,14 @@ function renderBonds(){
           <div class="tri-box dur"><div class="tl">Duration (Macaulay)</div><div class="tv">${m.durMac.toFixed(2)} an${m.durMac>1?'s':''}</div></div>
         </div>
         <div class="tri-row" style="margin-top:10px">
-          <div class="tri-box cpn"><div class="tl">Intérêts totaux perçus</div><div class="tv">${money(m.totalInterest)}</div></div>
+          <div class="tri-box cpn"><div class="tl">Intérêts totaux perçus</div><div class="tv">${moneyT(m.totalInterest)}</div></div>
           <div class="tri-box dur"><div class="tl">Duration simple</div><div class="tv">${m.durSimple.toFixed(2)} an${m.durSimple>1?'s':''}</div></div>
           <div class="tri-box tri"><div class="tl">Nb d'échéances</div><div class="tv">${m.nTot}${m.nDef?' (dont '+m.nDef+' diff.)':''}</div></div>
         </div>
         ${(b.mode==='custom'&&!b._customValid)
           ? `<div class="amort-locked">Validez la répartition personnalisée (somme = 100%) pour afficher le tableau d'amortissement.</div>`
           : `<div class="amort-toggle"><button onclick="toggleBondAmort(${i})">${b._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>
-        ${b._open?amortTableHTML(amortTable(b))+riskBoxHTML('bond',i,b)+`<div style="margin-top:10px;text-align:right;display:flex;gap:8px;justify-content:flex-end"><button class="icon-btn" onclick="exportAmort('bond',${i})">Échéancier (Excel)</button><button class="icon-btn" onclick="exportAmortPDF('bond',${i})">Échéancier (PDF)</button></div>`:''}`}
+        ${b._open?amortTableHTML(amortTable(b))+riskBoxHTML('bond',i,b)+oppExportBar('bond',i,b.id):''}`}
       </div>
       <div class="stock-foot">
         <button class="del-btn" onclick="delBond(${i})">Supprimer</button>
@@ -5252,14 +5261,14 @@ function refreshBondCard(i,rebuiltField){
   if(!b||!card)return;
   card.classList.add('dirty');
   const m=bondMetrics(b);
-  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
+  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=moneyT(m.montant);
   const payInp=card.querySelector('input.ro');
-  if(payInp)payInp.value=money((+b.montant||0)*(1-Math.min(100,Math.max(0,+b.decote||0))/100));
+  if(payInp)payInp.value=moneyT((+b.montant||0)*(1-Math.min(100,Math.max(0,+b.decote||0))/100));
   const boxes=card.querySelectorAll('.tri-box .tv');
   if(boxes[0])boxes[0].textContent=m.rendGlobal.toFixed(2)+'%';
   if(boxes[1])boxes[1].textContent=m.rendAnnuel.toFixed(2)+'%';
   if(boxes[2])boxes[2].textContent=m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':'');
-  if(boxes[3])boxes[3].textContent=money(m.totalInterest);
+  if(boxes[3])boxes[3].textContent=moneyT(m.totalInterest);
   if(boxes[4])boxes[4].textContent=m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':'');
   if(boxes[5])boxes[5].textContent=m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':'');
   // label différé (conversion périodes)
@@ -5307,7 +5316,8 @@ function editBond(i,field,key,val){
   if(field==='defer'||field==='years'||field==='freq'||field==='mode'){
     b._customValid=false; // toute modif de structure annule la validation custom
     const di=deferInfo(b.years,b.defer,+b.freq||1);
-    if((+b.defer||0)>di.maxDefPeriods){b.defer=di.maxDefPeriods;toast('Différé ramené au max : '+b.defer+' '+di.freqLabel+' (au moins une échéance de remboursement)');}
+    // le bornage du différé attend la validation du champ (voir clampDefer)
+    if(field!=='defer'&&(+b.defer||0)>di.maxDefPeriods){b.defer=di.maxDefPeriods;toast('Différé ramené au max : '+b.defer+' '+di.freqLabel+' (au moins une échéance de remboursement)');}
   }
   b._dirty=true;saveData();
   // mode/freq changent la STRUCTURE des champs -> re-render complet (le champ édité n'est pas un input texte continu)
@@ -5317,8 +5327,7 @@ function editBond(i,field,key,val){
     // si l'échéancier est ouvert, il faut le régénérer -> renderBonds mais on rend le focus ensuite
     if(b._open){const active=document.activeElement;const tag=active&&active.tagName;const cls=active&&active.className;renderBonds();
       // tentative de refocus sur le même type de champ
-      const card=document.querySelector('.bond-card[data-bidx="'+i+'"]');
-      if(card){const sel=field==='years'?'input[oninput*="years"]':'input[oninput*="defer"]';const el=card.querySelector(sel);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
+      oppRefocus('.bond-card[data-bidx="'+i+'"]',field);
       return;
     }
     refreshBondCard(i,field);return;
@@ -5938,7 +5947,7 @@ function renderLoans(){
           <div class="fg mono"><label>Taxe applicable</label><input class="ro loan-taxlbl" readonly tabindex="-1" value="${escapeHtml(loanTaxLabel(L))}"></div>
         </div>
         <div class="fgrid" style="margin-top:13px">
-          <div class="fg mono"><label>Montant du prêt (${escapeHtml(C)})</label><input type="number" min="0" value="${L.montant||''}" placeholder="0" oninput="editLoan(${i},'montant',null,this.value)"></div>
+          <div class="fg mono"><label>Montant du prêt (${escapeHtml(C)})</label><input type="text" inputmode="numeric" value="${moneyInputFmt(L.montant||'')}" placeholder="0" oninput="oppMoneyInput(this,'loan',${i},'montant')"></div>
           <div class="fg mono"><label>Taux d'intérêt HT (% annuel)${locked?' — fixé par la filiale':''}</label><input type="number" step="0.01" min="0" value="${loanRate(L,p)||''}" placeholder="0" ${locked?'readonly class="ro" title="Taux imposé par la filiale"':''} oninput="editLoan(${i},'taux',null,this.value)"></div>
           <div class="fg mono"><label class="loan-pratelbl">${loanRateLabel(s.f)}</label><input class="ro loan-prate" readonly tabindex="-1" title="Taux annuel / ${s.f} — pour vérification" value="${loanPct(loanRate(L,p)/s.f)}"></div>
           <div class="fg"><label>Périodicité</label>
@@ -7902,7 +7911,7 @@ function creditFormHTML(){
     <div class="sub-label">Caractéristiques du crédit</div>
     <div class="fgrid">
       <div class="fg"><label>Référence du crédit</label><input id="crfRef" type="text" value="${escapeHtml(f.ref||'')}" placeholder="Ex. CRD-2026-0142" oninput="creditFormSet('ref',this.value)"></div>
-      <div class="fg mono"><label>Montant (${escapeHtml(C)})</label><input id="crfMontant" type="number" min="0" value="${f.montant||''}" oninput="creditFormSet('montant',this.value)"></div>
+      <div class="fg mono"><label>Montant (${escapeHtml(C)})</label><input id="crfMontant" type="text" inputmode="numeric" value="${moneyInputFmt(f.montant||'')}" oninput="oppMoneyInput(this,'credit',0,'montant')"></div>
       <div class="fg"><label>Date d'octroi</label><input id="crfDate" type="date" value="${f.date_octroi||''}" oninput="creditFormSet('date_octroi',this.value)"></div>
       <div class="fg mono"><label>Taux d'intérêt HT (% annuel)</label><input id="crfTaux" type="number" step="0.01" min="0" value="${f.taux||''}" oninput="creditFormSet('taux',this.value)"></div>
       <div class="fg mono"><label>TAF (% des intérêts)</label><input id="crfTaf" type="number" step="0.01" min="0" value="${f.taf||''}" oninput="creditFormSet('taf',this.value)" title="Taxe sur les activités financières, appliquée aux intérêts"></div>
@@ -9254,7 +9263,7 @@ function renderBondsRecap(){
   const modeLabel={infine:'In fine',constant:'Amort. constant',annuite:'Annuités const.',custom:'Personnalisé'};
   let rows=ms.map(({b,m})=>`<tr>
     <td>${escapeHtml(b.issuer||'—')}</td>
-    <td>${money(m.montant)}</td>
+    <td>${moneyT(m.montant)}</td>
     <td>${totM>0?(m.montant/totM*100).toFixed(1):0}%</td>
     <td>${(+b.tauxFacial||0).toFixed(2)}%</td>
     <td>${(+b.years||0)} an${(+b.years>1)?'s':''}</td>
@@ -9265,7 +9274,7 @@ function renderBondsRecap(){
   card.querySelector('table').innerHTML=`
     <thead><tr><th>Émetteur</th><th>Montant</th><th>Poids</th><th>Taux facial</th><th>Durée</th><th>Rdt global</th><th>Rdt annuel</th><th>Duration (Mac.)</th></tr></thead>
     <tbody>${rows}
-    <tr class="tot"><td>Compartiment obligataire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td>
+    <tr class="tot"><td>Compartiment obligataire</td><td>${moneyT(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td>
       <td class="pos">${c.rdtPondMontant.toFixed(2)}%</td><td class="pos">${c.rdtAnnuelParDureeMontant.toFixed(2)}%</td><td>${c.durMacPondM.toFixed(2)}</td></tr>
     </tbody>`;
   drawBondsCharts(ms,totM);
@@ -9335,7 +9344,7 @@ function renderMoney(){
       <div class="stock-head">
         <span class="grip" title="Glisser pour réorganiser">⠿</span>
         <span class="sname-static">${t.kind==='BAT'?'BAT':'OAT'} — ${escapeHtml(t.issuer)||'sans émetteur'}</span>
-        <span class="sbadge">${money(+t.montant||0)}</span>
+        <span class="sbadge">${moneyT(+t.montant||0)}</span>
         <button class="hide-title-btn" onclick="toggleMoneyHide(${i})">Démasquer</button>
       </div>
     </div>`;}
@@ -9357,7 +9366,7 @@ function renderMoney(){
     let charBlock;
     if(isBAT){
       charBlock=`<div class="fgrid">
-        <div class="fg mono"><label>Valeur nominale</label><input type="number" min="0" value="${t.montant||''}" placeholder="0" oninput="editMoney(${i},'montant',null,this.value)"></div>
+        <div class="fg mono"><label>Valeur nominale</label><input type="text" inputmode="numeric" value="${moneyInputFmt(t.montant||'')}" placeholder="0" oninput="oppMoneyInput(this,'money',${i},'montant')"></div>
         <div class="fg mono"><label>Taux (% annuel)</label><input type="number" step="0.01" min="0" value="${t.tauxFacial||''}" placeholder="0" oninput="editMoney(${i},'tauxFacial',null,this.value)"></div>
         <div class="fg mono"><label>Durée (jours)</label><input type="number" min="1" value="${t.batDays||''}" placeholder="364" oninput="editMoney(${i},'batDays',null,this.value)"></div>
         <div class="fg"><label>Base de calcul</label>
@@ -9369,12 +9378,12 @@ function renderMoney(){
       </div>
       <div class="fgrid" style="margin-top:13px">
         <div class="fg"><label>Date de valeur</label><input type="date" value="${t.dateVal||''}" oninput="editMoney(${i},'dateVal',null,this.value)"></div>
-        <div class="fg"><label>Intérêt précompté</label><input class="ro" value="${money(m.interest)}" readonly></div>
-        <div class="fg"><label>Prix d'acquisition</label><input class="ro" value="${money(m.price)}" readonly></div>
+        <div class="fg"><label>Intérêt précompté</label><input class="ro" value="${moneyT(m.interest)}" readonly></div>
+        <div class="fg"><label>Prix d'acquisition</label><input class="ro" value="${moneyT(m.price)}" readonly></div>
       </div>`;
     } else {
       charBlock=`<div class="fgrid">
-        <div class="fg mono"><label>Montant investi</label><input type="number" min="0" value="${t.montant||''}" placeholder="0" oninput="editMoney(${i},'montant',null,this.value)"></div>
+        <div class="fg mono"><label>Montant investi</label><input type="text" inputmode="numeric" value="${moneyInputFmt(t.montant||'')}" placeholder="0" oninput="oppMoneyInput(this,'money',${i},'montant')"></div>
         <div class="fg mono"><label>Taux facial (% annuel)</label><input type="number" step="0.01" min="0" value="${t.tauxFacial||''}" placeholder="0" oninput="editMoney(${i},'tauxFacial',null,this.value)"></div>
         <div class="fg mono"><label>Durée (années)</label><input type="number" step="0.5" min="0.5" value="${t.years||''}" placeholder="3" oninput="editMoney(${i},'years',null,this.value)"></div>
         <div class="fg"><label>Périodicité coupon</label>
@@ -9385,7 +9394,7 @@ function renderMoney(){
       <div class="fgrid" style="margin-top:13px">
         <div class="fg"><label>Date de valeur</label><input type="date" value="${t.dateVal||''}" oninput="editMoney(${i},'dateVal',null,this.value)"></div>
         <div class="fg"><label>Date d'échéance</label><input type="date" value="${t.dateEch||''}" oninput="editMoney(${i},'dateEch',null,this.value)"></div>
-        <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(t.years,t.defer,+t.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${t.defer||0}" oninput="editMoney(${i},'defer',null,this.value)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés)."></div>
+        <div class="fg mono"><label>Différé — ${(()=>{const di=deferInfo(t.years,t.defer,+t.freq||1);return di.nDef+' '+di.freqLabel+' · max '+di.maxDefPeriods;})()}</label><input type="number" step="1" min="0" value="${t.defer||0}" oninput="editMoney(${i},'defer',null,this.value)" onchange="clampDefer('money',${i},this)" title="Nombre de périodes sans remboursement du capital (coupons quand même payés)."></div>
         <div class="fg"><label>Mode de remboursement</label>
           <select onchange="editMoney(${i},'mode',null,this.value)">
             <option value="infine" ${t.mode==='infine'?'selected':''}>In fine</option><option value="constant" ${t.mode==='constant'?'selected':''}>Amort. constant</option>
@@ -9395,7 +9404,7 @@ function renderMoney(){
       <div class="fgrid" style="margin-top:13px">
         <div class="fg mono"><label>Décote (%)</label><input type="number" step="0.01" min="0" max="100" value="${t.decote||''}" placeholder="0" oninput="editMoney(${i},'decote',null,this.value)"></div>
         <div class="fg"><label>Décote dans l'échéancier</label><label style="display:flex;align-items:center;gap:8px;min-height:36px;cursor:pointer;font-size:13px"><input type="checkbox" ${t.decoteOn?'checked':''} onchange="editMoney(${i},'decoteOn',null,this.checked?1:0)"><span>Inclure dans les caractéristiques (PDF)</span></label></div>
-        <div class="fg mono"><label>Montant à payer</label><input class="ro" readonly title="Montant nominal × (1 − taux de décote). Sans impact sur le tableau d'amortissement." value="${money((+t.montant||0)*(1-Math.min(100,Math.max(0,+t.decote||0))/100))}"></div>
+        <div class="fg mono"><label>Montant à payer</label><input class="ro" readonly title="Montant nominal × (1 − taux de décote). Sans impact sur le tableau d'amortissement." value="${moneyT((+t.montant||0)*(1-Math.min(100,Math.max(0,+t.decote||0))/100))}"></div>
       </div>${customBlock}`;
     }
     // bloc coupon couru (commun, surtout utile OAT mais dispo pour les 2)
@@ -9408,7 +9417,7 @@ function renderMoney(){
             <option value="366" ${t.base=='366'?'selected':''}>366</option><option value="EXACT" ${t.base=='EXACT'?'selected':''}>Exact / Exact</option>
           </select></div>
         <div class="fg"><label>Jours courus</label><input class="ro" value="${ac.jours} / ${ac.denom||'—'}" readonly></div>
-        <div class="fg"><label>Coupon couru</label><input class="ro" value="${money(ac.cc)} (${ac.pct.toFixed(3)}%)" readonly></div>
+        <div class="fg"><label>Coupon couru</label><input class="ro" value="${moneyT(ac.cc)} (${ac.pct.toFixed(3)}%)" readonly></div>
       </div>`;
     return `<div class="stock-card money-card ${t._dirty?'dirty':''}" data-midx="${i}" draggable="true">
       <div class="stock-head">
@@ -9418,7 +9427,7 @@ function renderMoney(){
           <option value="BAT" ${t.kind==='BAT'?'selected':''}>BAT</option>
         </select>
         <input class="sname" value="${escapeHtml(t.issuer)}" placeholder="Émetteur (ex. Trésor du Sénégal)" oninput="editMoney(${i},'issuer',null,this.value)">
-        <span class="sbadge">${money(m.montant)}</span>
+        <span class="sbadge">${moneyT(m.montant)}</span>
         <button class="hide-title-btn" onclick="toggleMoneyHide(${i})">Masquer</button>
       </div>
       <div class="stock-body">
@@ -9433,13 +9442,13 @@ function renderMoney(){
           <div class="tri-box dur"><div class="tl">${isBAT?'Durée':'Duration (Macaulay)'}</div><div class="tv">${isBAT?((m.years*12).toFixed(1)+' mois'):(m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':''))}</div></div>
         </div>
         <div class="tri-row" style="margin-top:10px">
-          <div class="tri-box cpn"><div class="tl">${isBAT?'Intérêt précompté':'Intérêts totaux'}</div><div class="tv">${money(m.totalInterest)}</div></div>
-          <div class="tri-box dur"><div class="tl">${isBAT?'Prix d\'acquisition':'Duration simple'}</div><div class="tv">${isBAT?money(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''))}</div></div>
-          <div class="tri-box tri"><div class="tl">${isBAT?'Valeur remboursée':'Nb d\'échéances'}</div><div class="tv">${isBAT?money(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
+          <div class="tri-box cpn"><div class="tl">${isBAT?'Intérêt précompté':'Intérêts totaux'}</div><div class="tv">${moneyT(m.totalInterest)}</div></div>
+          <div class="tri-box dur"><div class="tl">${isBAT?'Prix d\'acquisition':'Duration simple'}</div><div class="tv">${isBAT?moneyT(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''))}</div></div>
+          <div class="tri-box tri"><div class="tl">${isBAT?'Valeur remboursée':'Nb d\'échéances'}</div><div class="tv">${isBAT?moneyT(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''))}</div></div>
         </div>
         ${!isBAT?((t.mode==='custom'&&!t._customValid)
           ? `<div class="amort-locked">Validez la répartition personnalisée (somme = 100%) pour afficher le tableau d'amortissement.</div>`
-          : `<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+riskBoxHTML('money',i,t)+`<div style="margin-top:10px;text-align:right;display:flex;gap:8px;justify-content:flex-end"><button class="icon-btn" onclick="exportAmort('money',${i})">Échéancier (Excel)</button><button class="icon-btn" onclick="exportAmortPDF('money',${i})">Échéancier (PDF)</button></div>`:''}`):''}
+          : `<div class="amort-toggle"><button onclick="toggleMoneyAmort(${i})">${t._open?'▲ Masquer le tableau d\'amortissement':'▼ Voir le tableau d\'amortissement'}</button></div>${t._open?amortTableHTML(amortTable(t))+riskBoxHTML('money',i,t)+oppExportBar('money',i,t.id):''}`):''}
       </div>
       <div class="stock-foot">
         <button class="del-btn" onclick="delMoney(${i})">Supprimer</button>
@@ -9456,25 +9465,25 @@ function refreshMoneyCard(i,rebuiltField){
   if(!t||!card)return;
   card.classList.add('dirty');
   const m=moneyMetrics(t),ac=accruedCoupon(t);
-  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=money(m.montant);
+  const badge=card.querySelector('.sbadge');if(badge)badge.textContent=moneyT(m.montant);
   const boxes=card.querySelectorAll('.tri-box .tv');
   const isBAT=t.kind==='BAT';
   if(boxes[0])boxes[0].textContent=m.rendGlobal.toFixed(2)+'%';
   if(boxes[1])boxes[1].textContent=m.rendAnnuel.toFixed(2)+'%';
   if(boxes[2])boxes[2].textContent=isBAT?((m.years*12).toFixed(1)+' mois'):(m.durMac.toFixed(2)+' an'+(m.durMac>1?'s':''));
-  if(boxes[3])boxes[3].textContent=money(m.totalInterest);
-  if(boxes[4])boxes[4].textContent=isBAT?money(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''));
-  if(boxes[5])boxes[5].textContent=isBAT?money(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''));
+  if(boxes[3])boxes[3].textContent=moneyT(m.totalInterest);
+  if(boxes[4])boxes[4].textContent=isBAT?moneyT(m.price):(m.durSimple.toFixed(2)+' an'+(m.durSimple>1?'s':''));
+  if(boxes[5])boxes[5].textContent=isBAT?moneyT(m.totalRecu):(m.nTot+(m.nDef?' (dont '+m.nDef+' diff.)':''));
   // label différé (périodes)
   if(!isBAT){const di0=deferInfo(t.years,t.defer,+t.freq||1);const defInput=card.querySelector('input[oninput*="defer"]');if(defInput){const lab=defInput.parentElement.querySelector('label');if(lab)lab.textContent='Différé — '+di0.nDef+' '+di0.freqLabel+' · max '+di0.maxDefPeriods;}}
   // champs lecture seule : coupon couru, prix BAT, intérêt
   card.querySelectorAll('.fg input.ro').forEach(inp=>{
     const lbl=inp.parentElement.querySelector('label');if(!lbl)return;const L=lbl.textContent;
-    if(L.includes('Coupon couru'))inp.value=money(ac.cc)+' ('+ac.pct.toFixed(3)+'%)';
+    if(L.includes('Coupon couru'))inp.value=moneyT(ac.cc)+' ('+ac.pct.toFixed(3)+'%)';
     else if(L.includes('Jours courus'))inp.value=ac.jours+' / '+(ac.denom||'—');
-    else if(L.includes('Intérêt précompté'))inp.value=money(m.interest||0);
-    else if(L.includes('Montant à payer'))inp.value=money((+t.montant||0)*(1-Math.min(100,Math.max(0,+t.decote||0))/100));
-    else if(L.includes('Prix'))inp.value=money(m.price||0);
+    else if(L.includes('Intérêt précompté'))inp.value=moneyT(m.interest||0);
+    else if(L.includes('Montant à payer'))inp.value=moneyT((+t.montant||0)*(1-Math.min(100,Math.max(0,+t.decote||0))/100));
+    else if(L.includes('Prix'))inp.value=moneyT(m.price||0);
   });
   if(t.kind!=='BAT'&&t.mode==='custom'){
     const freq=+t.freq||1;const di=deferInfo(t.years,t.defer,freq);const nAmort=Math.max(1,di.nTot-di.nDef);
@@ -9501,7 +9510,8 @@ function editMoney(i,field,key,val){
   // bornage différé (OAT seulement, BAT n'a pas de différé)
   if(t.kind!=='BAT'&&(field==='defer'||field==='years'||field==='freq')){
     const di=deferInfo(t.years,t.defer,+t.freq||1);
-    if((+t.defer||0)>di.maxDefPeriods){t.defer=di.maxDefPeriods;toast('Différé ramené au max : '+t.defer+' '+di.freqLabel);}
+    // le bornage du différé attend la validation du champ (voir clampDefer)
+    if(field!=='defer'&&(+t.defer||0)>di.maxDefPeriods){t.defer=di.maxDefPeriods;toast('Différé ramené au max : '+t.defer+' '+di.freqLabel);}
   }
   t._dirty=true;saveData();
   // changements de STRUCTURE de champs -> re-render complet
@@ -9509,8 +9519,7 @@ function editMoney(i,field,key,val){
   // years/defer/base/lastCoupon/dateVal : si l'échéancier est ouvert il faut le régénérer, sinon mise à jour légère
   if((field==='years'||field==='defer')&&t._open){
     renderMoney();
-    const card=document.querySelector('.money-card[data-midx="'+i+'"]');
-    if(card){const sel=field==='years'?'input[oninput*="years"]':'input[oninput*="defer"]';const el=card.querySelector(sel);if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
+    oppRefocus('.money-card[data-midx="'+i+'"]',field);
     return;
   }
   refreshMoneyCard(i,field);
@@ -9546,18 +9555,18 @@ function renderMoneyRecap(){
   const c=moneyConsolidate(list);
   let rows=ms.map(({t,m,ac})=>`<tr>
     <td>${escapeHtml(t.issuer||'—')} <span style="font-size:10px;color:var(--cyan-deep);font-weight:700">${t.kind}</span></td>
-    <td>${money(m.montant)}</td>
+    <td>${moneyT(m.montant)}</td>
     <td>${totM>0?(m.montant/totM*100).toFixed(1):0}%</td>
     <td>${(+t.tauxFacial||0).toFixed(2)}%</td>
     <td>${t.kind==='BAT'?((+t.batDays||0)+' j'):((+t.years||0)+' an'+((+t.years>1)?'s':''))}</td>
-    <td>${money(ac.cc)} <span style="color:var(--muted)">(${ac.pct.toFixed(2)}%)</span></td>
+    <td>${moneyT(ac.cc)} <span style="color:var(--muted)">(${ac.pct.toFixed(2)}%)</span></td>
     <td class="pos">${m.rendGlobal.toFixed(2)}%</td>
     <td class="pos">${m.rendAnnuel.toFixed(2)}%</td>
   </tr>`).join('');
   card.querySelector('table').innerHTML=`
     <thead><tr><th>Titre</th><th>Montant</th><th>Poids</th><th>Taux</th><th>Durée</th><th>Coupon couru</th><th>Rdt global</th><th>Rdt annuel</th></tr></thead>
     <tbody>${rows}
-    <tr class="tot"><td>Compartiment monétaire</td><td>${money(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td><td>—</td><td class="pos">${c.rdtPondMontant.toFixed(2)}%</td><td class="pos">${c.rdtAnnuelParDureeMontant.toFixed(2)}%</td></tr>
+    <tr class="tot"><td>Compartiment monétaire</td><td>${moneyT(totM)}</td><td>100%</td><td>—</td><td>${c.durMoyArith.toFixed(2)} ans</td><td>—</td><td class="pos">${c.rdtPondMontant.toFixed(2)}%</td><td class="pos">${c.rdtAnnuelParDureeMontant.toFixed(2)}%</td></tr>
     </tbody>`;
   drawMoneyCharts(ms,totM);
 }
@@ -9890,6 +9899,42 @@ function dateLongueFr(iso){
 function fmtIntFr(n){n=Math.round(+n||0);const s=(''+Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ');return (n<0?'-':'')+s;}
 // Saisie de montant avec séparateurs de milliers (espaces) : conserve la valeur numérique exacte
 function moneyInputFmt(v){const neg=(''+v).trim().startsWith('-');const digits=(''+v).replace(/[^0-9]/g,'');if(digits==='')return '';const s=digits.replace(/\B(?=(\d{3})+(?!\d))/g,' ');return (neg?'-':'')+s;}
+/* Rend le focus au champ en cours de saisie après un re-rendu.
+   Les champs numériques n'acceptent pas setSelectionRange : on replace alors
+   le curseur en fin de valeur en réécrivant celle-ci (sinon il repart à zéro). */
+function oppRefocus(cardSel,field){
+  const card=document.querySelector(cardSel);if(!card)return;
+  const el=card.querySelector('input[oninput*="'+field+'"]');if(!el)return;
+  el.focus();
+  try{el.setSelectionRange(el.value.length,el.value.length);}
+  catch(e){const v=el.value;el.value='';el.value=v;}
+}
+/* Le différé n'est borné qu'à la validation du champ (sortie ou Entrée) :
+   pendant la frappe, la valeur saisie est conservée telle quelle. */
+function clampDefer(kind,i,el){
+  const o=kind==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
+  if(!o)return;
+  const di=deferInfo(o.years,o.defer,+o.freq||1);
+  if((+o.defer||0)>di.maxDefPeriods){
+    o.defer=di.maxDefPeriods;if(el)el.value=o.defer;
+    toast('Différé ramené au maximum : '+o.defer+' '+di.freqLabel+' (au moins une échéance de remboursement)');
+    saveData();
+    if(kind==='bond')renderBonds();else renderMoney();
+  }
+}
+/* Saisie d'un montant avec séparateurs de milliers, curseur conservé. */
+function oppMoneyInput(el,kind,i,field){
+  const caret=el.selectionStart,before=el.value;
+  const val=moneyInputParse(el.value);
+  const fmt=moneyInputFmt(val);
+  el.value=fmt;
+  const diff=fmt.length-before.length;
+  try{el.setSelectionRange(Math.max(0,caret+diff),Math.max(0,caret+diff));}catch(e){}
+  if(kind==='bond')editBond(i,field,null,val);
+  else if(kind==='money')editMoney(i,field,null,val);
+  else if(kind==='loan')editLoan(i,field,null,val);
+  else if(kind==='credit')creditFormSet(field,val);
+}
 function moneyInputParse(v){const neg=(''+v).trim().startsWith('-');const n=parseInt((''+v).replace(/[^0-9]/g,''),10)||0;return neg?-n:n;}
 function fmt2Fr(n){return (+n||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});}
 // Nombre en toutes lettres (orthographe traditionnelle : « sept cent soixante-quinze »)
@@ -10708,20 +10753,21 @@ function pdfSouscripteur(doc,y,nom){
    puis un espace et un trait réservés à la signature et au cachet.
    Le libellé suit la filiale de rattachement ; sans filiale, seul l'espace
    de signature est tracé. */
-function pdfSignatureBlock(doc,y,ent,botMargin){
+function pdfSignatureBlock(doc,y,ent,botMargin,opts,villeArg){
   const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();
-  const pf=pdfPrefs();const F=pf.font;
-  const need=104;                                  // hauteur réservée au bloc
+  const pf=pdfPrefs();const o=opts||{};const F=o.font||pf.font;
+  const fs=o.fontSize||pf.fontSize;
+  const need=o.compactSig?84:104;                  // hauteur réservée au bloc
   if(y+need>Hp-(botMargin||40)){doc.addPage();y=60;}
   const x=W-40;                                    // bloc aligné à droite
   // lieu et date, d'après la ville paramétrée pour la filiale
-  let ville='';
-  try{ville=(normLoanParams((ent&&entById(ent.id))?entById(ent.id).loan:null).city)||'';}catch(e){}
-  doc.setFont(F,'normal');doc.setFontSize(pf.fontSize);doc.setTextColor(...PDF_INK);
+  let ville=villeArg||'';
+  try{if(!ville)ville=(normLoanParams((ent&&entById(ent.id))?entById(ent.id).loan:null).city)||'';}catch(e){}
+  doc.setFont(F,'normal');doc.setFontSize(fs);doc.setTextColor(...PDF_INK);
   doc.text(pdfSafe((ville?'Fait à '+ville+', le ':'Le ')+new Date().toLocaleDateString('fr-FR')),x,y,{align:'right'});
   y+=22;
   if(ent){
-    doc.setFont(F,'bold');doc.setFontSize(pf.fontSize+1);
+    doc.setFont(F,'bold');doc.setFontSize(fs+1);
     doc.text(pdfSafe('Pour '+(ent.name||ent.short||'')),x,y,{align:'right'});
     y+=12;
   }
@@ -10729,14 +10775,15 @@ function pdfSignatureBlock(doc,y,ent,botMargin){
   doc.setDrawColor(...PDF_LINE);doc.setLineWidth(0.6);
   doc.line(x-190,y,x,y);
   y+=13;
-  doc.setFont(F,'italic');doc.setFontSize(Math.max(7.5,pf.fontSize-2));doc.setTextColor(110,120,130);
+  doc.setFont(F,'italic');doc.setFontSize(Math.max(7.5,fs-2));doc.setTextColor(110,120,130);
   doc.text(pdfSafe('Signature et cachet'),x,y,{align:'right'});
   return y;
 }
-function pdfOppHeader(doc,nature,ent){
+function pdfOppHeader(doc,nature,ent,headerCm){
   const W=doc.internal.pageSize.getWidth();
   const pf=pdfPrefs();const F=pf.font;
   const CM=28.3465;
+  const hCm=(headerCm!=null?headerCm:(pf.headerCm||3));
   let y;
   if(ent&&ent.logo){
     y=34;
@@ -10746,9 +10793,9 @@ function pdfOppHeader(doc,nature,ent){
       const lh=lw*pr.height/pr.width;
       doc.addImage(ent.logo,pr.fileType||'JPEG',(W-lw)/2,y,lw,lh); // logo CENTRÉ
       y+=lh+24;
-    }catch(e){y=Math.max(20,(pf.headerCm||3)*CM);}
+    }catch(e){y=Math.max(20,hCm*CM);}
   }else{
-    y=Math.max(20,(pf.headerCm||3)*CM); // marge haute réglable comme avant
+    y=Math.max(20,hCm*CM); // marge haute réglable (réglages rapides de l'aperçu)
   }
   const boxX=55,boxW=W-110;
   doc.setFont(F,'bold');doc.setFontSize(13.5);
@@ -10804,7 +10851,449 @@ function paramTable(doc,startY,pairs){
   return doc.lastAutoTable.finalY;
 }
 
+/* ======================================================================
+   ÉCHÉANCIERS DES TITRES — documents, aperçus et mise en page
+   ----------------------------------------------------------------------
+   Concerne les emprunts obligataires et les valeurs du Trésor (OAT / BAT).
+   - La devise suit la filiale de rattachement ; à défaut, celle choisie par
+     l'utilisateur dans ses options (comme pour le simulateur de prêts).
+   - Trois formats : PDF, Word et Excel, chacun avec un aperçu intégré.
+   - La signature ne doit jamais partir seule sur une page : si elle ne tient
+     pas, le document est régénéré en version plus compacte (police et
+     interlignes réduits d'un cran, puis deux). Réglage « Ajuster » activé
+     par défaut ; les curseurs de l'aperçu permettent de forcer la main.
+   ====================================================================== */
+/* entité de rattachement pour les titres (le super-admin suit son choix d'options) */
+function entTitre(){
+  try{
+    if(typeof isSuperAdmin==='function'&&isSuperAdmin())return currentEntity()||userEntity()||null;
+    return (typeof userEntity==='function'?userEntity():null)||currentEntity()||null;
+  }catch(e){return null;}
+}
+function curTitre(){
+  try{const e=entTitre();const c=e&&e.loan&&e.loan.currency;if(c)return c;}catch(e){}
+  return state.cur;
+}
+function moneyT(v){return fmtIntFr(v)+' '+curTitre();}
+
+/* ---------- réglages de mise en page propres aux échéanciers ---------- */
+function oppLayout(){
+  if(!state.oppLayout)state.oppLayout={fontSize:null,headerCm:null,density:'normal',autofit:true};
+  return state.oppLayout;
+}
+function oppOpts(over){
+  const pf=pdfPrefs();const L=oppLayout();
+  return Object.assign({
+    font:pf.font,
+    fontSize:(+L.fontSize||pf.fontSize),
+    headerCm:(L.headerCm!=null&&L.headerCm!==''?+L.headerCm:(pf.headerCm||3)),
+    pad:(L.density==='compact'?3.4:6),
+    autofit:L.autofit!==false
+  },over||{});
+}
+function oppSetLayout(k,v){
+  const L=oppLayout();
+  if(k==='fontSize'||k==='headerCm')L[k]=(v===''?null:+v);
+  else if(k==='autofit')L[k]=!!v;
+  else L[k]=v;
+  saveData();
+  oppPreviewRender(true);
+  toast('Mise en page mise à jour');
+}
+function oppResetLayout(){
+  state.oppLayout={fontSize:null,headerCm:null,density:'normal',autofit:true};
+  saveData();oppPreviewRender(true);toast('Réglages par défaut rétablis');
+}
+
+/* ---------- données communes aux trois formats ---------- */
+function oppDocData(type,i){
+  const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
+  if(!b)return null;
+  const rows=amortTable(b);
+  if(!rows.length){toast('Renseignez d\'abord la date de valeur');return null;}
+  const m=type==='bond'?bondMetrics(b):moneyMetrics(b);
+  const pf=pdfPrefs();
+  const modeLabel={infine:'In fine',constant:'Amortissement constant',annuite:'Annuités constantes',custom:'Personnalisé'};
+  const freqLabel={12:'Mensuelle',4:'Trimestrielle',2:'Semestrielle',1:'Annuelle'};
+  let nature='Emprunt obligataire';
+  if(type==='money')nature=(b.kind==='BAT')?'Bons du Trésor Assimilables (BTA)':'Obligations du Trésor Assimilables (OTA)';
+  const params=[
+    ['Nature du titre',nature],
+    ['Émetteur',(b.issuer||'—')],
+    ['Mode de remboursement',(modeLabel[b.mode]||b.mode)],
+    ['Montant nominal',pdfNum(b.montant)],
+    ['Taux facial',(+b.tauxFacial||0)+' %'],
+    ['Durée',(b.years||'—')+' ans'],
+    ['Périodicité',(freqLabel[+b.freq]||'—')],
+    ['Différé',(+b.defer||0)+' période(s)'],
+    ['Nb d\'échéances',''+(m.nTot||rows.length)],
+    ['Rendement global',(m.rendGlobal!=null?m.rendGlobal.toFixed(2)+' %':'—')]
+  ];
+  if(b.decoteOn){
+    const dq=Math.min(100,Math.max(0,+b.decote||0));
+    params.splice(4,0,['Décote',dq+' %'],['Montant à payer',pdfNum((+b.montant||0)*(1-dq/100))]);
+  }
+  if(pf.showRendAnnuel)params.push(['Rendement annuel',(m.rendAnnuel!=null?m.rendAnnuel.toFixed(2)+' %':'—')]);
+  if(pf.showDurSimple)params.push(['Duration simple',(m.durSimple!=null?m.durSimple.toFixed(2)+' ans':'—')]);
+  if(pf.showDurMac)params.push(['Duration de Macaulay',(m.durMac!=null?m.durMac.toFixed(2):'—')]);
+  // répartition du capital (mode personnalisé)
+  let custom=null;
+  if(b.mode==='custom'){
+    const M=+b.montant||0;const ar=rows.filter(r=>!r.defer);
+    custom={head:['Éch.','Date','% du capital','Montant amorti'],
+      rows:ar.map((r,k)=>[''+(k+1),r.date,(M>0?(r.amort/M*100):0).toFixed(2)+' %',r.amort]),
+      tot:[ar.reduce((a,r)=>a+(M>0?r.amort/M*100:0),0),ar.reduce((a,r)=>a+r.amort,0)]};
+  }
+  const tI=rows.reduce((a,x)=>a+x.interest,0),tA=rows.reduce((a,x)=>a+x.amort,0),tAn=rows.reduce((a,x)=>a+x.annuity,0);
+  const ent=entTitre();
+  let ville='';try{ville=(normLoanParams(ent?ent.loan:null).city)||'';}catch(e){}
+  return {b,type,nature,rows,params,custom,m,cur:curTitre(),ent,ville,
+    titre:nature+(b.issuer?' - '+b.issuer:''),
+    souscripteur:(b.souscripteur||'').trim(),
+    risk:(b.risk||'').trim(),
+    head:['N°','Échéance','Capital dû (début)','Intérêt','Amortissement','Annuité','Capital dû (fin)'],
+    body:rows.map(r=>[r.n+(r.defer?' (diff.)':''),r.date,r.crdStart,r.interest,r.amort,r.annuity,r.crdEnd]),
+    tot:[tI,tA,tAn],
+    fileBase:'Echeancier_'+((b.issuer||'titre').replace(/[^a-zA-Z0-9]/g,'_'))};
+}
+
+/* ---------- PDF ---------- */
+/* construit le document avec des options de mise en page ;
+   renvoie {doc, sigOnNewPage} pour permettre l'ajustement automatique */
+function buildOppPDF(dd,opts){
+  const doc=newPdfDoc();if(!doc)return null;
+  const o=oppOpts(opts);
+  const W=doc.internal.pageSize.getWidth(),Hp=doc.internal.pageSize.getHeight();
+  const F=o.font;const ent=dd.ent;const botMargin=ent?72:40;
+  const st=extra=>tableStyle(Object.assign({fontSize:o.fontSize,cellPadding:o.pad},extra||{}));
+  setPdfFooter('MonBudget · Échéancier — '+(dd.b.issuer||dd.nature));
+  // en-tête (logo de la filiale ou marge réglable) et bandeau de titre
+  const headEnd=pdfOppHeader(doc,dd.titre,ent,o.headerCm);
+  let y=headEnd+22;
+  // cartouche du souscripteur, avant les caractéristiques
+  if(dd.souscripteur){
+    runAutoTable(doc,{startY:y,theme:'grid',margin:{left:40,right:40},
+      body:[[{content:'Nom et prénoms du souscripteur :',styles:{fontStyle:'bold',fontSize:o.fontSize+1}},
+             {content:dd.souscripteur,styles:{fontStyle:'bolditalic'}}]],
+      styles:st({cellPadding:o.pad+2}),columnStyles:{0:{cellWidth:(W-80)*0.56}}});
+    y=doc.lastAutoTable.finalY+12;
+  }
+  // note de devise (devise de la filiale)
+  doc.setFont(F,'bold');doc.setFontSize(Math.max(8,o.fontSize-1));doc.setTextColor(...PDF_INK);
+  doc.text(pdfSafe('Sauf mention contraire, tous les montants de ce document sont exprimés en '+dd.cur+'.'),40,y);
+  y+=16;
+  doc.setFont(F,'bold');doc.setFontSize(o.fontSize+1);
+  doc.text('Caractéristiques du titre',40,y);y+=6;
+  // caractéristiques sur deux colonnes de paires
+  const pairs=[];
+  for(let k=0;k<dd.params.length;k+=2)pairs.push([dd.params[k][0],dd.params[k][1],(dd.params[k+1]||['',''])[0],(dd.params[k+1]||['',''])[1]]);
+  runAutoTable(doc,{startY:y,theme:'grid',body:pairs,
+    styles:st({halign:'left'}),
+    columnStyles:{0:{fontStyle:'bold',cellWidth:(W-80)*0.26},1:{halign:'right',cellWidth:(W-80)*0.24},
+      2:{fontStyle:'bold',cellWidth:(W-80)*0.26},3:{halign:'right'}},
+    margin:{left:40,right:40,bottom:botMargin}});
+  y=doc.lastAutoTable.finalY;
+  if(dd.custom){
+    y+=18;
+    doc.setFont(F,'bold');doc.setFontSize(o.fontSize+1);doc.setTextColor(...PDF_INK);
+    doc.text('Répartition du capital (mode personnalisé)',40,y);y+=8;
+    const pb=dd.custom.rows.map(r=>[r[0],r[1],r[2],pdfNum(r[3])]);
+    pb.push([{content:'Total',colSpan:2,styles:{fontStyle:'bold'}},{content:dd.custom.tot[0].toFixed(2)+' %',styles:{fontStyle:'bold'}},{content:pdfNum(dd.custom.tot[1]),styles:{fontStyle:'bold'}}]);
+    runAutoTable(doc,{startY:y,head:[dd.custom.head],body:pb,theme:'grid',
+      styles:st(),headStyles:Object.assign(headStyle([10,138,150]),{fontSize:o.fontSize}),
+      margin:{left:40,right:40,bottom:botMargin}});
+    y=doc.lastAutoTable.finalY;
+  }
+  y+=18;
+  doc.setFont(F,'bold');doc.setFontSize(o.fontSize+1);doc.setTextColor(...PDF_INK);
+  doc.text('Tableau d\'amortissement',40,y);y+=8;
+  const body=dd.body.map(r=>[r[0],r[1],pdfNum(r[2]),pdfNum(r[3]),pdfNum(r[4]),pdfNum(r[5]),pdfNum(r[6])]);
+  body.push([{content:'Totaux',colSpan:2,styles:{fontStyle:'bold'}},'',
+    {content:pdfNum(dd.tot[0]),styles:{fontStyle:'bold'}},{content:pdfNum(dd.tot[1]),styles:{fontStyle:'bold'}},
+    {content:pdfNum(dd.tot[2]),styles:{fontStyle:'bold'}},'']);
+  runAutoTable(doc,{startY:y,head:[dd.head],body,theme:'grid',
+    styles:st(),headStyles:Object.assign(headStyle([114,22,46]),{fontSize:o.fontSize}),
+    columnStyles:{0:{cellWidth:42},1:{cellWidth:70}},
+    margin:{left:40,right:40,bottom:botMargin}});
+  let lastY=doc.lastAutoTable.finalY;
+  const pageAfterTable=doc.internal.getCurrentPageInfo().pageNumber;
+  // analyse des risques (facultative)
+  if(dd.risk){
+    let ry=lastY+24;
+    if(ry>Hp-(botMargin+60)){doc.addPage();ry=60;}
+    doc.setFont(F,'bold');doc.setFontSize(o.fontSize+1);doc.setTextColor(...PDF_INK);
+    doc.text(pdfSafe('Analyse des risques associés à l\'opportunité'),40,ry);ry+=15;
+    doc.setFont(F,'normal');doc.setFontSize(o.fontSize);
+    const lh=o.fontSize*1.25;
+    doc.splitTextToSize(pdfSafe(dd.risk),W-80).forEach(ln=>{
+      if(ry>Hp-(botMargin+20)){doc.addPage();ry=60;doc.setFont(F,'normal');doc.setFontSize(o.fontSize);}
+      doc.text(ln,40,ry);ry+=lh;
+    });
+    lastY=ry;
+  }
+  // bloc de signature : « Pour <filiale> », espace, trait
+  const pageBefore=doc.internal.getCurrentPageInfo().pageNumber;
+  pdfSignatureBlock(doc,lastY+26,ent,botMargin,o,dd.ville);
+  const sigOnNewPage=doc.internal.getCurrentPageInfo().pageNumber>pageBefore;
+  if(ent)stampEntityFooters(doc,ent);else stampFooters(doc);
+  return {doc,sigOnNewPage,pages:doc.internal.getNumberOfPages(),pageAfterTable};
+}
+/* ajustement automatique : jusqu'à deux crans plus compacts pour éviter
+   qu'une page ne contienne que la signature */
+function makeOppPDF(dd){
+  const base=oppOpts();
+  let r=buildOppPDF(dd,base);
+  if(!r)return null;
+  if(!base.autofit||!r.sigOnNewPage)return r;
+  const steps=[{fontSize:Math.max(7.5,base.fontSize-0.5),pad:Math.max(3,base.pad-1.5),headerCm:Math.max(1,base.headerCm-0.5)},
+               {fontSize:Math.max(7,base.fontSize-1),pad:Math.max(2.6,base.pad-2.5),headerCm:Math.max(0.8,base.headerCm-1)}];
+  for(const s of steps){
+    const t=buildOppPDF(dd,Object.assign({},base,s));
+    if(t&&!t.sigOnNewPage)return t;
+  }
+  return r;   // impossible de tout ramener : on garde la version lisible
+}
 function exportAmortPDF(type,i){
+  const dd=oppDocData(type,i);if(!dd)return;
+  const r=makeOppPDF(dd);if(!r)return;
+  r.doc.save(dd.fileBase+'.pdf');
+  toast('Échéancier PDF téléchargé'+(r.sigOnNewPage?' — signature reportée sur une page dédiée':''));
+}
+
+/* ---------- Word ---------- */
+async function buildOppDocx(dd){
+  if(!window.docx){toast('Module Word en chargement, réessayez');return null;}
+  const o=oppOpts();
+  const K=loanDocxKit(o.fontSize);const {D,TW,run,P,cell,table,sz}=K;
+  const C=D.AlignmentType.CENTER,R=D.AlignmentType.RIGHT;
+  const kids=[];
+  kids.push(table([TW],[new D.TableRow({children:[cell(dd.titre,{w:TW,bold:true,color:'FFFFFF',size:sz+10,fill:'A6192E',align:C})]})]));
+  kids.push(P([run('Édité le '+new Date().toLocaleDateString('fr-FR'),{size:16,italics:true,color:'6E7882'})],{alignment:R,spacing:{before:40,after:140}}));
+  if(dd.souscripteur){
+    const cw=Math.round(TW*0.56);
+    kids.push(table([cw,TW-cw],[new D.TableRow({height:{value:440,rule:D.HeightRule.ATLEAST},children:[
+      cell('Nom et prénoms du souscripteur :',{w:cw,bold:true,size:sz+2,align:C}),
+      cell(dd.souscripteur,{w:TW-cw,bold:true,italics:true,align:C})]})]));
+  }
+  kids.push(P([run('Sauf mention contraire, tous les montants de ce document sont exprimés en '+dd.cur+'.',{bold:true,size:sz-1})],{spacing:{before:160,after:120}}));
+  kids.push(P([run('Caractéristiques du titre',{bold:true,size:sz+4})],{spacing:{after:80}}));
+  const pw=[Math.round(TW*0.26),Math.round(TW*0.24),Math.round(TW*0.26)];pw.push(TW-pw.reduce((a,b)=>a+b,0));
+  const pr=[];
+  for(let k=0;k<dd.params.length;k+=2){
+    const a=dd.params[k],b2=dd.params[k+1]||['',''];
+    pr.push(new D.TableRow({children:[cell(a[0],{w:pw[0],bold:true}),cell(''+a[1],{w:pw[1],align:R}),
+      cell(b2[0],{w:pw[2],bold:true}),cell(''+b2[1],{w:pw[3],align:R})]}));
+  }
+  kids.push(table(pw,pr));
+  if(dd.custom){
+    kids.push(P([run('Répartition du capital (mode personnalisé)',{bold:true,size:sz+4})],{spacing:{before:240,after:80}}));
+    const cw=[Math.round(TW*0.12),Math.round(TW*0.26),Math.round(TW*0.26)];cw.push(TW-cw.reduce((a,b)=>a+b,0));
+    const cr=[new D.TableRow({tableHeader:true,children:dd.custom.head.map((h,k)=>cell(h,{w:cw[k],bold:true,color:'FFFFFF',fill:'0A8A96',align:C}))})];
+    dd.custom.rows.forEach(r=>cr.push(new D.TableRow({children:[cell(r[0],{w:cw[0],align:C}),cell(r[1],{w:cw[1],align:C}),
+      cell(r[2],{w:cw[2],align:R}),cell(fmtIntFr(r[3]),{w:cw[3],align:R})]})));
+    kids.push(table(cw,cr));
+  }
+  kids.push(P([run('Tableau d\'amortissement',{bold:true,size:sz+4})],{spacing:{before:240,after:80}}));
+  const aw=[Math.round(TW*0.07),Math.round(TW*0.13),Math.round(TW*0.17),Math.round(TW*0.14),Math.round(TW*0.16),Math.round(TW*0.16)];
+  aw.push(TW-aw.reduce((a,b)=>a+b,0));
+  const ar=[new D.TableRow({tableHeader:true,children:dd.head.map((h,k)=>cell(h,{w:aw[k],bold:true,color:'FFFFFF',fill:'72162E',align:C,size:sz-2}))})];
+  dd.body.forEach(r=>ar.push(new D.TableRow({cantSplit:true,children:[
+    cell(r[0],{w:aw[0],align:C,size:sz-2}),cell(r[1],{w:aw[1],align:C,size:sz-2})]
+    .concat([2,3,4,5,6].map((c,k)=>cell(fmtIntFr(r[c]),{w:aw[k+2],align:R,size:sz-2})))})));
+  ar.push(new D.TableRow({children:[cell('Totaux',{w:aw[0]+aw[1],span:2,bold:true,fill:'F2F2F2'}),
+    cell('',{w:aw[2],fill:'F2F2F2'}),cell(fmtIntFr(dd.tot[0]),{w:aw[3],bold:true,align:R,fill:'F2F2F2'}),
+    cell(fmtIntFr(dd.tot[1]),{w:aw[4],bold:true,align:R,fill:'F2F2F2'}),
+    cell(fmtIntFr(dd.tot[2]),{w:aw[5],bold:true,align:R,fill:'F2F2F2'}),cell('',{w:aw[6],fill:'F2F2F2'})]}));
+  kids.push(table(aw,ar));
+  if(dd.risk){
+    kids.push(P([run('Analyse des risques associés à l\'opportunité',{bold:true,size:sz+4})],{spacing:{before:240,after:80}}));
+    kids.push(P([run(dd.risk)],{alignment:D.AlignmentType.JUSTIFIED,spacing:{after:160,line:280}}));
+  }
+  // bloc de signature
+  kids.push(P([run((dd.ville?'Fait à '+dd.ville+', le ':'Le ')+new Date().toLocaleDateString('fr-FR'))],{alignment:R,spacing:{before:360,after:60}}));
+  if(dd.ent)kids.push(P([run('Pour '+(dd.ent.name||dd.ent.short||''),{bold:true,size:sz+2})],{alignment:R,spacing:{after:60}}));
+  kids.push(P([run('_______________________________',{color:'1F1F21'})],{alignment:R,spacing:{before:360,after:20}}));
+  kids.push(P([run('Signature et cachet',{italics:true,size:sz-4,color:'6E7882'})],{alignment:R}));
+  return K.section(dd.ent,'MonBudget · Échéancier — '+(dd.b.issuer||dd.nature),kids);
+}
+async function exportAmortDOCX(type,i){
+  const dd=oppDocData(type,i);if(!dd)return;
+  try{
+    const doc=await buildOppDocx(dd);if(!doc)return;
+    const blob=await window.docx.Packer.toBlob(doc);
+    loanDownloadBlob(blob,dd.fileBase+'.docx','Échéancier Word téléchargé');
+  }catch(e){console.error(e);toast('Erreur lors de la génération du Word');}
+}
+
+/* ---------- aperçus (rendus HTML) ---------- */
+function oppWordHTML(dd){
+  const E=escapeHtml;const o=oppOpts();
+  const pairs=[];
+  for(let k=0;k<dd.params.length;k+=2){
+    const a=dd.params[k],b2=dd.params[k+1]||['',''];
+    pairs.push(`<tr><td class="l">${E(a[0])}</td><td class="v">${E(''+a[1])}</td><td class="l">${E(b2[0])}</td><td class="v">${E(''+b2[1])}</td></tr>`);
+  }
+  const rows=dd.body.map(r=>`<tr><td class="c">${E(r[0])}</td><td class="c">${E(r[1])}</td>`+[2,3,4,5,6].map(c=>`<td class="r">${fmtIntFr(r[c])}</td>`).join('')+'</tr>').join('');
+  const inner=`<table class="title"><tr><td>${E(dd.titre)}</td></tr></table>
+    <div class="ed">Édité le ${new Date().toLocaleDateString('fr-FR')}</div>
+    ${dd.souscripteur?`<table class="cli"><tr><td style="width:56%">Nom et prénoms du souscripteur :</td><td>${E(dd.souscripteur)}</td></tr></table>`:''}
+    <div class="cur">Sauf mention contraire, tous les montants de ce document sont exprimés en ${E(dd.cur)}.</div>
+    <h4>Caractéristiques du titre</h4>
+    <table class="par">${pairs.join('')}</table>
+    ${dd.custom?`<h4>Répartition du capital (mode personnalisé)</h4><table class="amo cus"><thead><tr>${dd.custom.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>
+      ${dd.custom.rows.map(r=>`<tr><td class="c">${E(r[0])}</td><td class="c">${E(r[1])}</td><td class="r">${E(r[2])}</td><td class="r">${fmtIntFr(r[3])}</td></tr>`).join('')}
+      <tr class="tot"><td colspan="2">Total</td><td class="r">${dd.custom.tot[0].toFixed(2)} %</td><td class="r">${fmtIntFr(dd.custom.tot[1])}</td></tr></tbody></table>`:''}
+    <h4>Tableau d'amortissement</h4>
+    <table class="amo"><thead><tr>${dd.head.map(h=>`<th>${E(h)}</th>`).join('')}</tr></thead><tbody>${rows}
+      <tr class="tot"><td colspan="3">Totaux</td><td class="r">${fmtIntFr(dd.tot[0])}</td><td class="r">${fmtIntFr(dd.tot[1])}</td><td class="r">${fmtIntFr(dd.tot[2])}</td><td></td></tr></tbody></table>
+    ${dd.risk?`<h4>Analyse des risques associés à l'opportunité</h4><p class="risk">${E(dd.risk)}</p>`:''}
+    <div class="sig"><div>${E((dd.ville?'Fait à '+dd.ville+', le ':'Le ')+new Date().toLocaleDateString('fr-FR'))}</div>
+      ${dd.ent?`<div class="pour">Pour ${E(dd.ent.name||dd.ent.short||'')}</div>`:''}
+      <div class="line"></div><div class="cap">Signature et cachet</div></div>`;
+  return loanPageHTML(dd.ent,'MonBudget · Échéancier',inner,`
+    body{font-size:${o.fontSize}pt}
+    .title td{background:#a6192e;color:#fff;font-weight:bold;font-size:${o.fontSize+5}pt;text-align:center;padding:6pt}
+    .ed{text-align:right;font-size:8pt;font-style:italic;color:#6e7882;margin:3pt 0 8pt}
+    .cli td{font-weight:bold;text-align:center;height:22pt}.cli td+td{font-style:italic}
+    .cur{font-weight:bold;font-size:${Math.max(7,o.fontSize-1)}pt;margin:10pt 0 6pt}
+    h4{margin:12pt 0 5pt;font-size:${o.fontSize+1}pt}
+    .par td{padding:2.5pt 5pt}.par td.l{font-weight:bold;width:26%}.par td.v{text-align:right;width:24%}
+    .amo th{background:#72162e;color:#fff}.cus th{background:#0a8a96}
+    .risk{font-size:${o.fontSize}pt;text-align:justify;line-height:1.45;margin:4pt 0}
+    .sig{margin-top:22pt;text-align:right}.sig .pour{font-weight:bold;margin-top:6pt}
+    .sig .line{margin:34pt 0 3pt auto;width:190pt;border-top:.75pt solid #1f1f21}
+    .sig .cap{font-style:italic;font-size:7.5pt;color:#6e7882}`);
+}
+function oppExcelHTML(dd){
+  const E=escapeHtml;const cols=['A','B','C','D','E','F','G'];
+  const out=[];let rn=1;
+  const R=(cells,h)=>out.push(`<tr${h?` style="height:${h}px"`:''}><th class="rn">${rn++}</th>${cells}</tr>`);
+  const empty=n=>'<td></td>'.repeat(n);
+  R(`<td colspan="7" class="ttl">${E(dd.titre)}</td>`,30);
+  R(`<td colspan="7" class="sub">${dd.souscripteur?'Souscripteur : '+E(dd.souscripteur)+'  ·  ':''}Montant : ${fmtIntFr(dd.b.montant)} ${E(dd.cur)}  ·  Taux facial : ${(+dd.b.tauxFacial||0)}%  ·  Durée : ${dd.b.years||'—'} ans</td>`,20);
+  R(empty(7));
+  R(dd.head.map(h=>`<td class="b th">${E(h)}</td>`).join(''),26);
+  dd.body.forEach(r=>R(`<td class="b bc">${E(r[0])}</td><td class="b bc">${E(r[1])}</td>`+[2,3,4,5,6].map(c=>`<td class="b num">${fmtIntFr(r[c])} ${E(dd.cur)}</td>`).join('')));
+  R(`<td colspan="3" class="b tot">Totaux</td><td class="b num tot">${fmtIntFr(dd.tot[0])} ${E(dd.cur)}</td><td class="b num tot">${fmtIntFr(dd.tot[1])} ${E(dd.cur)}</td><td class="b num tot">${fmtIntFr(dd.tot[2])} ${E(dd.cur)}</td><td class="b tot"></td>`);
+  for(let k=0;k<4;k++)R(empty(7));
+  return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><style>
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;background:#fff;color:#1f1f21;display:flex;flex-direction:column;height:100vh}
+  .bar{background:#217346;color:#fff;padding:6px 12px;font-size:12px;font-weight:bold;flex:none}
+  .wrap{overflow:auto;flex:1}
+  table{border-collapse:collapse;table-layout:fixed}
+  th.ch,th.rn{background:#f3f3f3;color:#555;font-weight:normal;font-size:11px;border:1px solid #d4d4d4}
+  th.rn{width:34px}
+  td{border:1px solid #e6e6e6;padding:2px 5px;height:18px;white-space:nowrap;overflow:hidden}
+  td.b{border:1px solid #7f7f7f}
+  .ttl{background:#0a1f33;color:#fff;font-weight:bold;font-size:15px;padding-left:8px}
+  .sub{background:#6a3d8f;color:#fff;font-style:italic;font-size:11px;padding-left:8px}
+  .th{background:#faf8f2;color:#0a1f33;font-weight:bold;text-align:center}
+  .bc{text-align:center}.num{text-align:right}.tot{font-weight:bold;background:#f2f2f2}
+  .tabs{flex:none;border-top:1px solid #d4d4d4;background:#f3f3f3;padding:0 10px;font-size:11px}
+  .tabs span{display:inline-block;background:#fff;border:1px solid #d4d4d4;border-top:none;padding:4px 14px;color:#217346;font-weight:bold}
+  </style></head><body>
+  <div class="bar">${E(dd.fileBase)}.xlsx</div>
+  <div class="wrap"><table>
+    <colgroup><col style="width:34px"><col style="width:60px"><col style="width:110px">${[0,0,0,0,0].map(()=>'<col style="width:130px">').join('')}</colgroup>
+    <thead><tr><th class="rn"></th>${cols.map(c=>`<th class="ch">${c}</th>`).join('')}</tr></thead>
+    <tbody>${out.join('')}</tbody></table></div>
+  <div class="tabs"><span>Échéancier</span></div>
+  </body></html>`;
+}
+
+/* ---------- panneau d'aperçu, avec réglages rapides ---------- */
+let _oppPrev=null,_oppPrevUrl=null,_oppPrevT=null;
+const OPP_PREV_LBL={pdf:'PDF',doc:'Word',xls:'Excel'};
+function oppPreview(type,i,fmt){
+  const dd=oppDocData(type,i);if(!dd)return;
+  _oppPrev={type,i,id:dd.b.id,fmt:fmt||'pdf'};
+  document.querySelectorAll('.opp-prev-host').forEach(h=>h.innerHTML='');
+  oppPreviewRender(false);
+}
+function oppPrevSwitch(f){if(!_oppPrev)return;_oppPrev.fmt=f;oppPreviewRender(true);}
+function closeOppPreview(){
+  if(_oppPrev){const h=document.getElementById('oppPrev-'+_oppPrev.id);if(h)h.innerHTML='';}
+  _oppPrev=null;clearTimeout(_oppPrevT);
+  if(_oppPrevUrl){try{URL.revokeObjectURL(_oppPrevUrl)}catch(e){}_oppPrevUrl=null;}
+}
+function oppPrevDownload(){
+  if(!_oppPrev)return;
+  ({pdf:exportAmortPDF,doc:exportAmortDOCX,xls:exportAmort})[_oppPrev.fmt](_oppPrev.type,_oppPrev.i);
+}
+function oppPreviewRefresh(){if(!_oppPrev)return;clearTimeout(_oppPrevT);_oppPrevT=setTimeout(()=>oppPreviewRender(true),500);}
+function oppPreviewRender(keep){
+  if(!_oppPrev)return;
+  const dd=oppDocData(_oppPrev.type,_oppPrev.i);
+  const host=document.getElementById('oppPrev-'+_oppPrev.id);
+  if(!dd||!host){return;}
+  const L=oppLayout();const pf=pdfPrefs();const fmt=_oppPrev.fmt;
+  let panel=host.querySelector('.loan-preview');
+  if(!panel){
+    host.innerHTML=`<div class="loan-preview"><div class="lp-head">
+      <h3 class="lp-title"></h3>
+      <div class="lp-tabs">${Object.keys(OPP_PREV_LBL).map(k=>`<button data-t="${k}" onclick="oppPrevSwitch('${k}')">${OPP_PREV_LBL[k]}</button>`).join('')}</div>
+      <div class="lp-act"><button class="icon-btn" onclick="oppPrevDownload()">Télécharger ce format</button><button class="icon-btn" onclick="closeOppPreview()">Fermer l'aperçu</button></div></div>
+      <div class="opp-set"></div>
+      <div class="lp-body"></div><div class="lp-note"></div></div>`;
+    panel=host.querySelector('.loan-preview');
+  }
+  panel.querySelector('.lp-title').textContent='Aperçu de l\'échéancier — '+OPP_PREV_LBL[fmt];
+  panel.querySelectorAll('.lp-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===fmt));
+  // réglages rapides de mise en page (PDF et Word)
+  const set=panel.querySelector('.opp-set');
+  set.style.display=(fmt==='xls')?'none':'';
+  if(fmt!=='xls'){
+    set.innerHTML=`<span class="opp-lbl">Mise en page</span>
+      <label>Police
+        <input type="number" min="7" max="14" step="0.5" value="${L.fontSize||pf.fontSize}" onchange="oppSetLayout('fontSize',this.value)"> pt</label>
+      <label>Marge d'en-tête
+        <input type="number" min="0.5" max="8" step="0.5" value="${L.headerCm!=null&&L.headerCm!==''?L.headerCm:(pf.headerCm||3)}" onchange="oppSetLayout('headerCm',this.value)"> cm</label>
+      <label>Densité
+        <select onchange="oppSetLayout('density',this.value)">
+          <option value="normal" ${L.density!=='compact'?'selected':''}>Normale</option>
+          <option value="compact" ${L.density==='compact'?'selected':''}>Compacte</option>
+        </select></label>
+      <label class="opp-chk"><input type="checkbox" ${L.autofit!==false?'checked':''} onchange="oppSetLayout('autofit',this.checked)">
+        <span>Ajuster pour garder la signature sur la page du tableau</span></label>
+      <button class="lp-mini" onclick="oppResetLayout()">Valeurs par défaut</button>`;
+  }
+  const body=panel.querySelector('.lp-body');
+  let fr=body.querySelector('iframe');
+  if(!fr){body.innerHTML='';fr=document.createElement('iframe');fr.title='Aperçu';body.appendChild(fr);}
+  let note='';
+  if(fmt==='pdf'){
+    const r=makeOppPDF(dd);if(!r)return;
+    if(_oppPrevUrl){try{URL.revokeObjectURL(_oppPrevUrl)}catch(e){}}
+    _oppPrevUrl=r.doc.output('bloburl');
+    fr.removeAttribute('srcdoc');fr.src=_oppPrevUrl;
+    note='Aperçu exact du PDF exporté · '+r.pages+' page(s)'
+      +(r.sigOnNewPage?' — la signature occupe une page dédiée : réduisez la police ou passez en densité compacte.'
+                      :' — signature sur la même page que le tableau.');
+  }else{
+    fr.removeAttribute('src');
+    fr.srcdoc=(fmt==='doc')?oppWordHTML(dd):oppExcelHTML(dd);
+    note=(fmt==='doc')?'Aperçu de la mise en page Word (le rendu final peut légèrement varier selon la version de Word).'
+                      :'Aperçu de la feuille Excel exportée.';
+  }
+  panel.querySelector('.lp-note').textContent=note;
+  if(!keep)host.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+/* boutons d'aperçu et d'export, sous le tableau d'amortissement d'une fiche */
+function oppExportBar(type,i,id){
+  return `<div class="loan-exports">
+    <div class="le-grp"><span class="le-lbl">Aperçu</span>
+      <button class="icon-btn" onclick="oppPreview('${type}',${i},'pdf')">PDF</button>
+      <button class="icon-btn" onclick="oppPreview('${type}',${i},'doc')">Word</button>
+      <button class="icon-btn" onclick="oppPreview('${type}',${i},'xls')">Excel</button></div>
+    <div class="le-grp"><span class="le-lbl">Télécharger</span>
+      <button class="icon-btn" onclick="exportAmortPDF('${type}',${i})">PDF</button>
+      <button class="icon-btn" onclick="exportAmortDOCX('${type}',${i})">Word</button>
+      <button class="icon-btn" onclick="exportAmort('${type}',${i})">Excel</button></div>
+  </div><div class="opp-prev-host" id="oppPrev-${id}"></div>`;
+}
+
+/* Ancienne version, conservée pour référence, remplacée par buildOppPDF/makeOppPDF */
+function __ancienExportAmortPDF(type,i){
   const b=type==='bond'?state.portfolio.bonds[i]:state.portfolio.money[i];
   if(!b)return;
   const rows=amortTable(b);
@@ -11110,7 +11599,7 @@ function exportAmort(type,i){
   if(!b){return}
   const rows=amortTable(b);
   if(!rows.length){toast('Renseignez d\'abord la date de valeur');return}
-  const cur=state.cur;const numFmt='#,##0 "'+cur+'"';
+  const cur=curTitre();const numFmt='#,##0 "'+cur+'"';   // devise de la filiale de rattachement
   const title=(b.issuer||(type==='bond'?'Obligation':'Titre'))+' — échéancier';
   const wb=new ExcelJS.Workbook();wb.creator='MonBudget';
   const ws=wb.addWorksheet('Échéancier',{views:[{showGridLines:false}]});
