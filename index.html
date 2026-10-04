@@ -1567,7 +1567,7 @@ a.home-tile .ht-go{font-size:13px;font-weight:700;color:var(--cyan);margin-top:4
       <div class="page-head">
         <div class="kicker">Gouvernance</div>
         <h2>Suivi des résolutions</h2>
-        <p>Recommandations issues des missions d'audit, rattachées à l'entité et à la direction auditée, avec leur criticité, leur statut d'exécution et le taux d'exécution par entité — filiales et holding.</p>
+        <p>Recommandations issues des missions d'audit, rattachées à l'entité et à la direction auditée, avec leur criticité, leur statut d'exécution et le taux d'exécution par entité - filiales et holding.</p>
       </div>
       <!-- Sous-outil « Pilotage ADI » : visible uniquement pour les personnes habilitées par le super-admin -->
       <div class="infocard" id="pilotageCard" style="display:none;margin-bottom:18px">
@@ -13580,7 +13580,7 @@ function renderHome(){
   box.innerHTML=`
   <div class="home-hero">
     <div class="hh-main">
-      <div class="hh-kick">Plateforme du groupe Afriland First Holding</div>
+      <div class="hh-kick"style="color:#bb0000;font-weight:bold;">Plateforme du groupe Afriland First Holding</div>
       <h2>${hello}${name?' '+E(name):''}, bienvenue sur MonBudget</h2>
       <p>Une seule plateforme pour gérer son budget, épargner et investir, produire les documents des métiers et suivre la mise en œuvre des résolutions, dans les filiales et à la holding.</p>
     </div>
@@ -13807,9 +13807,9 @@ async function doReset(){
 (function(){
   // --- Manifeste généré à la volée (icônes intégrées, aucun fichier séparé requis) ---
   var manifest = {
-    name: "MonBudget - Afriland Bourse & Investissement",
+    name: "MonBudget - Afriland First Holding",
     short_name: "MonBudget",
-    description: "Gestion de budget, épargne et investissement sur le marché financier de l'Afrique centrale.",
+    description: "Outil de gestion multifonctionnels.",
     lang: "fr",
     dir: "ltr",
     start_url: location.origin+ROUTE_BASE,
