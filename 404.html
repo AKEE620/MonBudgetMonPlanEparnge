@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>MonBudget</title>
+<!--
+  MonBudget · redirection des liens profonds (GitHub Pages)
+  GitHub Pages ne connaît que index.html : une adresse comme
+  …/MonBudgetMonPlanEparnge/mon-portefeuille/obligations y arrive en « page introuvable ».
+  Cette page renvoie aussitôt vers l'application avec le chemin demandé (?r=…),
+  que l'application remet ensuite en place dans la barre d'adresse.
+  À déposer à la racine du dépôt, à côté de index.html et sw.js.
+-->
+<script>
+(function(){
+  var tops=["accueil", "mon-budget", "tableau-de-bord", "classer-mes-depenses", "simulateur-epargne", "guide-placement", "titres-publics", "glossaire", "mon-portefeuille", "portefeuille-credit", "suivi-resolutions", "a-propos", "outils-internes", "admin", "profil-de-risque", "simulateur-de-frais"];
+  var segs=location.pathname.split('/');
+  var k=-1;
+  for(var i=1;i<segs.length;i++){if(tops.indexOf(decodeURIComponent(segs[i]).toLowerCase())>=0){k=i;break;}}
+  var base,rest;
+  if(k>0){base=segs.slice(0,k).join('/')+'/';rest=segs.slice(k).join('/');}
+  else{ // page inconnue : retour à l'accueil de l'application
+    base=(location.hostname.indexOf('github.io')>=0&&segs.length>2)?'/'+segs[1]+'/':'/';rest='accueil';}
+  var q=location.search?'&'+location.search.slice(1):'';
+  location.replace(base+'?r='+encodeURIComponent(rest)+q+location.hash);
+})();
+</script>
+</head>
+<body></body>
+</html>
