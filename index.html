@@ -107,6 +107,8 @@ header.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.9);
 .brand b{font-family:'Fraunces';font-size:20px;font-weight:900;letter-spacing:-.5px}
 .brand span{font-size:10.5px;color:var(--muted);display:block;line-height:1;margin-top:1px;letter-spacing:.5px;text-transform:uppercase}
 .topbar-spacer{flex:1}
+.topbar-in{gap:12px}
+.topbar-in .icon-btn{white-space:nowrap}
 .who{display:flex;align-items:center;gap:10px;font-size:13.5px}
 .who .badge{background:var(--ink);color:#fff;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.4px;text-transform:uppercase}
 .who .badge.guest{background:var(--gold);color:#3a2e00}
@@ -815,6 +817,28 @@ mark{background:#fff3bf;color:inherit;border-radius:3px;padding:0 2px}
 .pr-none{background:#eef0f2;color:#8a9097}.pr-brouillon{background:#eef3fb;color:#2f5597}.pr-soumis{background:#fff4dc;color:#8a6d2f}
 .pr-rejete{background:#fbeaec;color:#a6192e}.pr-valide{background:#e9f6ef;color:#1b6b47}
 .pl-note.warn{background:#fff4dc;color:#6b5320}
+.refresh-btn .rf-ico{display:inline-block;transition:transform .5s}
+.refresh-btn.busy .rf-ico{animation:mbspin .8s linear infinite}
+@keyframes mbspin{to{transform:rotate(360deg)}}
+.notif-btn{position:relative;padding-left:12px;padding-right:12px}
+.bell-ico{width:19px;height:19px;display:block}
+.notif-badge{position:absolute;top:-6px;right:-6px;min-width:19px;height:19px;border-radius:10px;background:var(--cyan);color:#fff;font-size:11px;font-weight:800;line-height:19px;text-align:center;padding:0 5px;box-shadow:0 0 0 2px #fff}
+.notif-badge.new{animation:mbpulse 1.6s ease-in-out 3}
+@keyframes mbpulse{50%{transform:scale(1.25)}}
+.notif-panel{position:fixed;z-index:80;width:min(420px,calc(100vw - 24px));max-height:min(70vh,560px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 48px rgba(0,0,0,.25);color:var(--ink)}
+.np-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff}
+.np-head b{font-size:15px}
+.np-head button{border:none;background:none;color:var(--cyan);font-weight:700;font-size:12.5px;cursor:pointer}
+.np-cat{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 16px 4px}
+.np-item{display:block;width:100%;text-align:left;border:none;background:none;padding:10px 16px;cursor:pointer;border-bottom:1px solid #f1eee8;font:inherit}
+.np-item:hover{background:#faf7f2}
+.np-t{font-weight:700;font-size:13.5px;display:flex;gap:8px;align-items:center}
+.np-t .np-new{font-size:10px;font-weight:800;color:#fff;background:var(--cyan);border-radius:5px;padding:1px 5px}
+.np-d{font-size:12.5px;color:var(--muted);margin-top:2px}
+.np-empty{padding:26px 16px;text-align:center;color:var(--muted);font-size:14px}
+.np-foot{padding:9px 16px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line)}
+@media (max-width:1680px){.refresh-btn .rf-lbl{display:none}.refresh-btn{padding-left:12px;padding-right:12px}}
+.refresh-btn .rf-ico{font-size:17px;line-height:1}
 .rs-badge{display:inline-block;min-width:18px;padding:1px 6px;border-radius:10px;background:var(--cyan);color:#fff;font-size:11px;font-weight:700;margin-left:4px}
 .rs-st{font-size:11px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap}
 .rs-st-ouverte{background:#eef0f2;color:#5a646e}
@@ -1104,8 +1128,13 @@ a.home-tile .ht-go{font-size:13px;font-weight:700;color:var(--cyan);margin-top:4
       <button class="icon-btn frais-btn" id="fraisSimBtn" onclick="openFraisSim()" title="Simuler l'impact des frais sur un achat de titres"><span aria-hidden="true">▤</span> <span data-i18n="fs_btn">Simulateur de frais</span></button>
       <input type="file" id="importFile" accept=".xlsx,.xls,application/json" style="display:none" onchange="importData(event)">
       <button class="icon-btn install-btn" id="installBtn" style="display:none" onclick="pwaInstall()" title="Installer MonBudget comme application"><span aria-hidden="true">⬇</span> <span data-i18n="pwa_install">Installer l'application</span></button>
+      <button class="icon-btn refresh-btn" id="refreshBtn" onclick="refreshAll(event)" title="Actualiser les données sans se déconnecter (Maj + clic : recharger toute la page)"><span class="rf-ico" aria-hidden="true">↻</span><span class="rf-lbl"> Actualiser</span></button>
+      <button class="icon-btn notif-btn" id="notifBtn" onclick="notifToggle(event)" title="Notifications" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" style="display:none">
+        <svg class="bell-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6l-1.7 2.9A1 1 0 0 0 5.2 17h13.6a1 1 0 0 0 .9-1.5L18 12.6V9a6 6 0 0 0-6-6Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 19.5a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="notif-badge" id="notifBadge" hidden>0</span></button>
       <button class="icon-btn danger" onclick="logout()">Quitter</button>
     </div>
+    <div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifications" hidden></div>
     <nav class="tabs" id="tabNav">
       <a class="on" data-v="accueil" href="#" onclick="return navClick(event,'accueil')">Accueil</a>
       <a data-v="budget" href="#" onclick="return navClick(event,'budget')">Mon budget</a>
@@ -1891,6 +1920,12 @@ a.home-tile .ht-go{font-size:13px;font-weight:700;color:var(--cyan);margin-top:4
       <div class="eo-title" data-i18n="m_tabs">Onglets affichés</div>
       <div class="eo-checks" id="tabPrefList"></div>
       <div style="font-size:12px;color:var(--muted);margin-top:6px" data-i18n="m_tabs_note">Au moins un onglet doit rester actif.</div>
+    </div>
+    <!-- administrateurs : boutons de la barre du haut, masqués par défaut -->
+    <div class="eo-section" id="topBtnSection" style="display:none">
+      <div class="eo-title">Boutons de la barre du haut</div>
+      <div class="eo-checks" id="topBtnList"></div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">Masqués par défaut pour les administrateurs ; cochez ceux que vous souhaitez afficher.</div>
     </div>
     <div class="eo-section" id="entOptSection" style="display:none">
       <div class="eo-title" data-i18n="m_ent">Papier à en-tête (échéanciers et tableaux d'amortissement)</div>
@@ -2845,6 +2880,30 @@ function applyTabPrefs(){
   const cur=document.querySelector('#tabNav [data-v].on');
   if(cur&&TAB_OPT_KEYS.includes(cur.dataset.v)&&!(p[cur.dataset.v]&&tabAccessOk(cur.dataset.v)))nav('accueil');
 }
+/* ---------- boutons de la barre du haut (Options) ----------
+   Super-administrateurs et admins de filiale : Export Budget, Rapport mensuel,
+   Profil de risque et Simulateur de frais sont MASQUÉS par défaut ; chacun
+   peut les réafficher dans Options (préférence personnelle, state.topBtns).
+   Les autres utilisateurs les voient selon leurs droits, comme avant. */
+const TOP_BTNS=[['export','Export Budget','btn_export_budget'],['report','Rapport mensuel','btn_rapport'],['risk','Profil de risque','tool:risk'],['frais','Simulateur de frais','tool:frais']];
+function topBtnOn(k){
+  if(!session||session.role==='guest'||!isAnyAdmin())return true;
+  const p=(state&&state.topBtns)||{};return !!p[k];
+}
+function initTopBtnPrefsUI(){
+  const sec=document.getElementById('topBtnSection'),box=document.getElementById('topBtnList');
+  if(!sec||!box)return;
+  const show=!!(session&&session.role!=='guest'&&isAnyAdmin());
+  sec.style.display=show?'':'none';if(!show)return;
+  const p=(state&&state.topBtns)||{};
+  box.innerHTML=TOP_BTNS.filter(([k,l,r])=>r.startsWith('tool:')?toolOk(r.slice(5)):can(r))
+    .map(([k,l])=>'<label class="eo-check"><input type="checkbox" '+(p[k]?'checked':'')+' onchange="setTopBtn(\''+k+'\',this.checked)"><span>'+escapeHtml(l)+'</span></label>').join('');
+}
+function setTopBtn(k,v){
+  if(!state)return;
+  state.topBtns=Object.assign({},state.topBtns||{},{[k]:!!v});
+  saveData();applyAccess();
+}
 function initTabPrefsUI(){
   const box=document.getElementById('tabPrefList');
   if(!box||!state)return;
@@ -3120,9 +3179,9 @@ function applyAccess(){
   const rs=document.getElementById('restoreBtn');
   if(rs)rs.style.display=isSuperAdmin()?'inline-flex':'none';
   if(!isAnyAdmin()){const sec=document.getElementById('v-admin');if(sec&&sec.classList.contains('on'))nav('accueil');}
-  // 3) outils de la barre du haut
-  const rp=document.getElementById('riskProfileBtn');if(rp)rp.style.display=toolOk('risk')?'':'none';
-  const fs=document.getElementById('fraisSimBtn');if(fs)fs.style.display=toolOk('frais')?'':'none';
+  // 3) outils de la barre du haut (administrateurs : affichés seulement s'ils le choisissent dans Options)
+  const rp=document.getElementById('riskProfileBtn');if(rp)rp.style.display=toolOk('risk')&&topBtnOn('risk')?'':'none';
+  const fs=document.getElementById('fraisSimBtn');if(fs)fs.style.display=toolOk('frais')&&topBtnOn('frais')?'':'none';
   // 4) sous-onglets du portefeuille
   const allowedSubs=Object.keys(PORT_SUB_RIGHT).filter(s=>can(PORT_SUB_RIGHT[s]));
   document.querySelectorAll('#portefBody .subtabs [data-sub]').forEach(b=>{b.style.display=allowedSubs.includes(b.dataset.sub)?'':'none';});
@@ -3141,8 +3200,8 @@ function applyAccess(){
   const none=document.getElementById('itc-none');if(none)none.style.display=(intOk&&!anyTool)?'':'none';
   if(!intOk){const sec=document.getElementById('v-interne');if(sec&&sec.classList.contains('on'))nav('accueil');}
   // 6) boutons de la barre du haut soumis à droits
-  const eb=document.getElementById('exportBtn');if(eb)eb.style.display=can('btn_export_budget')?'':'none';
-  const rb=document.getElementById('reportBtn');if(rb)rb.style.display=can('btn_rapport')?'':'none';
+  const eb=document.getElementById('exportBtn');if(eb)eb.style.display=can('btn_export_budget')&&topBtnOn('export')?'':'none';
+  const rb=document.getElementById('reportBtn');if(rb)rb.style.display=can('btn_rapport')&&topBtnOn('report')?'':'none';
   // onglet Suivi des résolutions (membres d'une direction, ou droit de consultation)
   // (le sous-outil « Pilotage ADI » ouvre aussi l'onglet à ses seuls habilités)
   const rt=document.getElementById('resolTab');
@@ -4395,6 +4454,8 @@ function bootApp(){
   checkReportDue();
   routeBoot();          // Accueil par défaut, ou page demandée dans l'adresse
   resolAudProbe();      // désigné comme audité sur une recommandation ? (onglet Suivi des résolutions)
+  NTF={items:[],at:null,loading:false};notifBadge();
+  setTimeout(()=>notifRefresh(false),1500);   // notifications (cloche de la barre du haut)
   renderSiteFoot();
 }
 
@@ -4502,6 +4563,9 @@ function confirmAddMonth(){
 
 /* ---------- migration anciennes données ---------- */
 function migrate(){
+  // boutons de la barre du haut (administrateurs) : remise à « masqués par défaut » une fois,
+  // pour les préférences enregistrées par d'anciennes versions ; ensuite, le choix fait dans Options est conservé
+  if(state.topBtnsV!==2){state.topBtns={};state.topBtnsV=2;}
   if(!state.portfolio)state.portfolio={stocks:[],bonds:[],money:[]};
   if(!state.pdfPrefs)state.pdfPrefs={font:'times',fontSize:11,lineHeight:1.15,headerCm:3,showRendAnnuel:false,showDurSimple:false,showDurMac:false,entity:''};
   if(!state.portfolio.stocks)state.portfolio.stocks=[];
@@ -4859,6 +4923,7 @@ function initPdfOptions(){
   chk('pdfRendAnnuel',p.showRendAnnuel);chk('pdfDurSimple',p.showDurSimple);chk('pdfDurMac',p.showDurMac);
   set('langSel',(state&&state.lang)||'fr');
   initTabPrefsUI();
+  initTopBtnPrefsUI();
   initEntityOption();
 }
 function openExportOptions(){initPdfOptions();renderRecovery();document.getElementById('exportOptModal').classList.add('show');}
@@ -9809,6 +9874,66 @@ async function planWithdraw(id){
   planStartEdit(id);
 }
 
+/* ---------- fichiers joints : intégrité ----------
+   Correctif (oct. 2026) : les fichiers étaient envoyés au stockage sous forme
+   de formulaire (multipart). Le fichier conservé pouvait alors contenir
+   l'enveloppe du formulaire : Word et Excel (formats ZIP, tolérants) s'ouvraient,
+   mais un PDF devenait illisible. Désormais :
+   - envoi des octets bruts du fichier, avec son type exact ;
+   - contrôle du contenu au dépôt (un PDF doit commencer par « %PDF- ») ;
+   - empreinte SHA-256 enregistrée et vérifiée au téléchargement ;
+   - téléchargement par le client authentifié, avec réparation automatique
+     des fichiers déposés avant le correctif (enveloppe retirée). */
+const FILE_MIME={pdf:'application/pdf',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',xlsm:'application/vnd.ms-excel.sheet.macroEnabled.12',
+  csv:'text/csv',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg'};
+const fileExt=n=>((''+n).split('.').pop()||'').toLowerCase();
+function fileMime(name,type){return FILE_MIME[fileExt(name)]||type||'application/octet-stream';}
+async function fileSha256(buf){
+  try{const h=await crypto.subtle.digest('SHA-256',buf);return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('');}catch(e){return '';}
+}
+const fileHead=(u8,n)=>new TextDecoder('latin1').decode(u8.slice(0,n));
+function fileCheck(name,u8){
+  const e=fileExt(name);
+  if(e==='pdf'&&fileHead(u8,1024).indexOf('%PDF-')<0)return 'Ce fichier n\'est pas un PDF valide (il est peut-être endommagé) : enregistrez-le à nouveau en PDF depuis Word ou Excel, puis réessayez.';
+  if(['docx','xlsx','xlsm'].includes(e)&&fileHead(u8,2)!=='PK')return 'Ce fichier Word ou Excel semble endommagé : enregistrez-le à nouveau puis réessayez.';
+  if(!u8.length)return 'Ce fichier est vide.';
+  return '';
+}
+/* retire l'enveloppe d'un formulaire multipart (fichiers déposés avant le correctif) */
+function fileUnwrap(u8){
+  if(u8.length<8||u8[0]!==45||u8[1]!==45)return u8;                         // ne commence pas par « -- »
+  const txt=new TextDecoder('latin1').decode(u8);                            // un caractère par octet
+  if(!/^--[^\r\n]+\r\nContent-Disposition: form-data/i.test(txt.slice(0,400)))return u8;
+  const boundary=txt.slice(0,txt.indexOf('\r\n'));
+  const p=txt.indexOf('filename=');if(p<0)return u8;
+  const start=txt.indexOf('\r\n\r\n',p);if(start<0)return u8;
+  const end=txt.indexOf('\r\n'+boundary,start+4);
+  return u8.slice(start+4,end>start?end:u8.length);
+}
+async function fileUploadRaw(path,file,buf){
+  return supa.storage.from(PLAN_BUCKET).upload(path,buf,{upsert:false,contentType:fileMime(file.name,file.type),cacheControl:'3600'});
+}
+/* téléchargement d'une pièce (plan ou justificatif) */
+async function fileDownload(f){
+  if(!f)return;
+  if(f.data){const a=document.createElement('a');a.href=f.data;a.download=f.name;document.body.appendChild(a);a.click();a.remove();return;}
+  toast('Téléchargement de « '+f.name+' »…');
+  try{
+    const d=await supa.storage.from(PLAN_BUCKET).download(f.path);
+    if(d.error)throw d.error;
+    let u8=new Uint8Array(await d.data.arrayBuffer());
+    const fixed=fileUnwrap(u8);const repaired=fixed!==u8;u8=fixed;
+    let warn='';
+    if(f.sha){const h=await fileSha256(u8);if(h&&h!==f.sha)warn='Attention : le fichier téléchargé ne correspond pas exactement au fichier déposé.';}
+    else if(fileExt(f.name)==='pdf'&&fileHead(u8,1024).indexOf('%PDF-')<0)warn='Ce PDF est illisible : demandez à son auteur de le déposer à nouveau.';
+    const url=URL.createObjectURL(new Blob([u8],{type:fileMime(f.name,f.type)}));
+    const a=document.createElement('a');a.href=url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    toast(warn||(repaired?'Fichier réparé et téléchargé (dépôt antérieur au correctif)':'Fichier téléchargé'));
+  }catch(e){toast('Téléchargement impossible : '+(e.message||e));}
+}
+
 /* ---------- fichiers joints ---------- */
 function planPickFile(id){
   const inp=document.createElement('input');inp.type='file';inp.accept='.xlsx,.xls,.xlsm,.csv,.docx,.doc,.pdf';
@@ -9819,17 +9944,19 @@ async function planUpload(id,file){
   if(!PLAN_EXT.test(file.name))return toast('Format accepté : Excel, Word ou PDF');
   const max=RDB.cloud?PLAN_MAX:PLAN_MAX_LOCAL;
   if(file.size>max)return toast('Fichier trop volumineux (maximum '+Math.round(max/1048576)+' Mo'+(RDB.cloud?'':' en mode local')+')');
+  const buf=await file.arrayBuffer();
+  const bad=fileCheck(file.name,new Uint8Array(buf));if(bad)return toast(bad);
   // le plan doit exister avant le dépôt (règles d'accès du stockage)
   let p=planOf(id);
   if(!p){p=planNew(r);if(PUI.draft)p.steps=planCleanSteps(PUI.draft.steps);try{p=await planPut(p);}catch(e){return;}}
   if(!planCanEdit(r,p))return toast('Ce plan ne peut plus être modifié');
   const safe=file.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w.\-]+/g,'_');
-  const meta={name:file.name,size:file.size,type:file.type||'',at:new Date().toISOString(),by:normEmail(session.user)};
+  const meta={name:file.name,size:file.size,type:fileMime(file.name,file.type),sha:await fileSha256(buf),at:new Date().toISOString(),by:normEmail(session.user)};
   toast('Envoi du fichier…');
   try{
     if(RDB.cloud){
       meta.path=id+'/'+Date.now()+'_'+safe;
-      const up=await supa.storage.from(PLAN_BUCKET).upload(meta.path,file,{upsert:false,contentType:file.type||undefined});
+      const up=await fileUploadRaw(meta.path,file,buf);      // octets bruts (voir « intégrité »)
       if(up.error)throw up.error;
     }else{
       meta.path='local/'+Date.now()+'_'+safe;
@@ -9840,15 +9967,7 @@ async function planUpload(id,file){
   try{await planPut(p);}catch(e){return;}
   renderResol();toast('Fichier joint : '+file.name);
 }
-async function planFileOpen(id,i){
-  const p=planOf(id);const f=p&&p.files&&p.files[i];if(!f)return;
-  if(f.data){const a=document.createElement('a');a.href=f.data;a.download=f.name;document.body.appendChild(a);a.click();a.remove();return;}
-  try{
-    const s=await supa.storage.from(PLAN_BUCKET).createSignedUrl(f.path,300,{download:f.name});
-    if(s.error)throw s.error;
-    window.open(s.data.signedUrl,'_blank','noopener');
-  }catch(e){toast('Téléchargement impossible : '+(e.message||e));}
-}
+async function planFileOpen(id,i){const p=planOf(id);await fileDownload(p&&p.files&&p.files[i]);}
 function planFileDel(id,i){
   const r=RDB.rows.find(x=>x.id===id);const p=planOf(id);const f=p&&p.files&&p.files[i];if(!r||!f||!planCanEdit(r,p))return;
   confirmAction('Retirer le fichier « '+f.name+' » du plan d\'action ?',async()=>{
@@ -10124,14 +10243,16 @@ async function proofUpload(id,file){
   if(!/\.(xlsx|xls|xlsm|csv|docx|doc|pdf|png|jpe?g)$/i.test(file.name))return toast('Format accepté : Excel, Word, PDF ou image');
   const max=RDB.cloud?PLAN_MAX:PLAN_MAX_LOCAL;
   if(file.size>max)return toast('Fichier trop volumineux (maximum '+Math.round(max/1048576)+' Mo)');
+  const buf=await file.arrayBuffer();
+  const bad=fileCheck(file.name,new Uint8Array(buf));if(bad)return toast(bad);
   let s;try{s=await suiviEnsure(r);}catch(e){return;}
   if(!proofCanEdit(r,s))return toast('Les justificatifs ne peuvent plus être modifiés');
   const safe=file.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\w.\-]+/g,'_');
-  const meta={name:file.name,size:file.size,type:file.type||'',at:new Date().toISOString(),by:normEmail(session.user)};
+  const meta={name:file.name,size:file.size,type:fileMime(file.name,file.type),sha:await fileSha256(buf),at:new Date().toISOString(),by:normEmail(session.user)};
   toast('Envoi du justificatif…');
   try{
     if(RDB.cloud){meta.path=id+'/justif_'+Date.now()+'_'+safe;
-      const up=await supa.storage.from(PLAN_BUCKET).upload(meta.path,file,{upsert:false,contentType:file.type||undefined});if(up.error)throw up.error;}
+      const up=await fileUploadRaw(meta.path,file,buf);if(up.error)throw up.error;}
     else{meta.path='local/'+Date.now()+'_'+safe;
       meta.data=await new Promise((ok,ko)=>{const rd=new FileReader();rd.onload=()=>ok(rd.result);rd.onerror=ko;rd.readAsDataURL(file);});}
   }catch(e){toast('Envoi impossible : '+(e.message||e));return;}
@@ -10140,12 +10261,7 @@ async function proofUpload(id,file){
   try{await suiviPut(s);}catch(e){return;}
   renderResol();toast('Justificatif joint : '+file.name);
 }
-async function proofOpen(id,i){
-  const s=suiviOf(id);const f=s&&s.proofs&&s.proofs[i];if(!f)return;
-  if(f.data){const a=document.createElement('a');a.href=f.data;a.download=f.name;document.body.appendChild(a);a.click();a.remove();return;}
-  try{const u=await supa.storage.from(PLAN_BUCKET).createSignedUrl(f.path,300,{download:f.name});if(u.error)throw u.error;window.open(u.data.signedUrl,'_blank','noopener');}
-  catch(e){toast('Téléchargement impossible : '+(e.message||e));}
-}
+async function proofOpen(id,i){const s=suiviOf(id);await fileDownload(s&&s.proofs&&s.proofs[i]);}
 function proofDel(id,i){
   const r=RDB.rows.find(x=>x.id===id);const s=suiviOf(id);const f=s&&s.proofs&&s.proofs[i];if(!r||!f||!proofCanEdit(r,s))return;
   confirmAction('Retirer le justificatif « '+f.name+' » ?',async()=>{
@@ -13702,6 +13818,129 @@ function siteLogo(inp){
     siteSet('logo',cv.toDataURL('image/png'));renderSiteAdmin();toast('Logo enregistré');};im.src=rd.result;};
   rd.readAsDataURL(f);
 }
+
+
+/* ======================================================================
+   ACTUALISER ET NOTIFICATIONS (barre du haut)
+   ----------------------------------------------------------------------
+   « Actualiser » recharge les données partagées (configuration et droits,
+   portefeuille de crédit, recommandations, plans, justificatifs, versions
+   d'outils) et réaffiche la page, sans déconnexion. Maj + clic : rechargement
+   complet de la page.
+   « Notifications » (cloche) : centre de notifications alimenté par des
+   SOURCES. Chaque source renvoie des éléments à traiter ; le badge en donne
+   le nombre et signale les nouveaux. Pour ajouter une source (alertes de
+   crédit, échéances…), compléter NOTIF_SOURCES.
+   ====================================================================== */
+let _refreshBusy=false;
+async function refreshAll(e){
+  if(e&&e.shiftKey){location.reload();return;}
+  if(_refreshBusy||!session)return;
+  _refreshBusy=true;const btn=document.getElementById('refreshBtn');if(btn)btn.classList.add('busy');
+  try{
+    if(session.role!=='guest'){
+      await loadEntConfig();                                   // configuration, droits, directions, référentiel
+      if(typeof loadToolVersions==='function')loadToolVersions();
+      if(can('credit')||isAnyAdmin())await creditSync(true);
+      if(resolAccess()){await resolSync(true);await planSync(true);await suiviSync(true);}
+    }
+    applyAccess();
+    const v=routeCurTab();
+    if(v==='resol')await renderResol();
+    else if(v==='credit')renderCredit();
+    else if(v==='admin')renderAdmin();
+    else if(v==='accueil')renderHome();
+    else nav(v);
+    renderSiteFoot();
+    await notifRefresh(true);
+    toast('Données actualisées');
+  }catch(err){toast('Actualisation incomplète : '+((err&&err.message)||err));}
+  _refreshBusy=false;if(btn)btn.classList.remove('busy');
+}
+
+/* ---------- sources de notifications ---------- */
+const NOTIF_SOURCES=[
+  {id:'resol',label:'Suivi des recommandations',
+    ok:()=>resolAccess(),
+    load:async(force)=>{if(force||!RDB.loaded)await resolSync(force);if(force||!PLN.loaded)await planSync(force);if(force||!SUI.loaded)await suiviSync(force);},
+    items:()=>{
+      const out=[];
+      myDirections().forEach(d=>resolTodoItems(d).filter(x=>!x.info).forEach(x=>out.push({key:'res:'+d.id+':'+x.r.id+':'+x.kind,
+        title:x.lbl,detail:(x.r.ref?x.r.ref+' — ':'')+(x.r.objet||'')+(myDirections().length>1?' · '+(d.short||d.name):''),
+        go:()=>{RUI.dir=d.id;nav('resol');resolOpen(x.r.id);}})));
+      if(resolAudAccess())resolTodoItems(null).filter(x=>!x.info).forEach(x=>out.push({key:'aud:'+x.r.id+':'+x.kind,
+        title:x.lbl,detail:(x.r.ref?x.r.ref+' — ':'')+(x.r.objet||''),go:()=>{nav('resol');resolOpen(x.r.id);}}));
+      const seen={};return out.filter(x=>seen[x.key]?false:(seen[x.key]=1));
+    }},
+  {id:'credit',label:'Portefeuille de crédit',
+    ok:()=>(can('credit')||isAnyAdmin())&&creditCanValidate(),
+    load:async(force)=>{await creditSync(force);},
+    items:()=>CDB.reqs.filter(r=>r.status==='pending'&&(isSuperAdmin()||r.ent===creditEnt())&&normEmail(r.requested_by)!==normEmail(session.user))
+      .map(r=>({key:'cr:'+r.id,title:'Demande de suppression à valider',detail:(r.line_label||'Ligne de crédit')+' — demandée par '+(r.requested_by||''),
+        go:()=>{nav('credit');creditNav('valid');}}))}
+];
+let NTF={items:[],at:null,loading:false};
+function notifSeenKey(){return 'mb_notif_seen_'+normEmail(session&&session.user);}
+function notifSeen(){try{return new Set(JSON.parse(localStorage.getItem(notifSeenKey()))||[])}catch(e){return new Set()}}
+function notifMarkSeen(){try{localStorage.setItem(notifSeenKey(),JSON.stringify(NTF.items.map(x=>x.key)));}catch(e){}notifBadge();}
+/* recalcul sans rechargement (après une action dans la page) */
+function notifRecount(){
+  if(!session||session.role==='guest')return;
+  const items=[];
+  NOTIF_SOURCES.forEach(src=>{try{if(src.ok())src.items().forEach(x=>items.push(Object.assign({cat:src.label},x)));}catch(e){}});
+  NTF.items=items;notifBadge();
+  const p=document.getElementById('notifPanel');if(p&&!p.hidden)notifRender();
+}
+async function notifRefresh(force){
+  if(!session||session.role==='guest'||NTF.loading)return;
+  NTF.loading=true;
+  for(const src of NOTIF_SOURCES){try{if(src.ok())await src.load(!!force);}catch(e){}}
+  NTF.loading=false;NTF.at=new Date();
+  notifRecount();
+}
+function notifBadge(){
+  const btn=document.getElementById('notifBtn'),b=document.getElementById('notifBadge');if(!btn||!b)return;
+  const guest=!session||session.role==='guest';
+  btn.style.display=guest?'none':'';if(guest)return;
+  const n=NTF.items.length,seen=notifSeen(),fresh=NTF.items.filter(x=>!seen.has(x.key)).length;
+  b.hidden=!n;b.textContent=n>99?'99+':String(n);b.classList.toggle('new',fresh>0);
+  btn.title=n?(n+' notification'+(n>1?'s':'')+(fresh?' dont '+fresh+' nouvelle'+(fresh>1?'s':''):'')):'Aucune notification';
+}
+function notifRender(){
+  const p=document.getElementById('notifPanel');if(!p)return;
+  const seen=notifSeen();const E=escapeHtml;
+  const groups={};NTF.items.forEach((x,i)=>{(groups[x.cat]=groups[x.cat]||[]).push([x,i]);});
+  p.innerHTML=`<div class="np-head"><b>Notifications${NTF.items.length?' ('+NTF.items.length+')':''}</b>
+      <button onclick="notifRefresh(true).then(()=>toast('Notifications à jour'))">Actualiser</button></div>
+    ${NTF.items.length?Object.entries(groups).map(([cat,xs])=>`<div class="np-cat">${E(cat)}</div>${xs.map(([x,i])=>`<button class="np-item" onclick="notifGo(${i})">
+      <div class="np-t">${seen.has(x.key)?'':'<span class="np-new">Nouveau</span>'}${E(x.title)}</div><div class="np-d">${E(x.detail||'')}</div></button>`).join('')}`).join('')
+      :'<div class="np-empty">Aucune notification. Tout est à jour.</div>'}
+    <div class="np-foot">${NTF.loading?'Mise à jour…':(NTF.at?'Mis à jour à '+NTF.at.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'')}</div>`;
+}
+function notifPlace(){
+  const p=document.getElementById('notifPanel'),btn=document.getElementById('notifBtn');if(!p||!btn)return;
+  const r=btn.getBoundingClientRect();const w=Math.min(420,window.innerWidth-24);
+  p.style.top=(r.bottom+8)+'px';p.style.left=Math.max(12,Math.min(window.innerWidth-w-12,r.right-w))+'px';
+}
+function notifToggle(e){
+  if(e)e.stopPropagation();
+  const p=document.getElementById('notifPanel'),btn=document.getElementById('notifBtn');if(!p)return;
+  if(!p.hidden){notifClose();return;}
+  notifRender();notifPlace();p.hidden=false;btn.setAttribute('aria-expanded','true');
+  if(!NTF.at)notifRefresh(false);
+  setTimeout(notifMarkSeen,1200);                              // lues après ouverture du panneau
+}
+function notifClose(){const p=document.getElementById('notifPanel');if(p)p.hidden=true;const b=document.getElementById('notifBtn');if(b)b.setAttribute('aria-expanded','false');}
+function notifGo(i){const x=NTF.items[i];notifClose();if(x&&x.go)x.go();}
+document.addEventListener('click',e=>{const p=document.getElementById('notifPanel');if(p&&!p.hidden&&!p.contains(e.target))notifClose();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')notifClose();});
+window.addEventListener('resize',()=>{const p=document.getElementById('notifPanel');if(p&&!p.hidden)notifPlace();});
+/* mise à jour automatique toutes les 5 minutes, page visible */
+setInterval(()=>{if(document.visibilityState==='visible')notifRefresh(true);},5*60*1000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&NTF.at&&Date.now()-NTF.at>60000)notifRefresh(true);});
+/* recalcul après chaque affichage des modules concernés */
+['renderResol','renderCredit'].forEach(fn=>{const f=window[fn];if(typeof f!=='function')return;
+  window[fn]=function(){const r=f.apply(this,arguments);if(r&&typeof r.then==='function')r.then(()=>notifRecount());else notifRecount();return r;};});
 
 /* ============ AUTO-LOGIN + RESET ============ */
 (function(){
