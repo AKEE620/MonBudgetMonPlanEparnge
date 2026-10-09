@@ -14,9 +14,10 @@
      l'application dans le cache ; bibliothèques disponibles hors-ligne.
    - v3 (8 oct. 2026) : suivi des résolutions, étape C.
    - v4 (8 oct. 2026) : interface bilingue FR / EN, police Poppins.
+   - v5 (9 oct. 2026) : évidences des faits, aperçu des documents.
    ============================================================ */
 
-const CACHE_VERSION = "monbudget-v4";
+const CACHE_VERSION = "monbudget-v5";
 const LIB_CACHE = "monbudget-libs-v1";        // bibliothèques versionnées (conservé d'une version à l'autre)
 const CORE_ASSETS = [
   "./",
