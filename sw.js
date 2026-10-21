@@ -17,7 +17,7 @@
    - v5 (9 oct. 2026) : évidences des faits, aperçu des documents.
    ============================================================ */
 
-const CACHE_VERSION = "monbudget-v10";
+const CACHE_VERSION = "monbudget-v11";
 const LIB_CACHE = "monbudget-libs-v1";        // bibliothèques versionnées (conservé d'une version à l'autre)
 const CORE_ASSETS = [
   "./",
