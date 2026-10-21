@@ -10908,7 +10908,7 @@ const RS_XCOL=[
   {k:'date_resolution',h:'Date de la recommandation',w:14,imp:1,req:1,date:1},
   {k:'criticite',h:'Criticité',w:14,imp:1,req:1},
   {k:'echeance',h:'Échéance de mise en œuvre',w:14,imp:1,req:1,date:1},
-  {k:'objet',h:'Intitulé de la recommandation',w:42,imp:1,req:1,wrap:1},
+  {k:'objet',h:'Intitulé de la mission',w:42,imp:1,req:1,wrap:1},
   {k:'detail',h:'Recommandation',w:60,imp:1,req:1,wrap:1},
   {k:'observations',h:'Observations',w:40,imp:1,wrap:1},
   {k:'constat',h:'Constat',w:50,imp:1,wrap:1},
@@ -11082,7 +11082,7 @@ async function resolImpFile(inp){
       for(let h=0;h<Math.min(6,aoa.length);h++){
         const map={};(aoa[h]||[]).forEach((v,i)=>{const n=rsNorm(v);if(!n)return;const c=cols.find(c=>alias(c).some(a=>rsNorm(a)===n));if(c&&map[c.k]==null)map[c.k]=i;});
         const sc=Object.keys(map).length;if(sc>=3&&(!best||sc>best.sc))best={sn,h,map,sc,aoa};}});
-    if(!best||best.map.objet==null){RUI.imp={step:'pick',err:'Colonnes non reconnues : utilisez le modèle d\'import (la colonne « Intitulé de la recommandation » est indispensable).'};renderResol();return;}
+    if(!best||best.map.objet==null){RUI.imp={step:'pick',err:'Colonnes non reconnues : utilisez le modèle d\'import (la colonne « Intitulé de la mission » est indispensable).'};renderResol();return;}
     const data=best.aoa.slice(best.h+1).filter(r=>r.some(v=>(''+v).trim()!==''));
     if(!data.length){RUI.imp={step:'pick',err:'Le fichier ne contient aucune ligne de recommandation.'};renderResol();return;}
     if(data.length>RS_IMP_MAX){RUI.imp={step:'pick',err:'Le fichier contient '+data.length+' lignes : '+RS_IMP_MAX+' au maximum par import.'};renderResol();return;}
@@ -11585,7 +11585,7 @@ function resolFormHTML(d){
         </select></div>
     </div>
     <div class="fgrid" style="margin-top:13px">
-      <div class="fg" style="grid-column:span 2"><label>Intitulé de la recommandation <span class="rs-req">*</span></label><input id="rsfObjet" type="text" value="${escapeHtml(f.objet||'')}" placeholder="Intitulé court et explicite" oninput="resolFormSet('objet',this.value);resolDupLive()"></div>
+      <div class="fg" style="grid-column:span 2"><label>Intitulé de la mission <span class="rs-req">*</span></label><input id="rsfObjet" type="text" value="${escapeHtml(f.objet||'')}" placeholder="Intitulé court et explicite" oninput="resolFormSet('objet',this.value);resolDupLive()"></div>
       <div class="fg" style="grid-column:span 2"><label>Responsable côté audité</label><input id="rsfRespA" type="text" value="${escapeHtml(f.resp_audite||'')}" placeholder="Nom et fonction du responsable de la direction auditée" oninput="resolFormSet('resp_audite',this.value)"></div>
     </div>
     <div id="rsfDupHint">${f._dupWarn?'':resolDupHTML(resolDupes(f),false)}</div>
@@ -11616,7 +11616,7 @@ function resolFormHTML(d){
 }
 async function resolSave(){
   const f=RUI.form;if(!f||RUI.busy)return;
-  if(!(f.objet||'').trim())return toast('Saisissez l\'intitulé de la recommandation');
+  if(!(f.objet||'').trim())return toast('Saisissez l\'intitulé de la mission');
   if(!(f.detail||'').trim())return toast('Saisissez le texte de la recommandation');
   if(!f.date_resolution)return toast('Saisissez la date de la recommandation');
   if(!f.echeance)return toast('Saisissez l\'échéance de mise en œuvre');
@@ -12703,7 +12703,7 @@ function resolRelance(id){
   const due=planDue(r);
   const body=['Bonjour,','',
     'Sauf erreur de notre part, nous restons dans l\'attente de '+resolRelanceWhat(r)+' pour la recommandation suivante :','',
-    'Référence : '+(r.ref||'—'),'Intitulé de la recommandation : '+(r.objet||'—'),'Entité : '+resolEntName(r.ent)+(r.dept?' — '+resolDeptLabel(r.ent,r.dept):''),
+    'Référence : '+(r.ref||'—'),'Intitulé de la mission : '+(r.objet||'—'),'Entité : '+resolEntName(r.ent)+(r.dept?' — '+resolDeptLabel(r.ent,r.dept):''),
     'Criticité : '+resolCritLabel(r.criticite),
     (r.echeance?'Échéance de mise en œuvre : '+fmtDateFR(loanParseDate(r.echeance)):(due?'Plan d\'action attendu avant le : '+fmtDateFR(due):'')),'',
     'Vous pouvez accéder directement à la fiche dans MonBudget :',resolFicheUrl(r),'',
