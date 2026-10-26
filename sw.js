@@ -15,9 +15,19 @@
    - v3 (8 oct. 2026) : suivi des résolutions, étape C.
    - v4 (8 oct. 2026) : interface bilingue FR / EN, police Poppins.
    - v5 (9 oct. 2026) : évidences des faits, aperçu des documents.
+   - v12 (25 oct. 2026) : suivi des recommandations, chantier « Directeur
+     d'Audit », lot 1 (actions des plans, statuts, inactivité).
+   - v13 (25 oct. 2026) : lot 2 (évidences par action, « Action réalisée »,
+     clôture contrôlée, clôture sans exécution).
+   - v14 (25 oct. 2026) : lot 3 (états de reporting), sous-outils en bas
+     du suivi des résolutions, pages pleine largeur sur grand écran.
+   - v15 (25 oct. 2026) : lot 4 (courriers et relances), état « Pièces
+     soumises », colonne Recommandation.
+   - v16 (26 oct. 2026) : envoi des courriers par la messagerie de
+     l'auditeur, préparation automatique, avis dans la rubrique Courriers.
    ============================================================ */
 
-const CACHE_VERSION = "monbudget-v11";
+const CACHE_VERSION = "monbudget-v16";
 const LIB_CACHE = "monbudget-libs-v1";        // bibliothèques versionnées (conservé d'une version à l'autre)
 const CORE_ASSETS = [
   "./",
